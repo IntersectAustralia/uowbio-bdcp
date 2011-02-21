@@ -151,6 +151,6 @@ class ProjectTests extends GrailsUnitTestCase
 	
 	void testProjectAndStudyRelationship()
 	{
-		assertTrue "Not enough studies have been returned.", project.studies?.size > 0
+		assertTrue "Not enough studies have been returned.", project.studies?.size() > 0
 	}
 }

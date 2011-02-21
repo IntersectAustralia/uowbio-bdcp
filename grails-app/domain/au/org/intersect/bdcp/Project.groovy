@@ -11,7 +11,6 @@ class Project
 	String description
 	String supervisors
 	
-	List studies = new ArrayList()
 	static hasMany = [studies: Study]
 	
 	String toString()
