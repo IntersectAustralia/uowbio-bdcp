@@ -1,4 +1,4 @@
-test-reports/
-target/
-classes/
+test-reports/**/*
+target/**/*
+classes/**/*
 cobertura.ser

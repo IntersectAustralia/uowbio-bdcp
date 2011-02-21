@@ -17,7 +17,7 @@ class StudyTests extends GrailsUnitTestCase
 		super.setUp()
 
 		// Set up default Study so we can easily test single properties.
-		study = new Study(studyTitle: 'TestProject',
+		study = new Study(studyTitle: 'TestStudy',
 				ethicsNumber: '110678' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
@@ -58,7 +58,7 @@ class StudyTests extends GrailsUnitTestCase
 		assertEquals 'Industry Partners is blank.','blank', study.errors['industryPartners']
 		assertEquals 'Collaborators is blank.','blank', study.errors['collaborators']
 
-		study = new Study(studyTitle: 'TestProject',
+		study = new Study(studyTitle: 'TestStudy',
 				ethicsNumber: '110678' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
@@ -67,5 +67,31 @@ class StudyTests extends GrailsUnitTestCase
 				dataEnd: new Date())
 
 		assertTrue study.validate()
+	}
+	
+	void testUnique()
+	{
+		def test = new Study(studyTitle: 'TestStudy',
+				ethicsNumber: '110678' ,
+				description: 'Test Description',
+				industryPartners: 'Partner1',
+				collaborators: 'some collaborator',
+				dataStart: new Date(),
+				dataEnd: new Date())
+
+	mockForConstraintsTests(Study, [test])
+
+	assertFalse "No validation for unique field(s)",study.validate()
+	assertEquals 'Study Title is not unique.','unique', study.errors['studyTitle']
+
+	study = new Study(studyTitle: 'Testing Study',
+				ethicsNumber: '110678' ,
+				description: 'Test Description',
+				industryPartners: 'Partner1',
+				collaborators: 'some collaborator',
+				dataStart: new Date(),
+				dataEnd: new Date())
+
+	assertTrue study.validate()
 	}
 }
