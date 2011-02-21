@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="0" failures="0" hostname="David-Pollums-MacBook-Pro.local" id="0" name="ProjectTests" package="au.org.intersect.bdcp" tests="3" time="0.588" timestamp="2011-02-21T01:08:04">
+      <properties />
+
+      <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testUnique" time="0.518" />
+
+      <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testBlank" time="0.031" />
+
+      <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testNullable" time="0.022" />
+
+      <system-out><![CDATA[--Output from testUnique--
+--Output from testBlank--
+--Output from testNullable--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testUnique--
+--Output from testBlank--
+--Output from testNullable--
+]]></system-err>
+
+  </testsuite>
+</testsuites>
