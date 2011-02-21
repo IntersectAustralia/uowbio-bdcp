@@ -16,7 +16,7 @@ class Project
 	
 	String toString()
 	{
-		return "${projectTitle}, ${researcherName}"
+		return "${projectTitle}"
 	}
 	
 	static constraints =
