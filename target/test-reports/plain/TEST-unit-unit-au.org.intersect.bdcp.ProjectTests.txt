@@ -1,5 +1,5 @@
 Testsuite: au.org.intersect.bdcp.ProjectTests
-Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.588 sec
+Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.476 sec
 ------------- Standard Output ---------------
 --Output from testUnique--
 --Output from testBlank--
@@ -11,6 +11,6 @@ Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.588 sec
 --Output from testNullable--
 ------------- ---------------- ---------------
 
-Testcase: testUnique took 0.519 sec
-Testcase: testBlank took 0.031 sec
-Testcase: testNullable took 0.022 sec
+Testcase: testUnique took 0.413 sec
+Testcase: testBlank took 0.035 sec
+Testcase: testNullable took 0.023 sec

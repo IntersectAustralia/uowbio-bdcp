@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="David-Pollums-MacBook-Pro.local" name="au.org.intersect.bdcp.ProjectTests" tests="3" time="0.588" timestamp="2011-02-21T01:08:04">
+<testsuite errors="0" failures="0" hostname="David-Pollums-MacBook-Pro.local" name="au.org.intersect.bdcp.ProjectTests" tests="3" time="0.476" timestamp="2011-02-21T02:53:16">
   <properties />
-  <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testUnique" time="0.518" />
-  <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testBlank" time="0.031" />
-  <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testNullable" time="0.022" />
+  <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testUnique" time="0.412" />
+  <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testBlank" time="0.035" />
+  <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testNullable" time="0.023" />
   <system-out><![CDATA[--Output from testUnique--
 --Output from testBlank--
 --Output from testNullable--

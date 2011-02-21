@@ -24,6 +24,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>code-coverage-1.2-grails-app-i18n</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.6/projects/BDCP/plugins/code-coverage-1.2/grails-app/i18n</locationURI>
+		</link>
+		<link>
 			<name>tomcat-1.3.6-src-groovy</name>
 			<type>2</type>
 			<locationURI>GRAILS_ROOT/1.3.6/projects/BDCP/plugins/tomcat-1.3.6/src/groovy</locationURI>
