@@ -1,6 +1,8 @@
 package au.org.intersect.bdcp
 
-import grails.test.*
+
+import grails.test.GrailsUnitTestCase
+import au.org.intersect.*
 
 /**
  * Unit tests for the domain class {@link Project} 
@@ -10,12 +12,23 @@ class ProjectTests extends GrailsUnitTestCase
 
 	def project
 
+	def study
+	
 	/**
 	 * Setup operations before each test
 	 */
 	protected void setUp()
 	{
 		super.setUp()
+		
+		study = new Study(studyTitle: 'TestStudy',
+			ethicsNumber: '110678' ,
+			description: 'Test Description',
+			industryPartners: 'Partner1',
+			collaborators: 'some collaborator',
+			dataStart: new Date(),
+			dataEnd: new Date())
+		
 		// Set up default Project so we can easily test single properties.
 		project = new Project(projectTitle: 'TestProject',
 				researcherName: 'TestStudent' ,
@@ -24,7 +37,9 @@ class ProjectTests extends GrailsUnitTestCase
 				yearTo: new Date(),
 				description: 'Test Description',
 				supervisors: 'test supervisor')
-
+	
+		project.studies = [study]
+		
 		mockForConstraintsTests Project, [project]
 	}
 
@@ -36,6 +51,11 @@ class ProjectTests extends GrailsUnitTestCase
 		super.tearDown()
 	}
 
+	void testToString()
+	{
+		assertEquals "The toString() method returned incorrectly.", "TestProject", project.toString()
+	}
+	
 	/**
 	 * Test that the unique fields in the domain class {@link Project}
 	 * are correctly validated
@@ -127,5 +147,10 @@ class ProjectTests extends GrailsUnitTestCase
 				supervisors: 'test supervisor')
 
 		assertTrue project.validate()
+	}
+	
+	void testProjectAndStudyRelationship()
+	{
+		assertTrue "Not enough studies have been returned.", project.studies?.size > 0
 	}
 }

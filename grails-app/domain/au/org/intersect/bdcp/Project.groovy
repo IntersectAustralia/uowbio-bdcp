@@ -11,11 +11,17 @@ class Project
 	String description
 	String supervisors
 	
-	static hasMany = [studys: Study]
+	List studies = new ArrayList()
+	static hasMany = [studies: Study]
 	
 	String toString()
 	{
 		return "${projectTitle}"
+	}
+	
+	static mapping = 
+	{
+		studies cascade: "all-delete-orphan"
 	}
 	
 	static constraints =

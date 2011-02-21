@@ -8,6 +8,8 @@ import grails.test.*
 class StudyTests extends GrailsUnitTestCase
 {
 	def study
+	
+	def project
 
 	/**
 	 * Setup operations before each test
@@ -16,6 +18,15 @@ class StudyTests extends GrailsUnitTestCase
 	{
 		super.setUp()
 
+		project = new Project(projectTitle: 'TestProject',
+			researcherName: 'TestStudent' ,
+			degree: 'TestDegree',
+			yearFrom: new Date(),
+			yearTo: new Date(),
+			description: 'Test Description',
+			supervisors: 'test supervisor')
+		
+		
 		// Set up default Study so we can easily test single properties.
 		study = new Study(studyTitle: 'TestStudy',
 				ethicsNumber: '110678' ,
@@ -23,8 +34,9 @@ class StudyTests extends GrailsUnitTestCase
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
 				dataStart: new Date(),
-				dataEnd: new Date())
-
+				dataEnd: new Date(),
+				project: project)
+		
 		mockForConstraintsTests Study, [study]
 	}
 
@@ -57,16 +69,25 @@ class StudyTests extends GrailsUnitTestCase
 		assertEquals 'Description is blank.','blank', study.errors['description']
 		assertEquals 'Industry Partners is blank.','blank', study.errors['industryPartners']
 		assertEquals 'Collaborators is blank.','blank', study.errors['collaborators']
-
+		
+		project = new Project(projectTitle: 'TestProject',
+			researcherName: 'TestStudent' ,
+			degree: 'TestDegree',
+			yearFrom: new Date(),
+			yearTo: new Date(),
+			description: 'Test Description',
+			supervisors: 'test supervisor')
+		
 		study = new Study(studyTitle: 'Testing Study',
 				ethicsNumber: '110680' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
 				dataStart: new Date(),
-				dataEnd: new Date())
-
-		assertTrue study.validate()
+				dataEnd: new Date(),
+				project: project)
+		
+		assertTrue "A valid study did not validate!", study.validate()
 	}
 	
 	void testUnique()
@@ -91,8 +112,9 @@ class StudyTests extends GrailsUnitTestCase
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
 				dataStart: new Date(),
-				dataEnd: new Date())
-
-	assertTrue study.validate()
+				dataEnd: new Date(),
+				project: project)
+	
+	assertTrue "A valid study did not validate!", study.validate()
 	}
 }

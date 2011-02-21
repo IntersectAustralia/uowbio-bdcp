@@ -2,6 +2,9 @@ package au.org.intersect.bdcp
 
 import grails.test.*
 
+/**
+ * Tests for the {@link ProjectController} class
+ */
 class ProjectControllerTests extends ControllerUnitTestCase
 {
 	protected void setUp()
@@ -13,8 +16,12 @@ class ProjectControllerTests extends ControllerUnitTestCase
 	{
 		super.tearDown()
 	}
-
+	
+	/**
+	 * Unit tests not required as using the scaffolding for the controller
+	 */
 	void testSomething()
 	{
+		
 	}
 }
