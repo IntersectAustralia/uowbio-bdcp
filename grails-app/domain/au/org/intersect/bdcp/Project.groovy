@@ -11,7 +11,6 @@ class Project
 	String description
 	String supervisors
 	
-	List studys
 	static hasMany = [studys: Study]
 	
 	String toString()
