@@ -1,34 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="0" hostname="David-Pollums-MacBook-Pro.local" id="0" name="ProjectControllerTests" package="au.org.intersect.bdcp" tests="1" time="0.61" timestamp="2011-02-21T02:53:15">
+  <testsuite errors="0" failures="0" hostname="David-Pollums-MacBook-Pro.local" id="0" name="StudyTests" package="au.org.intersect.bdcp" tests="1" time="0.535" timestamp="2011-02-21T04:23:18">
       <properties />
 
-      <testcase classname="au.org.intersect.bdcp.ProjectControllerTests" name="testSomething" time="0.571" />
+      <testcase classname="au.org.intersect.bdcp.StudyTests" name="testBlank" time="0.521" />
 
-      <system-out><![CDATA[--Output from testSomething--
+      <system-out><![CDATA[--Output from testBlank--
 ]]></system-out>
 
-      <system-err><![CDATA[--Output from testSomething--
-]]></system-err>
-
-  </testsuite>
-  <testsuite errors="0" failures="0" hostname="David-Pollums-MacBook-Pro.local" id="1" name="ProjectTests" package="au.org.intersect.bdcp" tests="3" time="0.476" timestamp="2011-02-21T02:53:16">
-      <properties />
-
-      <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testUnique" time="0.412" />
-
-      <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testBlank" time="0.035" />
-
-      <testcase classname="au.org.intersect.bdcp.ProjectTests" name="testNullable" time="0.023" />
-
-      <system-out><![CDATA[--Output from testUnique--
---Output from testBlank--
---Output from testNullable--
-]]></system-out>
-
-      <system-err><![CDATA[--Output from testUnique--
---Output from testBlank--
---Output from testNullable--
+      <system-err><![CDATA[--Output from testBlank--
 ]]></system-err>
 
   </testsuite>

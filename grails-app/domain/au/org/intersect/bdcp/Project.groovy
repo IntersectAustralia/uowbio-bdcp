@@ -1,6 +1,7 @@
 package au.org.intersect.bdcp
 
-class Project {
+class Project
+{
 
 	String projectTitle
 	String researcherName
@@ -9,8 +10,9 @@ class Project {
 	Date yearTo
 	String description
 	String supervisors
-	
-    static constraints = {
+
+	static constraints =
+	{
 		projectTitle(blank:false, unique:true)
 		researcherName(blank:false)
 		degree(blank:false)
@@ -18,7 +20,5 @@ class Project {
 		yearTo(nullable:false)
 		description(blank:false)
 		supervisors(blank:false)
-		
-		
-    }
+	}
 }
