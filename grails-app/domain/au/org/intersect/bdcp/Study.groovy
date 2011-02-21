@@ -11,6 +11,8 @@ class Study
 	Date dataStart
 	Date dataEnd
 	
+	static belongsTo = [project:Project]
+	
 	static constraints =
 	{
 		studyTitle(blank:false, unique:true)

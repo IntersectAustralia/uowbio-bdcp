@@ -10,7 +10,15 @@ class Project
 	Date yearTo
 	String description
 	String supervisors
-
+	
+	List studys
+	static hasMany = [studys: Study]
+	
+	String toString()
+	{
+		return "${projectTitle}, ${researcherName}"
+	}
+	
 	static constraints =
 	{
 		projectTitle(blank:false, unique:true)
