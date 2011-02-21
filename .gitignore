@@ -1,4 +1,6 @@
 test-reports/**/*
 target/**/*
+target/stacktrace.log
 classes/**/*
+web-app/WEB-INF/classes/**/*
 cobertura.ser
