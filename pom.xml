@@ -3,15 +3,11 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>cuke4duke</groupId>
-		<artifactId>parent</artifactId>
-		<relativePath>../3rdparty/cuke4duke/pom.xml</relativePath>
-		<version>0.4.3</version>
-	</parent>
+	<version>0.0.1</version>
+	<groupId>uow-bdcp</groupId>
 
 	<artifactId>uow-bdcp</artifactId>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<name>UoW Biomechanics Data Capture</name>
 
 	<repositories>
@@ -39,6 +35,8 @@
 
 	<properties>
 		<cuke4duke.version>0.4.3</cuke4duke.version>
+		<groovy.version>1.7.6</groovy.version>
+		<selenium.version>2.0a7</selenium.version>
 	</properties>
 
 	<dependencies>
@@ -68,15 +66,25 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-htmlunit-driver</artifactId>
+			<version>${selenium.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>${selenium.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-htmlunit-driver</artifactId>
-			<scope>test</scope>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>${groovy.version}</version>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>
