@@ -13,7 +13,7 @@ class ProjectController {
         [projectInstanceList: Project.list(params), projectInstanceTotal: Project.count()]
     }
 
-	def welcome = {
+	def oldlist = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[projectInstanceList: Project.list(params), projectInstanceTotal: Project.count()]
 	}
