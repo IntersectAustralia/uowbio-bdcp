@@ -11,13 +11,13 @@
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+        	<span class="menuButton"><g:link class ="create" controller="study" action="create">Add Study</g:link></span>
         </div>
         <div class="body">
             <h1>Welcome Researcher</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:if test="${ projectInstanceList.size() > 0}">
             <div class="projects">
             <h3>Your Projects</h3>
             	
@@ -26,7 +26,7 @@
             		<thead>
             		<tr>
             		<g:sortableColumn property="projectTitle" title="${message(code: 'project.projectTitle.label', default: 'Projects')}" />
-            		<g:sortableColumn property="studyTitle" title="${message(code: 'study.studyTitle.label', default: 'Studies')}" />
+            		<g:sortableColumn property="studyTitle" title="${message(code: 'project.projectTitle.label', default: 'Studies')}" />
             		</tr>
             		</thead>
             		<tbody>
@@ -34,7 +34,7 @@
             		<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
             		<td><g:link action="show" id="${projectInstance.id}">${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link></td>
             		<td><g:each in="${projectInstance.studies}" status="n" var="studyInstance">
-            		<g:link controller="study" action="show" id="${studyInstance.id}">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link>
+            		<g:link action="show" id="${studyInstance.id}">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link>
             		<br>
             		<br>
             		</g:each>
@@ -43,7 +43,7 @@
             		</tbody>
             		</table>
             </div>
-            </g:if>
+            
         </div>
     </body>
 </html>
