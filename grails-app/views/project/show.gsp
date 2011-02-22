@@ -19,17 +19,9 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-                <table>
+                <table id="projectTable">
                     <tbody>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="project.id.label" default="Id" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: projectInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
+                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="project.projectTitle.label" default="Project Title" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: projectInstance, field: "projectTitle")}</td>
