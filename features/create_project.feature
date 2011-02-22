@@ -13,6 +13,11 @@ Feature: Create project
     And I press "create"
     Then I should see "created"
     And I should see table "projectTable" with contents
-      | Project Title | My Biomechanics Project |
-      | Researcher Name | Fred Bloggs |
+      | Project Title   | My Biomechanics Project |
+      | Researcher Name | Fred Bloggs             |
+      | Degree          | Masters of Biomechanics |
+      | Year From       | todo                    |
+      | Year To         | todo                    |
+      | Description     | Studying some stuff     |
+      | Supervisor(s)   | Alice Smith             |
    
