@@ -90,16 +90,19 @@
                                     <g:datePicker name="dataEnd" precision="day" value="${studyInstance?.dataEnd}"  />
                                 </td>
                             </tr>
-                        
+                            <g:if test="${params['projectid']?.size() <1}">
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="project"><g:message code="study.project.label" default="Project" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'project', 'errors')}">
-                                    <g:select name="project.id" from="${au.org.intersect.bdcp.Project.list()}" optionKey="id" value="${studyInstance?.project?.id}"  />
+                                    <g:select name="project.id" from="${au.org.intersect.bdcp.Project.list()}" optionKey="id" value="${params['projectid']}"   />
                                 </td>
                             </tr>
-                        
+                            </g:if>
+                            <g:else>
+                            	<g:hiddenField name="project.id" value="${params['projectid'] }" />
+                            </g:else>
                         </tbody>
                     </table>
                 </div>
