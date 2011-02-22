@@ -38,7 +38,7 @@
             		<br>
             		<br>
             		</g:each>
-            		<span class="menuButton"><g:link class="create" controller="study" action="create">Add Study</g:link></span></td>
+            		<span class="menuButton"><g:link class="create" controller="study" action="create" params="[projectid: projectInstance.id]">Add Study</g:link></span></td>
             		</g:each>
             		</tbody>
             		</table>
