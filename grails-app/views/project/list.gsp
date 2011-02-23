@@ -26,6 +26,7 @@
             		<tr>
             		<g:sortableColumn property="projectTitle" title="${message(code: 'project.projectTitle.label', default: 'Projects')}" />
             		<g:sortableColumn property="studyTitle" title="${message(code: 'study.studyTitle.label', default: 'Studies')}" />
+            		<g:sortableColumn property="participantIdentifier" title="${message(code: 'participant.participantIdentifier.label', default: 'Participants')}" />
             		</tr>
             		</thead>
             		<tbody>
@@ -38,6 +39,12 @@
             		<br>
             		</g:each>
             		<span class="menuButton"><g:link class="create" controller="study" action="create" params="[projectid: projectInstance.id]">Add Study</g:link></span></td>
+            		<g:if test="${ projectInstance?.studies?.size() > 0}">
+            		<td><span class="menuButton"><g:link class="create" >Add Participant</g:link></span></td>
+            		</g:if>
+            		<g:else>
+            		<td></td>
+            		</g:else>
             		</g:each>
             		</tbody>
             		</table>

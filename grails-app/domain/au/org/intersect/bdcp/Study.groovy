@@ -13,6 +13,8 @@ class Study
 	
 	static belongsTo = [project:Project]
 	
+	static hasMany = [participants:Participant]
+	
 	static constraints =
 	{
 		studyTitle(blank:false, unique:true)
