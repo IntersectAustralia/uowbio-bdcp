@@ -7,6 +7,9 @@ class Participant
 	String consentForm
 	String formA
 	String formB
+	Boolean hasConsentForm
+	Boolean hasFormA
+	Boolean hasFormB
 	
 	static belongsTo = [study:Study]
 	

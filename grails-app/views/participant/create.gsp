@@ -72,7 +72,9 @@
                                     <g:select name="study.id" from="${au.org.intersect.bdcp.Study.list()}" optionKey="id" value="${participantInstance?.study?.id}"  />
                                 </td>
                             </tr>
-                        
+  								<g:hiddenField name="hasConsentForm" value="${false}" />  
+  								<g:hiddenField name="hasFormA" value="${false}" />
+  								<g:hiddenField name="hasFormB" value="${false}" />                    
                         </tbody>
                     </table>
                 </div>

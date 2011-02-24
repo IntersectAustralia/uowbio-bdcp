@@ -18,7 +18,7 @@
             </g:if>
             <g:if test="${ projectInstanceList.size() > 0}">
             <div class="projects">
-            <h3>Your Projects</h3>
+            <h2>Your Projects</h2>
             	
             		<div class="list">
             		<table>
@@ -26,7 +26,6 @@
             		<tr>
             		<g:sortableColumn property="projectTitle" title="${message(code: 'project.projectTitle.label', default: 'Projects')}" />
             		<g:sortableColumn property="studyTitle" title="${message(code: 'study.studyTitle.label', default: 'Studies')}" />
-            		<g:sortableColumn property="participantIdentifier" title="${message(code: 'participant.participantIdentifier.label', default: 'Participants')}" />
             		</tr>
             		</thead>
             		<tbody>
@@ -35,20 +34,16 @@
             		<td><g:link action="show" id="${projectInstance.id}">${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link></td>
             		<td><g:each in="${projectInstance.studies}" status="n" var="studyInstance">
             		<g:link controller="study" action="show" id="${studyInstance.id}">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link>
+            		<span class="menuButton"><g:link controller="participant" action="list" class = "create">Participants</g:link></span>
             		<br>
             		<br>
             		</g:each>
             		<span class="menuButton"><g:link class="create" controller="study" action="create" params="[projectid: projectInstance.id]">Add Study</g:link></span></td>
-            		<g:if test="${ projectInstance?.studies?.size() > 0}">
-            		<td><span class="menuButton"><g:link class="create" >Add Participant</g:link></span></td>
-            		</g:if>
-            		<g:else>
-            		<td></td>
-            		</g:else>
             		</g:each>
             		</tbody>
             		</table>
-            </div>
+            		</div>
+            	</div>
             </g:if>
         </div>
     </body>

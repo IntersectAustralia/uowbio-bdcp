@@ -5,6 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'participant.label', default: 'Participant')}" />
+        <gui:resources components="['dialog','richEditor']"/>
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -13,16 +14,85 @@
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+        <gui:dialog
+            id="dialog"
+            form="true"
+            title="Attach Consent Form"
+            triggers="[
+                show:[id:'show', on:'click'],
+                hide:[id:'hide3', on:'click']
+            ]">
+			Please attach a Consent Form
+			<br/>
+			<br/>
+			<sfu:fileUploadControl/>
+			
+    </gui:dialog>
+    <gui:dialog
+            id="dialog1"
+            form="true"
+            title="Attach Form A"
+            triggers="[
+                show:[id:'show1', on:'click'],
+                hide:[id:'hide3', on:'click']
+            ]">
+			Please attach a Consent Form
+			<br/>
+			<br/>
+			<sfu:fileUploadControl/>
+			
+    </gui:dialog>
+    <gui:dialog
+            id="dialog2"
+            form="true"
+            title="Attach Form B"
+            triggers="[
+                show:[id:'show2', on:'click'],
+                hide:[id:'hide3', on:'click']
+            ]">
+			Please attach a Consent Form
+			<br/>
+			<br/>
+			<sfu:fileUploadControl/>
+			
+    </gui:dialog>
+        
+        	<h1>Participants</h1>
+			<g:form action="save">
+			<div class="dialog">
+			<table>
+                        <tbody>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="participantIdentifier"><g:message code="participant.participantIdentifier.label" default="Number of Participants" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'participantIdentifier', 'errors')}">
+                                    <g:textField name="participantIdentifier" value="${participantInstance?.participantIdentifier}" />
+                                </td>
+                            </tr>
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="participantIdentifier"><g:message code="participant.participantIdentifier.label" default="Inclusion/Exclusion Criteria" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'participantIdentifier', 'errors')}">
+                                    <g:textArea name="participantIdentifier" value="${participantInstance?.participantIdentifier}" />
+                                </td>
+                            </tr>
+                            </tbody>
+                            </table>
+			
+			</div>
+			</g:form>        
+            <h1>Participant Information</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+            
             <div class="list">
                 <table>
                     <thead>
                         <tr>
-                        
-                            <g:sortableColumn property="id" title="${message(code: 'participant.id.label', default: 'Id')}" />
                         
                             <g:sortableColumn property="participantIdentifier" title="${message(code: 'participant.participantIdentifier.label', default: 'Participant Identifier')}" />
                         
@@ -40,15 +110,13 @@
                     <g:each in="${participantInstanceList}" status="i" var="participantInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantInstance, field: "id")}</g:link></td>
-                        
-                            <td>${fieldValue(bean: participantInstance, field: "participantIdentifier")}</td>
-                        
-                            <td>${fieldValue(bean: participantInstance, field: "consentForm")}</td>
-                        
-                            <td>${fieldValue(bean: participantInstance, field: "formA")}</td>
-                        
-                            <td>${fieldValue(bean: participantInstance, field: "formB")}</td>
+                        	<td><g:textField name="participantIdentifier" value="${participantInstance?.participantIdentifier}" /></td>
+                        	
+                        	<td><g:checkBox id="show" name="participantConsentForm" value="${participantInstance.hasConsentForm}" />
+                            
+                            <td><g:checkBox id="show1" name="participantFormA" value="${participantInstance.hasFormA}" />
+                            
+                            <td><g:checkBox id="show2" name="participantFormB" value="${participantInstance.hasFormB}" />
                         
                             <td>${fieldValue(bean: participantInstance, field: "study")}</td>
                         

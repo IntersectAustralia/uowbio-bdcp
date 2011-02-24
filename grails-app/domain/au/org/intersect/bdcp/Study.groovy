@@ -15,6 +15,11 @@ class Study
 	
 	static hasMany = [participants:Participant]
 	
+	String toString()
+	{
+		return "${studyTitle}"
+	}
+	
 	static constraints =
 	{
 		studyTitle(blank:false, unique:true)
