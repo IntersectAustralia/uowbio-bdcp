@@ -14,6 +14,14 @@
         </div>
         <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <br />
+            <p>Please upload all participant related forms such as participant consent, screening, anthropometry, 
+            flexibility, strength, injury history, informed consent, GP clearance, foot problems, subject inclusion 
+            criteria, subject exclusion criteria, sample size (and method of calculation, data used), surveys and joint 
+            laxity here.
+            </p>
+            <br />
+            <br />
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
