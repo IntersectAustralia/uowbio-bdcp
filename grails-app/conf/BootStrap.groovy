@@ -1,8 +1,12 @@
 import au.org.intersect.bdcp.Project
 
-class BootStrap {
 
-    def init = { servletContext ->
+
+class BootStrap
+{
+
+	def init =
+	{ servletContext ->
 		def project = new Project(projectTitle: 'TestProject',
 				researcherName: 'TestStudent' ,
 				degree: 'TestDegree',
@@ -11,7 +15,8 @@ class BootStrap {
 				description: 'Test Description',
 				supervisors: 'test supervisor')
 		project.save()
-    }
-    def destroy = {
-    }
+	}
+	def destroy =
+	{
+	}
 }
