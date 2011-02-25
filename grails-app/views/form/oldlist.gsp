@@ -22,25 +22,31 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="name" title="${message(code: 'form.name.label', default: 'Name')}" />
+                            <g:sortableColumn property="id" title="${message(code: 'form.id.label', default: 'Id')}" />
                         
                             <g:sortableColumn property="location" title="${message(code: 'form.location.label', default: 'Location')}" />
                         
-                        	<th><g:message code="form.participant.label" default="Participant" /></th>
+                            <g:sortableColumn property="name" title="${message(code: 'form.name.label', default: 'Name')}" />
+                        
+                            <th><g:message code="form.participant.label" default="Participant" /></th>
+                        
+                            <g:sortableColumn property="stored" title="${message(code: 'form.stored.label', default: 'Stored')}" />
+                        
                         </tr>
                     </thead>
                     <tbody>
                     <g:each in="${formInstanceList}" status="i" var="formInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
+                            <td><g:link action="show" id="${formInstance.id}">${fieldValue(bean: formInstance, field: "id")}</g:link></td>
                         
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${formInstance?.name}" />
-                                </td>
+                            <td>${fieldValue(bean: formInstance, field: "location")}</td>
                         
-							<td><sfu:fileUploadControl/></td>
-							                        	
+                            <td>${fieldValue(bean: formInstance, field: "name")}</td>
+                        
                             <td>${fieldValue(bean: formInstance, field: "participant")}</td>
+                        
+                            <td><g:formatBoolean boolean="${formInstance.stored}" /></td>
                         
                         </tr>
                     </g:each>

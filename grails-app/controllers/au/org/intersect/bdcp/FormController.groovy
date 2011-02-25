@@ -16,6 +16,12 @@ class FormController
 		[formInstanceList: Form.list(params), formInstanceTotal: Form.count()]
 	}
 
+	def oldlist =
+	{
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		[formInstanceList: Form.list(params), formInstanceTotal: Form.count()]
+	}
+	
 	def create =
 	{
 		def formInstance = new Form()
