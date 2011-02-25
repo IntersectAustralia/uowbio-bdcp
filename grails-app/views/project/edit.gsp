@@ -63,7 +63,7 @@
                                   <label for="yearFrom"><g:message code="project.yearFrom.label" default="Year From" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: projectInstance, field: 'yearFrom', 'errors')}">
-                                    <g:datePicker name="yearFrom" precision="day" value="${projectInstance?.yearFrom}"  />
+                                    <g:datePicker name="yearFrom" precision="month" value="${projectInstance?.yearFrom}"  />
                                 </td>
                             </tr>
                         
@@ -72,7 +72,7 @@
                                   <label for="yearTo"><g:message code="project.yearTo.label" default="Year To" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: projectInstance, field: 'yearTo', 'errors')}">
-                                    <g:datePicker name="yearTo" precision="day" value="${projectInstance?.yearTo}"  />
+                                    <g:datePicker name="yearTo" precision="month" value="${projectInstance?.yearTo}"  />
                                 </td>
                             </tr>
                         

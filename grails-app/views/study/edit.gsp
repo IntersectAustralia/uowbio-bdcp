@@ -78,19 +78,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="dataStart"><g:message code="study.dataStart.label" default="Data Start" /></label>
+                                  <label for="dateStart"><g:message code="study.dateStart.label" default="Date Start" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'dataStart', 'errors')}">
-                                    <g:datePicker name="dataStart" precision="day" value="${studyInstance?.dataStart}"  />
+                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'dateStart', 'errors')}">
+                                    <g:datePicker name="dateStart" precision="month" value="${studyInstance?.dateStart}"  />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="dataEnd"><g:message code="study.dataEnd.label" default="Data End" /></label>
+                                  <label for="dateEnd"><g:message code="study.dateEnd.label" default="Date End" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'dataEnd', 'errors')}">
-                                    <g:datePicker name="dataEnd" precision="day" value="${studyInstance?.dataEnd}"  />
+                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'dateEnd', 'errors')}">
+                                    <g:datePicker name="dateEnd" precision="month" value="${studyInstance?.dateEnd}"  />
                                 </td>
                             </tr>
                         

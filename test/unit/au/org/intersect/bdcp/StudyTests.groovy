@@ -33,8 +33,8 @@ class StudyTests extends GrailsUnitTestCase
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
-				dataStart: new Date(),
-				dataEnd: new Date(),
+				dateStart: new Date(),
+				dateEnd: new Date(),
 				project: project)
 		
 		mockForConstraintsTests Study, [study]
@@ -59,8 +59,8 @@ class StudyTests extends GrailsUnitTestCase
 				description: '',
 				industryPartners: '',
 				collaborators: '',
-				dataStart: '',
-				dataEnd: '')
+				dateStart: '',
+				dateEnd: '')
 
 		assertFalse 'No validation for blank field(s)' ,study.validate()
 
@@ -83,8 +83,8 @@ class StudyTests extends GrailsUnitTestCase
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
-				dataStart: new Date(),
-				dataEnd: new Date(),
+				dateStart: new Date(),
+				dateEnd: new Date(),
 				project: project)
 		
 		assertTrue "A valid study did not validate!", study.validate()
@@ -97,8 +97,8 @@ class StudyTests extends GrailsUnitTestCase
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
-				dataStart: new Date(),
-				dataEnd: new Date())
+				dateStart: new Date(),
+				dateEnd: new Date())
 
 	mockForConstraintsTests(Study, [test])
 
@@ -111,8 +111,8 @@ class StudyTests extends GrailsUnitTestCase
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
-				dataStart: new Date(),
-				dataEnd: new Date(),
+				dateStart: new Date(),
+				dateEnd: new Date(),
 				project: project)
 	
 	assertTrue "A valid study did not validate!", study.validate()

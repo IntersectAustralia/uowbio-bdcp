@@ -65,16 +65,16 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="study.dataStart.label" default="Data Start" /></td>
+                            <td valign="top" class="name"><g:message code="study.dateStart.label" default="Date Start" /></td>
                             
-                            <td valign="top" class="value"><g:formatDate date="${studyInstance?.dataStart}" /></td>
+                            <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${studyInstance?.dateStart}" /></td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="study.dataEnd.label" default="Data End" /></td>
+                            <td valign="top" class="name"><g:message code="study.dateEnd.label" default="Date End" /></td>
                             
-                            <td valign="top" class="value"><g:formatDate date="${studyInstance?.dataEnd}" /></td>
+                            <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${studyInstance?.dateEnd}" /></td>
                             
                         </tr>
                     

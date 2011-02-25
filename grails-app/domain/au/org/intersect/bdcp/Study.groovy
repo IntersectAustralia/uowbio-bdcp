@@ -8,8 +8,8 @@ class Study
 	String description
 	String industryPartners
 	String collaborators
-	Date dataStart
-	Date dataEnd
+	Date dateStart
+	Date dateEnd
 	
 	static belongsTo = [project:Project]
 	
@@ -23,11 +23,11 @@ class Study
 	static constraints =
 	{
 		studyTitle(blank:false, unique:true)
-		ethicsNumber(blank:false, unique:true)
+		ethicsNumber(unique:true)
 		description(blank:false)
-		industryPartners(blank:false)
-		collaborators(blank:false)
-		dataStart(nullable: false)
-		dataEnd(nullable:false)
+		industryPartners()
+		collaborators()
+		dateStart(nullable: false)
+		dateEnd(nullable:false)
 	}
 }
