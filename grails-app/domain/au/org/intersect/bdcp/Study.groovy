@@ -23,7 +23,6 @@ class Study
 	static constraints =
 	{
 		studyTitle(blank:false, unique:true)
-		ethicsNumber(unique:true)
 		description(blank:false)
 		industryPartners()
 		collaborators()
