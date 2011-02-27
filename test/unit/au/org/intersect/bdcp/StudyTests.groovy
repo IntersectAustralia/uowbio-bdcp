@@ -65,10 +65,7 @@ class StudyTests extends GrailsUnitTestCase
 		assertFalse 'No validation for blank field(s)' ,study.validate()
 
 		assertEquals 'Study Title is blank.','blank', study.errors['studyTitle']
-		assertEquals 'Ethics Number is blank.','blank', study.errors['ethicsNumber']
 		assertEquals 'Description is blank.','blank', study.errors['description']
-		assertEquals 'Industry Partners is blank.','blank', study.errors['industryPartners']
-		assertEquals 'Collaborators is blank.','blank', study.errors['collaborators']
 		
 		project = new Project(projectTitle: 'TestProject',
 			researcherName: 'TestStudent' ,
@@ -104,7 +101,6 @@ class StudyTests extends GrailsUnitTestCase
 
 	assertFalse "No validation for unique field(s)",study.validate()
 	assertEquals 'Study Title is not unique.','unique', study.errors['studyTitle']
-	assertEquals 'Ethics Number is not unique.','unique', study.errors['ethicsNumber']
 	
 	study = new Study(studyTitle: 'Testing Study',
 				ethicsNumber: '110679' ,

@@ -27,8 +27,8 @@ class ParticipantTests extends GrailsUnitTestCase
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
-				dataStart: new Date(),
-				dataEnd: new Date(),
+				dateStart: new Date(),
+				dateEnd: new Date(),
 				project: project)
 		
 		participant = new Participant(participantIdentifier: '11245',
