@@ -58,36 +58,6 @@ class ProjectTests extends GrailsUnitTestCase
 	}
 	
 	/**
-	 * Test that the unique fields in the domain class {@link Project}
-	 * are correctly validated
-	 */
-	void testUnique()
-	{
-		def test = new Project(projectTitle: 'TestProject',
-				researcherName: 'TestStudent' ,
-				degree: 'TestDegree',
-				yearFrom: new Date(),
-				yearTo: new Date(),
-				description: 'Test Description',
-				supervisors: 'test supervisor')
-
-		mockForConstraintsTests(Project, [test])
-
-		assertFalse "No validation for unique field(s)",project.validate()
-		assertEquals 'Project Title is not unique.','unique', project.errors['projectTitle']
-
-		project = new Project(projectTitle: 'Testing Project',
-				researcherName: 'Student' ,
-				degree: 'TestDegree',
-				yearFrom: new Date(),
-				yearTo: new Date(),
-				description: 'Test Description',
-				supervisors: 'test supervisor')
-
-		assertTrue project.validate()
-	}
-
-	/**
 	 * Test that the blank fields in the domain class {@link Project} are
 	 * correctly validated
 	 */

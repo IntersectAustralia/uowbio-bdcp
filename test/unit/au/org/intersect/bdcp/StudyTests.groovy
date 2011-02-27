@@ -87,30 +87,4 @@ class StudyTests extends GrailsUnitTestCase
 		assertTrue "A valid study did not validate!", study.validate()
 	}
 	
-	void testUnique()
-	{
-		def test = new Study(studyTitle: 'TestStudy',
-				ethicsNumber: '110678' ,
-				description: 'Test Description',
-				industryPartners: 'Partner1',
-				collaborators: 'some collaborator',
-				dateStart: new Date(),
-				dateEnd: new Date())
-
-	mockForConstraintsTests(Study, [test])
-
-	assertFalse "No validation for unique field(s)",study.validate()
-	assertEquals 'Study Title is not unique.','unique', study.errors['studyTitle']
-	
-	study = new Study(studyTitle: 'Testing Study',
-				ethicsNumber: '110679' ,
-				description: 'Test Description',
-				industryPartners: 'Partner1',
-				collaborators: 'some collaborator',
-				dateStart: new Date(),
-				dateEnd: new Date(),
-				project: project)
-	
-	assertTrue "A valid study did not validate!", study.validate()
-	}
 }

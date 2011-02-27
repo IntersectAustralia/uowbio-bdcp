@@ -22,7 +22,7 @@ class Study
 	
 	static constraints =
 	{
-		studyTitle(blank:false, unique:true)
+		studyTitle(blank:false)
 		description(blank:false)
 		industryPartners()
 		collaborators()

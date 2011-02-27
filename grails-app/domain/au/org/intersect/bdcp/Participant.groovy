@@ -22,7 +22,7 @@ class Participant
 	
 	static constraints =
 	{
-		participantIdentifier(blank:false, unique:true)
+		participantIdentifier(blank:false)
 		consentForm(blank:false)
 		formA(blank:false)
 		formB(blank:false)
