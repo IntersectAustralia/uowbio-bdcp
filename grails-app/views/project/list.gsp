@@ -26,6 +26,7 @@
             		<tr>
             		<g:sortableColumn property="projectTitle" title="${message(code: 'project.projectTitle.label', default: 'Projects')}" />
             		<g:sortableColumn property="studyTitle" title="${message(code: 'study.studyTitle.label', default: 'Studies')}" />
+            		<g:sortableColumn property="participant" title="${message(code: 'participant.participantTitle.label', default: 'Participants') }" />
             		</tr>
             		</thead>
             		<tbody>
@@ -37,7 +38,10 @@
             		<br />
             		<br />
             		<g:link controller="study" action="show" id="${studyInstance.id}">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link>
-            		<span class="menuButton"><g:link controller="participant" action="list" class = "create">Participants</g:link></span>
+            		</g:each></td>
+            		<td><br />
+            		<g:each in="${projectInstance.studies}" status="n" var="studyInstance">
+            		<br /><br /><span class="menuButton"><g:link controller="participant" action="list" class = "create">Participants</g:link></span>
             		</g:each></td>
             		</g:each>
             		</tbody>
