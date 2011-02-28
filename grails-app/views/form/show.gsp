@@ -30,16 +30,16 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="form.location.label" default="Location" /></td>
+                            <td valign="top" class="name"><g:message code="form.formLink.label" default="Form" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: formInstance, field: "location")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: formInstance, field: "formLink")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="form.name.label" default="Name" /></td>
+                            <td valign="top" class="name"><g:message code="form.name.label" default="Form Name" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: formInstance, field: "name")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: formInstance, field: "formName")}</td>
                             
                         </tr>
                     
@@ -50,12 +50,6 @@
                             
                         </tr>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="form.stored.label" default="Stored" /></td>
-                            
-                            <td valign="top" class="value"><g:formatBoolean boolean="${formInstance?.stored}" /></td>
-                            
-                        </tr>
                     
                     </tbody>
                 </table>

@@ -37,32 +37,7 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="consentForm"><g:message code="participant.consentForm.label" default="Consent Form" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'consentForm', 'errors')}">
-                                    <g:textField name="consentForm" value="${participantInstance?.consentForm}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="formA"><g:message code="participant.formA.label" default="Form A" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'formA', 'errors')}">
-                                    <g:textField name="formA" value="${participantInstance?.formA}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="formB"><g:message code="participant.formB.label" default="Form B" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'formB', 'errors')}">
-                                    <g:textField name="formB" value="${participantInstance?.formB}" />
-                                </td>
-                            </tr>
+                        	<g:hiddenField name="form" value="1" />
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -72,9 +47,6 @@
                                     <g:select name="study.id" from="${au.org.intersect.bdcp.Study.list()}" optionKey="id" value="${participantInstance?.study?.id}"  />
                                 </td>
                             </tr>
-  								<g:hiddenField name="hasConsentForm" value="${false}" />  
-  								<g:hiddenField name="hasFormA" value="${false}" />
-  								<g:hiddenField name="hasFormB" value="${false}" />                    
                         </tbody>
                     </table>
                 </div>

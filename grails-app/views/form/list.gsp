@@ -30,9 +30,9 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="name" title="${message(code: 'form.name.label', default: 'Name')}" />
+                            <g:sortableColumn property="formName" title="${message(code: 'form.formName.label', default: 'Form Name')}" />
                         
-                            <g:sortableColumn property="location" title="${message(code: 'form.location.label', default: 'Location')}" />
+                            <g:sortableColumn property="formLink" title="${message(code: 'form.formLink.label', default: 'Form')}" />
                         
                         	<th><g:message code="form.participant.label" default="Participant" /></th>
                         </tr>
@@ -42,12 +42,19 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
                         
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${formInstance?.name}" />
+                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'formName', 'errors')}">
+                                    <g:textField name="formName" value="${formInstance?.formName}" />
+                                </td>
+                                
+                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'formLink', 'errors')}">
+                                    <g:if test="${formInstance?.formLink.size() > 0}">
+                                    <g:textField name="formLink" value="${formInstance?.formLink}" />
+                                	</g:if>
+                                	<g:else>
+                                	<sfu:fileUploadControl/>
+                                	</g:else>
                                 </td>
                         
-							<td><sfu:fileUploadControl/></td>
-							                        	
                             <td>${fieldValue(bean: formInstance, field: "participant")}</td>
                         
                         </tr>

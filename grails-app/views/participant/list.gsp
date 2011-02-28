@@ -96,11 +96,7 @@
                         
                             <g:sortableColumn property="participantIdentifier" title="${message(code: 'participant.participantIdentifier.label', default: 'Participant Identifier')}" />
                         
-                            <g:sortableColumn property="consentForm" title="${message(code: 'participant.consentForm.label', default: 'Consent Form')}" />
-                        
-                            <g:sortableColumn property="formA" title="${message(code: 'participant.formA.label', default: 'Form A')}" />
-                        
-                            <g:sortableColumn property="formB" title="${message(code: 'participant.formB.label', default: 'Form B')}" />
+                            <g:sortableColumn property="forms" title="${message(code: 'participant.forms.label', default: 'Forms')}" />
                         
                             <th><g:message code="participant.study.label" default="Study" /></th>
                         
@@ -112,11 +108,7 @@
                         
                         	<td><g:textField name="participantIdentifier" value="${participantInstance?.participantIdentifier}" /></td>
                         	
-                        	<td><g:checkBox id="show" name="participantConsentForm" value="${participantInstance.hasConsentForm}" />
-                            
-                            <td><g:checkBox id="show1" name="participantFormA" value="${participantInstance.hasFormA}" />
-                            
-                            <td><g:checkBox id="show2" name="participantFormB" value="${participantInstance.hasFormB}" />
+                        	<td><g:link id="show" name="participantForms" value="${participantInstance.forms.id}" /></td>
                         
                             <td>${fieldValue(bean: participantInstance, field: "study")}</td>
                         

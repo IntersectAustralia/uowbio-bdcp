@@ -33,19 +33,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="location"><g:message code="form.location.label" default="Location" /></label>
+                                  <label for="location"><g:message code="form.formLink.label" default="Form" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'location', 'errors')}">
-                                    <g:textField name="location" value="${formInstance?.location}" />
+                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'formLink', 'errors')}">
+                                    <g:textField name="location" value="${formInstance?.formLink}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="name"><g:message code="form.name.label" default="Name" /></label>
+                                  <label for="name"><g:message code="form.formName.label" default="Form Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${formInstance?.name}" />
+                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'formName', 'errors')}">
+                                    <g:textField name="name" value="${formInstance?.formName}" />
                                 </td>
                             </tr>
                         
@@ -55,15 +55,6 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'participant', 'errors')}">
                                     <g:select name="participant.id" from="${au.org.intersect.bdcp.Participant.list()}" optionKey="id" value="${formInstance?.participant?.id}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="stored"><g:message code="form.stored.label" default="Stored" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'stored', 'errors')}">
-                                    <g:checkBox name="stored" value="${formInstance?.stored}" />
                                 </td>
                             </tr>
                         

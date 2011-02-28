@@ -2,12 +2,12 @@ package au.org.intersect.bdcp
 
 class Form
 {
-	String name
-	String location
-	Boolean stored
+	String formName
+	String formLink
 
 	static belongsTo = [participant:Participant]
 	static constraints =
 	{
+		formName(blank:false)
 	}
 }

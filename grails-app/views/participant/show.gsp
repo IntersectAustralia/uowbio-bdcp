@@ -37,27 +37,6 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="participant.consentForm.label" default="Consent Form" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "consentForm")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="participant.formA.label" default="Form A" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "formA")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="participant.formB.label" default="Form B" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "formB")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="participant.study.label" default="Study" /></td>
                             
                             <td valign="top" class="value"><g:link controller="study" action="show" id="${participantInstance?.study?.id}">${participantInstance?.study?.encodeAsHTML()}</g:link></td>

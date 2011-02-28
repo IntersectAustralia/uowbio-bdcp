@@ -4,12 +4,6 @@ class Participant
 {
 
 	String participantIdentifier
-	String consentForm
-	String formA
-	String formB
-	Boolean hasConsentForm
-	Boolean hasFormA
-	Boolean hasFormB
 	
 	String toString()
 	{
@@ -23,8 +17,5 @@ class Participant
 	static constraints =
 	{
 		participantIdentifier(blank:false)
-		consentForm(blank:false)
-		formA(blank:false)
-		formB(blank:false)
 	}
 }
