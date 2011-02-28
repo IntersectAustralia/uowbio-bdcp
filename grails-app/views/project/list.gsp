@@ -33,10 +33,11 @@
             		<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
             		<td><g:link action="show" id="${projectInstance.id}">${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link></td>
             		<td><g:each in="${projectInstance.studies}" status="n" var="studyInstance">
+            		<br />
             		<g:link controller="study" action="show" id="${studyInstance.id}">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link>
             		<span class="menuButton"><g:link controller="participant" action="list" class = "create">Participants</g:link></span>
-            		<br>
-            		<br>
+            		<br />
+            		<br />
             		</g:each>
             		<span class="menuButton"><g:link class="create" controller="study" action="create" params="[projectid: projectInstance.id]">Add Study</g:link></span></td>
             		</g:each>
