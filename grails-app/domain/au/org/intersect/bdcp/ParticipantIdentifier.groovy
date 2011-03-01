@@ -13,6 +13,6 @@ class ParticipantIdentifier
 	
 	static constraints =
 	{ 
-		identifier(blank:false) 
+		identifier(blank:false, size:1..1000) 
 	}
 }

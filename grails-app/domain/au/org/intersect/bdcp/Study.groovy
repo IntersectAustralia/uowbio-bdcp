@@ -23,10 +23,10 @@ class Study
 	
 	static constraints =
 	{
-		studyTitle(blank:false)
-		description(blank:false)
-		industryPartners()
-		collaborators()
+		studyTitle(blank:false, size:1..1000)
+		description(blank:false, size:1..1000)
+		industryPartners(size:1..1000)
+		collaborators(size:1..1000)
 		dateStart(nullable: false)
 		dateEnd(nullable:false)
 		participant(nullable:true)

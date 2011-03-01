@@ -28,8 +28,8 @@ class Participant
 
 	static constraints =
 	{ 
-		numberOfParticipants(blank:false)
-		inclusionExclusionCriteria(blank:false) 
+		numberOfParticipants(blank:false, size:1..1000)
+		inclusionExclusionCriteria(blank:false, size:1..1000) 
 	}
 	
 	def getParticipantIdentifiersList() {

@@ -78,7 +78,7 @@
                                     <label for="description"><g:message code="project.description.label" default="Description" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: projectInstance, field: 'description', 'errors')}">
-                                    <g:textArea name="description" value="${projectInstance?.description} rows="5" cols="40" />
+                                    <g:textArea name="description" value="${projectInstance?.description}" rows="5" cols="40" />
                                 </td>
                             </tr>
                         

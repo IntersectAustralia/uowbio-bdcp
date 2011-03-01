@@ -10,7 +10,7 @@ class ParticipantForm
 	static belongsTo = [form:Form]
 	static constraints =
 	{
-		name(blank:false)
-		link(blank:false)
+		name(blank:false, size:1..1000)
+		link(blank:false, size:1..1000)
 	}
 }

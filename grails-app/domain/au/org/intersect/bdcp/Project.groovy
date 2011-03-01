@@ -25,12 +25,12 @@ class Project
 	
 	static constraints =
 	{
-		projectTitle(blank:false)
-		researcherName(blank:false)
-		degree(blank:false)
+		projectTitle(blank:false, size:1..1000)
+		researcherName(blank:false, size:1..1000)
+		degree(blank:false, size:1..1000)
 		yearFrom(nullable:false)
 		yearTo(nullable:false)
-		description(blank:false)
-		supervisors(blank:false)
+		description(blank:false, size:1..1000)
+		supervisors(blank:false, size:1..1000)
 	}
 }
