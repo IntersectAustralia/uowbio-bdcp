@@ -23,45 +23,19 @@
                 <g:renderErrors bean="${formInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
-                <div class="dialog">
-                    <table>
-                        <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="name"><g:message code="form.name.label" default="Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${formInstance?.name}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="link"><g:message code="form.link.label" default="Link" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'link', 'errors')}">
-                                    <g:textField name="link" value="${formInstance?.link}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="participantIdentifier"><g:message code="form.participantIdentifier.label" default="Participant Identifier" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'participantIdentifier', 'errors')}">
-                                    <g:select name="participantIdentifier.id" from="${au.org.intersect.bdcp.ParticipantIdentifier.list()}" optionKey="id" value="${formInstance?.participantIdentifier?.id}"  />
-                                </td>
-                            </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
+            <g:form action="save" method="post">
+            
+            <!-- Render the form template (_form.gsp) here -->
+                <g:render template="form" model="['formInstance':formInstance]"/>
+                <!-- Render the form template (_form.gsp) here -->
+            
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
             </g:form>
         </div>
+        <!-- Render the participantForm template (_participantForm.gsp) hidden so we can clone it -->
+    	<g:render template='participantForm' model="['participantForm':null,'i':'_clone','hidden':true]"/>
+    	<!-- Render the participantForm template (_participantForm.gsp) hidden so we can clone it -->
     </body>
 </html>

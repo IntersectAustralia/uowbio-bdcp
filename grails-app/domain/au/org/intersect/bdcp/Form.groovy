@@ -11,8 +11,17 @@ class Form
 
 	List participantForms = new ArrayList()
 	static hasMany = [participantForms:ParticipantForm]
-	
-	
+
+	static mapping =
+	{ 
+		participantForms cascade:"all-delete-orphan" 
+	}
+
+	String toString()
+	{
+		return "${name}"
+	}
+
 	def getParticipantFormsList()
 	{
 		return LazyList.decorate(

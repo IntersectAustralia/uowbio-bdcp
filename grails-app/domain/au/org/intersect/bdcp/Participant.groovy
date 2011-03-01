@@ -21,6 +21,10 @@ class Participant
 	List participantIdentifiers = new ArrayList()
 	static hasMany = [participantIdentifiers:ParticipantIdentifier]
 	
+	static mapping =
+	{
+		participantIdentifiers cascade:"all-delete-orphan"
+	}
 
 	static constraints =
 	{ 

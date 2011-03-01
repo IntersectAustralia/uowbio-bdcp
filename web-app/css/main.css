@@ -248,6 +248,10 @@ th.desc a {
     padding: 5px 0;
 }
 
+.largeDialog table {
+    padding: 5px 0;
+}
+
 .prop {
     padding: 5px;
 }
