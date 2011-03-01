@@ -41,7 +41,6 @@
                     <g:each in="${formInstanceList}" status="i" var="formInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                        
                                 <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'formName', 'errors')}">
                                     <g:textField name="formName" value="${formInstance?.formName}" />
                                 </td>
@@ -54,9 +53,8 @@
                                 	<sfu:fileUploadControl/>
                                 	</g:else>
                                 </td>
-                        
                             <td>${fieldValue(bean: formInstance, field: "participant")}</td>
-                        
+                        	
                         </tr>
                     </g:each>
                     </tbody>

@@ -18,8 +18,11 @@
             </g:if>
             <g:if test="${ projectInstanceList.size() > 0}">
             <div class="projects">
-            <h2>Your Projects</h2>
-            	
+            <br />
+            <br />
+            <span class="menuButton"><g:link class="create" controller="project" action="create">Add Project</g:link></span>
+            <br />
+            <br />	
             		<div class="list">
             		<table>
             		<thead>
@@ -30,20 +33,21 @@
             		</tr>
             		</thead>
             		<tbody>
+            		<tr>
             		<g:each in="${projectInstanceList}" status="i" var="projectInstance">
             		<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
             		<td><g:link action="show" id="${projectInstance.id}">${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link></td>
-            		<td><br /><span class="menuButton"><g:link class="create" controller="study" action="create" params="[projectid: projectInstance.id]">Add Study</g:link></span>
+            		<td><span class="menuButton"><g:link class="create" controller="study" action="create" params="[projectid: projectInstance.id]">Add Study</g:link></span>
             		<g:each in="${projectInstance.studies}" status="n" var="studyInstance">
             		<br />
             		<br />
             		<g:link controller="study" action="show" id="${studyInstance.id}">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link>
             		</g:each></td>
-            		<td><br />
+            		<td>
             		<g:each in="${projectInstance.studies}" status="n" var="studyInstance">
             		<br /><br /><span class="menuButton"><g:link controller="participant" action="list" class = "create">Participants</g:link></span>
             		</g:each></td>
-            		</g:each>
+            		</g:each></tr>
             		</tbody>
             		</table>
             		</div>
