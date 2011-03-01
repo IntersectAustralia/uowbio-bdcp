@@ -1,10 +1,10 @@
 
-<%@ page import="au.org.intersect.bdcp.Form" %>
+<%@ page import="au.org.intersect.bdcp.ParticipantIdentifier" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'form.label', default: 'Form')}" />
+        <g:set var="entityName" value="${message(code: 'participantIdentifier.label', default: 'ParticipantIdentifier')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -22,27 +22,19 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="id" title="${message(code: 'form.id.label', default: 'Id')}" />
+                            <g:sortableColumn property="id" title="${message(code: 'participantIdentifier.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="name" title="${message(code: 'form.name.label', default: 'Name')}" />
-                        
-                            <g:sortableColumn property="link" title="${message(code: 'form.link.label', default: 'Link')}" />
-                        
-                            <th><g:message code="form.participantIdentifier.label" default="Participant Identifier" /></th>
+                            <g:sortableColumn property="identifier" title="${message(code: 'participantIdentifier.identifier.label', default: 'Identifier')}" />
                         
                         </tr>
                     </thead>
                     <tbody>
-                    <g:each in="${formInstanceList}" status="i" var="formInstance">
+                    <g:each in="${participantIdentifierInstanceList}" status="i" var="participantIdentifierInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${formInstance.id}">${fieldValue(bean: formInstance, field: "id")}</g:link></td>
+                            <td><g:link action="show" id="${participantIdentifierInstance.id}">${fieldValue(bean: participantIdentifierInstance, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: formInstance, field: "name")}</td>
-                        
-                            <td>${fieldValue(bean: formInstance, field: "link")}</td>
-                        
-                            <td>${fieldValue(bean: formInstance, field: "participantIdentifier")}</td>
+                            <td>${fieldValue(bean: participantIdentifierInstance, field: "identifier")}</td>
                         
                         </tr>
                     </g:each>
@@ -50,7 +42,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${formInstanceTotal}" />
+                <g:paginate total="${participantIdentifierInstanceTotal}" />
             </div>
         </div>
     </body>

@@ -30,28 +30,28 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="location"><g:message code="form.formLink.label" default="Form" /></label>
+                                    <label for="name"><g:message code="form.name.label" default="Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'formLink', 'errors')}">
-                                    <g:textField name="formLink" value="${formInstance?.formLink}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="name"><g:message code="form.formName.label" default="Form Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'formName', 'errors')}">
-                                    <g:textField name="formName" value="${formInstance?.formName}" />
+                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'name', 'errors')}">
+                                    <g:textField name="name" value="${formInstance?.name}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="participant"><g:message code="form.participant.label" default="Participant" /></label>
+                                    <label for="link"><g:message code="form.link.label" default="Link" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'participant', 'errors')}">
-                                    <g:select name="participant.id" from="${au.org.intersect.bdcp.Participant.list()}" optionKey="id" value="${formInstance?.participant?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'link', 'errors')}">
+                                    <g:textField name="link" value="${formInstance?.link}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="participantIdentifier"><g:message code="form.participantIdentifier.label" default="Participant Identifier" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: formInstance, field: 'participantIdentifier', 'errors')}">
+                                    <g:select name="participantIdentifier.id" from="${au.org.intersect.bdcp.ParticipantIdentifier.list()}" optionKey="id" value="${formInstance?.participantIdentifier?.id}"  />
                                 </td>
                             </tr>
                         

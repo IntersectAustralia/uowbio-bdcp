@@ -1,10 +1,10 @@
 
-<%@ page import="au.org.intersect.bdcp.Form" %>
+<%@ page import="au.org.intersect.bdcp.ParticipantIdentifier" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'form.label', default: 'Form')}" />
+        <g:set var="entityName" value="${message(code: 'participantIdentifier.label', default: 'ParticipantIdentifier')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -23,43 +23,29 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="form.id.label" default="Id" /></td>
+                            <td valign="top" class="name"><g:message code="participantIdentifier.id.label" default="Id" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: formInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="form.name.label" default="Name" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: formInstance, field: "name")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: participantIdentifierInstance, field: "id")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="form.link.label" default="Link" /></td>
+                            <td valign="top" class="name"><g:message code="participantIdentifier.identifier.label" default="Identifier" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: formInstance, field: "link")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: participantIdentifierInstance, field: "identifier")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="form.participantForms.label" default="Participant Forms" /></td>
+                            <td valign="top" class="name"><g:message code="participantIdentifier.forms.label" default="Forms" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
-                                <g:each in="${formInstance.participantForms}" var="p">
-                                    <li><g:link controller="participantForm" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
+                                <g:each in="${participantIdentifierInstance.forms}" var="f">
+                                    <li><g:link controller="form" action="show" id="${f.id}">${f?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
                             </td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="form.participantIdentifier.label" default="Participant Identifier" /></td>
-                            
-                            <td valign="top" class="value"><g:link controller="participantIdentifier" action="show" id="${formInstance?.participantIdentifier?.id}">${formInstance?.participantIdentifier?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
@@ -68,7 +54,7 @@
             </div>
             <div class="buttons">
                 <g:form>
-                    <g:hiddenField name="id" value="${formInstance?.id}" />
+                    <g:hiddenField name="id" value="${participantIdentifierInstance?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>

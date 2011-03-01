@@ -10,10 +10,11 @@ class Study
 	String collaborators
 	Date dateStart
 	Date dateEnd
+
+	static hasOne = [participant:Participant]
 	
 	static belongsTo = [project:Project]
 	
-	static hasMany = [participants:Participant]
 	
 	String toString()
 	{
@@ -28,5 +29,6 @@ class Study
 		collaborators()
 		dateStart(nullable: false)
 		dateEnd(nullable:false)
+		participant(nullable:true)
 	}
 }

@@ -1,21 +1,37 @@
 package au.org.intersect.bdcp
 
+import org.apache.commons.collections.FactoryUtils
+import org.apache.commons.collections.list.LazyList
+
 class Participant
 {
-
-	String participantIdentifier
+	
+	String numberOfParticipants
+	String inclusionExclusionCriteria
+	Study study
+	
 	
 	String toString()
 	{
-		return "${participantIdentifier}"
+		return "${study}"
 	}
+
 	
-	static hasMany = [forms:Form]
 	
-	static belongsTo = [study:Study]
+	List participantIdentifiers = new ArrayList()
+	static hasMany = [participantIdentifiers:ParticipantIdentifier]
 	
+
 	static constraints =
-	{
-		participantIdentifier(blank:false)
+	{ 
+		numberOfParticipants(blank:false)
+		inclusionExclusionCriteria(blank:false) 
 	}
+	
+	def getParticipantIdentifiersList() {
+		return LazyList.decorate(
+			  participantIdentifiers,
+			  FactoryUtils.instantiateFactory(ParticipantIdentifier.class))
+	}
+	
 }

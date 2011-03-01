@@ -30,9 +30,29 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="participant.participantIdentifier.label" default="Participant Identifier" /></td>
+                            <td valign="top" class="name"><g:message code="participant.numberOfParticipants.label" default="Number Of Participants" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "participantIdentifier")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "numberOfParticipants")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="participant.inclusionExclusionCriteria.label" default="Inclusion Exclusion Criteria" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "inclusionExclusionCriteria")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="participant.participantIdentifiers.label" default="Participant Identifiers" /></td>
+                            
+                            <td valign="top" style="text-align: left;" class="value">
+                                <ul>
+                                <g:each in="${participantInstance.participantIdentifiers}" var="p">
+                                    <li><g:link controller="participantIdentifier" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
+                                </g:each>
+                                </ul>
+                            </td>
                             
                         </tr>
                     

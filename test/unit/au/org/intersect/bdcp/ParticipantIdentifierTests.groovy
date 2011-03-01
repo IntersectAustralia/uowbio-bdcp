@@ -2,7 +2,7 @@ package au.org.intersect.bdcp
 
 import grails.test.*
 
-class FormTests extends GrailsUnitTestCase {
+class ParticipantIdentifierTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
     }

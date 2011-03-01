@@ -33,37 +33,28 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="participantIdentifier"><g:message code="participant.participantIdentifier.label" default="Participant Identifier" /></label>
+                                  <label for="numberOfParticipants"><g:message code="participant.numberOfParticipants.label" default="Number Of Participants" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'participantIdentifier', 'errors')}">
-                                    <g:textField name="participantIdentifier" value="${participantInstance?.participantIdentifier}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="consentForm"><g:message code="participant.consentForm.label" default="Consent Form" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'consentForm', 'errors')}">
-                                    <g:textField name="consentForm" value="${participantInstance?.consentForm}" />
+                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'numberOfParticipants', 'errors')}">
+                                    <g:textField name="numberOfParticipants" value="${participantInstance?.numberOfParticipants}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="formA"><g:message code="participant.formA.label" default="Form A" /></label>
+                                  <label for="inclusionExclusionCriteria"><g:message code="participant.inclusionExclusionCriteria.label" default="Inclusion Exclusion Criteria" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'formA', 'errors')}">
-                                    <g:textField name="formA" value="${participantInstance?.formA}" />
+                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'inclusionExclusionCriteria', 'errors')}">
+                                    <g:textField name="inclusionExclusionCriteria" value="${participantInstance?.inclusionExclusionCriteria}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="formB"><g:message code="participant.formB.label" default="Form B" /></label>
+                                  <label for="participantIdentifiers"><g:message code="participant.participantIdentifiers.label" default="Participant Identifiers" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'formB', 'errors')}">
-                                    <g:textField name="formB" value="${participantInstance?.formB}" />
+                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'participantIdentifiers', 'errors')}">
+                                    <g:select name="participantIdentifiers" from="${au.org.intersect.bdcp.ParticipantIdentifier.list()}" multiple="yes" optionKey="id" size="5" value="${participantInstance?.participantIdentifiers*.id}" />
                                 </td>
                             </tr>
                         

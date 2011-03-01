@@ -30,14 +30,21 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="participantIdentifier"><g:message code="participant.participantIdentifier.label" default="Participant Identifier" /></label>
+                                    <label for="numberOfParticipants"><g:message code="participant.numberOfParticipants.label" default="Number Of Participants" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'participantIdentifier', 'errors')}">
-                                    <g:textField name="participantIdentifier" value="${participantInstance?.participantIdentifier}" />
+                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'numberOfParticipants', 'errors')}">
+                                    <g:textField name="numberOfParticipants" value="${participantInstance?.numberOfParticipants}" />
                                 </td>
                             </tr>
                         
-                        	<g:hiddenField name="form" value="1" />
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="inclusionExclusionCriteria"><g:message code="participant.inclusionExclusionCriteria.label" default="Inclusion Exclusion Criteria" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'inclusionExclusionCriteria', 'errors')}">
+                                    <g:textField name="inclusionExclusionCriteria" value="${participantInstance?.inclusionExclusionCriteria}" />
+                                </td>
+                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -47,6 +54,7 @@
                                     <g:select name="study.id" from="${au.org.intersect.bdcp.Study.list()}" optionKey="id" value="${participantInstance?.study?.id}"  />
                                 </td>
                             </tr>
+                        
                         </tbody>
                     </table>
                 </div>
