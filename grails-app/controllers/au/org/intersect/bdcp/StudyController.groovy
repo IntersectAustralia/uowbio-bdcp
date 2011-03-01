@@ -28,8 +28,8 @@ class StudyController
 		def studyInstance = new Study(params)
 		if (studyInstance.save(flush: true))
 		{
-			/**flash.message = "${message(code: 'default.created.message', args: [message(code: 'study.label', default: 'Study'), studyInstance.id])}"
-			redirect(action: "show", id: studyInstance.id) */
+//			flash.message = "${message(code: 'default.created.message', args: [message(code: 'study.label', default: 'Study'), studyInstance.id])}"
+			//redirect(action: "show", id: studyInstance.id)
 			redirect(controller:"project", action: "list")
 		}
 		else
@@ -87,8 +87,10 @@ class StudyController
 			studyInstance.properties = params
 			if (!studyInstance.hasErrors() && studyInstance.save(flush: true))
 			{
-				flash.message = "${message(code: 'default.updated.message', args: [message(code: 'study.label', default: 'Study'), studyInstance.id])}"
-				redirect(action: "show", id: studyInstance.id)
+//				flash.message = "${message(code: 'default.updated.message', args: [message(code: 'study.label', default: 'Study'), studyInstance.id])}"
+//				redirect(action: "show", id: studyInstance.id)
+				redirect(controller:"project", action: "list")
+				
 			}
 			else
 			{
@@ -110,8 +112,9 @@ class StudyController
 			try
 			{
 				studyInstance.delete(flush: true)
-				flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'study.label', default: 'Study'), params.id])}"
-				redirect(action: "list")
+//				flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'study.label', default: 'Study'), params.id])}"
+//				redirect(action: "list")
+				redirect(controller:"project", action: "list")
 			}
 			catch (org.springframework.dao.DataIntegrityViolationException e)
 			{

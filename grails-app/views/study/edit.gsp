@@ -94,15 +94,6 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="project"><g:message code="study.project.label" default="Project" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'project', 'errors')}">
-                                    <g:select name="project.id" from="${au.org.intersect.bdcp.Project.list()}" optionKey="id" value="${studyInstance?.project?.id}"  />
-                                </td>
-                            </tr>
-                        
                         </tbody>
                     </table>
                 </div>
