@@ -16,7 +16,7 @@ class FormController {
     def create = {
         def formInstance = new Form()
         formInstance.properties = params
-        return [formInstance: formInstance]
+        return [formInstance: formInstance, formInstanceList:Form.list(params), formInstanceTotal: Form.count()]
     }
 
     def save = {

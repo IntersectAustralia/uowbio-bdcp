@@ -51,12 +51,29 @@
 </script>
 
 <div id="childList">
-    <g:each var="participantForm" in="${formInstance.participantForms}" status="i">
-        
-        <!-- Render the participantForm template (_participantForm.gsp) here -->
-        <g:render template='participantForm' model="['participantForm':participantForm,'i':i,'hidden':false]"/>
-        <!-- Render the participantForm template (_participantForm.gsp) here -->
-        
-    </g:each>
+
+    <div class=list>
+                <table>
+                    <thead>
+                        <tr>
+                            <g:sortableColumn property="name" title="${message(code: 'form.name.label', default: 'Name')}" />
+                        
+                            <g:sortableColumn property="link" title="${message(code: 'form.link.label', default: 'Link')}" />
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <g:each in="${formInstanceList}" status="i" var="formInstance">
+                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+                            <!-- Render the participantForm template (_participantForm.gsp) here -->
+        					<g:render template='participantForm' model="['formInstance':formInstance]"/>
+        					<!-- Render the participantForm template (_participantForm.gsp) here -->
+                        </tr>
+                    </g:each>
+                    </tbody>
+                </table>
+            </div>
+            <div class="paginateButtons">
+                <g:paginate total="${formInstanceTotal}" />
+            </div>
 </div>
-<input type="button" value="Add Form" onclick="addParticipantForm();" />
