@@ -18,7 +18,31 @@ class FormController {
         formInstance.properties = params
         return [formInstance: formInstance, formInstanceList:Form.list(params), formInstanceTotal: Form.count()]
     }
+	
+	def test = {
+		def formInstance = new Form()
+		formInstance.properties = params
+		return [formInstance: formInstance, formInstanceList:Form.list(params), formInstanceTotal: Form.count()]
+	}
+	
+	def test2 = {
+		def formInstance = new Form()
+		formInstance.properties = params
+		return [formInstance: formInstance, formInstanceList:Form.list(params), formInstanceTotal: Form.count()]
+	}
 
+	def test3 = {
+		def formInstance = new Form()
+		formInstance.properties = params
+		return [formInstance: formInstance, formInstanceList:Form.list(params), formInstanceTotal: Form.count()]
+	}
+	
+	def test4 = {
+		def formInstance = new Form()
+		formInstance.properties = params
+		return [formInstance: formInstance, formInstanceList:Form.list(params), formInstanceTotal: Form.count()]
+	}
+	
     def save = {
         def formInstance = new Form(params)
         if (formInstance.save(flush: true)) {

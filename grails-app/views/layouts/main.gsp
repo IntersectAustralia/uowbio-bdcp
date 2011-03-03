@@ -7,6 +7,8 @@
         <g:layoutHead />
         <g:javascript library="application" />
         <g:javascript src="jquery-1.4.2.min.js" />
+        <g:javascript library="jquery" plugin="jquery"/>
+   		<jqui:resources />
     </head>
     <body class="yui-skin-sam">
         <div id="spinner" class="spinner" style="display:none;">
