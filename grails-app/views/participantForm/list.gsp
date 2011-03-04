@@ -22,9 +22,9 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="name" title="${message(code: 'participantForm.name.label', default: 'Name')}" />
+                            <g:sortableColumn property="formName" title="${message(code: 'participantForm.formName.label', default: 'Name')}" />
                         
-                            <g:sortableColumn property="link" title="${message(code: 'participantForm.link.label', default: 'Link')}" />
+                            <g:sortableColumn property="form" title="${message(code: 'participantForm.link.label', default: 'Form')}" />
                         
                             <th><g:message code="participantForm.participant.label" default="Participant" /></th>
                         
@@ -34,9 +34,9 @@
                     <g:each in="${participantFormInstanceList}" status="i" var="participantFormInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "name")}</g:link></td>
+                            <td><g:link action="show" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></td>
                         
-                            <td>${fieldValue(bean: participantFormInstance, field: "link")}</td>
+                            <td><g:link action="downloadFile" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "form")}</g:link></td>
                         
                             <td>${fieldValue(bean: participantFormInstance, field: "participant")}</td>
                         

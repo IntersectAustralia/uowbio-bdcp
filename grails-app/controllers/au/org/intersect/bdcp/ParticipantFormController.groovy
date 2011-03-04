@@ -4,7 +4,33 @@ class ParticipantFormController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def index = {
+	def uploadFile = {
+		println "Getting new file"
+		def f = request.getFile('upfile')
+			if(!f.empty) {
+				f.transferTo( new File('someotherloc') )
+				println f
+			}
+			else {
+				flash.message = 'file cannot be empty'
+					redirect(action:'upload')
+			}
+		println "Done getting new file"
+	}
+	
+	def downloadFile =
+	{
+		def participantFormInstance = ParticipantForm.get(params.id)
+		
+		def file = new File(participantFormInstance.form)
+		response.setContentType("application/octet-stream")
+		response.setHeader("Content-disposition", "attachment;filename=${file.getName()}")
+		
+		response.outputStream << file.newInputStream() // Performing a binary stream copy
+		return null
+	}
+	
+	def index = {
         redirect(action: "list", params: params)
     }
 

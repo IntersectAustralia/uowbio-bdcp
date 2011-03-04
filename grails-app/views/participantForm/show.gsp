@@ -23,16 +23,16 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="participantForm.name.label" default="Name" /></td>
+                            <td valign="top" class="name"><g:message code="participantForm.formName.label" default="Form Name" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: participantFormInstance, field: "name")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: participantFormInstance, field: "formName")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="participantForm.link.label" default="Link" /></td>
+                            <td valign="top" class="name"><g:message code="participantForm.form.label" default="Form" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: participantFormInstance, field: "link")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: participantFormInstance, field: "form")}</td>
                             
                         </tr>
                     

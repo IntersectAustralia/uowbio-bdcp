@@ -33,21 +33,26 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="name"><g:message code="participantForm.name.label" default="Name" /></label>
+                                  <label for="name"><g:message code="participantForm.formName.label" default="Form Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'name', 'errors')}">
-                                    <g:textArea name="name" cols="40" rows="5" value="${participantFormInstance?.name}" />
+                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'formName', 'errors')}">
+                                    <g:textField name="formName" value="${participantFormInstance?.formName}" />
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="link"><g:message code="participantForm.link.label" default="Link" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'link', 'errors')}">
-                                    <g:textArea name="link" cols="40" rows="5" value="${participantFormInstance?.link}" />
-                                </td>
-                            </tr>
+                        	<g:uploadForm action="save" method="post" >
+  <!-- SNIP -->
+  <tr class="prop">
+    <td valign="top" class="name">
+      <label for="form">Form</label>
+    </td>
+    <td valign="top">
+       ${fieldValue(bean: participantFormInstance, field: "form")}<br />
+      <input type="file" id="form" name="form" value="${participantFormInstance?.form}"/>
+    </td>
+  </tr>
+</g:uploadForm>
+                        
                         
                             <tr class="prop">
                                 <td valign="top" class="name">

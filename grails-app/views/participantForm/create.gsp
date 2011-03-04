@@ -30,21 +30,25 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="name"><g:message code="participantForm.name.label" default="Name" /></label>
+                                    <label for="name"><g:message code="participantForm.name.label" default="Form Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${participantFormInstance?.name}" />
+                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'formName', 'errors')}">
+                                    <g:textField name="formName" value="${participantFormInstance?.formName}" />
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="link"><g:message code="participantForm.link.label" default="Link" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'link', 'errors')}">
-                                    <g:textField name="link" value="${participantFormInstance?.link}" />
-                                </td>
-                            </tr>
+                        <g:uploadForm action="uploadFile" method="post" >
+  <!-- SNIP -->
+  <tr class="prop">
+    <td valign="top" class="name">
+      <label for="form">Form</label>
+    </td>
+    <td valign="top">
+      <input type="file" id="form" name="form"/>
+    </td>
+  </tr>
+</g:uploadForm>
+                        
                         
                             <tr class="prop">
                                 <td valign="top" class="name">

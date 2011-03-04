@@ -3,18 +3,18 @@ package au.org.intersect.bdcp
 class ParticipantForm
 {
 
-	String name
-	String link
+	String formName
+	String form
 	
 	String toString()
 	{
-		return "${name}"
+		return "${formName}"
 	}
 	
 	static belongsTo = [participant:Participant]
 	static constraints =
 	{
-		name(blank:false, size:1..1000)
-		link(blank:false, size:1..1000)
+		formName(blank:false, size:1..1000)
+		form(blank:false, size:1..1000)
 	}
 }

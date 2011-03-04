@@ -1,6 +1,19 @@
-test-reports/**/*
+.* #Ignore all dotfiles ...
+.classpath
+.project
+!.gitignore # except for .gitignore
+!.settings
+
+#ignore target
+target/*
 target/**/*
-target/stacktrace.log
+
+#ignore logs
+*.log
+
+test-reports/*
+test-reports/**/*
+
+classes/*
 classes/**/*
-web-app/WEB-INF/classes/**/*
 cobertura.ser
