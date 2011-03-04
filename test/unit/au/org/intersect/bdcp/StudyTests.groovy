@@ -35,7 +35,9 @@ class StudyTests extends GrailsUnitTestCase
 				collaborators: 'some collaborator',
 				dateStart: new Date(),
 				dateEnd: new Date(),
-				project: project)
+				project: project,
+				numberOfParticipants:"10",
+				inclusionExclusionCriteria: "No Criteria")
 		
 		mockForConstraintsTests Study, [study]
 	}
@@ -82,7 +84,9 @@ class StudyTests extends GrailsUnitTestCase
 				collaborators: 'some collaborator',
 				dateStart: new Date(),
 				dateEnd: new Date(),
-				project: project)
+				project: project,
+				numberOfParticipants:"10",
+				inclusionExclusionCriteria: "No Criteria")
 		
 		assertTrue "A valid study did not validate!", study.validate()
 	}

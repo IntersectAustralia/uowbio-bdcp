@@ -27,7 +27,9 @@ class BootStrap
 				collaborators: 'some collaborator',
 				dateStart: new Date(),
 				dateEnd: new Date(),
-				project: project)
+				project: project,
+				numberOfParticipants:"10",
+				inclusionExclusionCriteria:"test Criteria",)
 		study.save()
 		
 		def participant = new Participant(numberOfParticipants:"10",

@@ -70,7 +70,22 @@
                             <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${studyInstance?.dateEnd}" /></td>
                             
                         </tr>
+                        
+                        
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="study.numberOfParticipants.label" default="Number of Participants" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "numberOfParticipants")}</td>
+                            
+                        </tr>
                     
+                    	<tr class="prop">
+                            <td valign="top" class="name"><g:message code="study.inclusionExclusionCriteria.label" default="Inclusion Exclusion Criteria" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "inclusionExclusionCriteria")}</td>
+                            
+                        </tr>
+                        
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="study.project.label" default="Project" /></td>
                             

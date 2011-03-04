@@ -10,6 +10,8 @@ class Study
 	String collaborators
 	Date dateStart
 	Date dateEnd
+	String numberOfParticipants
+	String inclusionExclusionCriteria
 
 	static hasOne = [participant:Participant]
 	
@@ -30,5 +32,7 @@ class Study
 		dateStart(nullable: false)
 		dateEnd(nullable:false)
 		participant(nullable:true)
+		numberOfParticipants(size:1..1000)
+		inclusionExclusionCriteria(size:1..1000) 
 	}
 }

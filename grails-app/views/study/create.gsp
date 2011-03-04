@@ -90,6 +90,26 @@
                                     <g:datePicker name="dateEnd" precision="month" value="${studyInstance?.dateEnd}"  />
                                 </td>
                             </tr>
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="numberOfParticipants"><g:message code="study.numberOfParticipants.label" default="Number of Participants" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'numberOfParticipants', 'errors')}">
+                                    <g:textField name="numberOfParticipants" value="${studyInstance?.numberOfParticipants}" />
+                                </td>
+                            </tr>
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="inclusionExclusionCriteria"><g:message code="study.inclusionExclusionCriteria.label" default="Inclusion Exclusion Criteria" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'inclusionExclusionCriteria', 'errors')}">
+                                    <g:textArea name="inclusionExclusionCriteria" value="${studyInstance?.inclusionExclusionCriteria}" />
+                                </td>
+                            </tr>
+                            
+                            
                             <g:if test="${params['projectid']?.size() <1}">
                             <tr class="prop">
                                 <td valign="top" class="name">
