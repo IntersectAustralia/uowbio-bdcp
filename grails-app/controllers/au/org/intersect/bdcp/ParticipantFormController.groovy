@@ -22,12 +22,17 @@ class ParticipantFormController {
 	{
 		def participantFormInstance = ParticipantForm.get(params.id)
 		
-		def file = new File(participantFormInstance.form)
-		response.setContentType("application/octet-stream")
-		response.setHeader("Content-disposition", "attachment;filename=${file.getName()}")
-		
-		response.outputStream << file.newInputStream() // Performing a binary stream copy
-		return null
+		def fileDoc = new File(participantFormInstance.form);
+		if(fileDoc.exists()){
+			// force download
+			def fileName = fileDoc.getName();
+			response.setContentType("application/octet-stream")
+			response.setHeader "Content-disposition", "attachment; filename=${fileName}" ;
+			response.outputStream << fileDoc.newInputStream();
+			response.outputStream.flush();
+			
+	   }
+		return null;	
 	}
 	
 	def index = {

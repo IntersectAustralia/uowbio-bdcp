@@ -36,7 +36,9 @@
                         
                             <td><g:link action="show" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></td>
                         
-                            <td><g:link action="downloadFile" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "form")}</g:link></td>
+                           <td> <a href="${g.createLink(controller:'participantForm', action:'downloadFile', id:participantFormInstance.id)}">
+							${fieldValue(bean: participantFormInstance, field: 'form')}
+							</a></td>
                         
                             <td>${fieldValue(bean: participantFormInstance, field: "participant")}</td>
                         
