@@ -1,10 +1,10 @@
 
-<%@ page import="au.org.intersect.bdcp.Participant" %>
+<%@ page import="au.org.intersect.bdcp.ParticipantForm" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'participant.label', default: 'Participant')}" />
+        <g:set var="entityName" value="${message(code: 'participantForm.label', default: 'ParticipantForm')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -22,23 +22,27 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="id" title="${message(code: 'participant.id.label', default: 'Id')}" />
+                            <g:sortableColumn property="id" title="${message(code: 'participantForm.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="identifier" title="${message(code: 'participant.identifier.label', default: 'Identifier')}" />
+                            <g:sortableColumn property="name" title="${message(code: 'participantForm.name.label', default: 'Name')}" />
                         
-                            <th><g:message code="participant.study.label" default="Study" /></th>
+                            <g:sortableColumn property="link" title="${message(code: 'participantForm.link.label', default: 'Link')}" />
+                        
+                            <th><g:message code="participantForm.participant.label" default="Participant" /></th>
                         
                         </tr>
                     </thead>
                     <tbody>
-                    <g:each in="${participantInstanceList}" status="i" var="participantInstance">
+                    <g:each in="${participantFormInstanceList}" status="i" var="participantFormInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantInstance, field: "id")}</g:link></td>
+                            <td><g:link action="show" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: participantInstance, field: "identifier")}</td>
+                            <td>${fieldValue(bean: participantFormInstance, field: "name")}</td>
                         
-                            <td>${fieldValue(bean: participantInstance, field: "study")}</td>
+                            <td>${fieldValue(bean: participantFormInstance, field: "link")}</td>
+                        
+                            <td>${fieldValue(bean: participantFormInstance, field: "participant")}</td>
                         
                         </tr>
                     </g:each>
@@ -46,7 +50,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${participantInstanceTotal}" />
+                <g:paginate total="${participantFormInstanceTotal}" />
             </div>
         </div>
     </body>

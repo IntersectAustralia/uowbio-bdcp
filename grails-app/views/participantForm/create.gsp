@@ -1,11 +1,11 @@
 
 
-<%@ page import="au.org.intersect.bdcp.Participant" %>
+<%@ page import="au.org.intersect.bdcp.ParticipantForm" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'participant.label', default: 'Participant')}" />
+        <g:set var="entityName" value="${message(code: 'participantForm.label', default: 'ParticipantForm')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -18,9 +18,9 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${participantInstance}">
+            <g:hasErrors bean="${participantFormInstance}">
             <div class="errors">
-                <g:renderErrors bean="${participantInstance}" as="list" />
+                <g:renderErrors bean="${participantFormInstance}" as="list" />
             </div>
             </g:hasErrors>
             <g:form action="save" >
@@ -30,19 +30,28 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="identifier"><g:message code="participant.identifier.label" default="Identifier" /></label>
+                                    <label for="name"><g:message code="participantForm.name.label" default="Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'identifier', 'errors')}">
-                                    <g:textArea name="identifier" cols="40" rows="5" value="${participantInstance?.identifier}" />
+                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'name', 'errors')}">
+                                    <g:textArea name="name" cols="40" rows="5" value="${participantFormInstance?.name}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="study"><g:message code="participant.study.label" default="Study" /></label>
+                                    <label for="link"><g:message code="participantForm.link.label" default="Link" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'study', 'errors')}">
-                                    <g:select name="study.id" from="${au.org.intersect.bdcp.Study.list()}" optionKey="id" value="${participantInstance?.study?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'link', 'errors')}">
+                                    <g:textArea name="link" cols="40" rows="5" value="${participantFormInstance?.link}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="participant"><g:message code="participantForm.participant.label" default="Participant" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'participant', 'errors')}">
+                                    <g:select name="participant.id" from="${au.org.intersect.bdcp.Participant.list()}" optionKey="id" value="${participantFormInstance?.participant?.id}"  />
                                 </td>
                             </tr>
                         

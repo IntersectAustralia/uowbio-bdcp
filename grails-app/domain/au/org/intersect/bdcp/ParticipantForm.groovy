@@ -6,8 +6,12 @@ class ParticipantForm
 	String name
 	String link
 	
+	String toString()
+	{
+		return "${name}"
+	}
 	
-	static belongsTo = [form:Form]
+	static belongsTo = [participant:Participant]
 	static constraints =
 	{
 		name(blank:false, size:1..1000)

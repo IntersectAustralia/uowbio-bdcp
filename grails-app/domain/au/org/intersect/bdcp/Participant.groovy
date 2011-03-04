@@ -6,10 +6,7 @@ import org.apache.commons.collections.list.LazyList
 class Participant
 {
 	
-	String numberOfParticipants
-	String inclusionExclusionCriteria
-	Study study
-	
+	String identifier
 	
 	String toString()
 	{
@@ -18,24 +15,24 @@ class Participant
 
 	
 	
-	List participantIdentifiers = new ArrayList()
-	static hasMany = [participantIdentifiers:ParticipantIdentifier]
+	static hasMany = [participantForms:ParticipantForm]
 	
 	static mapping =
 	{
-		participantIdentifiers cascade:"all-delete-orphan"
+		participantForms cascade:"all-delete-orphan"
 	}
 
+	static belongsTo = [study:Study]
+	
 	static constraints =
 	{ 
-		numberOfParticipants(blank:false, size:1..1000)
-		inclusionExclusionCriteria(blank:false, size:1..1000) 
+		identifier(blank:false, size:1..1000)
 	}
 	
-	def getParticipantIdentifiersList() {
+	def getParticipantFormsList() {
 		return LazyList.decorate(
-			  participantIdentifiers,
-			  FactoryUtils.instantiateFactory(ParticipantIdentifier.class))
+			  participantForms,
+			  FactoryUtils.instantiateFactory(ParticipantForm.class))
 	}
 	
 }

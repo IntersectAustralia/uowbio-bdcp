@@ -13,7 +13,7 @@ class Study
 	String numberOfParticipants
 	String inclusionExclusionCriteria
 
-	static hasOne = [participant:Participant]
+	static hasMany = [participant:Participant]
 	
 	static belongsTo = [project:Project]
 	

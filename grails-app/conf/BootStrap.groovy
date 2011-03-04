@@ -1,6 +1,4 @@
-import au.org.intersect.bdcp.Form
 import au.org.intersect.bdcp.Participant
-import au.org.intersect.bdcp.ParticipantIdentifier
 import au.org.intersect.bdcp.Project
 import au.org.intersect.bdcp.Study
 
@@ -32,17 +30,9 @@ class BootStrap
 				inclusionExclusionCriteria:"test Criteria",)
 		study.save()
 		
-		def participant = new Participant(numberOfParticipants:"10",
-			inclusionExclusionCriteria:"test Criteria",
+		def participant = new Participant(identifier:"10",
 			study: study)
 		participant.save()
-		
-		def participantIdentifier = new ParticipantIdentifier(identifier: "testing")
-		participantIdentifier.save()
-		
-		def form = new Form(name: "test Form name", link:"test link",
-			participantIdentifier: participantIdentifier)
-		form.save()
 		
 		
 	}
