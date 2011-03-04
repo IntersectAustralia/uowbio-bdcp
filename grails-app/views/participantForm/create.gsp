@@ -33,7 +33,7 @@
                                     <label for="name"><g:message code="participantForm.name.label" default="Name" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'name', 'errors')}">
-                                    <g:textArea name="name" cols="40" rows="5" value="${participantFormInstance?.name}" />
+                                    <g:textField name="name" value="${participantFormInstance?.name}" />
                                 </td>
                             </tr>
                         
@@ -42,7 +42,7 @@
                                     <label for="link"><g:message code="participantForm.link.label" default="Link" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'link', 'errors')}">
-                                    <g:textArea name="link" cols="40" rows="5" value="${participantFormInstance?.link}" />
+                                    <g:textField name="link" value="${participantFormInstance?.link}" />
                                 </td>
                             </tr>
                         

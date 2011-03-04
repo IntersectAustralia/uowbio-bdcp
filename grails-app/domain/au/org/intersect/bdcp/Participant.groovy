@@ -10,10 +10,9 @@ class Participant
 	
 	String toString()
 	{
-		return "${study}"
+		return "${identifier}"
 	}
 
-	
 	
 	static hasMany = [participantForms:ParticipantForm]
 	

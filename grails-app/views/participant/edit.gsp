@@ -36,7 +36,7 @@
                                   <label for="identifier"><g:message code="participant.identifier.label" default="Identifier" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'identifier', 'errors')}">
-                                    <g:textArea name="identifier" cols="40" rows="5" value="${participantInstance?.identifier}" />
+                                    <g:textField name="identifier" value="${participantInstance?.identifier}" />
                                 </td>
                             </tr>
                         

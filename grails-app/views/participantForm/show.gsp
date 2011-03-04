@@ -23,13 +23,6 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="participantForm.id.label" default="Id" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: participantFormInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="participantForm.name.label" default="Name" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: participantFormInstance, field: "name")}</td>
