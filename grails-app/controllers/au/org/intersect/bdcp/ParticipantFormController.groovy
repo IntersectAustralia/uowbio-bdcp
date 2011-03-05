@@ -4,18 +4,17 @@ class ParticipantFormController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-	def uploadFile = {
-		println "Getting new file"
-		def f = request.getFile('upfile')
-			if(!f.empty) {
-				f.transferTo( new File('someotherloc') )
-				println f
-			}
-			else {
-				flash.message = 'file cannot be empty'
-					redirect(action:'upload')
-			}
-		println "Done getting new file"
+	def upload = {
+		def f = request.getFile('form')
+	    if(!f.empty) {
+	      flash.message = 'Your file has been uploaded'
+		  new File( grailsApplication.config.forms.location.toString() ).mkdirs()
+		  f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + f.getOriginalFilename() ) )								             			     	
+		}    
+	    else {
+	       flash.message = 'file cannot be empty'
+	    }
+		redirect( action:list)
 	}
 	
 	def downloadFile =

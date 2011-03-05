@@ -37,7 +37,7 @@
                                 </td>
                             </tr>
                         
-                        <g:uploadForm action="uploadFile" method="post" >
+                        <g:uploadForm action="upload" method="post" >
   <!-- SNIP -->
   <tr class="prop">
     <td valign="top" class="name">
@@ -62,6 +62,7 @@
                         </tbody>
                     </table>
                 </div>
+                
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
