@@ -37,7 +37,7 @@ environments {
 	{
 		dataSource
 		{
-			dbCreate = "update"
+			dbCreate = "create-drop" //"update"
 			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
 			driverClassName = "org.postgresql.Driver"
 			username = "bdcp"

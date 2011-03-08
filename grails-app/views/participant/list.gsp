@@ -42,7 +42,7 @@
                          <g:if test="${participantInstance?.study.id.toString() == params.studyId}">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                             <td>
-                              <div class="columnLeft"><g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantInstance, field: "identifier")}</g:link></div>
+                              <div class="columnLeft">${fieldValue(bean: participantInstance, field: "identifier")}</div>
                               <div class="columnRight"><g:link controller="participant" action="edit" params="[studyId: params.studyId, id: participantInstance.id]"><input type="button" name="edit" class="edit" value="Edit" /></g:link></div>
                            </td>
                         </tr>
