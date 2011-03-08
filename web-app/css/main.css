@@ -209,10 +209,6 @@ th.desc a {
 
 /* LIST */
 
-.insideList table {
-	border-collapse: collapse;
-}
-
 .list table {
     border-collapse: collapse;
 }
