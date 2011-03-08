@@ -51,7 +51,7 @@ class ParticipantController {
             redirect(action: "list")
         }
         else {
-            return [participantInstance: participantInstance]
+            return [participantInstance: participantInstance, studyId: params.studyId]
         }
     }
 
@@ -71,7 +71,7 @@ class ParticipantController {
             if (!participantInstance.hasErrors() && participantInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
                 redirect url:createLink(controller: 'participant', action:'list',
-				mapping:'participantDetails', params:[studyId: participantInstance?.study?.id, id: participantInstance.id])
+				mapping:'participantDetails', params:[studyId: params.studyId, id: participantInstance.id])
             }
             else {
                 render(view: "edit", model: [participantInstance: participantInstance])

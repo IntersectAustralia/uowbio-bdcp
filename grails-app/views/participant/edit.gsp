@@ -23,7 +23,7 @@
                 <g:renderErrors bean="${participantInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form mapping="participantDetails" params="[studyId: params.studyId]" action="update" method="post" >
                 <g:hiddenField name="id" value="${participantInstance?.id}" />
                 <g:hiddenField name="version" value="${participantInstance?.version}" />
                 <div class="dialog">
