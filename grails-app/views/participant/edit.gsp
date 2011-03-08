@@ -40,29 +40,13 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="participantForms"><g:message code="participant.participantForms.label" default="Participant Forms" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'participantForms', 'errors')}">
-                                    
-<ul>
-<g:each in="${participantInstance?.participantForms?}" var="p">
-    <li><g:link controller="participantForm" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="participantForm" action="create" params="['participant.id': participantInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'participantForm.label', default: 'ParticipantForm')])}</g:link>
-
-                                </td>
-                            </tr>
-                        
                         </tbody>
                     </table>
                     <g:hiddenField name="study.id" value="${params.studyId}" />
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
+                	 <span class="button"><g:link controller="participant" action="list" params="[studyId: params.studyId]"><input type="button" name="cancel" class="cancel" value="Cancel" /></g:link></span>
                 </div>
             </g:form>
         </div>

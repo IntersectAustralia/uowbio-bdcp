@@ -70,7 +70,8 @@ class ParticipantController {
             participantInstance.properties = params
             if (!participantInstance.hasErrors() && participantInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
-                redirect(action: "show", id: participantInstance.id)
+                redirect url:createLink(controller: 'participant', action:'list',
+				mapping:'participantDetails', params:[studyId: participantInstance?.study?.id, id: participantInstance.id])
             }
             else {
                 render(view: "edit", model: [participantInstance: participantInstance])
