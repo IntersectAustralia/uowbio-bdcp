@@ -335,6 +335,7 @@ input.edit {
 .columnLeft {
 	width:50%;
 	margin-left:10px;
+	vertical-align: middle;
 	border-collapse: collapse;
 	height:20px;
 	float:left;
@@ -343,5 +344,6 @@ input.edit {
 .columnRight {
 	border-collapse: collapse;
 	height:20px;
+	vertical-align: middle;
 	float:right;
 }
