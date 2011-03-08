@@ -332,11 +332,16 @@ input.edit {
 
 
 
-.column {
-	width:100px;
+.columnLeft {
+	width:50%;
 	margin-left:10px;
 	border-collapse: collapse;
 	height:20px;
 	float:left;
 }
 
+.columnRight {
+	border-collapse: collapse;
+	height:20px;
+	float:right;
+}
