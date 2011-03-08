@@ -28,7 +28,7 @@ class StudyController
 		def studyInstance = new Study(params)
 		if (studyInstance.save(flush: true))
 		{
-			flash.message = "${message(code: 'default.created.message', args: [message(code: 'study.label', default: 'Study'), studyInstance.id])}"
+			flash.message = "${message(code: 'default.created.message', args: [message(code: 'study.label', default: 'Study'), studyInstance.studyTitle])}"
 			//redirect(action: "show", id: studyInstance.id)
 			redirect(controller:"project", action: "list")
 		}
@@ -87,7 +87,7 @@ class StudyController
 			studyInstance.properties = params
 			if (!studyInstance.hasErrors() && studyInstance.save(flush: true))
 			{
-//				flash.message = "${message(code: 'default.updated.message', args: [message(code: 'study.label', default: 'Study'), studyInstance.id])}"
+//				flash.message = "${message(code: 'default.updated.message', args: [message(code: 'study.label', default: 'Study'), studyInstance.studyTitle])}"
 //				redirect(action: "show", id: studyInstance.id)
 				redirect(controller:"project", action: "list")
 				
