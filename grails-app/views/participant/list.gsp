@@ -23,10 +23,11 @@
         	
         </div>
         <div class="body">
-            <h1>${studyInstanceList} Participants</h1>
+            <h1>${studyInstance} Participants</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+            <g:if test="${ participantsInStudy[0] > 0}">
             <div class="list">
                 <table>
                     <thead>
@@ -50,9 +51,11 @@
                     </tbody>
                 </table>
             </div>
+            
             <div class="paginateButtons">
                 <g:paginate total="${participantInstanceTotal}" />
             </div>
+            </g:if>
         </div>
     </body>
 </html>

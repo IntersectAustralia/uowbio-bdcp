@@ -21,7 +21,7 @@
             <span class="menuButton"><g:link class="create" controller="project" action="create">Add Project</g:link></span>
             <br />
             <br />
-            <g:if test="${ projectInstanceList.size() > 0}">
+            <g:if test="${ projectInstanceList?.size() > 0}">
             <div class="projects">
             		<div class="list">
             		<table>
