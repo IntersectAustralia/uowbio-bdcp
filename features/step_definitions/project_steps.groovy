@@ -12,16 +12,8 @@ Given(~"I am on the create study page") { ->
 	browser.get("http://localhost:8080/BDCP/study/create")
   }
 
-Given(~"I have a project with title \"(.*)\"") { String title->
-	fieldElement = browser.findElement(By.name('projectTitle'))
-	fieldElement.sendKeys(title)
-	fieldElement = browser.findElement(By.name('researcherName'))
-	fieldElement.sendKeys('Alice Wonderland')
-	fieldElement = browser.findElement(By.name('degree'))
-	fieldElement.sendKeys('Masters of Biomechanics')
-}
-
 Given(~"I am on the project page") { ->
 	browser.get("http://localhost:8080/BDCP/project/list")
 }
+
 	

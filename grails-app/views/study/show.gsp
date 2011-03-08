@@ -19,7 +19,7 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-                <table>
+                <table id="studyTable">
                     <tbody>
                     
                         <tr class="prop">

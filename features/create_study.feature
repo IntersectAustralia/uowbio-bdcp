@@ -4,12 +4,24 @@ Feature: Create project
   I want to create a study
  
  Background:
- 	Given I have a project with title "TestProject"
- 	And I am on the project page
+ 	Given I am on the create project page
+    When I fill in "projectTitle" with "My Biomechanics Project"
+    And I fill in "researcherName" with "Fred Bloggs"
+    And I fill in "degree" with "Masters of Biomechanics"
+    And I select "March" from "yearFrom_month"
+    And I select "2011" from "yearFrom_year"
+    And I select "March" from "yearTo_month"
+    And I select "2011" from "yearTo_year"
+    And I fill in "description" with "Studying some stuff"
+    And I fill in "supervisors" with "Alice Smith"
+    And I press "create"
+    Then I should see "saved"
+    
 
 
   Scenario: Create Study
-    Given I follow "Add Study"
+    Given I am on the project page
+    And I follow "Add Study"
     When I fill in "studyTitle" with "My Biomechanics Study"
     And I fill in "ethicsNumber" with "1073A"
     And I fill in "description" with "Test Description"
@@ -24,14 +36,16 @@ Feature: Create project
     And I fill in "inclusionExclusionCriteria" with "Test Criteria"
     And I press "create"
     Then I should see "saved"
+    Then I follow "My Biomechanics Study"
     And I should see table "studyTable" with contents
       | Study Title                    | My Biomechanics Study   |
       | Ethics Number                  | 1073A                   |
       | Description                    | Test Description        |
-      | Industry Partners              | Parnter1                |
+      | Industry Partners              | Partner1                |
       | Collaborators                  | Collaborator1           |
       | Date Start                     | 03/2011                 |
       | Date End                       | 03/2011                 |
       | Number of Participants         | 10                      |
       | Inclusion Exclusion Criteria   | Test Criteria           |
+      | Project						   | My Biomechanics Project |
    

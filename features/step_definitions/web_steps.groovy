@@ -22,8 +22,6 @@ Given(~"I am on the home page") { ->
 }
 
 Given(~"I follow \"(.*)\"") { String link->
-	/**WebDriver driver = new HtmlUnitDriver();
-	driver.get("http://localhost:8080/BDCP");*/
 	WebElement element = browser.findElement(By.linkText(link))
 	element.click()
 }
