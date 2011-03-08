@@ -21,11 +21,11 @@ class ParticipantController {
     }
 
     def save = {
-        def participantInstance = new Participant(params)
-        if (participantInstance.save(flush: true)) {
+		def participantInstance = new Participant(params)
+		if (participantInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
 			redirect url:createLink(controller: 'participant', action:'list',
-				mapping:'participantDetails', params:[studyId: participantInstance?.study?.id, id: participantInstance.id])
+				mapping:'participantDetails', params:[studyId: params.studyId, id: participantInstance.id])
 			//redirect(action: "show", id: participantInstance.id)
         }
         else {

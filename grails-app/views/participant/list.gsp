@@ -44,16 +44,17 @@
                         
                         
                             <td>
+                              <div class="insideList">
                               <table> 
                               <tr>
                               <td width="50%">
                               <g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantInstance, field: "identifier")}</g:link>
                               </td>
                               <td width="50%"><g:link controller="participant" action="edit" params="[studyId: params.studyId, id: participantInstance.id]"><input type="button" name="edit" class="edit" value="Edit" /></g:link>
-                              <input type="button" name="forms" class="forms" value="Forms" />
                               </td>
                               </tr>
                               </table>
+                              </div>
                            </td>
                         
                         
