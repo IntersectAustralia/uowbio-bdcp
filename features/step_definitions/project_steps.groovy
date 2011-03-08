@@ -13,14 +13,12 @@ Given(~"I am on the create study page") { ->
   }
 
 Given(~"I have a project with title \"(.*)\"") { String title->
-	def project = new Project(projectTitle: title,
-				researcherName: 'TestStudent' ,
-				degree: 'TestDegree',
-				yearFrom: new Date(),
-				yearTo: new Date(),
-				description: 'Test Description',
-				supervisors: 'test supervisor')
-		project.save()
+	fieldElement = browser.findElement(By.name('projectTitle'))
+	fieldElement.sendKeys(title)
+	fieldElement = browser.findElement(By.name('researcherName'))
+	fieldElement.sendKeys('Alice Wonderland')
+	fieldElement = browser.findElement(By.name('degree'))
+	fieldElement.sendKeys('Masters of Biomechanics')
 }
 
 Given(~"I am on the project page") { ->
