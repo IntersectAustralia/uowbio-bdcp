@@ -16,13 +16,13 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:if test="${ projectInstanceList.size() > 0}">
-            <div class="projects">
             <br />
             <br />
             <span class="menuButton"><g:link class="create" controller="project" action="create">Add Project</g:link></span>
             <br />
-            <br />	
+            <br />
+            <g:if test="${ projectInstanceList.size() > 0}">
+            <div class="projects">
             		<div class="list">
             		<table>
             		<thead>
@@ -45,7 +45,7 @@
             		</g:each></td>
             		<td>
             		<g:each in="${projectInstance.studies}" status="n" var="studyInstance">
-            		<br /><br /><span class="menuButton"><g:link controller="participant" action="list" class = "create">Participants</g:link></span>
+            		<br /><br /><span class="menuButton"><g:link controller="participant" mapping="participantDetails" action="list" params="[studyId: studyInstance.id]" class = "list">Participants</g:link></span>
             		</g:each></td>
             		</g:each></tr>
             		</tbody>

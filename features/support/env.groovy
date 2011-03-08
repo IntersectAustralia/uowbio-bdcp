@@ -14,7 +14,7 @@ After() {
   browser.quit()
   
   def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-  sql.execute("delete from project")
   sql.execute("delete from study")
+  sql.execute("delete from project")
 }
 

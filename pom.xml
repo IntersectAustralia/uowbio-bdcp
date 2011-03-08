@@ -77,6 +77,13 @@
 			<version>${selenium.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.seleniumhq.webdriver</groupId>
+			<artifactId>webdriver-support</artifactId>
+			<version>0.9.7089</version>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -108,6 +115,11 @@
 				<artifactId>cuke4duke-maven-plugin</artifactId>
 				<version>${cuke4duke.version}</version>
 				<configuration>
+				<jvmArgs>
+	                        <jvmArg>-Xmx1024m</jvmArg>
+	                        
+	                        <jvmArg>--classpath ${basedir}/target/classes</jvmArg>
+ 				</jvmArgs>
 					<cucumberArgs>
 						<cucumberArg>--color</cucumberArg>
 						<cucumberArg>--verbose</cucumberArg>

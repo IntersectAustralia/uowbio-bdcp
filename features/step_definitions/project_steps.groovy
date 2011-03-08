@@ -11,3 +11,19 @@ Given(~"I am on the create project page") { ->
 Given(~"I am on the create study page") { ->
 	browser.get("http://localhost:8080/BDCP/study/create")
   }
+
+Given(~"I have a project with title \"(.*)\"") { String title->
+	def project = new Project(projectTitle: title,
+				researcherName: 'TestStudent' ,
+				degree: 'TestDegree',
+				yearFrom: new Date(),
+				yearTo: new Date(),
+				description: 'Test Description',
+				supervisors: 'test supervisor')
+		project.save()
+}
+
+Given(~"I am on the project page") { ->
+	browser.get("http://localhost:8080/BDCP/project/list")
+}
+	

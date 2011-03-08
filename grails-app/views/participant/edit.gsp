@@ -56,17 +56,9 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="study"><g:message code="participant.study.label" default="Study" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'study', 'errors')}">
-                                    <g:select name="study.id" from="${au.org.intersect.bdcp.Study.list()}" optionKey="id" value="${participantInstance?.study?.id}"  />
-                                </td>
-                            </tr>
-                        
                         </tbody>
                     </table>
+                    <g:hiddenField name="study.id" value="${params.studyId}" />
                 </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>

@@ -22,7 +22,7 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="formName" title="${message(code: 'participantForm.formName.label', default: 'Name')}" />
+                            <g:sortableColumn property="formName" title="${message(code: 'participantForm.formName.label', default: 'Form Name')}" />
                         
                             <g:sortableColumn property="form" title="${message(code: 'participantForm.link.label', default: 'Form')}" />
                         
@@ -31,19 +31,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <g:each in="${participantFormInstanceList}" status="i" var="participantFormInstance">
+                    
+                        <g:each in="${fileResourceInstanceList}" status="i" var="fileResourceInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></td>
+                            
+                            <td><g:if test="${participantFormInstanceList}" ><g:link action="show" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></td>
                         
-                           <td> <a href="${g.createLink(controller:'participantForm', action:'downloadFile', id:participantFormInstance.id)}">
-							${fieldValue(bean: participantFormInstance, field: 'form')}
-							</a></td>
+							<td><a href="${createLinkTo( dir:'uploads/forms' , file: fileResourceInstance.decodeURL(), absolute:true )}" target="_new">${fileResourceInstance.decodeURL()}</a></td>
                         
-                            <td>${fieldValue(bean: participantFormInstance, field: "participant")}</td>
+                            <td><g:if test="${participantFormInstanceList}">${fieldValue(bean: participantFormInstance, field: "participant")}</g:if></td>
                         
                         </tr>
-                    </g:each>
+                        </g:each>
                     </tbody>
                 </table>
             </div>

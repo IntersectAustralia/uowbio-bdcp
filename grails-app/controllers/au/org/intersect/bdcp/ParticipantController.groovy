@@ -9,8 +9,9 @@ class ParticipantController {
     }
 
     def list = {
+		def studyInstance = Study.get(params.studyId)
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count()]
+        [participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count(), studyInstanceList:studyInstance]
     }
 
     def create = {
@@ -22,12 +23,14 @@ class ParticipantController {
     def save = {
         def participantInstance = new Participant(params)
         if (participantInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.id])}"
-            redirect(action: "show", id: participantInstance.id)
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
+			redirect url:createLink(controller: 'participant', action:'list',
+				mapping:'participantDetails', params:[studyId: participantInstance?.study?.id, id: participantInstance.id])
+			//redirect(action: "show", id: participantInstance.id)
         }
         else {
             render(view: "create", model: [participantInstance: participantInstance])
-        }
+		}
     }
 
     def show = {
@@ -66,7 +69,7 @@ class ParticipantController {
             }
             participantInstance.properties = params
             if (!participantInstance.hasErrors() && participantInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.id])}"
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
                 redirect(action: "show", id: participantInstance.id)
             }
             else {

@@ -11,7 +11,7 @@
     <body>
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
+            <span class="menuButton"><g:link controller="participant" action="list" params="[studyId: params.studyId]" class = "list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
@@ -23,7 +23,7 @@
                 <g:renderErrors bean="${participantInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form mapping="participantDetails" params="[studyId: params.studyId]" action="save" >
                 <div class="dialog">
                     <table>
                         <tbody>
@@ -37,21 +37,14 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="study"><g:message code="participant.study.label" default="Study" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'study', 'errors')}">
-                                    <g:select name="study.id" from="${au.org.intersect.bdcp.Study.list()}" optionKey="id" value="${participantInstance?.study?.id}"  />
-                                </td>
-                            </tr>
-                        
                         </tbody>
                     </table>
-                    
+                    <g:hiddenField name="study.id" value="${params.studyId}" />
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                    <span class="button"><g:submitButton name="create" mapping="participantDetails" params="[studyId: params.studyId]" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                    <span class="button"><g:link controller="participant" action="list" params="[studyId: params.studyId]"><input type="button" name="cancel" class="cancel" value="Cancel" /></g:link></span>
+                    
                 </div>
             </g:form>
         </div>

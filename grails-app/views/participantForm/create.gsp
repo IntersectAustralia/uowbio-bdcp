@@ -23,7 +23,7 @@
                 <g:renderErrors bean="${participantFormInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:uploadForm action="upload" method="post" >
                 <div class="dialog">
                     <table>
                         <tbody>
@@ -37,17 +37,15 @@
                                 </td>
                             </tr>
                         
-                        <g:uploadForm action="upload" method="post" >
   <!-- SNIP -->
   <tr class="prop">
     <td valign="top" class="name">
       <label for="form">Form</label>
     </td>
     <td valign="top">
-      <input type="file" id="form" name="form"/>
+      <input type="file" id="fileUpload" name="fileUpload"/>
     </td>
   </tr>
-</g:uploadForm>
                         
                         
                             <tr class="prop">
@@ -66,7 +64,7 @@
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
-            </g:form>
+            </g:uploadForm>
         </div>
     </body>
 </html>

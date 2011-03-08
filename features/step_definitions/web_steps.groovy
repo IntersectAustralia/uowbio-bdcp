@@ -1,6 +1,8 @@
-import org.openqa.selenium.By
 import static org.junit.Assert.*
 import static org.junit.matchers.JUnitMatchers.*
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.By;
+import au.org.intersect.bdcp.Project;
 
 this.metaClass.mixin(cuke4duke.GroovyDsl)
 
@@ -13,9 +15,20 @@ Given(~"I am on the home page") { ->
     browser.get("http://localhost:8080/BDCP")
 }
 
+Given(~"I follow \"(.*)\"") { String link->
+	WebElement element = driver.findElement(By.id(link));
+	element.click()
+}
+
 When(~"I fill in \"(.*)\" with \"(.*)\"") { String field, String text ->
     fieldElement = browser.findElement(By.name(field))
     fieldElement.sendKeys(text)
+}
+
+When(~"I select \"(.*)\" from \"(.*)\"") { String value, String field ->
+    fieldElement = browser.findElement(By.name(field))
+	Select select = new Select(fieldElement)
+	select.selectByVisibleText(value);
 }
 
 When(~"I press \"(.*)\"") { String button ->
