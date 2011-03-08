@@ -28,7 +28,7 @@
             		<thead>
             		<tr>
             		<g:sortableColumn property="projectTitle" title="${message(code: 'project.projectTitle.label', default: 'Projects')}" />
-            		<g:sortableColumn property="studyTitle" title="${message(code: 'study.studyTitle.label', default: 'Studies')}" />
+            		<g:sortableColumn property="studyTitle" title="${message(code: 'project.study.studyTitle.label', default: 'Studies')}" />
             		<g:sortableColumn property="participant" title="${message(code: 'participant.participantTitle.label', default: 'Participants') }" />
             		</tr>
             		</thead>

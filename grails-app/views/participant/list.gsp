@@ -39,25 +39,11 @@
                     <tbody>
                     <g:each in="${participantInstanceList}" status="i" var="participantInstance">
                          <g:if test="${participantInstance?.study.id.toString() == params.studyId}">
-                       
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                        
-                        
                             <td>
-                              <div class="insideList">
-                              <table> 
-                              <tr>
-                              <td width="50%">
-                              <g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantInstance, field: "identifier")}</g:link>
-                              </td>
-                              <td width="50%"><g:link controller="participant" action="edit" params="[studyId: params.studyId, id: participantInstance.id]"><input type="button" name="edit" class="edit" value="Edit" /></g:link>
-                              </td>
-                              </tr>
-                              </table>
-                              </div>
+                              <div class="column"><g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantInstance, field: "identifier")}</g:link></div>
+                              <div class="column"><g:link controller="participant" action="edit" params="[studyId: params.studyId, id: participantInstance.id]"><input type="button" name="edit" class="edit" value="Edit" /></g:link></div>
                            </td>
-                        
-                        
                         </tr>
                         </g:if>
                     </g:each>

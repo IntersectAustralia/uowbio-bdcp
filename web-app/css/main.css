@@ -283,9 +283,11 @@ th.desc a {
 /* ACTION BUTTONS */
 
 input.edit {
+	border: none;
 	background: transparent url(../images/skin/database_edit.png) 5px 50% no-repeat;
     padding-left: 28px;
 }
+
 .buttons {
     background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
     border: 1px solid #ccc;
@@ -325,3 +327,16 @@ input.edit {
     background: transparent url(../images/skin/database_save.png) 5px 50% no-repeat;
     padding-left: 28px;
 }
+
+/* EQUAL SPACING */
+
+
+
+.column {
+	width:100px;
+	margin-left:10px;
+	border-collapse: collapse;
+	height:20px;
+	float:left;
+}
+
