@@ -283,7 +283,7 @@ th.desc a {
 /* ACTION BUTTONS */
 
 input.edit {
-	border: none;
+	border: 0;
 	background: transparent url(../images/skin/database_edit.png) 5px 50% no-repeat;
     padding-left: 28px;
 }
@@ -328,22 +328,66 @@ input.edit {
     padding-left: 28px;
 }
 
+.buttons a#cancel{
+    border: 0;
+    color: #333;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 3px;
+    overflow: visible;
+    padding: 2px 6px;
+ 	padding-left: 28px;
+ 	background: transparent url(../images/skin/database_delete.png) 5px 50% no-repeat;
+ }
+ .buttons a#cancel:hover {
+ background: transparent url(../images/skin/database_delete.png) 5px 50% no-repeat;
+ }
+ .buttons a#cancel:active {
+ background: transparent url(../images/skin/database_delete.png) 5px 50% no-repeat;
+ }
+ 
+ a#edit{
+    border: 0;
+    color: #333;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 3px;
+    overflow: visible;
+    padding: 2px 6px;
+ 	padding-left: 28px;
+ 	background: transparent url(../images/skin/database_edit.png) 5px 50% no-repeat;
+ }
+ a#edit:hover {
+ border: 0;
+ padding-left: 28px;
+ background: transparent url(../images/skin/database_edit.png) 5px 50% no-repeat;
+ }
+ a#edit:active {
+ border: 0;
+ padding-left: 28px;
+ background: transparent url(../images/skin/database_edit.png) 5px 50% no-repeat;
+ }
+
 /* EQUAL SPACING */
 
 
 
 .columnLeft {
-	width:50%;
+	display:inline-block; zoom:1; *display:inline;
+	width:auto;
 	margin-left:10px;
-	vertical-align: middle;
 	border-collapse: collapse;
 	height:20px;
 	float:left;
 }
 
 .columnRight {
+	display:inline-block; zoom:1; *display:inline;
+	width:auto;
 	border-collapse: collapse;
+	margin-right:5px;
 	height:20px;
-	vertical-align: middle;
 	float:right;
 }

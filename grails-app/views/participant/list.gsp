@@ -43,7 +43,7 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                             <td>
                               <div class="columnLeft">${fieldValue(bean: participantInstance, field: "identifier")}</div>
-                              <div class="columnRight"><g:link controller="participant" action="edit" params="[studyId: params.studyId, id: participantInstance.id]"><input type="button" name="edit" class="edit" value="Edit" /></g:link></div>
+                              <div class="columnRight"><g:link elementId="edit" controller="participant" action="edit" params="[studyId: params.studyId, id: participantInstance.id]">Edit</g:link></div>
                            </td>
                         </tr>
                         </g:if>
