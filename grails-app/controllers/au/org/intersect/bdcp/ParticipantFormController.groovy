@@ -5,20 +5,22 @@ class ParticipantFormController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
 	def upload = {
-		def participantFormInstance = new ParticipantForm()
-		participantFormInstance.properties = params
+		
+		def participantFormInstance = new ParticipantForm(params)
 		def f = request.getFile('fileUpload')
 	    if(!f.empty) {
-	      flash.message = 'Your file has been uploaded'
-		  new File( grailsApplication.config.forms.location.toString() ).mkdirs()
-		  f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + f.getOriginalFilename() ) )								             			     	
-		  participantFormInstance.form = f.getOriginalFilename()
-		 }    
-	    else {
-	       flash.message = 'file cannot be empty'
-	    }
-		redirect( action:list)
-		return [participantFormInstance: participantFormInstance]
+			 flash.message = 'Your file has been uploaded'
+		     new File( grailsApplication.config.forms.location.toString() ).mkdirs()
+		     f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + f.getOriginalFilename() ) )
+		     participantFormInstance.form = f.getOriginalFilename()
+		}
+        if (participantFormInstance.save(flush: true)) {
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), participantFormInstance.id])}"
+            redirect(action: "show", id: participantFormInstance.id)
+        }
+        else {
+            render(view: "create", model: [participantFormInstance: participantFormInstance])
+        }
 	}
 	
 	def downloadFile =

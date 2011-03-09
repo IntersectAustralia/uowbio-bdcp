@@ -23,7 +23,7 @@
                 <g:renderErrors bean="${participantFormInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:uploadForm action="upload" method="post" >
+            <g:uploadForm action="upload" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" method="post" >
                 <div class="dialog">
                     <table>
                         <tbody>

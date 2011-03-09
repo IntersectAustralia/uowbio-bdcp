@@ -32,14 +32,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                    
-                        <g:each in="${fileResourceInstanceList}" status="i" var="fileResourceInstance">
+                        <g:each in="${participantFormInstanceList}" status="i" var="participantFormInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
                             
-                            <td><g:if test="${participantFormInstanceList}" ><g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></td>
+                            <td><g:if test="${participantFormInstanceList}" ><g:link action="show" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></td>
                         
-							<td><a href="${createLinkTo( dir:'uploads/forms' , file: fileResourceInstance.decodeURL(), absolute:true )}" target="_new">${fileResourceInstance.decodeURL()}</a></td>
+							<td>${participantFormInstance?.form}</td>
                         
                             <td><g:if test="${participantFormInstanceList}">${fieldValue(bean: participantFormInstance, field: "participant")}</g:if></td>
                         
