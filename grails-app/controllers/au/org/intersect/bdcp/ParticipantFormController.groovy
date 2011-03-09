@@ -12,7 +12,8 @@ class ParticipantFormController {
 	      flash.message = 'Your file has been uploaded'
 		  new File( grailsApplication.config.forms.location.toString() ).mkdirs()
 		  f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + f.getOriginalFilename() ) )								             			     	
-		}    
+		  participantFormInstance.form = f.getOriginalFilename()
+		 }    
 	    else {
 	       flash.message = 'file cannot be empty'
 	    }
@@ -42,17 +43,22 @@ class ParticipantFormController {
     }
 
     def list = {
-		
+		def participantInstance = Participant.get(params.participantId)		
 		def fileResourceInstanceList = []
 		def f = new File( grailsApplication.config.forms.location.toString() )
 		if( f.exists() ){
 			f.eachFile(){ file->
 			if( !file.isDirectory() )
-				fileResourceInstanceList.add( file.name )
+			{
+				if(ParticipantForm.findWhere(form:file.name) != null)
+				{
+					fileResourceInstanceList.add( file.name )
+				}
+			}
 			}
 		}
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList]
+        [participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance]
     }
 
     def create = {

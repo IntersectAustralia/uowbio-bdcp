@@ -6,9 +6,10 @@ class UrlMappings
 		name participantDetails: "/study/$studyId/$controller/$action?/$id?" {
 			controller = 'participant'
 	     }
-		"/study/$studyId/$controller/$action?/$id?" {
-		   view = "create"
-		}
+		
+		name participantFormDetails: "/study/$studyId/participant/$participantId/$controller/$action?/$id?" {
+			controller = 'participantForm'
+		 }
 		
 		"/$controller/$action?/$id?"
 		{ constraints {

@@ -13,7 +13,8 @@
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <h1>Participant ${participantInstance}</h1>
+            <h2>Forms</h2>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -50,6 +51,39 @@
             <div class="paginateButtons">
                 <g:paginate total="${participantFormInstanceTotal}" />
             </div>
+            <h2> Add Forms</h2>
+            <g:form method="post"  enctype="multipart/form-data">
+	                <div class="dialog">
+	                    <table>
+	                        <tbody>
+	                        <tr class="prop">
+	                                <td valign="top" class="name">
+	                                    <label for="name">Form Name:</label>
+	                                </td>
+	                                <td valign="top" class="value ${hasErrors(bean:fileResourceInstance,field:'name','errors')}">
+	                                    <input type="text" id="name" name="name" />
+	                                </td>
+	                            </tr> 
+	                            <tr class="prop">
+	                                <td valign="top" class="name">
+	                                    <label for="fileUpload">Upload:</label>
+	                                </td>
+	                                <td valign="top" class="value ${hasErrors(bean:fileResourceInstance,field:'upload','errors')}">
+	                                    <input type="file" id="fileUpload" name="fileUpload" />
+	                                </td>
+	                            </tr> 
+	                        </tbody>
+	                    </table>
+	                </div>
+	                <div class="buttons">
+	                    <span class="button"><g:actionSubmit class="upload" value="Upload" action="upload" /></span>
+	                </div>
+	            </g:form>
+	            <g:form>
+	            <div class="buttons">
+	                    <span class="button"><g:link elementId="return" controller="participant" action="list" params="[studyId: params.studyId]">Return to Participants</g:link></span>
+	                </div>
+	            </g:form>
         </div>
     </body>
 </html>
