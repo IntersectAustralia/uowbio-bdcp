@@ -1,4 +1,5 @@
 import au.org.intersect.bdcp.Participant
+import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
 import au.org.intersect.bdcp.Study
 
@@ -48,6 +49,12 @@ class BootStrap
 		def participant = new Participant(identifier:"10",
 				study: study)
 		participant.save()
+		
+		def participantForm = new ParticipantForm(formName:"bash profile",
+			form: ".bashrc",
+			participant: participant)
+		participantForm.save()
+		
 	}
 
 

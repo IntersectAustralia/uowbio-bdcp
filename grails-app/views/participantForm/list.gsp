@@ -37,7 +37,7 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
                             
-                            <td><g:if test="${participantFormInstanceList}" ><g:link action="show" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></td>
+                            <td><g:if test="${participantFormInstanceList}" ><g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></td>
                         
 							<td><a href="${createLinkTo( dir:'uploads/forms' , file: fileResourceInstance.decodeURL(), absolute:true )}" target="_new">${fileResourceInstance.decodeURL()}</a></td>
                         
@@ -81,7 +81,7 @@
 	            </g:form>
 	            <g:form>
 	            <div class="buttons">
-	                    <span class="button"><g:link elementId="return" controller="participant" action="list" params="[studyId: params.studyId]">Return to Participants</g:link></span>
+	                    <span class="button"><g:link elementId="return" mapping="participantDetails" controller="participant" action="list" params="[studyId: params.studyId]">Return to Participants</g:link></span>
 	                </div>
 	            </g:form>
         </div>
