@@ -33,7 +33,7 @@
                                     <label for="name"><g:message code="participantForm.name.label" default="Form Name" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'formName', 'errors')}">
-                                    <g:textField name="formName" value="${participantFormInstance?.formName}" />
+                                    <input type="text" id="forms[0].formName" name="forms[0].formName"/>
                                 </td>
                             </tr>
                         
@@ -43,13 +43,59 @@
       <label for="form">Form</label>
     </td>
     <td valign="top">
-      <input type="file" id="fileUpload" name="fileUpload"/>
+      <input type="file" id="form.0" name="form.0"/>
     </td>
   </tr>
                         
                         
                             
-                            <g:hiddenField name="participant.id" value="${params.participantId }" />
+                            <g:hiddenField name="forms[0].participant.id" value="${params.participantId }" />
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="name"><g:message code="participantForm.name.label" default="Form Name" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'formName', 'errors')}">
+                                    <input type="text" id="forms[1].formName" name="forms[1].formName"/>
+                                </td>
+                            </tr>
+                        
+  <!-- SNIP -->
+  <tr class="prop">
+    <td valign="top" class="name">
+      <label for="form">Form</label>
+    </td>
+    <td valign="top">
+      <input type="file" id="form.1" name="form.1"/>
+    </td>
+  </tr>
+                        
+                        
+                            
+                            <g:hiddenField name="forms[1].participant.id" value="${params.participantId }" />
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="name"><g:message code="participantForm.name.label" default="Form Name" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'formName', 'errors')}">
+                                    <input type="text" id="forms[2].formName" name="forms[2].formName"/>
+                                </td>
+                            </tr>
+                        
+  <!-- SNIP -->
+  <tr class="prop">
+    <td valign="top" class="name">
+      <label for="form">Form</label>
+    </td>
+    <td valign="top">
+      <input type="file" id="form.2" name="form.2"/>
+    </td>
+  </tr>
+                        
+                        
+                            
+                            <g:hiddenField name="forms[2].participant.id" value="${params.participantId }" />
                         </tbody>
                     </table>
                 </div>

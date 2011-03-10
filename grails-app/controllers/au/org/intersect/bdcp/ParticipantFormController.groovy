@@ -1,16 +1,23 @@
 package au.org.intersect.bdcp
 
-import java.io.File;
+import java.io.File
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
 
 class ParticipantFormController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
 	def upload = {
+		def pfc = new ParticipantFormCommand()
+		bindData( pfc, params )
+		def requestStore = request
+		for (i in 0..2) {
+		def participantFormInstance = pfc.forms[i]
+		def f = requestStore.getFile("form.${i}")
 		
-		def participantFormInstance = new ParticipantForm(params)
-		def f = request.getFile('fileUpload')
-		if (!f.empty)
+		if (!f?.empty)
 		{
 			participantFormInstance.form = f
 			if (participantFormInstance.save(flush: true)) {
@@ -20,25 +27,32 @@ class ParticipantFormController {
 			
 			//flash.message = "${message(code: 'default.created.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), participantFormInstance.formName])}"
 			flash.message ="Participant form ${participantFormInstance.formName} uploaded"
-			redirect url: createLink(controller: 'participantForm', action:'list',
-				mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+//			redirect url: createLink(controller: 'participantForm', action:'create',
+//				mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
 			//redirect(action: "list", id: participantFormInstance.id)
 			}
 			else 
 			{
+//				break;
 				params.max = Math.min(params.max ? params.int('max') : 10, 100)
-				render(view: "list", model: [participantFormInstance: participantFormInstance,participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
+//				render(view: "create", model: [participantFormInstance: participantFormInstance,participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
 			}
 		}
 		else
 		{
 			if (!participantFormInstance.save(flash:true))
 			{
+//				break;
 				params.max = Math.min(params.max ? params.int('max') : 10, 100)
-				render(view: "list", model: [participantFormInstance: participantFormInstance,participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
+//				render(view: "create", model: [participantFormInstance: participantFormInstance,participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
 			}
 			
 		}
+		//redirect url: createLink(controller: 'participantForm', action:'create',
+		//					mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+		}
+		redirect url: createLink(controller: 'participantForm', action:'list',
+							mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
 	}
 	
 	def downloadFile =
@@ -167,4 +181,10 @@ class ParticipantFormController {
             redirect(action: "list")
         }
     }
+}
+class ParticipantFormCommand {
+	ParticipantForm[] forms = [ new ParticipantForm(), new ParticipantForm(), new ParticipantForm(),
+		new ParticipantForm(), new ParticipantForm(), new ParticipantForm(),
+		new ParticipantForm(), new ParticipantForm(), new ParticipantForm(),
+		new ParticipantForm()] as ParticipantForm[]
 }

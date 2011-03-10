@@ -76,7 +76,7 @@
       <label for="form">Form</label>
     </td>
     <td valign="top">
-      <input type="file" id="fileUpload" name="fileUpload"/>
+      <input type="file" id="form" name="form"/>
     </td>
   </tr>
                         

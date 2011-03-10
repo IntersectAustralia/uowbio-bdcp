@@ -1,6 +1,11 @@
 package au.org.intersect.bdcp
 
-class ParticipantForm
+import java.io.Serializable
+
+import org.hibernate.engine.SessionImplementor;
+import org.hibernate.id.IdentifierGenerator;
+
+class ParticipantForm implements Serializable
 {
 
 	String formName
