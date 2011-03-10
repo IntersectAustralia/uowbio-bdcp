@@ -51,38 +51,49 @@
                 <g:paginate total="${participantFormInstanceTotal}" />
             </div>
             <h2> Add Forms</h2>
-            <g:form method="post"  enctype="multipart/form-data">
-	                <div class="dialog">
-	                    <table>
-	                        <tbody>
-	                        <tr class="prop">
-	                                <td valign="top" class="name">
-	                                    <label for="name">Form Name:</label>
-	                                </td>
-	                                <td valign="top" class="value ${hasErrors(bean:fileResourceInstance,field:'name','errors')}">
-	                                    <input type="text" id="name" name="name" />
-	                                </td>
-	                            </tr> 
-	                            <tr class="prop">
-	                                <td valign="top" class="name">
-	                                    <label for="fileUpload">Upload:</label>
-	                                </td>
-	                                <td valign="top" class="value ${hasErrors(bean:fileResourceInstance,field:'upload','errors')}">
-	                                    <input type="file" id="fileUpload" name="fileUpload" />
-	                                </td>
-	                            </tr> 
-	                        </tbody>
-	                    </table>
-	                </div>
-	                <div class="buttons">
-	                    <span class="button"><g:actionSubmit class="upload" value="Upload" action="upload" /></span>
-	                </div>
-	            </g:form>
-	            <g:form>
-	            <div class="buttons">
-	                    <span class="button"><g:link elementId="return" mapping="participantDetails" controller="participant" action="list" params="[studyId: params.studyId]">Return to Participants</g:link></span>
-	                </div>
-	            </g:form>
+            <g:uploadForm action="upload" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" method="post" >
+                <div class="dialog">
+                    <table>
+                        <tbody>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="name"><g:message code="participantForm.name.label" default="Form Name" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'formName', 'errors')}">
+                                    <g:textField name="formName" value="${participantFormInstance?.formName}" />
+                                </td>
+                            </tr>
+                        
+  <!-- SNIP -->
+  <tr class="prop">
+    <td valign="top" class="name">
+      <label for="form">Form</label>
+    </td>
+    <td valign="top">
+      <input type="file" id="fileUpload" name="fileUpload"/>
+    </td>
+  </tr>
+                        
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="participant"><g:message code="participantForm.participant.label" default="Participant" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'participant', 'errors')}">
+                                    <g:select name="participant.id" from="${au.org.intersect.bdcp.Participant.list()}" optionKey="id" value="${participantFormInstance?.participant?.id}"  />
+                                </td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="buttons">
+                    <span class="button"><g:submitButton name="create" class="upload" value="Upload" /></span>
+                    <span class="button"><g:link elementId="return" mapping="participantDetails" controller="participant" action="list" params="[studyId: params.studyId]">Return to Participants</g:link></span>
+                </div>
+            </g:uploadForm>
         </div>
     </body>
 </html>
