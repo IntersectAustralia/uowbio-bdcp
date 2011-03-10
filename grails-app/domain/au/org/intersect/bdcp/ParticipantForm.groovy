@@ -15,6 +15,6 @@ class ParticipantForm
 	static constraints =
 	{
 		formName(blank:false, size:1..1000)
-		form(blank:false, size:1..1000)
+		form(nullable:false,blank:false, size:1..1000)
 	}
 }

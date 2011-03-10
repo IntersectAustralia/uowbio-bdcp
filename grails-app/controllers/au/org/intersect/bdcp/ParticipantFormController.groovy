@@ -10,19 +10,30 @@ class ParticipantFormController {
 		
 		def participantFormInstance = new ParticipantForm(params)
 		def f = request.getFile('fileUpload')
-	    if(!f.empty) {
-			 flash.message = 'Your file has been uploaded'
-		     new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString()).mkdirs()
-		     f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() + File.separatorChar + f.getOriginalFilename() ) )
-		     participantFormInstance.form = f.getOriginalFilename()
-		}
-        if (participantFormInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), participantFormInstance.id])}"
+		if (!f.empty)
+		{
+			participantFormInstance.form = f
+			if (participantFormInstance.save(flush: true)) {
+				new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString()).mkdirs()
+				f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() + File.separatorChar + participantFormInstance.id ) )
+				participantFormInstance.form = participantFormInstance.id
+			
+			flash.message = "${message(code: 'default.created.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), participantFormInstance.formName])}"
             redirect(action: "show", id: participantFormInstance.id)
-        }
-        else {
+			}
+			else 
+			{
             render(view: "create", model: [participantFormInstance: participantFormInstance])
-        }
+			}
+		}
+		else
+		{
+			if (!participantFormInstance.save(flash:true))
+			{
+				render(view: "create", model: [participantFormInstance: participantFormInstance])
+			}
+			
+		}
 	}
 	
 	def downloadFile =
