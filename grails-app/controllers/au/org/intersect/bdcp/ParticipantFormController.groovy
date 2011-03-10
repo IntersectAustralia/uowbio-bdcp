@@ -1,5 +1,7 @@
 package au.org.intersect.bdcp
 
+import java.io.File;
+
 class ParticipantFormController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -10,8 +12,8 @@ class ParticipantFormController {
 		def f = request.getFile('fileUpload')
 	    if(!f.empty) {
 			 flash.message = 'Your file has been uploaded'
-		     new File( grailsApplication.config.forms.location.toString() ).mkdirs()
-		     f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + f.getOriginalFilename() ) )
+		     new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString()).mkdirs()
+		     f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() + File.separatorChar + f.getOriginalFilename() ) )
 		     participantFormInstance.form = f.getOriginalFilename()
 		}
         if (participantFormInstance.save(flush: true)) {
@@ -47,7 +49,7 @@ class ParticipantFormController {
     def list = {
 		def participantInstance = Participant.get(params.participantId)		
 		def fileResourceInstanceList = []
-		def f = new File( grailsApplication.config.forms.location.toString() )
+		def f = new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() )
 		if( f.exists() ){
 			f.eachFile(){ file->
 			if( !file.isDirectory() )

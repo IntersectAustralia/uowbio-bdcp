@@ -91,4 +91,4 @@ log4j = {
 	warn   'org.mortbay.log'
 }
 images.location = "web-app/images/"
-forms.location = "web-app/uploads/forms"
+forms.location = "uowbio/forms/"
