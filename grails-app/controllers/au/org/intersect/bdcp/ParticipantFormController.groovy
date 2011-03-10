@@ -18,19 +18,24 @@ class ParticipantFormController {
 				f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() + File.separatorChar + participantFormInstance.id ) )
 				participantFormInstance.form = participantFormInstance.id
 			
-			flash.message = "${message(code: 'default.created.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), participantFormInstance.formName])}"
-            redirect(action: "show", id: participantFormInstance.id)
+			//flash.message = "${message(code: 'default.created.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), participantFormInstance.formName])}"
+			flash.message ="Participant form ${participantFormInstance.formName} uploaded"
+			redirect url: createLink(controller: 'participantForm', action:'list',
+				mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+			//redirect(action: "list", id: participantFormInstance.id)
 			}
 			else 
 			{
-            render(view: "create", model: [participantFormInstance: participantFormInstance])
+				params.max = Math.min(params.max ? params.int('max') : 10, 100)
+				render(view: "list", model: [participantFormInstance: participantFormInstance,participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
 			}
 		}
 		else
 		{
 			if (!participantFormInstance.save(flash:true))
 			{
-				render(view: "create", model: [participantFormInstance: participantFormInstance])
+				params.max = Math.min(params.max ? params.int('max') : 10, 100)
+				render(view: "list", model: [participantFormInstance: participantFormInstance,participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
 			}
 			
 		}
@@ -76,6 +81,8 @@ class ParticipantFormController {
         [participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance]
     }
 
+	
+	
     def create = {
         def participantFormInstance = new ParticipantForm()
         participantFormInstance.properties = params

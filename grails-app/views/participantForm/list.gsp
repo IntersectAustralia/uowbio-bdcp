@@ -51,6 +51,11 @@
                 <g:paginate total="${participantFormInstanceTotal}" />
             </div>
             <h2> Add Forms</h2>
+            <g:hasErrors bean="${participantFormInstance}">
+            <div class="errors">
+                <g:renderErrors bean="${participantFormInstance}" as="list" />
+            </div>
+            </g:hasErrors>
             <g:uploadForm action="upload" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" method="post" >
                 <div class="dialog">
                     <table>
@@ -76,15 +81,8 @@
   </tr>
                         
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="participant"><g:message code="participantForm.participant.label" default="Participant" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'participant', 'errors')}">
-                                    <g:select name="participant.id" from="${au.org.intersect.bdcp.Participant.list()}" optionKey="id" value="${participantFormInstance?.participant?.id}"  />
-                                </td>
-                            </tr>
-                        
+                            
+                        <g:hiddenField name="participant.id" value="${params.participantId }" />
                         </tbody>
                     </table>
                 </div>
