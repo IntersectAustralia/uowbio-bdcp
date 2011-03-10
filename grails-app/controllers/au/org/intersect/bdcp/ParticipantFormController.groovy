@@ -13,6 +13,7 @@ class ParticipantFormController {
 		def pfc = new ParticipantFormCommand()
 		bindData( pfc, params )
 		def requestStore = request
+		def message = []
 		for (i in 0..2) {
 		def participantFormInstance = pfc.forms[i]
 		def f = requestStore.getFile("form.${i}")
@@ -26,14 +27,15 @@ class ParticipantFormController {
 				participantFormInstance.form = participantFormInstance.id
 			
 			//flash.message = "${message(code: 'default.created.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), participantFormInstance.formName])}"
-			flash.message ="Participant form ${participantFormInstance.formName} uploaded"
+			message[i] ="Participant form ${participantFormInstance.formName} uploaded"
 //			redirect url: createLink(controller: 'participantForm', action:'create',
 //				mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
 			//redirect(action: "list", id: participantFormInstance.id)
 			}
 			else 
 			{
-//				break;
+//				
+				break;
 				params.max = Math.min(params.max ? params.int('max') : 10, 100)
 //				render(view: "create", model: [participantFormInstance: participantFormInstance,participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
 			}
@@ -51,6 +53,16 @@ class ParticipantFormController {
 		//redirect url: createLink(controller: 'participantForm', action:'create',
 		//					mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
 		}
+		flash.message = "${participantFormInstance.errors}"
+		
+		/*if (message.size() < 2)
+		{
+			flash.message = "${message.size()} Participant Form uploaded"
+		}
+		else
+		{
+			flash.message = "${message.size()} Participant Forms uploaded"
+		}*/
 		redirect url: createLink(controller: 'participantForm', action:'list',
 							mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
 	}
