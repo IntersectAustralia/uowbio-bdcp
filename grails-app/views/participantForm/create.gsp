@@ -18,11 +18,13 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${participantFormInstance}">
+            <g:each in="${participantForms}" status="i" var="participantFormsInstance">
+            <g:hasErrors bean="${participantFormsInstance}">
             <div class="errors">
-                <g:renderErrors bean="${participantFormInstance}" as="list" />
+                <g:renderErrors bean="${participantFormsInstance}" as="list" />
             </div>
             </g:hasErrors>
+            </g:each>
             <g:uploadForm action="upload" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" method="post" >
                 <div class="dialog">
                     <table>
@@ -32,7 +34,7 @@
                                 <td valign="top" class="name">
                                     <label for="name"><g:message code="participantForm.name.label" default="Form Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'formName', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: participantForms[0], field: 'formName', 'errors')}">
                                     <input type="text" id="forms[0].formName" name="forms[0].formName"/>
                                 </td>
                             </tr>
@@ -55,7 +57,7 @@
                                 <td valign="top" class="name">
                                     <label for="name"><g:message code="participantForm.name.label" default="Form Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'formName', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: participantForms[1], field: 'formName', 'errors')}">
                                     <input type="text" id="forms[1].formName" name="forms[1].formName"/>
                                 </td>
                             </tr>
@@ -78,7 +80,7 @@
                                 <td valign="top" class="name">
                                     <label for="name"><g:message code="participantForm.name.label" default="Form Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantFormInstance, field: 'formName', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: participantForms[2], field: 'formName', 'errors')}">
                                     <input type="text" id="forms[2].formName" name="forms[2].formName"/>
                                 </td>
                             </tr>

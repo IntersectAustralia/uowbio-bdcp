@@ -48,7 +48,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${participantFormInstanceTotal}" />
+                <g:paginate total="${participantFormInstanceTotal}" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]"/>
             </div>
             <h2> Add Forms</h2>
             <g:hasErrors bean="${participantFormInstance}">

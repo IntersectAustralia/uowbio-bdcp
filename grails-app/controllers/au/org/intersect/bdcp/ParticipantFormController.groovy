@@ -9,62 +9,75 @@ class ParticipantFormController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	private ParticipantForm extractParticipantForm(i)
+	{
+		
+			def message =[]
+			def pfc = new ParticipantFormCommand()
+			bindData( pfc, params )
+			ParticipantForm participantFormInstance = pfc.forms[i];
+			def f = request.getFile("form.${i}")
+			if (!f?.isEmpty())
+			{
+				participantFormInstance.form = f
+			}
+		   return participantFormInstance
+	}
+	
+	private boolean validateParticipantForms(participantForms)
+	{
+		def allValid = true
+		participantForms.each { 
+			if (!it.validate())
+			{
+				allValid = false
+			}
+		}
+		return allValid
+	}
+	
 	def upload = {
-		def pfc = new ParticipantFormCommand()
-		bindData( pfc, params )
-		def requestStore = request
-		def message = []
-		for (i in 0..2) {
-		def participantFormInstance = pfc.forms[i]
-		def f = requestStore.getFile("form.${i}")
 		
-		if (!f?.empty)
+		def participantForms = []
+		def participantFormsError = []
+		for (i in 0..2)
 		{
-			participantFormInstance.form = f
-			if (participantFormInstance.save(flush: true)) {
-				new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString()).mkdirs()
-				f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() + File.separatorChar + participantFormInstance.id ) )
-				participantFormInstance.form = participantFormInstance.id
-			
-			//flash.message = "${message(code: 'default.created.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), participantFormInstance.formName])}"
-			message[i] ="Participant form ${participantFormInstance.formName} uploaded"
-//			redirect url: createLink(controller: 'participantForm', action:'create',
-//				mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
-			//redirect(action: "list", id: participantFormInstance.id)
-			}
-			else 
-			{
-//				
-				break;
-				params.max = Math.min(params.max ? params.int('max') : 10, 100)
-//				render(view: "create", model: [participantFormInstance: participantFormInstance,participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
-			}
+			participantForms[i] = extractParticipantForm(i)
+		}
+		
+		if (!validateParticipantForms(participantForms))
+		{
+			params.max = Math.min(params.max ? params.int('max') : 10, 100)
+			render(view: "create", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
 		}
 		else
 		{
-			if (!participantFormInstance.save(flash:true))
+			def message = []
+			for (i in 0..2)
 			{
-//				break;
-				params.max = Math.min(params.max ? params.int('max') : 10, 100)
-//				render(view: "create", model: [participantFormInstance: participantFormInstance,participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
+				def participantFormInstance = participantForms[i]
+				def f = request.getFile("form.${i}")
+				if (participantFormInstance.save(flush: true)) {
+								new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString()).mkdirs()
+								f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() + File.separatorChar + participantFormInstance.id ) )
+								participantFormInstance.form = participantFormInstance.id
+				
+							    message[i] ="Participant form ${participantFormInstance.formName} uploaded"
+				}
 			}
-			
-		}
-		//redirect url: createLink(controller: 'participantForm', action:'create',
-		//					mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
-		}
-		flash.message = "${participantFormInstance.errors}"
-		
-		/*if (message.size() < 2)
-		{
-			flash.message = "${message.size()} Participant Form uploaded"
-		}
-		else
-		{
-			flash.message = "${message.size()} Participant Forms uploaded"
-		}*/
+				
+				if (message.size() < 2)
+							{
+								flash.message = "${message.size()} Participant Form uploaded"
+							}
+							else
+							{
+								flash.message = "${message.size()} Participant Forms uploaded"
+							}
+				
 		redirect url: createLink(controller: 'participantForm', action:'list',
 							mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+		}
 	}
 	
 	def downloadFile =
@@ -106,13 +119,12 @@ class ParticipantFormController {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance]
     }
-
-	
-	
+		
     def create = {
         def participantFormInstance = new ParticipantForm()
         participantFormInstance.properties = params
-        return [participantFormInstance: participantFormInstance]
+		def participantForms = []
+        return [participantFormInstance: participantFormInstance, participantForms: participantForms]
     }
 
     def save = {
