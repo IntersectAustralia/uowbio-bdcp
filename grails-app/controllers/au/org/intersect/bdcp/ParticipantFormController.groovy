@@ -24,11 +24,12 @@ class ParticipantFormController {
 		   return participantFormInstance
 	}
 	
-	private boolean validateParticipantForms(participantForms)
+	private boolean validateParticipantForms(pfc,participantForms)
 	{
 		def allValid = true
-		participantForms.each { 
-			if (!it.validate())
+		for (i in participantFormsToLoad(pfc))
+		{ 
+			if (!participantForms[i]?.validate())
 			{
 				allValid = false
 			}
@@ -36,24 +37,46 @@ class ParticipantFormController {
 		return allValid
 	}
 	
+	private List<Integer> participantFormsToLoad(pfc)
+	{
+		int size = 0
+		int count = 0
+		List<Integer> usedFields = new ArrayList<Integer>();
+		pfc.forms.each {
+			  
+			if ((it?.formName.size() > 0) ||(!(request.getFile("form.${count}").isEmpty())))
+			{
+				usedFields.add (count)
+			}
+			count++
+		}
+		
+		return usedFields
+	}
+	
 	def upload = {
 		
 		def participantForms = []
 		def participantFormsError = []
-		for (i in 0..9)
+		def pfc = new ParticipantFormCommand()
+			bindData( pfc, params )
+		
+			
+		
+		for (i in participantFormsToLoad(pfc))
 		{
 			participantForms[i] = extractParticipantForm(i)
 		}
 		
-		if (!validateParticipantForms(participantForms))
+		if (!validateParticipantForms(pfc,participantForms))
 		{
 			params.max = Math.min(params.max ? params.int('max') : 10, 100)
-			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
+			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId), forms:participantForms, 'form.1': 'form.1' ])
 		}
 		else
 		{
 			def message = []
-			for (i in 0..9)
+			for (i in participantFormsToLoad(pfc))
 			{
 				def participantFormInstance = participantForms[i]
 				def f = request.getFile("form.${i}")
@@ -62,17 +85,16 @@ class ParticipantFormController {
 								f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() + File.separatorChar + participantFormInstance.id ) )
 								participantFormInstance.form = participantFormInstance.id
 				
-							    message[i] ="Participant form ${participantFormInstance.formName} uploaded"
 				}
 			}
 				
-				if (message.size() < 2)
+				if (participantFormsToLoad(pfc).size() < 2)
 							{
-								flash.message = "${message.size()} Participant Form uploaded"
+								flash.message = "${participantFormsToLoad(pfc).size()} Participant Form uploaded"
 							}
 							else
 							{
-								flash.message = "${message.size()} Participant Forms uploaded"
+								flash.message = "${participantFormsToLoad(pfc).size()} Participant Forms uploaded"
 							}
 				
 		redirect url: createLink(controller: 'participantForm', action:'list',
@@ -118,7 +140,7 @@ class ParticipantFormController {
 			}
 		}
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance,participantForms: participantForms]
+        [participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance,participantForms: participantForms, forms:participantForms]
     }
 		
     def create = {
@@ -212,4 +234,5 @@ class ParticipantFormCommand {
 		new ParticipantForm(), new ParticipantForm(), new ParticipantForm(),
 		new ParticipantForm(), new ParticipantForm(), new ParticipantForm(),
 		new ParticipantForm()] as ParticipantForm[]
+		
 }

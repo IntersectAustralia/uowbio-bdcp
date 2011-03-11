@@ -3,7 +3,7 @@
                                     <label for="name"><g:message code="participantForm.name.label" default="Form Name" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: participantForms[i], field: 'formName', 'errors')}">
-                                    <input type="text" id="forms[${i}].formName" name="forms[${i}].formName"/>
+                                    <input type="text" id="forms[${i}].formName" name="forms[${i}].formName" value="${forms[i]?.formName}"/>
                                 </td>
                             </tr>
                           
@@ -13,7 +13,7 @@
       <label for="form">Form</label>
     </td>
     <td valign="top">
-      <input type="file" id="form.${i}" name="form.${i}"/>
+      <input type="file" id="form.${i}" name="form.${i}" value="form.${i}"/>
     </td>
   </tr>
                         
