@@ -25,9 +25,9 @@ class Participant
 	
 	static constraints =
 	{ 
-		identifier(blank:false, unique:true, size:1..1000)
+		identifier(blank:false, unique:true, size:1..1000, validator: { it == it.trim()})
 	}
-	
+		
 	def getParticipantFormsList() {
 		return LazyList.decorate(
 			  participantForms,
