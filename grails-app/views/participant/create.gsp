@@ -33,7 +33,7 @@
                                     <label for="identifier"><g:message code="participant.identifier.label" default="Identifier" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: participantInstance, field: 'identifier', 'errors')}">
-                                    <g:textField name="identifier" value="${participantInstance?.identifier}" />
+                                    <g:textField name="identifier" value="${participantInstance?.identifier?.trim()}" />
                                 </td>
                             </tr>
                         
@@ -43,7 +43,6 @@
                 </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" mapping="participantDetails" params="[studyId: params.studyId]" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
-                   <!-- <span class="button"><g:link controller="participant" action="list" params="[studyId: params.studyId]"><input type="button" name="cancel" class="cancel" value="Cancel" /></g:link></span> -->
                     <span class="button"><g:link elementId="cancel" controller="participant" action="list" params="[studyId: params.studyId]">Cancel</g:link></span>
                 </div>
             </g:form>

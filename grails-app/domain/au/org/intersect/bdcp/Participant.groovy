@@ -25,7 +25,7 @@ class Participant
 	
 	static constraints =
 	{ 
-		identifier(blank:false, unique:true, size:1..1000, validator: { it == it.trim()})
+		identifier(blank:false, unique:true, size:1..1000)
 	}
 		
 	def getParticipantFormsList() {

@@ -22,7 +22,9 @@ class ParticipantController {
     }
 
     def save = {
+		
 		def participantInstance = new Participant(params)
+		participantInstance.identifier = participantInstance.identifier?.trim()
 		if (participantInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
 			redirect url:createLink(controller: 'participant', action:'list',
@@ -69,7 +71,8 @@ class ParticipantController {
                 }
             }
             participantInstance.properties = params
-            if (!participantInstance.hasErrors() && participantInstance.save(flush: true)) {
+			participantInstance.identifier = participantInstance.identifier?.trim()
+			if (!participantInstance.hasErrors() && participantInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
                 redirect url:createLink(controller: 'participant', action:'list',
 				mapping:'participantDetails', params:[studyId: params.studyId, id: participantInstance.id])
