@@ -40,7 +40,7 @@ class ParticipantFormController {
 		
 		def participantForms = []
 		def participantFormsError = []
-		for (i in 0..2)
+		for (i in 0..9)
 		{
 			participantForms[i] = extractParticipantForm(i)
 		}
@@ -48,12 +48,12 @@ class ParticipantFormController {
 		if (!validateParticipantForms(participantForms))
 		{
 			params.max = Math.min(params.max ? params.int('max') : 10, 100)
-			render(view: "create", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
+			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId) ])
 		}
 		else
 		{
 			def message = []
-			for (i in 0..2)
+			for (i in 0..9)
 			{
 				def participantFormInstance = participantForms[i]
 				def f = request.getFile("form.${i}")
@@ -104,6 +104,7 @@ class ParticipantFormController {
     def list = {
 		def participantInstance = Participant.get(params.participantId)		
 		def fileResourceInstanceList = []
+		def participantForms = []
 		def f = new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() )
 		if( f.exists() ){
 			f.eachFile(){ file->
@@ -117,7 +118,7 @@ class ParticipantFormController {
 			}
 		}
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance]
+        [participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance,participantForms: participantForms]
     }
 		
     def create = {
