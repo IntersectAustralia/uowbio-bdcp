@@ -27,7 +27,7 @@ class Participant
 	{ 
 		identifier(blank:false, unique:true, size:1..1000)
 	}
-	
+		
 	def getParticipantFormsList() {
 		return LazyList.decorate(
 			  participantForms,
