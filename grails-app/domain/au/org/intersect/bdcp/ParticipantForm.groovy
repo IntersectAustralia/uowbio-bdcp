@@ -10,6 +10,7 @@ class ParticipantForm implements Serializable
 
 	String formName
 	String form
+	String fileName
 	
 	String toString()
 	{
@@ -20,6 +21,7 @@ class ParticipantForm implements Serializable
 	static constraints =
 	{
 		formName(blank:false, size:1..1000)
-		form(nullable:false,blank:false, size:1..1000)
+		form(nullable:true)
+		fileName(nullable:false, blank:false, size:1..1000)
 	}
 }

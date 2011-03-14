@@ -12,38 +12,36 @@ class ParticipantFormController {
 	private ParticipantForm extractParticipantForm(i)
 	{
 		
-			def message =[]
 			def pfc = new ParticipantFormCommand()
 			bindData( pfc, params )
 			ParticipantForm participantFormInstance = pfc.forms[i];
-			def f = request.getFile("form.${i}")
-			if (!f?.isEmpty())
-			{
-				participantFormInstance.form = f
-			}
 			
 		   return participantFormInstance
 	}
 	
-	private boolean validateParticipantForms(pfc,participantForms)
+	private boolean validateParticipantForms(participantForms)
 	{
 		def allValid = true
-		for (i in participantFormsToLoad(pfc))
+		for (i in participantFormsToLoad())
 		{ 
 			if (!participantForms[i]?.validate())
 			{
 				allValid = false
 			}
+			
 		}
+		
 		return allValid
 	}
 	
-	private List<Integer> participantFormsToLoad(pfc)
+	private List<Integer> participantFormsToLoad()
 	{
 		int size = 0
 		int count = 0
+		def participantFormCommand = new ParticipantFormCommand()
+		bindData( participantFormCommand, params )
 		List<Integer> usedFields = new ArrayList<Integer>();
-		pfc.forms.each {
+		participantFormCommand.forms.each {
 			  
 			if ((it?.formName.size() > 0) ||(!(request.getFile("form.${count}").isEmpty())))
 			{
@@ -55,49 +53,69 @@ class ParticipantFormController {
 		return usedFields
 	}
 	
+	private populateSessionValues(List<Integer> formsToLoad)
+	{
+		for (i in formsToLoad)
+		{
+			if (!request.getFile("form.${i}")?.isEmpty())
+			{
+				session["fileName[${i}]"] = request.getFile("form.${i}")
+			}
+			
+		}
+	}
+	
 	def upload = {
-		
 		
 		def participantForms = []
 		def participantFormsError = []
-		def pfc = new ParticipantFormCommand()
-			bindData( pfc, params )
 		
-			
-		
-		for (i in participantFormsToLoad(pfc))
+		for (i in participantFormsToLoad())
 		{
 			participantForms[i] = extractParticipantForm(i)
 		}
 		
-		if (!validateParticipantForms(pfc,participantForms))
+		if (!validateParticipantForms(participantForms))
 		{
 			
+			populateSessionValues(participantFormsToLoad())
 			params.max = Math.min(params.max ? params.int('max') : 10, 100)
-			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId), forms:participantForms, 'form.1': 'form.1' ])
+			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName ])
 		}
 		else
 		{
 			def message = []
-			for (i in participantFormsToLoad(pfc))
+			for (i in participantFormsToLoad())
 			{
 				def participantFormInstance = participantForms[i]
-				def f = request.getFile("form.${i}")
-				if (participantFormInstance.save(flush: true)) {
-								new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString()).mkdirs()
-								f.transferTo( new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() + File.separatorChar + participantFormInstance.id ) )
-								participantFormInstance.form = participantFormInstance.id
 				
+				if (participantFormInstance.save(flush: true)) 
+				{
+								new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString()).mkdirs()
+								def f = request.getFile("form.${i}")
+								if (!f.isEmpty())
+								{
+									f.transferTo( new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id ) )
+									participantFormInstance.form = participantFormInstance.id
+									participantFormInstance.save(flush: true)
+								}
+								else 
+								{
+									f = session["fileName[${i}]"]
+									f.transferTo( new File(grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id ))
+									participantFormInstance.form = participantFormInstance.id
+									participantFormInstance.save(flush:true)
+								}
 				}
 			}
 				
-				if (participantFormsToLoad(pfc).size() < 2)
+				if (participantFormsToLoad().size() < 2)
 							{
-								flash.message = "${participantFormsToLoad(pfc).size()} Participant Form uploaded"
+								flash.message = "${participantFormsToLoad().size()} Participant Form uploaded"
 							}
 							else
 							{
-								flash.message = "${participantFormsToLoad(pfc).size()} Participant Forms uploaded"
+								flash.message = "${participantFormsToLoad().size()} Participant Forms uploaded"
 							}
 				
 		redirect url: createLink(controller: 'participantForm', action:'list',
