@@ -21,6 +21,7 @@ class ParticipantFormController {
 			{
 				participantFormInstance.form = f
 			}
+			
 		   return participantFormInstance
 	}
 	
@@ -56,6 +57,7 @@ class ParticipantFormController {
 	
 	def upload = {
 		
+		
 		def participantForms = []
 		def participantFormsError = []
 		def pfc = new ParticipantFormCommand()
@@ -70,6 +72,7 @@ class ParticipantFormController {
 		
 		if (!validateParticipantForms(pfc,participantForms))
 		{
+			
 			params.max = Math.min(params.max ? params.int('max') : 10, 100)
 			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId), forms:participantForms, 'form.1': 'form.1' ])
 		}
