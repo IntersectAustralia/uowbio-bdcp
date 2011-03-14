@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 
 class ParticipantFormController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+//    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
 	private ParticipantForm extractParticipantForm(i)
 	{
@@ -236,8 +236,14 @@ class ParticipantFormController {
         if (participantFormInstance) {
             try {
                 participantFormInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), params.id])}"
-                redirect(action: "list")
+                def filename = params.id.replace('###', '.')
+				def file =  new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id ) 
+				if (file.exists())
+				{
+					file.delete()
+				}
+				flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), params.id])}"
+				redirect(action: "list")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), params.id])}"
