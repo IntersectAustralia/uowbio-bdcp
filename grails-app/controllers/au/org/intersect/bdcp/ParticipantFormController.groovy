@@ -127,17 +127,17 @@ class ParticipantFormController {
 	{
 		def participantFormInstance = ParticipantForm.get(params.id)
 		
-		def fileDoc = new File(participantFormInstance.form);
+		def fileDoc = new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id ) 
 		if(fileDoc.exists()){
 			// force download
-			def fileName = fileDoc.getName();
+			def fileName = participantFormInstance.formName
 			response.setContentType("application/octet-stream")
 			response.setHeader "Content-disposition", "attachment; filename=${fileName}" ;
 			response.outputStream << fileDoc.newInputStream();
 			response.outputStream.flush();
 			
 	   }
-		return null;	
+		return null	
 	}
 	
 	def index = {

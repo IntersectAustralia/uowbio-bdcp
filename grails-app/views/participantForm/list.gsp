@@ -27,8 +27,6 @@
                         
                             <g:sortableColumn property="form" title="${message(code: 'participantForm.link.label', default: 'Form')}" />
                         
-                            <th><g:message code="participantForm.participant.label" default="Participant" /></th>
-                        
                         </tr>
                     </thead>
                     <tbody>
@@ -36,11 +34,9 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
                             
-                            <td><g:if test="${participantFormInstanceList}" ><g:link action="show" id="${participantFormInstance.id}">${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></td>
+                            <td><g:if test="${participantFormInstanceList}" ><g:link action="downloadFile" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" id="${participantFormInstance.id}" >${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></td>
                         
 							<td>${participantFormInstance?.form}</td>
-                        
-                            <td><g:if test="${participantFormInstanceList}">${fieldValue(bean: participantFormInstance, field: "participant")}</g:if></td>
                         
                         </tr>
                         </g:each>
