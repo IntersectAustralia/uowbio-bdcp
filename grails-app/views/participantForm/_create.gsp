@@ -1,5 +1,5 @@
 <div class="create">
-            <h1>Add Forms</h1>
+            <h2>Add Forms</h2>
             <g:each in="${participantForms}" status="i" var="participantFormsInstance">
             <g:hasErrors bean="${participantFormsInstance}">
             <div class="errors">

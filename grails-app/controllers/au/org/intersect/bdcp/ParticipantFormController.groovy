@@ -71,13 +71,6 @@ class ParticipantFormController {
 		}
 	}
 	
-	
-	private String getFileExtension(File file)
-	{
-		MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-		return MimeUtil.getExtension(file);
-	}
-	
 	private String getMimeType(File file) {
 		// use mime magic
 		MagicMimeMimeDetector detector = new MagicMimeMimeDetector();
@@ -118,15 +111,25 @@ class ParticipantFormController {
 								def f = request.getFile("form.${i}")
 								if (!f.isEmpty())
 								{
-									f.transferTo( new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id ) )
+									def fileName = f.getOriginalFilename()
+									int mid= fileName.lastIndexOf(".");
+									def fileExtension=fileName.substring(mid+1,fileName.length()); 
+									f.transferTo( new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "." +fileExtension) )
 									participantFormInstance.form = participantFormInstance.id
+									participantFormInstance.contentType = f.contentType
+									participantFormInstance.fileExtension = fileExtension
 									participantFormInstance.save(flush: true)
 								}
 								else 
 								{
 									f = session["fileName[${i}]"]
-									f.transferTo( new File(grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id ))
+									def fileName = f.getOriginalFilename()
+									int mid= fileName.lastIndexOf(".");
+									def fileExtension=fileName.substring(mid+1,fileName.length());
+									f.transferTo( new File(grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "."+ fileExtension))
 									participantFormInstance.form = participantFormInstance.id
+									participantFormInstance.contentType = f.contentType
+									participantFormInstance.fileExtension = fileExtension
 									participantFormInstance.save(flush:true)
 								}
 				}
@@ -152,19 +155,19 @@ class ParticipantFormController {
 	{
 		def participantFormInstance = ParticipantForm.get(params.id)
 		
-		def fileDoc = new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id ) 
+		def fileDoc = new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id +"." + participantFormInstance.fileExtension) 
 		
 		if(fileDoc.exists()){
-			// force download
-			def fileName = participantFormInstance.formName
-			def extension = getFileExtension(fileDoc);
-			def file
-			if (extension != null)
+			def fileName = participantFormInstance.formName + ".${participantFormInstance.fileExtension}"
+			if (participantFormInstance.contentType == null)
 			{
-				file = fileName + extension
+				response.setContentType(getMimeType(fileDoc))
 			}
-			response.setContentType(getMimeType(fileDoc))
-			response.setHeader "Content-disposition", "attachment; filename=${file}" ;
+			else
+			{
+				response.setContentType participantFormInstance.contentType
+			}
+			response.setHeader "Content-disposition", "attachment; filename=${fileName}" ;
 			response.outputStream << fileDoc.newInputStream();
 			response.outputStream.flush();
 			
@@ -273,23 +276,25 @@ class ParticipantFormController {
             try {
                 participantFormInstance.delete(flush: true)
                 def filename = params.id.replace('###', '.')
-				def file =  new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id ) 
+				def file =  new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "." + participantFormInstance.fileExtension ) 
 				if (file.exists())
 				{
 					file.delete()
 				}
-				flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), params.id])}"
+				flash.message = "ParticipantForm ${participantFormInstance.formName} deleted"
 				redirect url: createLink(controller: 'participantForm', action:'list',
 							mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), params.id])}"
-                redirect(action: "show", id: params.id)
+                flash.message = "ParticipantForm ${participantFormInstance.formName} could not be deleted"
+				redirect url: createLink(controller: 'participantForm', action:'list',
+							mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), params.id])}"
-            redirect(action: "list")
+            flash.message = "ParticipantForm ${participantFormInstance.formName} could not be found"
+            redirect url: createLink(controller: 'participantForm', action:'list',
+							mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
         }
     }
 }

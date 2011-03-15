@@ -36,7 +36,7 @@
                             
                             <td><div class="columnLeft"><g:if test="${participantFormInstanceList}" ><g:link action="downloadFile" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" id="${participantFormInstance.id}" >${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></div>
                             <div class="columnRight">
-                            <g:link mapping="participantFormDetails" elementId="delete" controller="participantForm" action="deleteForm" method="post" params="[studyId: params.studyId, participantId: params.participantId]" id="${participantFormInstance.id}">Delete</g:link></div></td>
+                            <g:link mapping="participantFormDetails" elementId="delete" controller="participantForm" action="delete" method="post" params="[studyId: params.studyId, participantId: params.participantId]" id="${participantFormInstance.id}"  onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Delete</g:link></div></td>
                         
                         </tr>
                         </g:each>

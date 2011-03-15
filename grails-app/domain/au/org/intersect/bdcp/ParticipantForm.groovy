@@ -11,6 +11,8 @@ class ParticipantForm implements Serializable
 	String formName
 	String form
 	String fileName
+	String contentType
+	String fileExtension
 	
 	String toString()
 	{
@@ -22,6 +24,8 @@ class ParticipantForm implements Serializable
 	{
 		formName(blank:false, size:1..1000)
 		form(nullable:true)
+		contentType(nullable:true)
+		fileExtension(nullable:true)
 		fileName(nullable:false, blank:false, size:1..1000)
 	}
 }
