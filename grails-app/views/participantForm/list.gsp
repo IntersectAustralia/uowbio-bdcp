@@ -18,14 +18,14 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+            <g:if test="${participantFormInstanceList.size() > 0}">
             <div class="list">
-                <table>
+             <table>
                     <thead>
                         <tr>
                         
                             <g:sortableColumn property="formName" title="${message(code: 'participantForm.formName.label', default: 'Form Name')}" />
                         
-                            <g:sortableColumn property="form" title="${message(code: 'participantForm.link.label', default: 'Form')}" />
                         
                         </tr>
                     </thead>
@@ -34,9 +34,9 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
                             
-                            <td><g:if test="${participantFormInstanceList}" ><g:link action="downloadFile" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" id="${participantFormInstance.id}" >${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></td>
-                        
-							<td>${participantFormInstance?.form}</td>
+                            <td><div class="columnLeft"><g:if test="${participantFormInstanceList}" ><g:link action="downloadFile" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" id="${participantFormInstance.id}" >${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></div>
+                            <div class="columnRight">
+                            <g:link mapping="participantFormDetails" elementId="delete" controller="participantForm" action="deleteForm" method="post" params="[studyId: params.studyId, participantId: params.participantId]" id="${participantFormInstance.id}">Delete</g:link></div></td>
                         
                         </tr>
                         </g:each>
@@ -46,6 +46,7 @@
             <div class="paginateButtons">
                 <g:paginate total="${participantFormInstanceTotal}" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]"/>
             </div>
+            </g:if>
            <g:render template="create" />
         </div>
     </body>

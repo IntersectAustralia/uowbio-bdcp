@@ -1,8 +1,5 @@
 <div class="create">
             <h1>Add Forms</h1>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
             <g:each in="${participantForms}" status="i" var="participantFormsInstance">
             <g:hasErrors bean="${participantFormsInstance}">
             <div class="errors">

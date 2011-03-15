@@ -1,13 +1,19 @@
 package au.org.intersect.bdcp
 
 import java.io.File
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+import eu.medsea.mimeutil.MimeUtil;
+import eu.medsea.mimeutil.detector.MagicMimeMimeDetector
+
+
 
 
 class ParticipantFormController {
 
-//    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST", delete: ["POST", "GET"]]
 
 	private ParticipantForm extractParticipantForm(i)
 	{
@@ -65,6 +71,23 @@ class ParticipantFormController {
 		}
 	}
 	
+	
+	private String getFileExtension(File file)
+	{
+		MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
+		return MimeUtil.getExtension(file);
+	}
+	
+	private String getMimeType(File file) {
+		// use mime magic
+		MagicMimeMimeDetector detector = new MagicMimeMimeDetector();
+		Collection mimeTypes = detector.getMimeTypesFile(file);
+		
+		if (mimeTypes) return mimeTypes.iterator().getAt(0).toString()
+	
+		return "application/octet-stream"
+	  }
+	
 	def upload = {
 		
 		def participantForms = []
@@ -109,14 +132,16 @@ class ParticipantFormController {
 				}
 			}
 				
-				if (participantFormsToLoad().size() < 2)
-							{
-								flash.message = "${participantFormsToLoad().size()} Participant Form uploaded"
-							}
-							else
-							{
-								flash.message = "${participantFormsToLoad().size()} Participant Forms uploaded"
-							}
+			switch (participantFormsToLoad().size())
+			{
+				case 1: flash.message = "${participantFormsToLoad().size()} Participant Form uploaded"
+				        break
+			    
+				case 2..10: flash.message = "${participantFormsToLoad().size()} Participant Forms uploaded"
+							break
+				default:
+				      break
+			}
 				
 		redirect url: createLink(controller: 'participantForm', action:'list',
 							mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
@@ -128,17 +153,28 @@ class ParticipantFormController {
 		def participantFormInstance = ParticipantForm.get(params.id)
 		
 		def fileDoc = new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id ) 
+		
 		if(fileDoc.exists()){
 			// force download
 			def fileName = participantFormInstance.formName
-			response.setContentType("application/octet-stream")
-			response.setHeader "Content-disposition", "attachment; filename=${fileName}" ;
+			def extension = getFileExtension(fileDoc);
+			def file
+			if (extension != null)
+			{
+				file = fileName + extension
+			}
+			response.setContentType(getMimeType(fileDoc))
+			response.setHeader "Content-disposition", "attachment; filename=${file}" ;
 			response.outputStream << fileDoc.newInputStream();
 			response.outputStream.flush();
+			
+			return false
 			
 	   }
 		return null	
 	}
+	
+	
 	
 	def index = {
         redirect(action: "list", params: params)
@@ -243,7 +279,8 @@ class ParticipantFormController {
 					file.delete()
 				}
 				flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), params.id])}"
-				redirect(action: "list")
+				redirect url: createLink(controller: 'participantForm', action:'list',
+							mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), params.id])}"
