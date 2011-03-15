@@ -272,7 +272,7 @@ th.desc a {
 .prop .name {
     text-align: left;
     width: 15%;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
 }
 .prop .value {
     text-align: left;
@@ -419,23 +419,27 @@ a#forms{
 
 /* File input */
 
-file_input_textbox
+.file_input_textbox
 {
-	float: left
+	display:inline-block; zoom:1; *display:inline;
+	width:auto;
+	border-collapse: collapse;
+	float:left;
 }
 
 .file_input_div
 {
 	position: relative; 
-	width: auto; 
-	height: auto; 
+	width: auto;
+	height: 23px; 
 	overflow: hidden;
 }
 
 .file_input_button
 {
-	width: auto; 
-	position: absolute; 
+	width: 60px; 
+	position: auto; 
+	top: 0px;
 	background-color: #33BB00;
 	color: #FFFFFF;
 	border-style: solid;
@@ -445,6 +449,8 @@ file_input_textbox
 {
 	font-size: 45px; 
 	position: absolute; 
+	right: 0px; 
+	top: 0px; 
 	opacity: 0; 
 	
 	filter: alpha(opacity=0); 
@@ -452,3 +458,4 @@ file_input_textbox
 	-khtml-opacity: 0; 
 	-moz-opacity: 0;
 }
+
