@@ -21,8 +21,8 @@ class StudyTests extends GrailsUnitTestCase
 		project = new Project(projectTitle: 'TestProject',
 			researcherName: 'TestStudent' ,
 			degree: 'TestDegree',
-			yearFrom: new Date(),
-			yearTo: new Date(),
+			startDate: new Date(),
+			endDate: new Date(),
 			description: 'Test Description',
 			supervisors: 'test supervisor')
 		
@@ -33,8 +33,8 @@ class StudyTests extends GrailsUnitTestCase
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
-				dateStart: new Date(),
-				dateEnd: new Date(),
+				startDatet: new Date(),
+				endDate: new Date(),
 				project: project,
 				numberOfParticipants:"10",
 				inclusionExclusionCriteria: "No Criteria")
@@ -61,8 +61,8 @@ class StudyTests extends GrailsUnitTestCase
 				description: '',
 				industryPartners: '',
 				collaborators: '',
-				dateStart: '',
-				dateEnd: '')
+				startDate: '',
+				endDate: '')
 
 		assertFalse 'No validation for blank field(s)' ,study.validate()
 
@@ -72,8 +72,8 @@ class StudyTests extends GrailsUnitTestCase
 		project = new Project(projectTitle: 'TestProject',
 			researcherName: 'TestStudent' ,
 			degree: 'TestDegree',
-			yearFrom: new Date(),
-			yearTo: new Date(),
+			startDate: new Date(),
+			endDate: new Date(),
 			description: 'Test Description',
 			supervisors: 'test supervisor')
 		
@@ -82,8 +82,8 @@ class StudyTests extends GrailsUnitTestCase
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
-				dateStart: new Date(),
-				dateEnd: new Date(),
+				startDate: new Date(),
+				endDate: new Date(),
 				project: project,
 				numberOfParticipants:"10",
 				inclusionExclusionCriteria: "No Criteria")

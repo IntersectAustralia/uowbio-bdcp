@@ -8,8 +8,8 @@ class Study
 	String description
 	String industryPartners
 	String collaborators
-	Date dateStart
-	Date dateEnd
+	Date startDate
+	Date endDate
 	String numberOfParticipants
 	String inclusionExclusionCriteria
 
@@ -29,8 +29,8 @@ class Study
 		description(blank:false, size:1..1000)
 		industryPartners(size:1..1000)
 		collaborators(size:1..1000)
-		dateStart(nullable: false)
-		dateEnd(nullable:false)
+		startDate(nullable: false)
+		endDate(nullable:false)
 		participant(nullable:true)
 		numberOfParticipants(size:1..1000)
 		inclusionExclusionCriteria(size:1..1000) 

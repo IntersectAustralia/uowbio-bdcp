@@ -39,8 +39,8 @@ class BootStrap
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
-				dateStart: new Date(),
-				dateEnd: new Date(),
+				startDate: new Date(),
+				endDate: new Date(),
 				project: project,
 				numberOfParticipants:"10",
 				inclusionExclusionCriteria:"test Criteria",)

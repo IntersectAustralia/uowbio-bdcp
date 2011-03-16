@@ -16,13 +16,6 @@ class ProjectController
 		[projectInstanceList: Project.list(params), projectInstanceTotal: Project.count()]
 	}
 
-	def oldlist =
-	{
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[projectInstanceList: Project.list(params), projectInstanceTotal: Project.count()]
-	}
-
-
 	def create =
 	{
 		def projectInstance = new Project()
@@ -36,7 +29,7 @@ class ProjectController
 		if (projectInstance.save(flush: true))
 		{
 			flash.message = "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.projectTitle])}"
-			redirect(action: "show", id: projectInstance.id)
+			redirect(action: "list", id: projectInstance.id)
 		}
 		else
 		{

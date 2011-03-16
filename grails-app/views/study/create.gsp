@@ -9,10 +9,8 @@
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link controller="project" class="list" action="list">Project List</g:link></span>
-        </div>
         <div class="body">
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
@@ -75,19 +73,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="dateStart"><g:message code="study.dateStart.label" default="Date Start" /></label>
+                                    <label for="startDate"><g:message code="study.startDate.label" default="Start Date" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'dateStart', 'errors')}">
-                                    <g:datePicker name="dateStart" precision="month" value="${studyInstance?.dateStart}"  />
+                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'startDate', 'errors')}">
+                                    <g:datePicker name="startDate" precision="month" value="${studyInstance?.startDate}"  />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="dateEnd"><g:message code="study.dateEnd.label" default="Date End" /></label>
+                                    <label for="endDate"><g:message code="study.endDate.label" default="End Date" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'dateEnd', 'errors')}">
-                                    <g:datePicker name="dateEnd" precision="month" value="${studyInstance?.dateEnd}"  />
+                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'endDate', 'errors')}">
+                                    <g:datePicker name="endDate" precision="month" value="${studyInstance?.endDate}"  />
                                 </td>
                             </tr>
                             

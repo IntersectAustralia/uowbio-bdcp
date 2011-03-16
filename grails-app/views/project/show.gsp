@@ -8,10 +8,8 @@
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="list" action="list">Return to Projects</g:link></span>
-        </div>
         <div class="body">
             <br />
             <g:if test="${flash.message}">
@@ -76,6 +74,7 @@
                 <g:form>
                     <g:hiddenField name="id" value="${projectInstance?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                	<span class="menuButton"><g:link class="list" action="list">Back</g:link></span>
                 </g:form>
             </div>
         </div>
