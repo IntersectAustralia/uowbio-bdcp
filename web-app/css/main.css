@@ -234,19 +234,6 @@ th.desc a {
     background: #b2d1ff;
 }
 
-/* PARTICIPANT FORM DIV */
-
-.participantForm-div table {
-	border-collapse: collapse;
-}
-
-.participantForm-div th, .participantForm-div td {
-    border-left: 1px solid #ddd;
-}
-.participantForm-div th:hover, .participantForm-div tr:hover {
-    background: #b2d1ff;
-}
-
 
 /* PAGINATION */
 
