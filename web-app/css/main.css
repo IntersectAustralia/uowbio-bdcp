@@ -304,12 +304,10 @@ input.edit {
 }
 
 .projects ul {
-	margin-top: 1em;
 	list-style-type: none;
 }
 
 .projects li {
-	margin-top: 1em; 
 	list-style-type: none;
 	padding-left: 5em; 
 }

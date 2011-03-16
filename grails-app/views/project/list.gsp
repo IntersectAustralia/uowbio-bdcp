@@ -25,10 +25,9 @@
             		</g:each>
             		<li><span class="menuButton"><g:link id="addStudy" class="create" controller="study" action="create" params="[projectid: projectInstance.id]">Add Study</g:link></span></li>
             		</ul>
+            		<br />
             		</g:each>
             	</div>
-            	<br />
-            	<br />
             	<span class="menuButton"><g:link class="create" controller="project" action="create">Add Project</g:link></span>
             </g:if>
         </div>

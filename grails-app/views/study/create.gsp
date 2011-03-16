@@ -10,7 +10,7 @@
     </head>
     <body>
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link controller="project" class="list" action="list">Project List</g:link></span>
+            <span class="menuButton"><g:link class="list" controller="project" action="list">Project List</g:link></span>    
         <div class="body">
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">

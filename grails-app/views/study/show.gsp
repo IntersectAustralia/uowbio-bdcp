@@ -5,19 +5,27 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <resource:tabView />
+        <title><g:message code="default.showTitle.label" args="[entityName, studyInstance.studyTitle]" /></title>
     </head>
     <body>
-        <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link controller="project" class="list" action="list">Return to Projects</g:link></span>
-            <span class="menuButton"><g:link controller="study" class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
+            <span class="menuButton"><g:link controller="project" class="list" action="list">Project List</g:link></span>
         <div class="body">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
+            <h1><g:message code="default.showTitle.label" args="[entityName, studyInstance.studyTitle]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+            <richui:tabView id="tabView">  
+            <richui:tabLabels>  
+            <richui:tabLabel selected="true" title="Details" />  
+            <richui:tabLabel title="Participants" />  
+            </richui:tabLabels>
+
+			<richui:tabContents> 
+			<richui:tabContent> 
+
+			
             <div class="dialog">
                 <table id="studyTable">
                     <tbody>
@@ -58,16 +66,16 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="study.dateStart.label" default="Date Start" /></td>
+                            <td valign="top" class="name"><g:message code="study.startDate.label" default="Start Date" /></td>
                             
-                            <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${studyInstance?.dateStart}" /></td>
+                            <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${studyInstance?.startDate}" /></td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="study.dateEnd.label" default="Date End" /></td>
+                            <td valign="top" class="name"><g:message code="study.endDate.label" default="End Date" /></td>
                             
-                            <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${studyInstance?.dateEnd}" /></td>
+                            <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${studyInstance?.endDate}" /></td>
                             
                         </tr>
                         
@@ -85,14 +93,6 @@
                             <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "inclusionExclusionCriteria")}</td>
                             
                         </tr>
-                        
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="study.project.label" default="Project" /></td>
-                            
-                            <td valign="top" class="value"><g:link controller="project" action="show" id="${studyInstance?.project?.id}">${studyInstance?.project?.encodeAsHTML()}</g:link></td>
-                            
-                        </tr>
-                    
                     </tbody>
                 </table>
             </div>
@@ -100,9 +100,12 @@
                 <g:form>
                     <g:hiddenField name="id" value="${studyInstance?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
+            </richui:tabContent>
+            <richui:tabContent> And this is tab 2. </richui:tabContent>
+
+		 </richui:tabContents> </richui:tabView>
         </div>
     </body>
 </html>
