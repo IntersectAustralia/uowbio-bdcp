@@ -6,8 +6,8 @@ class Project
 	String projectTitle
 	String researcherName
 	String degree
-	Date yearFrom
-	Date yearTo
+	Date startDate
+	Date endDate
 	String description
 	String supervisors
 	
@@ -28,8 +28,8 @@ class Project
 		projectTitle(blank:false, size:1..1000)
 		researcherName(blank:false, size:1..1000)
 		degree(blank:false, size:1..1000)
-		yearFrom(nullable:false)
-		yearTo(nullable:false)
+		startDate(nullable:false)
+		endDate(nullable:false)
 		description(blank:false, size:1..1000)
 		supervisors(blank:false, size:1..1000)
 	}

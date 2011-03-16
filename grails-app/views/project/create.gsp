@@ -9,10 +9,6 @@
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
@@ -57,19 +53,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="yearFrom"><g:message code="project.yearFrom.label" default="Year From" /></label>
+                                    <label for="startDate"><g:message code="project.startDate.label" default="Start Date" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: projectInstance, field: 'yearFrom', 'errors')}">
-                                    <g:datePicker name="yearFrom" precision="month" value="${projectInstance?.yearFrom}"  />
+                                <td valign="top" class="value ${hasErrors(bean: projectInstance, field: 'startDate', 'errors')}">
+                                    <g:datePicker name="startDate" precision="month" value="${projectInstance?.startDate}"  />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="yearTo"><g:message code="project.yearTo.label" default="Year To" /></label>
+                                    <label for="endDate"><g:message code="project.endDate.label" default="End Date" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: projectInstance, field: 'yearTo', 'errors')}">
-                                    <g:datePicker name="yearTo" precision="month" value="${projectInstance?.yearTo}"  />
+                                <td valign="top" class="value ${hasErrors(bean: projectInstance, field: 'endDate', 'errors')}">
+                                    <g:datePicker name="endDate" precision="month" value="${projectInstance?.endDate}"  />
                                 </td>
                             </tr>
                         

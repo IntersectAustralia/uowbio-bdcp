@@ -42,16 +42,16 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="project.yearFrom.label" default="Year From" /></td>
+                            <td valign="top" class="name"><g:message code="project.startDate.label" default="Start Date" /></td>
                             
-                            <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${projectInstance?.yearFrom}" /></td>
+                            <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${projectInstance?.startDate}" /></td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="project.yearTo.label" default="Year To" /></td>
+                            <td valign="top" class="name"><g:message code="project.endDate.label" default="End Date" /></td>
                             
-                            <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${projectInstance?.yearTo}" /></td>
+                            <td valign="top" class="value"><g:formatDate format="MM/yyyy" date="${projectInstance?.endDate}" /></td>
                             
                         </tr>
                     

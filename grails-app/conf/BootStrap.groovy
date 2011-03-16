@@ -28,8 +28,8 @@ class BootStrap
 		def project = new Project(projectTitle: 'TestProject',
 				researcherName: 'TestStudent' ,
 				degree: 'TestDegree',
-				yearFrom: new Date(),
-				yearTo: new Date(),
+				startDate: new Date(),
+				endDate: new Date(),
 				description: 'Test Description',
 				supervisors: 'test supervisor')
 		project.save()

@@ -34,8 +34,8 @@ class ProjectTests extends GrailsUnitTestCase
 		project = new Project(projectTitle: 'TestProject',
 				researcherName: 'TestStudent' ,
 				degree: 'TestDegree',
-				yearFrom: new Date(),
-				yearTo: new Date(),
+				startDate: new Date(),
+				endDate: new Date(),
 				description: 'Test Description',
 				supervisors: 'test supervisor')
 	
@@ -66,8 +66,8 @@ class ProjectTests extends GrailsUnitTestCase
 		project = new Project(projectTitle: '',
 				researcherName: '' ,
 				degree: '',
-				yearFrom: '',
-				yearTo: '',
+				startDate: '',
+				endDate: '',
 				description: '',
 				supervisors: '')
 
@@ -82,8 +82,8 @@ class ProjectTests extends GrailsUnitTestCase
 		project = new Project(projectTitle: 'Testing Project',
 				researcherName: 'TestStudent' ,
 				degree: 'TestDegree',
-				yearFrom: new Date(),
-				yearTo: new Date(),
+				startDate: new Date(),
+				endDate: new Date(),
 				description: 'Test Description',
 				supervisors: 'test supervisor')
 
@@ -99,21 +99,21 @@ class ProjectTests extends GrailsUnitTestCase
 		project = new Project(projectTitle: 'Testing Project',
 				researcherName: 'TestStudent' ,
 				degree: 'TestDegree',
-				yearFrom: null,
-				yearTo: null,
+				startDate: null,
+				endDate: null,
 				description: 'Test Description',
 				supervisors: 'test supervisor')
 
 		assertFalse "No validation for nullable fields", project.validate()
 
-		assertEquals 'Year From is nullable.','nullable', project.errors['yearFrom']
-		assertEquals 'Year To is nullable.','nullable', project.errors['yearTo']
+		assertEquals 'Start Date is nullable.','nullable', project.errors['startDate']
+		assertEquals 'End Date is nullable.','nullable', project.errors['endDate']
 
 		project = new Project(projectTitle: 'Testing Project',
 				researcherName: 'TestStudent' ,
 				degree: 'TestDegree',
-				yearFrom: new Date(),
-				yearTo: new Date(),
+				startDate: new Date(),
+				endDate: new Date(),
 				description: 'Test Description',
 				supervisors: 'test supervisor')
 
