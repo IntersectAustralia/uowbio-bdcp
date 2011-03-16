@@ -76,11 +76,22 @@ input, select, textarea {
 select {
    padding: 2px 2px 2px 0;
 }
+
+input {
+     width: 250px;
+}
+
+textarea#supervisors{
+	width: 250px;
+	height: 30px;
+}
+
 textarea {
 	width: 250px;
 	height: 150px;
 	vertical-align: top;
 }
+
 
 input:focus, select:focus, textarea:focus {
     border: 1px solid #b2d1ff;
@@ -314,6 +325,7 @@ input.edit {
 }
 
 .buttons input {
+    width: auto;
     background: #fff;
     border: 0;
     color: #333;

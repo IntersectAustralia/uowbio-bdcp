@@ -85,7 +85,7 @@
                                     <label for="supervisors"><g:message code="project.supervisors.label" default="Supervisor(s)" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: projectInstance, field: 'supervisors', 'errors')}">
-                                    <g:textField name="supervisors" value="${projectInstance?.supervisors}" />
+                                    <g:textArea name="supervisors" value="${projectInstance?.supervisors}" />
                                 </td>
                             </tr>
                         
