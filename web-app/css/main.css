@@ -427,10 +427,15 @@ a#forms{
 	float:left;
 }
 
+.file_input_textbox
+{
+	float: left
+}
+
 .file_input_div
 {
 	position: relative; 
-	width: auto;
+	width: 220px; 
 	height: 23px; 
 	overflow: hidden;
 }
@@ -438,7 +443,7 @@ a#forms{
 .file_input_button
 {
 	width: 60px; 
-	position: auto; 
+	position: absolute; 
 	top: 0px;
 	background-color: #33BB00;
 	color: #FFFFFF;
@@ -458,4 +463,5 @@ a#forms{
 	-khtml-opacity: 0; 
 	-moz-opacity: 0;
 }
+
 

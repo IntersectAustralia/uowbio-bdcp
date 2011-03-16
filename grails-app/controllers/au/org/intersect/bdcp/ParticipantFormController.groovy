@@ -81,6 +81,11 @@ class ParticipantFormController {
 		return "application/octet-stream"
 	  }
 	
+	private String getRealPath()
+	{
+		return (request.getSession().getServletContext().getRealPath("/") + File.separator + "uowbio" + File.separator + "forms")
+	}
+	
 	def upload = {
 		
 		def participantForms = []
@@ -107,14 +112,14 @@ class ParticipantFormController {
 				
 				if (participantFormInstance.save(flush: true)) 
 				{
-								new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString()).mkdirs()
+								new File( getRealPath() + File.separatorChar + params.participantId.toString()).mkdirs()
 								def f = request.getFile("form.${i}")
 								if (!f.isEmpty())
 								{
 									def fileName = f.getOriginalFilename()
 									int mid= fileName.lastIndexOf(".");
 									def fileExtension=fileName.substring(mid+1,fileName.length()); 
-									f.transferTo( new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "." +fileExtension) )
+									f.transferTo( new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "." +fileExtension) )
 									participantFormInstance.form = participantFormInstance.id
 									participantFormInstance.contentType = f.contentType
 									participantFormInstance.fileExtension = fileExtension
@@ -126,7 +131,7 @@ class ParticipantFormController {
 									def fileName = f.getOriginalFilename()
 									int mid= fileName.lastIndexOf(".");
 									def fileExtension=fileName.substring(mid+1,fileName.length());
-									f.transferTo( new File(grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "."+ fileExtension))
+									f.transferTo( new File(getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "."+ fileExtension))
 									participantFormInstance.form = participantFormInstance.id
 									participantFormInstance.contentType = f.contentType
 									participantFormInstance.fileExtension = fileExtension
@@ -155,7 +160,7 @@ class ParticipantFormController {
 	{
 		def participantFormInstance = ParticipantForm.get(params.id)
 		
-		def fileDoc = new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id +"." + participantFormInstance.fileExtension) 
+		def fileDoc = new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id +"." + participantFormInstance.fileExtension) 
 		
 		if(fileDoc.exists()){
 			def fileName = participantFormInstance.formName + ".${participantFormInstance.fileExtension}"
@@ -187,7 +192,7 @@ class ParticipantFormController {
 		def participantInstance = Participant.get(params.participantId)		
 		def fileResourceInstanceList = []
 		def participantForms = []
-		def f = new File( grailsApplication.config.forms.location.toString() + File.separatorChar + params.participantId.toString() )
+		def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
 		if( f.exists() ){
 			f.eachFile(){ file->
 			if( !file.isDirectory() )
@@ -276,7 +281,7 @@ class ParticipantFormController {
             try {
                 participantFormInstance.delete(flush: true)
                 def filename = params.id.replace('###', '.')
-				def file =  new File( grailsApplication.config.forms.location.toString() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "." + participantFormInstance.fileExtension ) 
+				def file =  new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "." + participantFormInstance.fileExtension ) 
 				if (file.exists())
 				{
 					file.delete()
