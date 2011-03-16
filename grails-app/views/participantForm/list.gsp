@@ -32,7 +32,6 @@
                     <tbody>
                         <g:each in="${participantFormInstanceList}" status="i" var="participantFormInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                        
                             
                             <td><div class="columnLeft"><g:if test="${participantFormInstanceList}" ><g:link action="downloadFile" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" id="${participantFormInstance.id}" >${fieldValue(bean: participantFormInstance, field: "formName")}</g:link></g:if></div>
                             <div class="columnRight">

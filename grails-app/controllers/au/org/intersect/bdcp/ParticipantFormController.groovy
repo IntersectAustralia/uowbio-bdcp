@@ -123,6 +123,7 @@ class ParticipantFormController {
 									participantFormInstance.form = participantFormInstance.id
 									participantFormInstance.contentType = f.contentType
 									participantFormInstance.fileExtension = fileExtension
+									participantFormInstance.fileName = participantFormInstance.id + "." + fileExtension
 									participantFormInstance.save(flush: true)
 								}
 								else 
@@ -135,6 +136,7 @@ class ParticipantFormController {
 									participantFormInstance.form = participantFormInstance.id
 									participantFormInstance.contentType = f.contentType
 									participantFormInstance.fileExtension = fileExtension
+									participantFormInstance.fileName = participantFormInstance.id + "." + fileExtension
 									participantFormInstance.save(flush:true)
 								}
 				}
@@ -142,6 +144,9 @@ class ParticipantFormController {
 				
 			switch (participantFormsToLoad().size())
 			{
+				case 0: flash.message = "No forms selected to upload"
+				        break
+				
 				case 1: flash.message = "${participantFormsToLoad().size()} Participant Form uploaded"
 				        break
 			    
@@ -191,21 +196,23 @@ class ParticipantFormController {
     def list = {
 		def participantInstance = Participant.get(params.participantId)		
 		def fileResourceInstanceList = []
+		def participantFormInstanceList = []
 		def participantForms = []
 		def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
 		if( f.exists() ){
 			f.eachFile(){ file->
 			if( !file.isDirectory() )
 			{
-				if(ParticipantForm.findWhere(form:file.name) != null)
+				def participantForm = ParticipantForm.findWhere(fileName: file.name)
+				if(participantForm != null)
 				{
-					fileResourceInstanceList.add( file.name )
+					participantFormInstanceList.add(participantForm)
 				}
 			}
 			}
 		}
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance,participantForms: participantForms, forms:participantForms]
+        [participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance,participantForms: participantForms, forms:participantForms]
     }
 		
     def create = {
