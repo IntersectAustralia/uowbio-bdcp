@@ -103,7 +103,10 @@
                 </g:form>
             </div>
             </richui:tabContent>
-            <richui:tabContent> And this is tab 2. </richui:tabContent>
+            <richui:tabContent> 
+            <g:render template="list" model="['participantInstanceList': participantInstanceList, 'participantInstanceTotal': participantInstanceTotal, 'participantsInStudy': participantsInStudy]"/>
+            
+            </richui:tabContent>
 
 		 </richui:tabContents> </richui:tabView>
         </div>

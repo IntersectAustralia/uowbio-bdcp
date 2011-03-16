@@ -43,7 +43,7 @@ class BootStrap
 				endDate: new Date(),
 				project: project,
 				numberOfParticipants:"10",
-				inclusionExclusionCriteria:"test Criteria",)
+				inclusionExclusionCriteria:"test Criteria")
 		study.save()
 
 		def participant = new Participant(identifier:"10",

@@ -13,7 +13,7 @@ class Study
 	String numberOfParticipants
 	String inclusionExclusionCriteria
 
-	static hasMany = [participant:Participant]
+	static hasMany = [participants:Participant]
 	
 	static belongsTo = [project:Project]
 	
@@ -23,6 +23,14 @@ class Study
 		return "${studyTitle}"
 	}
 	
+	
+	static mapping =
+	{
+		participants cascade: "all-delete-orphan"
+	}
+	
+	
+	
 	static constraints =
 	{
 		studyTitle(blank:false, size:1..1000)
@@ -31,8 +39,13 @@ class Study
 		collaborators(size:1..1000)
 		startDate(nullable: false)
 		endDate(nullable:false)
-		participant(nullable:true)
 		numberOfParticipants(size:1..1000)
 		inclusionExclusionCriteria(size:1..1000) 
+	}
+	
+	def getParticipantsList() {
+		return LazyList.decorate(
+			  participants,
+			  FactoryUtils.instantiateFactory(Participant.class))
 	}
 }
