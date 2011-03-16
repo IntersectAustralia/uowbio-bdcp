@@ -8,9 +8,6 @@
         <title>Welcome Researcher</title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-        </div>
         <div class="body">
             <h1>Welcome Researcher</h1>
             <g:if test="${flash.message}">

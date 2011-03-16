@@ -14,7 +14,7 @@
         <div id="spinner" class="spinner" style="display:none;">
             <img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
         </div>
-        <div id="grailsLogo"><a href="http://grails.org"><img src="${resource(dir:'images',file:'grails_logo.png')}" alt="Grails" border="0" /></a></div>
+        <div id="biomechsLogo"><a href="http://www.uow.edu.au/health/brl/index.html"><img src="${resource(dir:'images',file:'biomechs_logo.jpg')}" alt="Biomechanics" border="0" /></a></div>
         <g:layoutBody />
     </body>
 </html>

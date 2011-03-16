@@ -20,6 +20,10 @@ body {
 	padding:20px;
 }
 
+#biomechsLogo {
+	padding: 20px;
+}
+
 a:link, a:visited, a:hover {
     color: #666;
     font-weight: bold;
