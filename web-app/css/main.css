@@ -292,6 +292,17 @@ input.edit {
     padding-left: 28px;
 }
 
+.projects ul {
+	margin-top: 1em;
+	list-style-type: none;
+}
+
+.projects li {
+	margin-top: 1em; 
+	list-style-type: none;
+	padding-left: 5em; 
+}
+
 .buttons {
     background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
     border: 1px solid #ccc;
