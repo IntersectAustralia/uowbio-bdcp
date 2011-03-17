@@ -45,6 +45,17 @@ Then(~"I should see \"(.*)\"") { String text ->
     assertThat(browser.findElementByTagName('body').text, containsString(text))
 }
 
+Then(~"I should see \"(.*)\" with value \"(.*)\"") { String field, String text ->
+	fieldElement = browser.findElement(By.name(field))
+	assertThat(fieldElement.getValue(), containsString(text))
+}
+
+Then(~"I should see \"(.*)\" selected with value \"(.*)\"") { String field, String text ->
+	fieldElement = browser.findElement(By.name(field))
+	Select select = new Select(fieldElement)
+	assertThat(select.getFirstSelectedOption().getValue(), containsString(text))
+}
+
 Then(~"I should see table \"(.*)\" with contents") { String tableId, cuke4duke.Table table ->
 	webTable = browser.findElementsByCssSelector("table#${tableId} tbody tr").collect {
         def cols = it.findElementsByTagName('td')

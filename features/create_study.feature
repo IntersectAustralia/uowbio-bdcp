@@ -1,4 +1,4 @@
-Feature: Create project
+Feature: Create Study
   In order manage my data
   As a researcher
   I want to create a study

@@ -95,7 +95,7 @@
                     </table>
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
+                    <span class="button"><g:actionSubmit name="save" id="save" class="save" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
                     <span class="button"><g:link elementId="cancel" controller="project" action="show" id="${projectInstance.id}">Cancel</g:link></span>
                 </div>
             </g:form>
