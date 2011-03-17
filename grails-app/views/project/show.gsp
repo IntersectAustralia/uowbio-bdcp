@@ -5,13 +5,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
-        <title><g:message code="default.showTitle.label" args="[entityName, projectInstance.projectTitle]" /></title>
+        <title><g:message code="default.showTitle.label" args="[projectInstance.projectTitle]" /></title>
     </head>
     <body>
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>    
         <div class="body">
-        <h1><g:message code="default.showTitle.label" args="[entityName,projectInstance.projectTitle]" /></h1>
+        <h1><g:message code="default.showTitle.label" args="[projectInstance.projectTitle]" /></h1>
             <br />
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>

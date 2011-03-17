@@ -27,9 +27,9 @@ class ParticipantController {
 		participantInstance.identifier = participantInstance.identifier?.trim()
 		if (participantInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
-			redirect url:createLink(controller: 'participant', action:'list',
-				mapping:'participantDetails', params:[studyId: params.studyId, id: participantInstance.id])
-			//redirect(action: "show", id: participantInstance.id)
+//			redirect url:createLink(controller: 'participant', action:'list',
+//				mapping:'participantDetails', params:[studyId: params.studyId, id: participantInstance.id])
+			redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
         }
         else {
             render(view: "create", model: [participantInstance: participantInstance])
@@ -40,7 +40,7 @@ class ParticipantController {
         def participantInstance = Participant.get(params.id)
         if (!participantInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participant.label', default: 'Participant'), params.id])}"
-            redirect(action: "list")
+            redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
         }
         else {
             [participantInstance: participantInstance]
@@ -51,7 +51,7 @@ class ParticipantController {
         def participantInstance = Participant.get(params.id)
         if (!participantInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participant.label', default: 'Participant'), params.id])}"
-            redirect(action: "list")
+            redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
         }
         else {
             return [participantInstance: participantInstance, studyId: params.studyId]
@@ -74,8 +74,7 @@ class ParticipantController {
 			participantInstance.identifier = participantInstance.identifier?.trim()
 			if (!participantInstance.hasErrors() && participantInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
-                redirect url:createLink(controller: 'participant', action:'list',
-				mapping:'participantDetails', params:[studyId: params.studyId, id: participantInstance.id])
+                redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
             }
             else {
                 render(view: "edit", model: [participantInstance: participantInstance])
@@ -83,7 +82,7 @@ class ParticipantController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participant.label', default: 'Participant'), params.id])}"
-            redirect(action: "list")
+            redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
         }
     }
 

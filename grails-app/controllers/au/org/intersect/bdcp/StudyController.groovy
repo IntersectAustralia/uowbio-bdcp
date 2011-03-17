@@ -50,7 +50,20 @@ class StudyController
 		}
 		else
 		{
-			[studyInstance: studyInstance, participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count(), participantsInStudy: participantsInStudy]
+			String participantsSelected
+			String detailsSelected
+			
+			if (params.participantsSelected == "true")
+			{
+				participantsSelected = params.participantsSelected
+				detailsSelected = "false"
+			}
+			else
+			{
+				participantsSelected = "false"
+				detailsSelected = "true"
+			}
+			[studyInstance: studyInstance, participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count(), participantsInStudy: participantsInStudy,participantsSelected:participantsSelected,detailsSelected:detailsSelected]
 		}
 	}
 

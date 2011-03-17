@@ -6,20 +6,20 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
         <resource:tabView />
-        <title><g:message code="default.showTitle.label" args="[entityName, studyInstance.studyTitle]" /></title>
+        <title><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></title>
     </head>
     <body>
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link controller="project" class="list" action="list">Project List</g:link></span>
         <div class="body">
-            <h1><g:message code="default.showTitle.label" args="[entityName, studyInstance.studyTitle]" /></h1>
+            <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <richui:tabView id="tabView">  
             <richui:tabLabels>  
-            <richui:tabLabel selected="true" title="Details" />  
-            <richui:tabLabel title="Participants" />  
+            <richui:tabLabel selected="${detailsSelected}" title="Details" />  
+            <richui:tabLabel selected="${participantsSelected}" title="Participants" />  
             </richui:tabLabels>
 
 			<richui:tabContents> 

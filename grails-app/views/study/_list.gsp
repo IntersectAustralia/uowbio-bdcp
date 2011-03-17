@@ -1,9 +1,6 @@
-<h2>${studyInstance} Participants</h2>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
+            
             <br />
-            <span class="menuButton"><g:link mapping="participantDetails" class="create" action="create" params="[studyId: studyInstance.id]">
+            <span class="menuButton"><g:link mapping="participantDetails" controller="participant" class="create" action="create" params="[studyId: studyInstance.id]">
         	Add Participant</g:link></span>
         	<br />
         	<br />

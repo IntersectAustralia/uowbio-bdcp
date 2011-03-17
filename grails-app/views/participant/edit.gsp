@@ -9,11 +9,8 @@
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link mapping="participantDetails" controller="participant" action="list" params="[studyId: params.studyId]" class = "list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
+        <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
@@ -45,7 +42,7 @@
                 </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
-                	 <span class="button"><g:link mapping="participantDetails" elementId="cancel" controller="participant" action="list" params="[studyId: params.studyId]">Cancel</g:link></span>
+                	 <span class="button"><g:link elementId="cancel" controller="study" action="show" id="${params.studyId}" params="[studyId: params.studyId, participantsSelected: 'true']">Cancel</g:link></span>
                 </div>
             </g:form>
         </div>

@@ -13,10 +13,10 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <br />
-            <br />
-            <g:if test="${ projectInstanceList?.size() > 0}">
             
+            <g:if test="${ projectInstanceList?.size() > 0}">
+            <br />
+            <br />
             <div class="projects">
             		<g:each in="${projectInstanceList}" status="i" var="projectInstance">
             		<g:link action="show" id="${projectInstance.id}">${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link>
@@ -28,8 +28,8 @@
             		<br />
             		</g:each>
             	</div>
-            	<span class="menuButton"><g:link class="create" controller="project" action="create">Add Project</g:link></span>
             </g:if>
+            <span class="menuButton"><g:link class="create" controller="project" action="create">Add Project</g:link></span>
         </div>
     </body>
 </html>
