@@ -1,7 +1,7 @@
 Feature: Edit Project
   In order manage my data
   As a researcher
-  I want to view a project
+  I want to edit a project
 
   Background:
     Given I am on the create project page

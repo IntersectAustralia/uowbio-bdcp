@@ -16,5 +16,3 @@ Given(~"I am on the project page") { ->
 	browser.get("http://localhost:8080/BDCP/project/list")
 }
 
-
-	

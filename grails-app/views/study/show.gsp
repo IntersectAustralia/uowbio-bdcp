@@ -99,7 +99,7 @@
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${studyInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="edit" id="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                 </g:form>
             </div>
             </richui:tabContent>
