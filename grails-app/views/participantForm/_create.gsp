@@ -1,11 +1,11 @@
 <div class="create">
-            <h2>Add Forms</h2>
             <g:each in="${participantForms}" status="i" var="participantFormsInstance">
             <g:hasErrors bean="${participantFormsInstance}">
             <div class="errors">
                 <g:renderErrors bean="${participantFormsInstance}" as="list" />
             </div>
             </g:hasErrors>
+            
             </g:each>
             <g:uploadForm action="upload" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" method="post" >
                 <div class="dialog">

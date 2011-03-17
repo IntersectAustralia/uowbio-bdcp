@@ -86,6 +86,34 @@ class ParticipantFormController {
 		return (request.getSession().getServletContext().getRealPath("/") + File.separator + "uowbio" + File.separator + "forms")
 	}
 	
+	private String getFileExtension(fileName)
+	{
+		int mid= fileName.lastIndexOf(".");
+		def fileExtension
+		if (!(mid < 0))
+		{
+			fileExtension=fileName.substring(mid+1,fileName.length());
+		}
+		return fileExtension
+	}
+	
+	private saveFile(file, participantFormInstance)
+	{
+		def fileExtension = getFileExtension(file.getOriginalFilename())
+		def fileName = participantFormInstance.id
+		if (fileExtension != null)
+		{
+			fileName = participantFormInstance.id + "." + fileExtension
+		}
+		
+		file.transferTo( new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + fileName) )
+		participantFormInstance.form = participantFormInstance.id
+		participantFormInstance.contentType = file.contentType
+		participantFormInstance.fileExtension = fileExtension
+		participantFormInstance.fileName = fileName
+		participantFormInstance.save(flush: true)
+	}
+	
 	def upload = {
 		
 		def participantForms = []
@@ -113,35 +141,22 @@ class ParticipantFormController {
 				if (participantFormInstance.save(flush: true)) 
 				{
 								new File( getRealPath() + File.separatorChar + params.participantId.toString()).mkdirs()
-								def f = request.getFile("form.${i}")
-								if (!f.isEmpty())
+								def file = request.getFile("form.${i}")
+								if (file.isEmpty())
 								{
-									def fileName = f.getOriginalFilename()
-									int mid= fileName.lastIndexOf(".");
-									def fileExtension=fileName.substring(mid+1,fileName.length()); 
-									f.transferTo( new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "." +fileExtension) )
-									participantFormInstance.form = participantFormInstance.id
-									participantFormInstance.contentType = f.contentType
-									participantFormInstance.fileExtension = fileExtension
-									participantFormInstance.save(flush: true)
+									file = session["fileName[${i}]"]
 								}
-								else 
-								{
-									f = session["fileName[${i}]"]
-									def fileName = f.getOriginalFilename()
-									int mid= fileName.lastIndexOf(".");
-									def fileExtension=fileName.substring(mid+1,fileName.length());
-									f.transferTo( new File(getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "."+ fileExtension))
-									participantFormInstance.form = participantFormInstance.id
-									participantFormInstance.contentType = f.contentType
-									participantFormInstance.fileExtension = fileExtension
-									participantFormInstance.save(flush:true)
-								}
+								
+								saveFile(file, participantFormInstance)
+								
 				}
 			}
 				
 			switch (participantFormsToLoad().size())
 			{
+				case 0: flash.error = "No forms selected to upload"
+				        break
+				
 				case 1: flash.message = "${participantFormsToLoad().size()} Participant Form uploaded"
 				        break
 			    
@@ -160,10 +175,16 @@ class ParticipantFormController {
 	{
 		def participantFormInstance = ParticipantForm.get(params.id)
 		
-		def fileDoc = new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id +"." + participantFormInstance.fileExtension) 
+		def fileDoc = new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.fileName) 
 		
 		if(fileDoc.exists()){
-			def fileName = participantFormInstance.formName + ".${participantFormInstance.fileExtension}"
+			def fileExtension = getFileExtension(participantFormInstance.fileName)
+			def fileName = participantFormInstance.formName
+			if (fileExtension != null)
+			{
+				fileName = participantFormInstance.formName + "." + fileExtension
+			}
+			
 			if (participantFormInstance.contentType == null)
 			{
 				response.setContentType(getMimeType(fileDoc))
@@ -191,21 +212,23 @@ class ParticipantFormController {
     def list = {
 		def participantInstance = Participant.get(params.participantId)		
 		def fileResourceInstanceList = []
+		def participantFormInstanceList = []
 		def participantForms = []
 		def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
 		if( f.exists() ){
 			f.eachFile(){ file->
 			if( !file.isDirectory() )
 			{
-				if(ParticipantForm.findWhere(form:file.name) != null)
+				def participantForm = ParticipantForm.findWhere(fileName: file.name)
+				if(participantForm != null)
 				{
-					fileResourceInstanceList.add( file.name )
+					participantFormInstanceList.add(participantForm)
 				}
 			}
 			}
 		}
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance,participantForms: participantForms, forms:participantForms]
+        [participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance,participantForms: participantForms, forms:participantForms]
     }
 		
     def create = {
@@ -281,7 +304,7 @@ class ParticipantFormController {
             try {
                 participantFormInstance.delete(flush: true)
                 def filename = params.id.replace('###', '.')
-				def file =  new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.id + "." + participantFormInstance.fileExtension ) 
+				def file =  new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.fileName) 
 				if (file.exists())
 				{
 					file.delete()
