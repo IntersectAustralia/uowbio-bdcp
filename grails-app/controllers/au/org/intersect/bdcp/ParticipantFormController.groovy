@@ -154,7 +154,7 @@ class ParticipantFormController {
 				
 			switch (participantFormsToLoad().size())
 			{
-				case 0: flash.message = "No forms selected to upload"
+				case 0: flash.error = "No forms selected to upload"
 				        break
 				
 				case 1: flash.message = "${participantFormsToLoad().size()} Participant Form uploaded"

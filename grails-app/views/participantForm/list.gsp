@@ -25,6 +25,8 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+            
+           
             <g:if test="${participantFormInstanceList.size() > 0}">
             <div class="list">
              <table>
@@ -53,7 +55,11 @@
                 <g:paginate total="${participantFormInstanceTotal}" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]"/>
             </div>
             </g:if>
-           <g:render template="create" />
+            <h2>Add Forms</h2>
+            <g:if test="${flash.error}">
+            <div class="errors"><ul><li>${flash.error}</li></ul></div>
+            </g:if>
+           <g:render template="create" model= ['body': body()]] />
         </div>
     </body>
 </html>
