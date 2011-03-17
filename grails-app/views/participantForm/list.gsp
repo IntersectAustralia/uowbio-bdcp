@@ -2,6 +2,13 @@
 <%@ page import="au.org.intersect.bdcp.ParticipantForm" %>
 <html>
     <head>
+        <script type="text/JavaScript">
+        function CopyMe(oFileInput, sTargetID) {
+            var arrTemp = oFileInput.value.split('\\');
+            document.getElementById(sTargetID).value = arrTemp[arrTemp.length - 1];
+        }
+		</script>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'participantForm.label', default: 'ParticipantForm')}" />
