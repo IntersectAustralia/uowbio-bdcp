@@ -32,10 +32,9 @@
                         </tbody>
                     </table>
                 </div>
-                
-                <div class="buttons">
+                    <div class="buttons">
                     <span class="button"><g:submitButton name="create" id="upload" class="save" value="Upload" /></span>
-                    <span class="button"><g:link elementId="return" controller="study" action="show" id="${params.studyId}" params="[studyId: params.studyId, participantsSelected: 'true']">Return to Participants</g:link></span>
-                </div>
+                    </div>
+                    <div class="rowTop"><g:link elementId="return" class="forms" controller="study" action="show" id="${params.studyId}" params="[studyId: params.studyId, participantsSelected: 'true']">Return to Participants</g:link></div>
             </g:uploadForm>
         </div>

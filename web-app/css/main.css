@@ -130,6 +130,7 @@ input:focus, select:focus, textarea:focus {
     color: #333;
     padding-left: 25px;
 }
+
 .menuButton a.create {
     background: url(../images/skin/database_add.png) center left no-repeat;
     color: #333;
@@ -421,8 +422,38 @@ a#forms{
  }
 
 
+a#return , input.upload{
+    margin-top:10px;
+    padding: 5px 10px;
+    display: inline;
+    background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
+    border: 1px solid #ccc;
+    color: #333;
+    overflow: hidden;
+    height: auto;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    }
+a#return:hover, input.upload:hover {
+    background-position: 0 -48px;
+    }
+a#return:active, input.upload:active {
+    background-position: 0 top;
+    position: relative;
+    top: 1px;
+    padding: 6px 10px 4px;
+    }
+ 
+
+
 /* EQUAL SPACING */
 
+.rowTop{
+    margin-top:10px;
+}
 
 
 .columnLeft {
