@@ -28,9 +28,15 @@ class ParticipantFormController {
 	private boolean validateParticipantForms(participantForms)
 	{
 		def allValid = true
+		def file = ""
 		for (i in participantFormsToLoad())
 		{ 
+			
 			if (!participantForms[i]?.validate())
+			{
+				allValid = false
+			}
+			if (request.getFile("form.${i}")?.isEmpty() && (session["fileName[${i}"]?.isEmpty()))
 			{
 				allValid = false
 			}
@@ -49,10 +55,11 @@ class ParticipantFormController {
 		List<Integer> usedFields = new ArrayList<Integer>();
 		participantFormCommand.forms.each {
 			  
-			if ((it?.formName.size() > 0) ||(!(request.getFile("form.${count}").isEmpty())))
+			if ((it?.formName.size() > 0) || it?.fileName.size() >0)
 			{
 				usedFields.add (count)
 			}
+			
 			count++
 		}
 		
@@ -99,26 +106,31 @@ class ParticipantFormController {
 	
 	private saveFile(file, participantFormInstance)
 	{
-		def fileExtension = getFileExtension(file.getOriginalFilename())
-		def fileName = participantFormInstance.id
-		if (fileExtension != null)
-		{
-			fileName = participantFormInstance.id + "." + fileExtension
+		if (!file?.isEmpty())
+		{	
+		    def fileExtension = getFileExtension(file?.getOriginalFilename())
+			def fileName = participantFormInstance.id
+			if (fileExtension != null)
+			{
+				fileName = participantFormInstance.id + "." + fileExtension
+			}
+			
+			file.transferTo( new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + fileName) )
+			participantFormInstance.form = participantFormInstance.id
+			participantFormInstance.contentType = file.contentType
+			participantFormInstance.fileExtension = fileExtension
+			participantFormInstance.fileName = fileName
+			participantFormInstance.save(flush: true)
+			
 		}
 		
-		file.transferTo( new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + fileName) )
-		participantFormInstance.form = participantFormInstance.id
-		participantFormInstance.contentType = file.contentType
-		participantFormInstance.fileExtension = fileExtension
-		participantFormInstance.fileName = fileName
-		participantFormInstance.save(flush: true)
 	}
 	
 	def upload = {
 		
 		def participantForms = []
 		def participantFormsError = []
-		
+		def participantFormInstanceList = []
 		for (i in participantFormsToLoad())
 		{
 			participantForms[i] = extractParticipantForm(i)
@@ -128,8 +140,21 @@ class ParticipantFormController {
 		{
 			
 			populateSessionValues(participantFormsToLoad())
+			def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
+			if( f.exists() ){
+				f.eachFile(){ file->
+				if( !file.isDirectory() )
+				{
+					def participantForm = ParticipantForm.findWhere(fileName: file.name)
+					if(participantForm != null)
+					{
+						participantFormInstanceList.add(participantForm)
+					}
+				}
+				}
+			}
 			params.max = Math.min(params.max ? params.int('max') : 10, 100)
-			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName ])
+			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
 		}
 		else
 		{
@@ -228,7 +253,7 @@ class ParticipantFormController {
 			}
 		}
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance,participantForms: participantForms, forms:participantForms]
+        [participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: participantInstance,participantForms: participantForms, forms:participantForms]
     }
 		
     def create = {
