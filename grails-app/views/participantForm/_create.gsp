@@ -14,6 +14,7 @@
                         <tr>
                             <g:sortableColumn property="formName" title="${message(code: 'participantForm.formName.label', default: 'Form Name')}" />
                             <g:sortableColumn property="forms" title="Form" /> 
+                        	
                         </tr>
                     </thead>
                         <tbody>
