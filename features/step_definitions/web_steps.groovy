@@ -56,6 +56,11 @@ Then(~"I should see \"(.*)\" selected with value \"(.*)\"") { String field, Stri
 	assertThat(select.getFirstSelectedOption().getValue(), containsString(text))
 }
 
+Then(~"I select file \"(.*)\" from \"(.*)\"") { String filePath, String field ->
+	fieldElement = browser.findElement(By.name(field))
+	fieldElement.sendKeys(testFile.getAbsolutePath())
+}
+
 Then(~"I should see table \"(.*)\" with contents") { String tableId, cuke4duke.Table table ->
 	webTable = browser.findElementsByCssSelector("table#${tableId} tbody tr").collect {
         def cols = it.findElementsByTagName('td')

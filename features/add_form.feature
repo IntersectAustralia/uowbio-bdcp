@@ -72,4 +72,9 @@ Feature: Add Form
     Then I press "forms"
     Then I should see "Participant 101"
     Then I should see "Forms"
+    Then I select file "testFile" from "form.0"
+    And I fill in "forms[0].formName" with "test"
+    And I fill in "forms[0].fileName" with "testFile"
+    Then I press "upload"
+    Then I should see "1 Participant Form uploaded"
     
