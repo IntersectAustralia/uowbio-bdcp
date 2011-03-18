@@ -1,18 +1,10 @@
-<tr class= "prop">
-                                <td valign="top" class="name">
-                                    <label for="name"><g:message code="participantForm.name.label" default="Form Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: participantForms[i], field: 'formName', 'errors')}">
-                                    <input type="text" id="forms[${i}].formName" name="forms[${i}].formName" value="${forms[i]?.formName}"/>
-                                </td>
-                            </tr>
-                          
-  <tr class="prop">
-                            <td valign="top" class="name">
-							<label for="name">Form</label>
-							</td>
+<tr>
+                                
+     <td valign="top" class="value ${hasErrors(bean: participantForms[i], field: 'formName', 'errors')}">
+          <input type="text" id="forms[${i}].formName" name="forms[${i}].formName" value="${forms[i]?.formName}"/>
+     </td>
                             
- 							
+							
 <td valign="top" class="value ${hasErrors(bean: participantForms[i], field: 'fileName', 'errors')}">
 <div class="file_input_div">
 
@@ -23,6 +15,6 @@
   </div></td>
   <g:hiddenField name="forms[${i}].participant.id" value="${params.participantId }" />
                             
-                            </tr>
+</tr>
                             
                             

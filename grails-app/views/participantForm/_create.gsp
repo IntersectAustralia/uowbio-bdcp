@@ -8,11 +8,16 @@
             
             </g:each>
             <g:uploadForm action="upload" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]" method="post" >
-                <div class="dialog">
+                <div class="list">
                     <table>
+                        <thead>
+                        <tr>
+                            <g:sortableColumn property="formName" title="${message(code: 'participantForm.formName.label', default: 'Form Name')}" />
+                            <g:sortableColumn property="forms" title="Form" /> 
+                        </tr>
+                    </thead>
                         <tbody>
-                         
-                            <g:render template="form" model = "['i':0, 'body':body()]"/>
+                           <g:render template="form" model = "['i':0, 'body':body()]"/>
                             <g:render template="form" model = "['i':1, 'body':body()]"/>
                             <g:render template="form" model = "['i':2, 'body':body()]"/>
                             <g:render template="form" model = "['i':3, 'body':body()]"/>
