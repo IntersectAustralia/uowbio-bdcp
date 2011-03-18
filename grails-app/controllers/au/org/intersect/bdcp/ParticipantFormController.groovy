@@ -108,7 +108,7 @@ class ParticipantFormController {
 	
 	private saveFile(file, participantFormInstance)
 	{
-		if (!file?.isEmpty())
+		if (!file?.isEmpty() && !(file == null))
 		{	
 		    def fileExtension = getFileExtension(file?.getOriginalFilename())
 			def fileName = participantFormInstance.id
@@ -124,6 +124,10 @@ class ParticipantFormController {
 			participantFormInstance.fileName = fileName
 			participantFormInstance.save(flush: true)
 			
+		}
+		else
+		{
+			participantFormInstance.delete(flush: true)
 		}
 		
 	}
@@ -255,7 +259,7 @@ class ParticipantFormController {
 			}
 		}
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: participantInstance,participantForms: participantForms, forms:participantForms]
+        [participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: participantInstance,participantForms: participantForms, forms:participantForms, participantId: params.participantId]
     }
 		
     def create = {
