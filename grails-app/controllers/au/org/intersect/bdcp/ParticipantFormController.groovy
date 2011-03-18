@@ -106,9 +106,9 @@ class ParticipantFormController {
 	
 	private saveFile(file, participantFormInstance)
 	{
-		if (!file.isEmpty())
+		if (!file?.isEmpty())
 		{	
-		    def fileExtension = getFileExtension(file.getOriginalFilename())
+		    def fileExtension = getFileExtension(file?.getOriginalFilename())
 			def fileName = participantFormInstance.id
 			if (fileExtension != null)
 			{
