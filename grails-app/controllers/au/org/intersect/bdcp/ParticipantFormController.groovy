@@ -28,9 +28,15 @@ class ParticipantFormController {
 	private boolean validateParticipantForms(participantForms)
 	{
 		def allValid = true
+		def file = ""
 		for (i in participantFormsToLoad())
 		{ 
+			
 			if (!participantForms[i]?.validate())
+			{
+				allValid = false
+			}
+			if (request.getFile("form.${i}")?.isEmpty() && (session["fileName[${i}"]?.isEmpty()))
 			{
 				allValid = false
 			}
@@ -49,10 +55,11 @@ class ParticipantFormController {
 		List<Integer> usedFields = new ArrayList<Integer>();
 		participantFormCommand.forms.each {
 			  
-			if ((it?.formName.size() > 0) ||(!(request.getFile("form.${count}").isEmpty())))
+			if ((it?.formName.size() > 0) || it?.fileName.size() >0)
 			{
 				usedFields.add (count)
 			}
+			
 			count++
 		}
 		
@@ -99,19 +106,24 @@ class ParticipantFormController {
 	
 	private saveFile(file, participantFormInstance)
 	{
-		def fileExtension = getFileExtension(file.getOriginalFilename())
-		def fileName = participantFormInstance.id
-		if (fileExtension != null)
-		{
-			fileName = participantFormInstance.id + "." + fileExtension
+		if (!file.isEmpty())
+		{	
+		    def fileExtension = getFileExtension(file.getOriginalFilename())
+			def fileName = participantFormInstance.id
+			if (fileExtension != null)
+			{
+				fileName = participantFormInstance.id + "." + fileExtension
+			}
+			
+			file.transferTo( new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + fileName) )
+			participantFormInstance.form = participantFormInstance.id
+			participantFormInstance.contentType = file.contentType
+			participantFormInstance.fileExtension = fileExtension
+			participantFormInstance.fileName = fileName
+			participantFormInstance.save(flush: true)
+			
 		}
 		
-		file.transferTo( new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + fileName) )
-		participantFormInstance.form = participantFormInstance.id
-		participantFormInstance.contentType = file.contentType
-		participantFormInstance.fileExtension = fileExtension
-		participantFormInstance.fileName = fileName
-		participantFormInstance.save(flush: true)
 	}
 	
 	def upload = {
