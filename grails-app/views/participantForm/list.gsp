@@ -15,11 +15,9 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-        <span class="button"><g:link elementId="return" mapping="participantDetails" controller="participant" action="list" params="[studyId: params.studyId]">Return to Participants</g:link></span>
-        </div>
+            
         <div class="body">
+        <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <h1>Participant ${participantInstance}</h1>
             <h2>Forms</h2>
             <g:if test="${flash.message}">
@@ -32,10 +30,7 @@
              <table>
                     <thead>
                         <tr>
-                        
                             <g:sortableColumn property="formName" title="${message(code: 'participantForm.formName.label', default: 'Form Name')}" />
-                        
-                        
                         </tr>
                     </thead>
                     <tbody>
