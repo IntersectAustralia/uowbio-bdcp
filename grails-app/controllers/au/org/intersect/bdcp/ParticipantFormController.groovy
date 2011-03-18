@@ -118,7 +118,7 @@ class ParticipantFormController {
 		
 		def participantForms = []
 		def participantFormsError = []
-		
+		def participantFormInstanceList = []
 		for (i in participantFormsToLoad())
 		{
 			participantForms[i] = extractParticipantForm(i)
@@ -128,8 +128,21 @@ class ParticipantFormController {
 		{
 			
 			populateSessionValues(participantFormsToLoad())
+			def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
+			if( f.exists() ){
+				f.eachFile(){ file->
+				if( !file.isDirectory() )
+				{
+					def participantForm = ParticipantForm.findWhere(fileName: file.name)
+					if(participantForm != null)
+					{
+						participantFormInstanceList.add(participantForm)
+					}
+				}
+				}
+			}
 			params.max = Math.min(params.max ? params.int('max') : 10, 100)
-			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: ParticipantForm.list(params), participantFormInstanceTotal: ParticipantForm.count(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName ])
+			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
 		}
 		else
 		{
@@ -228,7 +241,7 @@ class ParticipantFormController {
 			}
 		}
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: ParticipantForm.count(), fileResourceInstanceList: fileResourceInstanceList, participantInstance: participantInstance,participantForms: participantForms, forms:participantForms]
+        [participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: participantInstance,participantForms: participantForms, forms:participantForms]
     }
 		
     def create = {
