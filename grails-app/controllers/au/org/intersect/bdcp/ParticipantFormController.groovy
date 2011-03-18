@@ -28,15 +28,13 @@ class ParticipantFormController {
 	private boolean validateParticipantForms(participantForms)
 	{
 		def allValid = true
-		def file = ""
 		for (i in participantFormsToLoad())
 		{ 
-			
-			if (!participantForms[i]?.validate())
+			if (request.getFile("form.${i}")?.isEmpty() && (session["fileName[${i}]"] == null))
 			{
-				allValid = false
+				participantForms[i].fileName = null
 			}
-			if (request.getFile("form.${i}")?.isEmpty() && (session["fileName[${i}"]?.isEmpty()))
+			if (!participantForms[i]?.validate())
 			{
 				allValid = false
 			}
@@ -95,11 +93,15 @@ class ParticipantFormController {
 	
 	private String getFileExtension(fileName)
 	{
-		int mid= fileName.lastIndexOf(".");
 		def fileExtension
-		if (!(mid < 0))
+		if (fileName != null)
 		{
-			fileExtension=fileName.substring(mid+1,fileName.length());
+			int mid= fileName.lastIndexOf(".");
+			
+			if (!(mid < 0))
+			{
+				fileExtension=fileName.substring(mid+1,fileName.length());
+			}
 		}
 		return fileExtension
 	}
@@ -167,7 +169,7 @@ class ParticipantFormController {
 				{
 								new File( getRealPath() + File.separatorChar + params.participantId.toString()).mkdirs()
 								def file = request.getFile("form.${i}")
-								if (file.isEmpty())
+								if (file?.isEmpty() && !(session["fileName[${i}]"] == null))
 								{
 									file = session["fileName[${i}]"]
 								}
