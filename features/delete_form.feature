@@ -1,7 +1,7 @@
-Feature: Add Form
+Feature: Delete Form
   In order manage my data
   As a researcher
-  I want to add a form to a participant
+  I want to delete a form to from a participant
  
  Background:
  	Given I am on the create project page
@@ -56,7 +56,6 @@ Feature: Add Form
     Then I should see "saved"
     Then I should see "101"
     
-    Scenario: Add Form
     Given I am on the home page
     And I follow "My Biomechanics Study"
     Then I follow "Participants"
@@ -65,15 +64,12 @@ Feature: Add Form
     Then I press "forms"
     Then I should see "Participant 101"
     Then I should see "Forms"
-    Then I press "return"
-    Then I should see "Add Participant"
-    Then I should see "101"
-    
-    Then I press "forms"
-    Then I should see "Participant 101"
-    Then I should see "Forms"
     Then I select file "testFile" from "form.0"
     And I fill in "forms[0].formName" with "test"
     And I fill in "forms[0].fileName" with "testFile"
     Then I press "upload"
     Then I should see "1 Participant Form uploaded"
+    
+    Scenario: Delete Form
+    Then I press "delete"
+    Then I should see "ParticipantForm test deleted"
