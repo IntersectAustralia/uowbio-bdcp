@@ -33,7 +33,7 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="identifier" title="${message(code: 'participant.identifier.label', default: 'Identifier')}" />
+                            <th>${message(code: 'participant.identifier.label', default: 'Identifier')}</th>
                         
                         </tr>
                     </thead>

@@ -30,7 +30,7 @@
              <table>
                     <thead>
                         <tr>
-                            <g:sortableColumn property="formName" title="${message(code: 'participantForm.formName.label', default: 'Form Name')}" />
+                            <th>${message(code: 'participantForm.formName.label', default: 'Form Name')}</th>
                         </tr>
                     </thead>
                     <tbody>
