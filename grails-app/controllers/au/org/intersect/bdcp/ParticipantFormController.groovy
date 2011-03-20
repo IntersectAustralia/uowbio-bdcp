@@ -159,7 +159,6 @@ class ParticipantFormController {
 				}
 				}
 			}
-			params.max = Math.min(params.max ? params.int('max') : 10, 100)
 			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
 		}
 		else
@@ -258,7 +257,6 @@ class ParticipantFormController {
 			}
 			}
 		}
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: participantInstance,participantForms: participantForms, forms:participantForms, participantId: params.participantId]
     }
 		

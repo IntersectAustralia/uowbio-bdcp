@@ -46,9 +46,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="paginateButtons">
-                <g:paginate total="${participantFormInstanceTotal}" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]"/>
-            </div>
             </g:if>
             <h2>Add Forms</h2>
             <g:if test="${flash.error}">
