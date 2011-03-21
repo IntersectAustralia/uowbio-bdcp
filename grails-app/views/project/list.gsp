@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="body">
-              <span class="menuButton"><g:link class="admin" controller="admin" action="create"><g:message code="default.account.admin.label"/></g:link></span>
+              <span class="menuButton"><g:link elementId="account-administration" class="admin" controller="admin" action="create"><g:message code="default.account.admin.label"/></g:link></span>
             <h1>Welcome Researcher</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>

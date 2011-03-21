@@ -9,7 +9,7 @@
     <h1>Account Administration</h1>
     <div class="rowTop"><g:link elementId="create" controller="admin" action="ldapSearchPage">Create New User</g:link></div>
     <div class="rowBottom">
-   <g:link class="list" elementId="create" controller="project" action="list">Back</g:link>
+   <g:link class="list" elementId="Back" controller="project" action="list">Back</g:link>
     </div>
     </div>
     </body>
