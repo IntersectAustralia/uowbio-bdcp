@@ -30,7 +30,7 @@
              <table>
                     <thead>
                         <tr>
-                            <g:sortableColumn property="formName" title="${message(code: 'participantForm.formName.label', default: 'Form Name')}" />
+                            <th>${message(code: 'participantForm.formName.label', default: 'Form Name')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,9 +45,6 @@
                         </g:each>
                     </tbody>
                 </table>
-            </div>
-            <div class="paginateButtons">
-                <g:paginate total="${participantFormInstanceTotal}" mapping="participantFormDetails" params="[studyId: params.studyId, participantId: params.participantId]"/>
             </div>
             </g:if>
             <h2>Add Forms</h2>
