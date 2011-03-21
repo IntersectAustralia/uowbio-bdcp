@@ -10,4 +10,8 @@ class AdminController {
     def create = {
         
     }
+	
+	def ldapSearchPage = {
+		
+	}
 }
