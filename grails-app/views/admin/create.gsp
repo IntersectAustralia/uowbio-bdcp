@@ -9,7 +9,9 @@
     <h1>Account Administration</h1>
     <div class="rowTop"><g:link elementId="create" controller="admin" action="ldapSearchPage">Create New User</g:link></div>
     <div class="rowBottom">
-   <g:link class="list" elementId="Back" controller="project" action="list">Back</g:link>
+    <div class="buttons">
+    <span class="menuButton"><g:link controller="project" class="list" action="list">Back</g:link></span>
+    </div>
     </div>
     </div>
     </body>

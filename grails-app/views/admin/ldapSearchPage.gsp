@@ -44,8 +44,9 @@
                     <span class="button"><g:submitButton name="create" id="upload" class="save" value="Search" /></span>
                     </div>
     <div class="rowBottom">
+    
    <div class="buttons">
-                    <span class="button"><g:actionSubmit name="save" id="save" class="save" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
+   					<span class="menuButton"><g:link controller="admin" elementId="back" class="list" action="create">Back</g:link></span>
                     <span class="button"><g:link elementId="cancel" controller="admin" action="create" >Cancel</g:link></span>
                 </div>
     </div>

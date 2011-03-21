@@ -76,7 +76,7 @@
                 <g:form>
                     <g:hiddenField name="id" value="${projectInstance?.id}" />
                     <span class="button"><g:actionSubmit class="edit" id="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                	<span class="menuButton"><g:link class="list" action="list">Back</g:link></span>
+                	<span class="button"><g:link class="list" action="list">Back</g:link></span>
                 </g:form>
             </div>
         </div>

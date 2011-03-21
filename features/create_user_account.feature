@@ -15,3 +15,16 @@ Feature: Create User Account
     Then I should see "Account Administration"
     Then I press "create"
     Then I should see "New User Account"
+    And I press "Back"
+    Then I should see "Account Administration"
+     Then I press "create"
+     Then I should see "New User Account"
+     Then I press "cancel"
+     Then I should see "Account Administration"
+     
+     Given I am on the home page
+     And I press "account-administration"
+     Then I should see "Account Administration"
+     Then I press "create"
+     Then I should see "New User Account"
+     
