@@ -91,3 +91,27 @@ log4j = {
 	warn   'org.mortbay.log'
 }
 images.location = "web-app/images/"
+
+ldap {
+	directories {
+		user {
+			defaultDirectory = true
+			url = "ldap://gsw1-int-ldaptest-vm.intersect.org.au/"
+			base = "ou=people,dc=biomechanics, dc=local"
+			userDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
+			password = "password"
+			searchControls {
+				countLimit = 40
+				timeLimit = 600
+				searchScope = "subtree"
+			}
+
+		}
+		
+	}
+ 
+	schemas = [
+		au.org.intersect.bdcp.ldap.LdapUser
+	]
+ 
+}

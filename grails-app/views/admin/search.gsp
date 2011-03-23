@@ -7,6 +7,7 @@
     <body>
     <div class="body">
     <h1>New User Account</h1>
+    <g:form action="searchUsers" method="post" >
     <div class="dialog">
                 <table>
                     <tbody>
@@ -16,7 +17,7 @@
                                   <label for="firstName">First Name</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: projectInstance, field: 'projectTitle', 'errors')}">
-                                    <g:textField name="firstName" value="${session?.firstName}" />
+                                    <g:textField name="firstName" value="${firstName}" />
                                 </td>
                             </tr>
                         <tr class="prop">
@@ -43,11 +44,12 @@
     <div class="buttons">
                     <span class="button"><g:submitButton name="create" id="upload" class="save" value="Search" /></span>
                     </div>
+    </g:form>
     <div class="rowBottom">
-    
+   
    <div class="buttons">
    					<span class="menuButton"><g:link controller="admin" elementId="back" class="list" action="create">Back</g:link></span>
-                    <span class="button"><g:link elementId="cancel" controller="admin" action="create" >Cancel</g:link></span>
+                    <span class="button"><g:link elementId="cancel" controller="admin" class="button" action="create" >Cancel</g:link></span>
                 </div>
     </div>
     </div>

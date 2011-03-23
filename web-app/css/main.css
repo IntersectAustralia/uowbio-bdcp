@@ -437,7 +437,7 @@ a#forms{
  background: transparent url(../images/skin/database_table.png) 5px 50% no-repeat;
  }
 
-a#create, a#account-administration {
+a#create, a#account-administration, a.button {
     margin-top:10px;
     padding: 4px 9px;
     display: inline;
