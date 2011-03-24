@@ -46,7 +46,7 @@ class StudyController
 		if (!studyInstance)
 		{
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'study.label', default: 'Study'), params.id])}"
-			redirect(action: "list")
+			redirect(controller: "project", action: "list")
 		}
 		else
 		{
@@ -63,7 +63,7 @@ class StudyController
 				participantsSelected = "false"
 				detailsSelected = "true"
 			}
-			[studyInstance: studyInstance, participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count(), participantsInStudy: participantsInStudy,participantsSelected:participantsSelected,detailsSelected:detailsSelected]
+			[studyInstance: studyInstance, participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance), participantsInStudy: participantsInStudy,participantsSelected:participantsSelected,detailsSelected:detailsSelected]
 		}
 	}
 
