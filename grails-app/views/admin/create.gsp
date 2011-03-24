@@ -6,7 +6,7 @@
     </head>
     <body>
     <div class="body">
-    <p> Confirm account creation for dpollum (User will recieve an email notification </p>
+    <p> Confirm account creation for ${username} (User will receive an email notification </p>
      <p> advising of new account.) </p>
 	 <br />
 	 <div class="rowTop">   

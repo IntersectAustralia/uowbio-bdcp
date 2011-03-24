@@ -10,7 +10,16 @@ class AdminController {
     def allowedMethods = []
 
 	def create = {
-		
+		def username
+		if (params.username == null)
+		{
+			username = "Invalid User"
+		}
+		else
+		{
+			username = params.username
+		}
+		return [username: username]
 	}
 	
     def accountAdmin = {
