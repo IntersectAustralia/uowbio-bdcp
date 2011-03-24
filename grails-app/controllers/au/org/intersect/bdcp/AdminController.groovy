@@ -9,7 +9,11 @@ class AdminController {
     
     def allowedMethods = []
 
-    def create = {
+	def create = {
+		
+	}
+	
+    def accountAdmin = {
         
     }
 	
@@ -20,27 +24,47 @@ class AdminController {
 	}
 	
 	def searchUsers = {
-		
-		session.firstName = params.firstName
-		session.surname = params.surname
-		session.userid = params.userid
+		if (params.firstName != null && !params.firstName.isEmpty())
+		{
+			session.firstName = params.firstName
+		}
+		else
+		{
+			session.firstName = ""
+		}
+		if (params.surname != null && !params.surname.isEmpty())
+		{
+				session.surname = params.surname
+		}
+		else
+		{
+			session.surname=""
+		}
+		if (params.userid != null && !params.userid.isEmpty())
+		{
+				session.userid = params.userid
+		}
+		else
+		{
+			session.userid = ""
+		}
 		
 		List<LdapUser> matches = LdapUser.findAll() {
 			and {
-					if (!params.userid?.isEmpty())
+					if (!session.userid?.isEmpty())
 					{
-						like "userid", params.userid
+						like "uid", session.userid
 					}
 					else
 					{
-						like "userid", "*"
+						like "uid", "*"
 					}
 				}
 			and
 			{
-				if (!params.surname?.isEmpty())
+				if (!session.surname?.isEmpty())
 					{
-						like "sn", params.surname
+						like "sn", session.surname
 					}
 					else
 					{
@@ -49,9 +73,9 @@ class AdminController {
 			}
 			and
 			{
-				if (!params.firstName?.isEmpty())
+				if (!session.firstName?.isEmpty())
 					{
-						like "givenName", params.firstName
+						like "givenName", session.firstName
 					}
 					else
 					{

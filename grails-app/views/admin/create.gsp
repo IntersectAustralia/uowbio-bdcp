@@ -2,15 +2,20 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <title>Account Administration</title>
+        <title>Confirm Account Creation</title>
     </head>
     <body>
     <div class="body">
-    <h1>Account Administration</h1>
-    <div class="rowTop"><g:link elementId="create" controller="admin" action="search">Create New User</g:link></div>
+    <p> Confirm account creation for dpollum (User will recieve an email notification </p>
+     <p> advising of new account.) </p>
+	 <br />
+	 <div class="rowTop">   
+     <g:link controller="project" class="create" action="list">Confirm</g:link>
+     <g:link controller="admin" class="create" action="searchUsers" params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
+     </div>
     <div class="rowBottom">
     <div class="buttons">
-    <span class="menuButton"><g:link controller="project" class="list" action="list">Back</g:link></span>
+    <g:link controller="admin" class="create" action="searchUsers" params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Back</g:link>
     </div>
     </div>
     </div>
