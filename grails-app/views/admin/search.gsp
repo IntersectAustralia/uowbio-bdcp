@@ -45,13 +45,12 @@
                     <span class="button"><g:submitButton name="create" id="upload" class="save" value="Search" /></span>
                     </div>
     </g:form>
-    <div class="rowBottom">
-   
+    
+    <g:render template="list" model="['matches': matches]"/>
    <div class="buttons">
    					<span class="menuButton"><g:link controller="admin" elementId="back" class="list" action="create">Back</g:link></span>
                     <span class="button"><g:link elementId="cancel" controller="admin" class="button" action="create" >Cancel</g:link></span>
                 </div>
-    </div>
     </div>
     </body>
 </html>

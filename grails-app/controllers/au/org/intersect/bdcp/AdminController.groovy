@@ -14,60 +14,53 @@ class AdminController {
     }
 	
 	def search = {
+		def matches = []
 		
-		render(view: "search")
+		render(view: "search", model:[matches:matches])
 	}
 	
 	def searchUsers = {
-		if (params.firstName != null)
-		{
-			session.firstName = params.firstName
-		}
-		else
-		{
-			session.firstName = ""
-		}
-		if (params.surname != null)
-		{
-			session.surname = params.surname
-		}
-		else
-		{
-			session.surname=""
-		}
-		if (params.userid != null)
-		{
-			session.userid = params.userid
-		}
-		else
-		{
-			session.userid = ""
-		}
+		
+		session.firstName = params.firstName
+		session.surname = params.surname
+		session.userid = params.userid
 		
 		List<LdapUser> matches = LdapUser.findAll() {
 			and {
-					like "uid", "${session.userid}"
+					if (!params.userid?.isEmpty())
+					{
+						like "userid", params.userid
+					}
+					else
+					{
+						like "userid", "*"
+					}
 				}
 			and
 			{
-				like "sn", "${session.surname}"
+				if (!params.surname?.isEmpty())
+					{
+						like "sn", params.surname
+					}
+					else
+					{
+						like "sn", "*"
+					}
 			}
 			and
 			{
-				like "givenName", "${session.firstName}"
+				if (!params.firstName?.isEmpty())
+					{
+						like "givenName", params.firstName
+					}
+					else
+					{
+						like "givenName", "*"
+					}
 			}
 		}
 		
-		println matches.size() + " matches:"
-		println "---------------------------------"
-		matches.each
-		{
-			println it.uid + " " + it.cn
-		}
-		println "---------------------------------"
 		
-		
-		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid])
-//		redirect (controller: "admin", action: "search")
+		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: matches])
 	}
 }
