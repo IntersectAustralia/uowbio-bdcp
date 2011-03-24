@@ -18,7 +18,7 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <g:hasErrors bean="${studyInstance}">
-            <div "grails-app/views/study/create.gsp"class="errors">
+            <div class="errors">
                 <g:renderErrors bean="${studyInstance}" as="list" />
             </div>
             </g:hasErrors>

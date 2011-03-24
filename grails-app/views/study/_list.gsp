@@ -10,8 +10,8 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="identifier" title="${message(code: 'participant.identifier.label', default: 'Identifier')}" />
-                        
+                            <th>${message(code: 'participant.identifier.label', default: 'Participant ID')}</th>
+                        	<th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -19,9 +19,10 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                             <td>
                               <div class="columnLeft">${fieldValue(bean: participantInstance, field: "identifier")}</div>
-                              <div class="columnRight"><g:link elementId="forms" mapping="participantFormDetails" controller="participantForm" action="list" params="[studyId: studyInstance.id, participantId: participantInstance.id]">Forms</g:link></div>
-                              <div class="columnRight"><g:link mapping="participantDetails" elementId="edit-participant" controller="participant" action="edit" params="[studyId: studyInstance.id, id: participantInstance.id]">Edit</g:link></div>
-                           	  
+                            </td>
+                            <td>
+                             <g:link mapping="participantDetails" elementId="edit-participant" controller="participant" action="edit" params="[studyId: studyInstance.id, id: participantInstance.id]">Edit</g:link>
+                             <g:link elementId="forms" mapping="participantFormDetails" controller="participantForm" action="list" params="[studyId: studyInstance.id, participantId: participantInstance.id]">Forms</g:link>
                            </td>
                         </tr>
                     </g:each>
