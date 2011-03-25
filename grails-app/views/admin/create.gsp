@@ -10,7 +10,7 @@
      <p> advising of new account.) </p>
 	 <br />
 	 <div class="rowTop">   
-     <g:link controller="project" class="create" action="list">Confirm</g:link>
+     <g:link controller="admin" class="create" params="[username: params.username]" action="save" method="post">Confirm</g:link>
      <g:link controller="admin" class="create" action="searchUsers" params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
      </div>
     <div class="rowBottom">

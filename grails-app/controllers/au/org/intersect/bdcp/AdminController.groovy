@@ -4,7 +4,9 @@ import au.org.intersect.bdcp.ldap.LdapUser
 
 class AdminController {
 
-    def index = { redirect(action:create,params:params) }
+    def emailNotifierService
+	
+	def index = { redirect(action:create,params:params) }
 	static transactional = true
     
     def allowedMethods = []
@@ -13,13 +15,51 @@ class AdminController {
 		def username
 		if (params.username == null)
 		{
-			username = "Invalid User"
+			username = ""
 		}
 		else
 		{
 			username = params.username
 		}
 		return [username: username]
+	}
+	
+	def save = {
+		def accountStatus = "Failed"
+		def user
+		def email
+		if (params.username != null)
+		{
+			LdapUser match = LdapUser.find(
+				filter: "(uid=${params.username})")
+			if (match !=  null)
+			{
+				email = match.mail
+				user= new User(uid: params.username)
+			}
+			
+		   
+		}
+		if (user!= null && user.save(flush:true))
+		{
+				accountStatus = "Successful"
+				emailNotifierService.contactUser(user.uid, email)
+				render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,username:params.username])
+				session.firstName =  ""
+				session.surname = ""
+				session.userid = ""
+		}
+		else
+		{
+			accountStatus = "Failed"
+			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,username:params.username])
+		}
+		
+		
+	}
+	
+	def createStatus = {
+		
 	}
 	
     def accountAdmin = {
@@ -69,8 +109,7 @@ class AdminController {
 						like "uid", "*"
 					}
 				}
-			and
-			{
+			and{
 				if (!session.surname?.isEmpty())
 					{
 						like "sn", session.surname
@@ -80,8 +119,7 @@ class AdminController {
 						like "sn", "*"
 					}
 			}
-			and
-			{
+			and {
 				if (!session.firstName?.isEmpty())
 					{
 						like "givenName", session.firstName

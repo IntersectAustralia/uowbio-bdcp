@@ -13,6 +13,7 @@ class LdapUser{
 	String sn
 	String givenName
 	String title
+	String mail
 	String displayName
 	Set memberOf
 }

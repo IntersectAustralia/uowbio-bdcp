@@ -92,6 +92,22 @@ log4j = {
 }
 images.location = "web-app/images/"
 
+environments {
+	development {
+		grails.mail.disabled=true
+		grails.mail.host = "localhost"
+	}
+	
+	test {
+		grails.mail.host = "localhost"
+		grails.mail.disabled=true
+	}
+	
+	production {
+		grails.mail.host = "smtp.uow.edu.au"
+	}
+}
+
 environments
 {
 	development
@@ -109,8 +125,8 @@ environments
 					//userDn = "uid=1924,ou=People,o=University of Wollongong,c=au"
 					searchControls
 					{
-						countLimit = 40
-						timeLimit = 600
+//						countLimit = 40
+//						timeLimit = 600
 						searchScope = "subtree"
 					}
 				}
@@ -138,8 +154,8 @@ environments
 					password = "password"
 					searchControls
 					{
-						countLimit = 40
-						timeLimit = 600
+//						countLimit = 40
+//						timeLimit = 600
 						searchScope = "subtree"
 					}
 				}
@@ -151,3 +167,4 @@ environments
 		}
 	}
 }
+
