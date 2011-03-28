@@ -2,7 +2,7 @@
            <g:if test="${ matches.size() > 0}">
            <h2>Results</h2>
            <div class="list">
-                <table>
+                <table id="searchTable">
                     <thead>
                         <tr>
                         
@@ -18,7 +18,7 @@
                             <td>${matchInstance.username.toArray()[1]}</td>
                              <td> ${matchInstance.givenName }</td>
                              <td> ${matchInstance.sn }</td>
-                             <td><g:link elementId="create" controller="admin" action="create" params="[username: matchInstance.username.toArray()[1]]">Select</g:link></td>
+                             <td><g:link elementId="select[${i}]" controller="admin" action="create" params="[username: matchInstance.username.toArray()[1]]">Select</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>

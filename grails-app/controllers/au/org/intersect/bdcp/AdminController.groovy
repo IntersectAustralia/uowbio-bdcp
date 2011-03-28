@@ -2,6 +2,7 @@ package au.org.intersect.bdcp
 
 import au.org.intersect.bdcp.ldap.LdapUser
 
+
 class AdminController {
 
     def emailNotifierService
@@ -35,7 +36,7 @@ class AdminController {
 			if (match !=  null)
 			{
 				email = match.mail
-				user= new User(uid: params.username)
+				user= new UserStore(uid: params.username)
 			}
 			
 		   
@@ -102,7 +103,7 @@ class AdminController {
 			and {
 					if (!session.userid?.isEmpty())
 					{
-						like "uid", session.userid
+						like "uid", "*" + session.userid + "*"
 					}
 					else
 					{
@@ -112,7 +113,7 @@ class AdminController {
 			and{
 				if (!session.surname?.isEmpty())
 					{
-						like "sn", session.surname
+						like "sn", "*" + session.surname + "*" 
 					}
 					else
 					{
@@ -122,7 +123,7 @@ class AdminController {
 			and {
 				if (!session.firstName?.isEmpty())
 					{
-						like "givenName", session.firstName
+						like "givenName", "*" + session.firstName +"*"
 					}
 					else
 					{

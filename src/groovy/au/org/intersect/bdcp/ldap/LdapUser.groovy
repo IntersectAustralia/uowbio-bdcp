@@ -15,5 +15,4 @@ class LdapUser{
 	String title
 	String mail
 	String displayName
-	Set memberOf
 }

@@ -92,25 +92,56 @@ log4j = {
 }
 images.location = "web-app/images/"
 
+ldapServers {
+	d1 {
+		base = "dc=biomechanics, dc=local"
+		port = 10400
+		indexed = ["objectClass", "uid", "mail"]
+	}
+
+}
+
 environments {
 	development {
-		grails.mail.disabled=true
+		grails.mail.port = com.icegreen.greenmail.util.ServerSetupTest.SMTP.port
 		grails.mail.host = "localhost"
+		
+		ldapServers {
+			d1 {
+				base = "ou=people,dc=biomechanics, dc=local"
+				port = 10400
+				indexed = ["objectClass", "uid", "mail"]
+			}
+	
+		}
 	}
 	
 	test {
+		grails.mail.port = com.icegreen.greenmail.util.ServerSetupTest.SMTP.port
 		grails.mail.host = "localhost"
-		grails.mail.disabled=true
+		
+		ldapServers {
+			d1 {
+				base = "ou=people,dc=biomechanics, dc=local"
+				port = 10400
+				indexed = ["objectClass", "uid", "mail"]
+			}
+	
+		}
 	}
 	
 	production {
+		grails.mail.host = "smtp.uow.edu.au"
+	}
+	
+	intersect_test {
 		grails.mail.host = "smtp.uow.edu.au"
 	}
 }
 
 environments
 {
-	development
+	production
 	{
 		ldap
 		{
@@ -122,11 +153,8 @@ environments
 					url = "ldap://ldap.uow.edu.au"
 					port = 389
 					base = "ou=People,o=University of Wollongong,c=au"
-					//userDn = "uid=1924,ou=People,o=University of Wollongong,c=au"
 					searchControls
 					{
-//						countLimit = 40
-//						timeLimit = 600
 						searchScope = "subtree"
 					}
 				}
@@ -138,7 +166,7 @@ environments
 			
 		}
 	}
-	production
+	intersect_test
 	{
 		ldap
 		{
@@ -154,10 +182,54 @@ environments
 					password = "password"
 					searchControls
 					{
-//						countLimit = 40
-//						timeLimit = 600
 						searchScope = "subtree"
 					}
+				}
+			}
+
+			schemas = [
+				au.org.intersect.bdcp.ldap.LdapUser
+			]
+		}
+	}
+	
+	development
+	{
+		ldap
+		{
+
+			directories
+			{
+				d1
+				{
+					defaultDirectory = true
+					url = "ldap://localhost:10400"
+					base = "ou=people,dc=biomechanics, dc=local"
+					userDn = "uid=admin,ou=system"
+					password = "secret"
+				}
+			}
+
+			schemas = [
+				au.org.intersect.bdcp.ldap.LdapUser
+			]
+		}
+	}
+	
+	test
+	{
+		ldap
+		{
+
+			directories
+			{
+				d1
+				{
+					defaultDirectory = true
+					url = "ldap://localhost:10400"
+					base = "ou=people,dc=biomechanics, dc=local"
+					userDn = "uid=admin,ou=system"
+					password = "secret"
 				}
 			}
 

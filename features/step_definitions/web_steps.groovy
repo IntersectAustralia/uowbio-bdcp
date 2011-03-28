@@ -21,6 +21,14 @@ Given(~"I am on the home page") { ->
     browser.get("http://localhost:8080/BDCP")
 }
 
+Given(~"I am on the email page") { ->
+	browser.get("http://localhost:8080/BDCP/greenmail/list")
+}
+
+Given(~"I have deleted all emails") { ->
+	browser.get("http://localhost:8080/BDCP/greenmail/clear")
+}
+
 Given(~"I follow \"(.*)\"") { String link->
 	WebElement element = browser.findElement(By.linkText(link))
 	element.click()
@@ -65,6 +73,14 @@ Then(~"I should see table \"(.*)\" with contents") { String tableId, cuke4duke.T
 	webTable = browser.findElementsByCssSelector("table#${tableId} tbody tr").collect {
         def cols = it.findElementsByTagName('td')
         [cols[0].text, cols[1].text]
+	}
+	table.diffLists(webTable)
+}
+
+Then(~"I should see a 4 column table \"(.*)\" with contents") { String tableId, cuke4duke.Table table ->
+	webTable = browser.findElementsByCssSelector("table#${tableId} tbody tr").collect {
+		def cols = it.findElementsByTagName('td')
+		[cols[0].text, cols[1].text, cols[2].text, cols[3].text]
 	}
 	table.diffLists(webTable)
 }

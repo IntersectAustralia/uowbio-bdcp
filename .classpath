@@ -29,6 +29,21 @@
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="greenmail-1.2.2.1-SNAPSHOT-grails-app-controllers">
+		<attributes>
+			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="greenmail-1.2.2.1-SNAPSHOT-grails-app-views">
+		<attributes>
+			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="greenmail-1.2.2.1-SNAPSHOT-src-groovy">
+		<attributes>
+			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry excluding="BuildConfig.groovy|*DataSource.groovy|UrlMappings.groovy|Config.groovy|BootStrap.groovy|spring/resources.groovy" kind="src" path="jquery-1.4.4.1-grails-app-conf">
 		<attributes>
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
