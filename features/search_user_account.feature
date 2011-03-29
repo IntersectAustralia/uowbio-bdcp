@@ -11,9 +11,11 @@ Feature: Search User Accounts
      Then I should see "New User Account"
      Then I press "search"
      Then I should see a 4 column table "searchTable" with contents
-     |dpollum  | David  | Pollum   | Select |
-     |johnk    | John   | Kenward  | Select |
-     |chrisk   | Chris  | Kenward  | Select |
+     |abe    | John  | Abe      | Select  |
+     |chrisk | Chris | Kenward  | Select  |
+     |davidk | David | Kenward  | Select  |
+     |dpollum| David | Pollum   | Select  |
+     |johnk  | John  | Kenward  | Select  |
      
      Given I am on the home page
      And I press "account-administration"
@@ -23,14 +25,17 @@ Feature: Search User Accounts
      Then I fill in "surname" with "Kenward"
      Then I press "search"
      Then I should see a 4 column table "searchTable" with contents
-     |johnk  | John  | Kenward  | Select  |
      |chrisk | Chris | Kenward  | Select  |
+     |davidk | David | Kenward  | Select  |
+     |johnk  | John  | Kenward  | Select  |
+     
      Then I press "select[0]"
      Then I should see "Confirm account creation for"
      Then I press "Cancel"
      Then I should see a 4 column table "searchTable" with contents
-     |johnk  | John  | Kenward  | Select  |
      |chrisk | Chris | Kenward  | Select  |
+     |davidk | David | Kenward  | Select  |
+     |johnk  | John  | Kenward  | Select  |
      
      
       

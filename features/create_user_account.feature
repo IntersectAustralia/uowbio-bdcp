@@ -33,6 +33,7 @@ Feature: Create User Account
      Then I fill in "userid" with ""
      Then I press "search"
      Then I should see a 4 column table "searchTable" with contents
+     |davidk  |David |Kenward|Select |
      |dpollum |David |Pollum |Select |
      
      Given I am on the home page
