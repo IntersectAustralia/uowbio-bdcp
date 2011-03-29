@@ -74,7 +74,7 @@ class AdminController {
 	}
 	
 	def searchUsers = {
-		if (params.firstName != null && !params.firstName.isEmpty())
+		if (params.firstName != null)
 		{
 			session.firstName = params.firstName
 		}
@@ -82,7 +82,7 @@ class AdminController {
 		{
 			session.firstName = ""
 		}
-		if (params.surname != null && !params.surname.isEmpty())
+		if (params.surname != null)
 		{
 				session.surname = params.surname
 		}
@@ -90,7 +90,7 @@ class AdminController {
 		{
 			session.surname=""
 		}
-		if (params.userid != null && !params.userid.isEmpty())
+		if (params.userid != null)
 		{
 				session.userid = params.userid
 		}

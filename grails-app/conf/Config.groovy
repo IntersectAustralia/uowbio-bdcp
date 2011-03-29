@@ -65,6 +65,8 @@ environments {
 	{ grails.serverURL = "http://localhost:8080/${appName}" }
 	test
 	{ grails.serverURL = "http://localhost:8080/${appName}" }
+	intersect_test
+	{ grails.serverURL = "http://www.changeme.com" }
 }
 
 // log4j configuration
@@ -105,29 +107,12 @@ environments {
 	development {
 		grails.mail.port = com.icegreen.greenmail.util.ServerSetupTest.SMTP.port
 		grails.mail.host = "localhost"
-		
-		ldapServers {
-			d1 {
-				base = "ou=people,dc=biomechanics, dc=local"
-				port = 10400
-				indexed = ["objectClass", "uid", "mail"]
-			}
-	
-		}
 	}
 	
 	test {
 		grails.mail.port = com.icegreen.greenmail.util.ServerSetupTest.SMTP.port
 		grails.mail.host = "localhost"
 		
-		ldapServers {
-			d1 {
-				base = "ou=people,dc=biomechanics, dc=local"
-				port = 10400
-				indexed = ["objectClass", "uid", "mail"]
-			}
-	
-		}
 	}
 	
 	production {
@@ -135,7 +120,7 @@ environments {
 	}
 	
 	intersect_test {
-		grails.mail.host = "smtp.uow.edu.au"
+		grails.mail.host = "gsw1-int-ldaptest-vm.intersect.org.au"
 	}
 }
 

@@ -45,4 +45,15 @@ environments {
 			password = "bdcp"
 		}
 	}
+	intersect_test
+	{
+		dataSource
+		{
+			dbCreate = "create-drop"
+			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
+			driverClassName = "org.postgresql.Driver"
+			username = "bdcp"
+			password = "bdcp"
+		}
+	}
 }
