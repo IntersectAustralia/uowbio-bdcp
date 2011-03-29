@@ -3,6 +3,7 @@ package au.org.intersect.bdcp.ldap
 
 import gldapo.schema.annotation.GldapoNamingAttribute
 import gldapo.schema.annotation.GldapoSynonymFor
+
  
 class LdapUser{
 	@GldapoNamingAttribute
@@ -15,4 +16,15 @@ class LdapUser{
 	String title
 	String mail
 	String displayName
+
+	def String getUserId()
+	{
+		def userId = this.username?.toArray()[1]
+		if (userId != null)
+		{
+			return userId
+		}
+		return ""
+	}
+	
 }

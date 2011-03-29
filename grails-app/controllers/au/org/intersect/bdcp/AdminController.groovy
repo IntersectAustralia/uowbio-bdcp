@@ -74,6 +74,7 @@ class AdminController {
 	}
 	
 	def searchUsers = {
+		def matches = []
 		if (params.firstName != null)
 		{
 			session.firstName = params.firstName
@@ -99,7 +100,7 @@ class AdminController {
 			session.userid = ""
 		}
 		
-		List<LdapUser> matches = LdapUser.findAll() {
+		matches = LdapUser.findAll() {
 			and {
 					if (!session.userid?.isEmpty())
 					{
@@ -132,7 +133,9 @@ class AdminController {
 			}
 		}
 		
+//		def sortedMatches = matches.sort{[it?.getUserId()]}
+		def sortedMatches = matches.sort{x,y -> x.getUserId() <=> y.getUserId()?: x.sn <=> y.sn ?: x.givenName <=> y.givenName}
 		
-		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: matches])
+		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedMatches])
 	}
 }

@@ -11,7 +11,7 @@
 	 <br />
 	 <div class="rowTop">   
      <g:link controller="admin" class="create" elementId="Confirm" params="[username: params.username]" action="save" method="post">Confirm</g:link>
-     <g:link controller="admin" class="create" elementId="Cancel" action="searchUsers" params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
+     <g:link controller="admin" class="create" elementId="Cancel" action="searchUsers" params="[surname:session.surname, firstName: session.firstName, userid: session.userid]" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" >Cancel</g:link>
      </div>
     <div class="rowBottom">
     <div class="buttons">

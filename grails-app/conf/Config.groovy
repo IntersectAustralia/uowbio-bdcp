@@ -120,7 +120,7 @@ environments {
 	}
 	
 	intersect_test {
-		grails.mail.host = "gsw1-int-ldaptest-vm.intersect.org.au"
+		grails.mail.host = "localhost"
 	}
 }
 
@@ -161,7 +161,7 @@ environments
 				user
 				{
 					defaultDirectory = true
-					url = "ldap://gsw1-int-ldaptest-vm.intersect.org.au/"
+					url = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
 					base = "ou=people,dc=biomechanics, dc=local"
 					userDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
 					password = "password"
