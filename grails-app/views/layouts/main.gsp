@@ -6,7 +6,6 @@
         <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
         <g:layoutHead />
         <g:javascript library="application" />
-        <g:javascript src="jquery-1.4.2.min.js" />
         <g:javascript library="jquery" plugin="jquery"/>
    		<jqui:resources />
     </head>

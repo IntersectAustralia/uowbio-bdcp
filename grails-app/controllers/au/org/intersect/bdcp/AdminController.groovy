@@ -3,6 +3,7 @@ package au.org.intersect.bdcp
 import au.org.intersect.bdcp.ldap.LdapUser
 
 
+
 class AdminController {
 
     def emailNotifierService
@@ -73,11 +74,17 @@ class AdminController {
 		render(view: "search", model:[matches:matches])
 	}
 	
+	private String normalizeValue(value)
+	{
+		value = value.replaceAll(/\*/,'')
+		return value
+	}
+	
 	def searchUsers = {
 		def matches = []
 		if (params.firstName != null)
 		{
-			session.firstName = params.firstName
+			session.firstName = normalizeValue(params.firstName)
 		}
 		else
 		{
@@ -85,7 +92,7 @@ class AdminController {
 		}
 		if (params.surname != null)
 		{
-				session.surname = params.surname
+				session.surname = normalizeValue(params.surname)
 		}
 		else
 		{
@@ -93,7 +100,7 @@ class AdminController {
 		}
 		if (params.userid != null)
 		{
-				session.userid = params.userid
+				session.userid = normalizeValue(params.userid)
 		}
 		else
 		{
@@ -133,7 +140,6 @@ class AdminController {
 			}
 		}
 		
-//		def sortedMatches = matches.sort{[it?.getUserId()]}
 		def sortedMatches = matches.sort{x,y -> x.getUserId() <=> y.getUserId()?: x.sn <=> y.sn ?: x.givenName <=> y.givenName}
 		
 		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedMatches])
