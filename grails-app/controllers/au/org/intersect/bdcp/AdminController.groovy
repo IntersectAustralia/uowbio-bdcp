@@ -85,7 +85,7 @@ class AdminController {
 		def matches = []
 		if (params.firstName != null)
 		{
-			session.firstName = normalizeValue(params.firstName)
+			session.firstName = params.firstName
 		}
 		else
 		{
@@ -93,7 +93,7 @@ class AdminController {
 		}
 		if (params.surname != null)
 		{
-				session.surname = normalizeValue(params.surname)
+				session.surname = params.surname
 		}
 		else
 		{
@@ -101,7 +101,7 @@ class AdminController {
 		}
 		if (params.userid != null)
 		{
-				session.userid = normalizeValue(params.userid)
+				session.userid = params.userid
 		}
 		else
 		{
@@ -112,7 +112,7 @@ class AdminController {
 			and {
 					if (!session.userid?.isEmpty())
 					{
-						like "uid", "*" + session.userid + "*"
+						like "uid", "*" + normalizeValue(session.userid) + "*"
 					}
 					else
 					{
@@ -122,7 +122,7 @@ class AdminController {
 			and{
 				if (!session.surname?.isEmpty())
 					{
-						like "sn", "*" + session.surname + "*" 
+						like "sn", "*" + normalizeValue(session.surname) + "*" 
 					}
 					else
 					{
@@ -132,7 +132,7 @@ class AdminController {
 			and {
 				if (!session.firstName?.isEmpty())
 					{
-						like "givenName", "*" + session.firstName +"*"
+						like "givenName", "*" + normalizeValue(session.firstName) +"*"
 					}
 					else
 					{
