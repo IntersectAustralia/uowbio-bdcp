@@ -76,7 +76,8 @@ class AdminController {
 	
 	private String normalizeValue(value)
 	{
-		value = value.replaceAll(/\*/,'')
+//		value = value.replaceAll(/\*/,'')
+		value = value.replaceAll(/[^A-Za-z0-9-]/, '')
 		return value
 	}
 	
