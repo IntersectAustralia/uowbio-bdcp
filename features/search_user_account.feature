@@ -11,11 +11,14 @@ Feature: Search User Accounts
      Then I should see "New User Account"
      Then I press "search"
      Then I should see a 4 column table "searchTable" with contents
-     |abe    | John  | Abe      | Select  |
-     |chrisk | Chris | Kenward  | Select  |
-     |davidk | David | Kenward  | Select  |
-     |dpollum| David | Pollum   | Select  |
-     |johnk  | John  | Kenward  | Select  |
+     |abe       | John  | Abe              | Select  |
+     |chrisk    | Chris | Kenward          | Select  |
+     |davidk    | David | Kenward          | Select  |
+     |dpollum   | David | Pollum           | Select  |
+     |jdoesmith | John  | Doe-Smith        | Select  |
+     |johnk     | John  | Kenward          | Select  |
+     |johnma    | John  | Michael Anderson | Select  |
+     
      
      Given I am on the home page
      And I press "account-administration"
