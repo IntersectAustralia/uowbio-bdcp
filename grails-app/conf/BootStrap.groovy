@@ -2,6 +2,7 @@ import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
 import au.org.intersect.bdcp.Study
+import au.org.intersect.bdcp.UserStore
 
 
 
@@ -54,6 +55,9 @@ class BootStrap
 			form: ".bashrc",
 			participant: participant)
 		participantForm.save()
+		
+		def user = new UserStore(uid:"dpollum")
+		user.save(flush:true)
 		
 	}
 

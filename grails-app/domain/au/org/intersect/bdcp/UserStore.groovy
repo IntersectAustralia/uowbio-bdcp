@@ -1,6 +1,6 @@
 package au.org.intersect.bdcp
 
-class UserStore extends SecUser{
+class UserStore{
 
     String uid
     static constraints = {

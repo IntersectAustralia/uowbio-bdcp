@@ -24,7 +24,6 @@ class LoginController {
 	 * Dependency injection for the springSecurityService.
 	 */
 	def springSecurityService
-
 	
 	/**
 	 * Default action; redirects to 'defaultTargetUrl' if logged in, /login/auth otherwise.
@@ -45,6 +44,10 @@ class LoginController {
 
 		def config = SpringSecurityUtils.securityConfig
 
+		def user = UserStore.find("from UserStore as u where u.uid=:uid",[uid:'dpollum'])
+		
+		println "user = " + user
+		
 		if (springSecurityService.isLoggedIn()) {
 			redirect uri: config.successHandler.defaultTargetUrl
 			return
