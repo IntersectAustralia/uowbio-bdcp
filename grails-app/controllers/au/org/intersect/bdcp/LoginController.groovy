@@ -25,6 +25,7 @@ class LoginController {
 	 */
 	def springSecurityService
 
+	
 	/**
 	 * Default action; redirects to 'defaultTargetUrl' if logged in, /login/auth otherwise.
 	 */
