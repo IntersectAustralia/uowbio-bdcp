@@ -237,17 +237,67 @@ grails.plugins.springsecurity.errors.login.disabled = "Sorry, your account is di
 grails.plugins.springsecurity.errors.login.expired = "Sorry, your account has expired."
 grails.plugins.springsecurity.errors.login.passwordExpired = "Sorry, your password has expired."
 grails.plugins.springsecurity.errors.login.locked = "Sorry, your account is locked."
-grails.plugins.springsecurity.errors.login.fail = "Incorrect password or userid. Please enter your uow userid and password again or call ITS for assistance."
-
-
+grails.plugins.springsecurity.errors.login.fail = "Incorrect password or userid. Please enter your UOW userid and password again or call ITS for assistance."
 
 // Spring security LDAP settings
-grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
-grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
-grails.plugins.springsecurity.ldap.context.managerPassword = ''
-grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
-grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
-grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
-grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+environments {
+	production {
+		// Spring security LDAP settings
+		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
+		grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.context.managerPassword = ''
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
+		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
+		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+	}
+	
+	development {
+		
+		// Spring security LDAP settings
+		grails.plugins.springsecurity.ldap.context.server = 'ldap://localhost:10400'
+		grails.plugins.springsecurity.ldap.context.managerDn = "uid=admin,ou=system"
+		grails.plugins.springsecurity.ldap.context.managerPassword = "secret"
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ="ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
+		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
+		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+	}
+	
+	test {
+		// Spring security LDAP settings
+		grails.plugins.springsecurity.ldap.context.server = 'ldap://localhost:10400'
+		grails.plugins.springsecurity.ldap.context.managerDn = "uid=admin,ou=system"
+		grails.plugins.springsecurity.ldap.context.managerPassword = "secret"
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ="ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
+		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
+		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+	}
+	
+	intersect_test {
+		
+		url = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
+		base = "ou=people,dc=biomechanics, dc=local"
+		userDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
+		password = "password"
+		
+		// Spring security LDAP settings
+		grails.plugins.springsecurity.ldap.context.server = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
+		grails.plugins.springsecurity.ldap.context.managerDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.context.managerPassword = "password"
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ="ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
+		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
+		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+	}
+}
+

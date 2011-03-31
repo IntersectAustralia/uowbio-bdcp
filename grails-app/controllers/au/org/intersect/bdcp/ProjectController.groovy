@@ -1,21 +1,26 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
+
 class ProjectController
 {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
 	{
 		redirect(action: "list", params: params)
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def list =
 	{
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[projectInstanceList: Project.list(params), projectInstanceTotal: Project.count()]
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def create =
 	{
 		def projectInstance = new Project()
@@ -23,6 +28,7 @@ class ProjectController
 		return [projectInstance: projectInstance]
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def save =
 	{
 		def projectInstance = new Project(params)
@@ -37,6 +43,7 @@ class ProjectController
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def show =
 	{
 		def projectInstance = Project.get(params.id)
@@ -51,6 +58,7 @@ class ProjectController
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def edit =
 	{
 		def projectInstance = Project.get(params.id)
@@ -65,6 +73,7 @@ class ProjectController
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def update =
 	{
 		def projectInstance = Project.get(params.id)
@@ -101,6 +110,7 @@ class ProjectController
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def delete =
 	{
 		def projectInstance = Project.get(params.id)

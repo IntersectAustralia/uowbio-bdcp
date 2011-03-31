@@ -1,21 +1,26 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
+
 class StudyController
 {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
 	{
 		redirect(action: "list", params: params)
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def list =
 	{
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[studyInstanceList: Study.list(params), studyInstanceTotal: Study.count()]
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def create =
 	{
 		def studyInstance = new Study()
@@ -23,6 +28,7 @@ class StudyController
 		return [studyInstance: studyInstance]
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def save =
 	{
 		def studyInstance = new Study(params)
@@ -37,6 +43,7 @@ class StudyController
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def show =
 	{
 		def studyInstance = Study.get(params.id)
@@ -67,6 +74,7 @@ class StudyController
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def edit =
 	{
 		def studyInstance = Study.get(params.id)
@@ -81,6 +89,7 @@ class StudyController
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def update =
 	{
 		def studyInstance = Study.get(params.id)
@@ -118,6 +127,7 @@ class StudyController
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def delete =
 	{
 		def studyInstance = Study.get(params.id)

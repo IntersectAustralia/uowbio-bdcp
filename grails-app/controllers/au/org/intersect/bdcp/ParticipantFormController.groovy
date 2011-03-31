@@ -2,11 +2,8 @@ package au.org.intersect.bdcp
 
 import java.io.File
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-
-import eu.medsea.mimeutil.MimeUtil;
 import eu.medsea.mimeutil.detector.MagicMimeMimeDetector
+import grails.plugins.springsecurity.Secured
 
 
 
@@ -132,6 +129,7 @@ class ParticipantFormController {
 		
 	}
 	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def upload = {
 		
 		def participantForms = []
@@ -201,6 +199,7 @@ class ParticipantFormController {
 		}
 	}
 	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def downloadFile =
 	{
 		def participantFormInstance = ParticipantForm.get(params.id)
@@ -233,12 +232,12 @@ class ParticipantFormController {
 		return null	
 	}
 	
-	
-	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index = {
         redirect(action: "list", params: params)
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def list = {
 		def participantInstance = Participant.get(params.participantId)		
 		def fileResourceInstanceList = []
@@ -260,6 +259,7 @@ class ParticipantFormController {
         [participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: participantInstance,participantForms: participantForms, forms:participantForms, participantId: params.participantId]
     }
 		
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create = {
         def participantFormInstance = new ParticipantForm()
         participantFormInstance.properties = params
@@ -267,6 +267,7 @@ class ParticipantFormController {
         return [participantFormInstance: participantFormInstance, participantForms: participantForms]
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
         def participantFormInstance = new ParticipantForm(params)
         if (participantFormInstance.save(flush: true)) {
@@ -278,6 +279,7 @@ class ParticipantFormController {
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
         def participantFormInstance = ParticipantForm.get(params.id)
         if (!participantFormInstance) {
@@ -289,6 +291,7 @@ class ParticipantFormController {
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
         def participantFormInstance = ParticipantForm.get(params.id)
         if (!participantFormInstance) {
@@ -300,6 +303,7 @@ class ParticipantFormController {
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
         def participantFormInstance = ParticipantForm.get(params.id)
         if (participantFormInstance) {
@@ -327,6 +331,7 @@ class ParticipantFormController {
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def delete = {
         def participantFormInstance = ParticipantForm.get(params.id)
         if (participantFormInstance) {

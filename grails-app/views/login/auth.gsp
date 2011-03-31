@@ -57,8 +57,8 @@
 					<input type='password' class='text_' name='j_password' id='password' />
 				</p>
 				<p>
-					<input type='submit' value='Login' />
-					<input type="reset" value="Clear" />
+					<input id="Login" type='submit' value='Login' />
+					<input id="Clear" type="reset" value="Clear" />
 				</p>
 			</form>
 			<g:if test='${flash.message}'>

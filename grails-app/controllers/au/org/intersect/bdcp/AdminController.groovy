@@ -1,5 +1,6 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
 import au.org.intersect.bdcp.ldap.LdapUser
 
 
@@ -8,11 +9,13 @@ class AdminController {
 
     def emailNotifierService
 	
-	def index = { redirect(action:create,params:params) }
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	def index = { redirect(action: "accountAdmin", params: params) }
 	static transactional = true
     
     def allowedMethods = []
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def create = {
 		def username
 		if (params.username == null)
@@ -26,6 +29,7 @@ class AdminController {
 		return [username: username]
 	}
 	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def save = {
 		def accountStatus = "Failed"
 		def user
@@ -60,14 +64,16 @@ class AdminController {
 		
 	}
 	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def createStatus = {
 		
 	}
 	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def accountAdmin = {
         
     }
-	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def search = {
 		def matches = []
 		
@@ -76,11 +82,11 @@ class AdminController {
 	
 	private String normalizeValue(value)
 	{
-//		value = value.replaceAll(/\*/,'')
 		value = value.replaceAll(/[^A-Za-z0-9-]/, '')
 		return value
 	}
 	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def searchUsers = {
 		def matches = []
 		if (params.firstName != null)

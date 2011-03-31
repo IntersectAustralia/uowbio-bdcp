@@ -1,13 +1,17 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
+
 class ParticipantController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def index = {
         redirect(action: "list", params: params)
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def list = {
 		def studyInstance = Study.get(params.studyId)
 		def participantsInStudy = Participant.executeQuery('select count(p) from Participant p where p.study = :study',[study:studyInstance])
@@ -15,12 +19,14 @@ class ParticipantController {
         [participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count(), studyInstance:studyInstance, participantsInStudy: participantsInStudy]
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create = {
         def participantInstance = new Participant()
         participantInstance.properties = params
         return [participantInstance: participantInstance]
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
 		
 		def participantInstance = new Participant(params)
@@ -36,6 +42,7 @@ class ParticipantController {
 		}
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
         def participantInstance = Participant.get(params.id)
         if (!participantInstance) {
@@ -47,6 +54,7 @@ class ParticipantController {
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
         def participantInstance = Participant.get(params.id)
         if (!participantInstance) {
@@ -58,6 +66,7 @@ class ParticipantController {
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
         def participantInstance = Participant.get(params.id)
         if (participantInstance) {
@@ -86,6 +95,7 @@ class ParticipantController {
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def delete = {
         def participantInstance = Participant.get(params.id)
         if (participantInstance) {
