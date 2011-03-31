@@ -225,3 +225,19 @@ environments
 	}
 }
 
+
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'au.org.intersect.bdcp.SecUser'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'au.org.intersect.bdcp.SecUserSecRole'
+grails.plugins.springsecurity.authority.className = 'au.org.intersect.bdcp.SecRole'
+
+// Spring security LDAP settings
+grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
+grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
+grails.plugins.springsecurity.ldap.context.managerPassword = ''
+grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
+grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
+grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
+grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
+grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true

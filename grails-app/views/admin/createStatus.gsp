@@ -6,6 +6,7 @@
     </head>
     <body>
     <div class="body">
+    <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
     <p> Account Creation ${accountStatus} </p>
     
     <g:hasErrors bean="${user}">
