@@ -45,13 +45,11 @@
 <body>
 	<div id='login'>
 		<div class='inner'>
-			<g:if test='${flash.message}'>
-			<div class='login_message'>${flash.message}</div>
-			</g:if>
-			<div class='fheader'>Please Login..</div>
+			
+			<div class='fheader'>Please enter your userid and password to login</div>
 			<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
 				<p>
-					<label for='username'>Login ID</label>
+					<label for='username'>User ID</label>
 					<input type='text' class='text_' name='j_username' id='username' />
 				</p>
 				<p>
@@ -59,15 +57,13 @@
 					<input type='password' class='text_' name='j_password' id='password' />
 				</p>
 				<p>
-					<label for='remember_me'>Remember me</label>
-					<input type='checkbox' class='chk' name='${rememberMeParameter}' id='remember_me'
-					<g:if test='${hasCookie}'>checked='checked'</g:if> />
-				</p>
-				<p>
 					<input type='submit' value='Login' />
 					<input type="reset" value="Clear" />
 				</p>
 			</form>
+			<g:if test='${flash.message}'>
+			<div class='login_message'>${flash.message}</div>
+			</g:if>
 		</div>
 	</div>
 <script type='text/javascript'>

@@ -1,3 +1,4 @@
+package au.org.intersect.bdcp
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 class LogoutController {

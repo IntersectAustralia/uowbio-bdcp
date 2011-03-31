@@ -231,6 +231,16 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'au.org.intersect
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'au.org.intersect.bdcp.SecUserSecRole'
 grails.plugins.springsecurity.authority.className = 'au.org.intersect.bdcp.SecRole'
 
+//Custom grails messages for spring security
+/** error messages */
+grails.plugins.springsecurity.errors.login.disabled = "Sorry, your account is disabled."
+grails.plugins.springsecurity.errors.login.expired = "Sorry, your account has expired."
+grails.plugins.springsecurity.errors.login.passwordExpired = "Sorry, your password has expired."
+grails.plugins.springsecurity.errors.login.locked = "Sorry, your account is locked."
+grails.plugins.springsecurity.errors.login.fail = "Incorrect password or userid. Please enter your uow userid and password again or call ITS for assistance."
+
+
+
 // Spring security LDAP settings
 grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
 grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
