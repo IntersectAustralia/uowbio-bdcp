@@ -45,7 +45,7 @@
 <body>
 	<div id='login'>
 		<div class='inner'>
-			
+			<h1>Biomechanics</h1>
 			<div class='fheader'>Please enter your userid and password to login</div>
 			<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
 				<p>
