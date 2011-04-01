@@ -78,6 +78,7 @@ log4j = {
 	//    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
 	//}
 
+	debug  'org.codehaus.groovy.grails.plugins.springsecurity'
 	error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 			'org.codehaus.groovy.grails.web.pages', //  GSP
 			'org.codehaus.groovy.grails.web.sitemesh', //  layouts
@@ -151,6 +152,9 @@ environments {
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
 		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+		grails.plugins.springsecurity.ldap.authenticator.useBind = true
+		grails.plugins.springsecurity.ldap.authenticator.passwordAttributeName = "userPassword"
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
 	test {
@@ -183,6 +187,7 @@ environments {
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
 		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+		
 	}
 }
 

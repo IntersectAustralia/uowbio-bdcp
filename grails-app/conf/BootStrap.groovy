@@ -1,6 +1,8 @@
 import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
+import au.org.intersect.bdcp.SecRole
+import au.org.intersect.bdcp.SecUser
 import au.org.intersect.bdcp.Study
 import au.org.intersect.bdcp.UserStore
 
@@ -8,6 +10,7 @@ import au.org.intersect.bdcp.UserStore
 
 class BootStrap
 {
+	def springSecurityService
 
 	def init =
 	{ servletContext ->
@@ -59,6 +62,8 @@ class BootStrap
 		def user = new UserStore(uid:"dpollum")
 		user.save(flush:true)
 		
+		user = new UserStore(uid:"chrisk")
+		user.save(flush:true)
 	}
 
 

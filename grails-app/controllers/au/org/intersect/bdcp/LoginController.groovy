@@ -29,6 +29,7 @@ class LoginController {
 	 * Default action; redirects to 'defaultTargetUrl' if logged in, /login/auth otherwise.
 	 */
 	def index = {
+		
 		if (springSecurityService.isLoggedIn()) {
 			redirect uri: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl
 		}
@@ -37,19 +38,30 @@ class LoginController {
 		}
 	}
 
+	private boolean userInStore()
+	{
+		def currentUser = springSecurityService.getCurrentUser()
+		def user
+		if (currentUser != null)
+		{
+			user = UserStore.findByUid(currentUser)
+			
+		}
+		println "user = " + user?.uid
+		println "currentUser = " + currentUser
+		
+		return user != null
+	}
+	
 	/**
 	 * Show the login page.
 	 */
 	def auth = {
 
 		def config = SpringSecurityUtils.securityConfig
-
-		def user = UserStore.find("from UserStore as u where u.uid=:uid",[uid:'dpollum'])
-		
-		println "user = " + user
 		
 		if (springSecurityService.isLoggedIn()) {
-			redirect uri: config.successHandler.defaultTargetUrl
+ 			redirect uri: config.successHandler.defaultTargetUrl
 			return
 		}
 
