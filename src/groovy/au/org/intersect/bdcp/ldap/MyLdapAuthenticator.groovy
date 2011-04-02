@@ -51,7 +51,7 @@ import au.org.intersect.bdcp.UserStore
 public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
     //~ Static fields/initializers =====================================================================================
 
-    private static final Log logger = LogFactory.getLog(BindAuthenticator.class);
+    private static final Log logger = LogFactory.getLog(MyLdapAuthenticator.class);
 
     //~ Constructors ===================================================================================================
 
@@ -78,6 +78,7 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
 		def userStore = ApplicationHolder.application.getClassForName("au.org.intersect.bdcp.UserStore").findByUid(username)
 		if (userStore == null)
 		{
+			logger.debug("Rejecting username as it is not in user store for user " +authentication.getName());
 			throw new BadCredentialsException(
 				messages.getMessage("BindAuthenticator.badCredentials", "Bad credentials"));
 		}
@@ -93,7 +94,7 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
         // If DN patterns are configured, try authenticating with them directly
         for (String dn : getUserDns(username)) {
             user = bindWithDn(dn, username, password);
-
+			
             if (user != null) {
                 break;
             }
@@ -128,7 +129,7 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
             PasswordPolicyControl ppolicy = PasswordPolicyControlExtractor.extractControl(ctx);
 
             Attributes attrs = ctx.getAttributes(userDn, getUserAttributes());
-
+			
             DirContextAdapter result = new DirContextAdapter(attrs, userDn, ctxSource.getBaseLdapPath());
 
             if (ppolicy != null) {
@@ -147,7 +148,7 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
                 throw e;
             }
         } catch (javax.naming.NamingException e) {
-            throw LdapUtils.convertLdapException(e);
+		   throw LdapUtils.convertLdapException(e);
         } finally {
             LdapUtils.closeContext(ctx);
         }
@@ -161,7 +162,7 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
      */
     protected void handleBindException(String userDn, String username, Throwable cause) {
         if (logger.isDebugEnabled()) {
-            logger.debug("Failed to bind as " + userDn + ": " + cause);
+            logger.debug("Failed to bind as " + userDn + ": " + cause.getMessage());
         }
     }
 }

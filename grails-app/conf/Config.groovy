@@ -79,6 +79,7 @@ log4j = {
 	//}
 
 	debug  'org.codehaus.groovy.grails.plugins.springsecurity'
+	debug  'au.org.intersect.bdcp.ldap'
 	error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 			'org.codehaus.groovy.grails.web.pages', //  GSP
 			'org.codehaus.groovy.grails.web.sitemesh', //  layouts
@@ -130,14 +131,13 @@ environments {
 	production {
 		// Spring security LDAP settings
 		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
-		grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
-		grails.plugins.springsecurity.ldap.context.managerPassword = ''
-		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
-		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
-		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
-		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
+grails.plugins.springsecurity.ldap.context.managerPassword = ''
+grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
+grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
+grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
+grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
 	development {
@@ -149,11 +149,8 @@ environments {
 		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ="ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
 		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
-		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics,dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
-		grails.plugins.springsecurity.ldap.authenticator.useBind = true
-		grails.plugins.springsecurity.ldap.authenticator.passwordAttributeName = "userPassword"
 		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
@@ -168,14 +165,10 @@ environments {
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
 		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
 	intersect_test {
-		
-		url = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
-		base = "ou=people,dc=biomechanics, dc=local"
-		userDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
-		password = "password"
 		
 		// Spring security LDAP settings
 		grails.plugins.springsecurity.ldap.context.server = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
@@ -187,7 +180,7 @@ environments {
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
 		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
-		
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 }
 

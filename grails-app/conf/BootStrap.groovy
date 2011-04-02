@@ -19,9 +19,24 @@ class BootStrap
 		{
 			production
 			{
+				def user = new UserStore(uid:"dpollum")
+				user.save(flush:true)
 			}
+			
 			development
 			{ createTestData() }
+			
+			test
+			{
+				def user = new UserStore(uid:"dpollum")
+				user.save(flush:true)
+			}
+			
+			intersect_test
+			{
+				def user = new UserStore(uid:"dpollum")
+				user.save(flush:true)
+			}
 		}
 	}
 

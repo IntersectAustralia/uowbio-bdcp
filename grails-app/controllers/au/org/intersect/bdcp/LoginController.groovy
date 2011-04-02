@@ -38,20 +38,6 @@ class LoginController {
 		}
 	}
 
-	private boolean userInStore()
-	{
-		def currentUser = springSecurityService.getCurrentUser()
-		def user
-		if (currentUser != null)
-		{
-			user = UserStore.findByUid(currentUser)
-			
-		}
-		println "user = " + user?.uid
-		println "currentUser = " + currentUser
-		
-		return user != null
-	}
 	
 	/**
 	 * Show the login page.

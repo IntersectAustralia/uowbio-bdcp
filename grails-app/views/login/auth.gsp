@@ -6,6 +6,7 @@
 	margin:15px 0px; padding:0px;
 	text-align:center;
 }
+
 #login .inner {
 	width:260px;
 	margin:0px auto;
@@ -56,10 +57,10 @@
 					<label for='password'>Password</label>
 					<input type='password' class='text_' name='j_password' id='password' />
 				</p>
-				<p>
-					<input id="Login" type='submit' value='Login' />
-					<input id="Clear" type="reset" value="Clear" />
-				</p>
+				   <div id="buttons">
+					<div id="button"><input id="Login" type='submit' value='Login' /></div>
+					<div id="button"><input id="Clear" type="reset" value="Clear" /></div>
+				   </div>
 			</form>
 			<g:if test='${flash.message}'>
 			<div class='login_message'>${flash.message}</div>
