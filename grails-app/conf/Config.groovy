@@ -78,8 +78,8 @@ log4j = {
 	//    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
 	//}
 
-	debug  'org.codehaus.groovy.grails.plugins.springsecurity'
-	debug  'au.org.intersect.bdcp.ldap'
+	//debug  'org.codehaus.groovy.grails.plugins.springsecurity'
+	//debug  'au.org.intersect.bdcp.ldap'
 	error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 			'org.codehaus.groovy.grails.web.pages', //  GSP
 			'org.codehaus.groovy.grails.web.sitemesh', //  layouts
@@ -131,13 +131,13 @@ environments {
 	production {
 		// Spring security LDAP settings
 		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
-grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
-grails.plugins.springsecurity.ldap.context.managerPassword = ''
-grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
-grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
-grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+		grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.context.managerPassword = ''
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
 	development {

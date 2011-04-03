@@ -21,6 +21,16 @@ Given(~"I am on the home page") { ->
     browser.get("http://localhost:8080/BDCP")
 }
 
+Given(~"I have logged in") { ->
+	browser.get("http://localhost:8080/BDCP/login/auth")
+	fieldElement = browser.findElement(By.name("j_username"))
+	fieldElement.sendKeys("chrisk")
+	fieldElement = browser.findElement(By.name("j_password"))
+	fieldElement.sendKeys("password")
+	browser.findElementById("Login").click()
+}
+
+
 Given(~"I am on the email page") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/list")
 }
@@ -35,7 +45,7 @@ Given(~"I follow \"(.*)\"") { String link->
 }
 
 When(~"I fill in \"(.*)\" with \"(.*)\"") { String field, String text ->
-    fieldElement = browser.findElement(By.name(field))
+	fieldElement = browser.findElement(By.name(field))
     fieldElement.sendKeys(text)
 }
 

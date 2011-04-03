@@ -4,6 +4,7 @@ Feature: Create User Account
   I want to create a user account
 
   Scenario: Create User Account
+    Given I have logged in
     Given I am on the home page
     And I press "account-administration"
     And I should see "Account Administration"

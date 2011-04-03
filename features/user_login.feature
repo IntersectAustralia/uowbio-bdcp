@@ -8,19 +8,19 @@ Feature: User Login
  
    Scenario: User Login
    Given I am on the home page
-   Then I see "Please enter your userid and password to login"
-   Then I fill in "username" with "dpollum"
-   Then I fill in "password" with "password"
+   Then I should see "Please enter your userid and password to login"
+   Then I fill in "j_username" with "chrisk"
+   Then I fill in "j_password" with "password"
    Then I press "Login"
    Then I should see "Welcome Researcher"
-   Then I press "Logout"
+   Then I press "sign out"
    Then I should see "Please enter your userid and password to login"
    
    Given I am on the home page
-   Then I see "Please enter your userid and password to login"
-   Then I fill in "username" with "dpollum"
-   Then I fill in "password" with "password"
+   Then I should see "Please enter your userid and password to login"
+   Then I fill in "j_username" with "chrisk"
+   Then I fill in "j_password" with "password"
    Then I press "Clear"
-   Then I should see "username" with value ""
-   Then I should see "password" with value ""
+   Then I should see "j_username" with value ""
+   Then I should see "j_password" with value ""
    

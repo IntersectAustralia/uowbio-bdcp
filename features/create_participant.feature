@@ -4,6 +4,7 @@ Feature: Create Participant
   I want to create participants for a study
  
  Background:
+    Given I have logged in
  	Given I am on the create project page
     When I fill in "projectTitle" with "My Biomechanics Project"
     And I fill in "researcherName" with "Fred Bloggs"

@@ -4,6 +4,7 @@ Feature: Search User Accounts
   I want to search user accounts in LDAP
 
   Scenario: Search User Accounts
+     Given I have logged in
      Given I am on the home page
      And I press "account-administration"
      Then I should see "Account Administration"
