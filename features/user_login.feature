@@ -13,7 +13,7 @@ Feature: User Login
    Then I fill in "j_password" with "password"
    Then I press "Login"
    Then I should see "Welcome Researcher"
-   Then I press "sign out"
+   Then I press "Logout"
    Then I should see "Please enter your userid and password to login"
    
    Given I am on the home page
