@@ -1,7 +1,7 @@
 Feature: List User Accounts
   In order manage my data
   As a System Administrator
-  I want to search user accounts in LDAP
+  I want to list user accounts in DB
 
   Scenario: List User Accounts
      Given I have logged in
