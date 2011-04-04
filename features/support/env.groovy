@@ -25,6 +25,8 @@ After() {
   
   def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
   sql.execute("delete from user_store")
+  sql.execute("INSERT INTO user_store (id,version, uid) VALUES ('-1','0','dpollum');")
+  sql.execute("INSERT INTO user_store (id,version, uid) VALUES ('-2','0','chrisk');")
   sql.execute("delete from participant_form")
   sql.execute("delete from participant")
   sql.execute("delete from study")
