@@ -87,6 +87,17 @@ class AdminController {
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	def listUsers = {
+		 def matches = []
+		 UserStore.list().each 
+		 { 
+			 matches <<LdapUser.find(filter: "(uid=${it?.uid})")
+		 }
+		 def sortedMatches = matches.sort {x,y -> x.sn <=> y.sn}
+		 render (view: "listUsers", model: [ matches: sortedMatches])
+     }
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def searchUsers = {
 		def matches = []
 		if (params.firstName != null)

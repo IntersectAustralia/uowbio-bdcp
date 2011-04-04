@@ -30,6 +30,8 @@ class BootStrap
 			{
 				def user = new UserStore(uid:"dpollum")
 				user.save(flush:true)
+				user = new UserStore(uid:"chrisk")
+				user.save(flush:true)
 			}
 			
 			intersect_test

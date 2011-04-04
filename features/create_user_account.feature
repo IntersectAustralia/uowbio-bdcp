@@ -42,10 +42,10 @@ Feature: Create User Account
      Then I should see "Account Administration"
      Then I press "create"
      Then I should see "New User Account"
-     Then I fill in "userid" with "dpollum"
+     Then I fill in "userid" with "johnk"
      Then I press "search"
      Then I should see a 4 column table "searchTable" with contents
-     |dpollum   | David      | Pollum  | Select |
+     |johnk  |John      | Kenward  | Select |
      Then I press "select[0]"
      Then I should see "Confirm account creation for"
      Then I press "Confirm"
@@ -53,17 +53,17 @@ Feature: Create User Account
      Then I press "accountAdmin"
      Then I should see "Account Administration"
      Given I am on the email page
-     Then I should see "New Biomechanics Data Capture System Account for dpollum"
+     Then I should see "New Biomechanics Data Capture System Account for johnk"
      
      Given I am on the home page
      And I press "account-administration"
      Then I should see "Account Administration"
      Then I press "create"
      Then I should see "New User Account"
-     Then I fill in "userid" with "dpollum"
+     Then I fill in "userid" with "johnk"
      Then I press "search"
      Then I should see a 4 column table "searchTable" with contents
-     |dpollum |David |Pollum  |Select  |
+     |johnk |John |Kenward  |Select  |
      Then I press "select[0]"
      Then I should see "Confirm account creation for"
      Then I press "Confirm"
@@ -71,4 +71,4 @@ Feature: Create User Account
      Then I should see "User ID is not unique"
      Then I press "searchUsers"
      Then I should see a 4 column table "searchTable" with contents
-     |dpollum |David |Pollum |Select |
+     |johnk |John |Kenward |Select |
