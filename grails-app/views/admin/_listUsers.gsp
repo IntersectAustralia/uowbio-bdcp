@@ -9,6 +9,7 @@
                             <th>Surname</th>
                         	<th>Given Name</th>
                         	<th>User ID</th>
+                        	<th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -17,6 +18,7 @@
                             <td> ${matchInstance.sn }</td>
                             <td> ${matchInstance.givenName }</td>
                             <td>${matchInstance.username.toArray()[1]}</td>
+                            <td><g:link elementId="view[${i}]" controller="admin" action="show" params="[username: matchInstance.username.toArray()[1]]">View</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>

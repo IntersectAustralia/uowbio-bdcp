@@ -1,4 +1,4 @@
-Feature: View User Account
+  Feature: View User Account
   In order manage my data
   As a System Administrator
   I want to view a user accounts in DB
@@ -13,12 +13,8 @@ Feature: View User Account
      Then I should see a 4 column table "listTable" with contents
      |Kenward  |Chris |chrisk  |View |        
      |Pollum   |David |dpollum |View |
-     
-     
-     
-     
-      
-     
-     
-     
-     
+     Then I press "view[0]"
+     Then I should see table "userDetailsTable" with contents
+     |Firstname | Chris   |
+     |Surname   | Kenward |
+     |User ID   | chrisk  |

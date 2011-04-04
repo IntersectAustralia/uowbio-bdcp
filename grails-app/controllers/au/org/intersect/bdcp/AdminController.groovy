@@ -98,6 +98,12 @@ class AdminController {
      }
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	def show = {
+		def match = LdapUser.find(filter: "(uid=${params.username})")
+		render (view:"show", model :[matchInstance: match])
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def searchUsers = {
 		def matches = []
 		if (params.firstName != null)
