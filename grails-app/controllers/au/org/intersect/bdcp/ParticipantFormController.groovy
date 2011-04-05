@@ -131,7 +131,7 @@ class ParticipantFormController {
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def upload = {
-		
+		cache false
 		def participantForms = []
 		def participantFormsError = []
 		def participantFormInstanceList = []
@@ -202,6 +202,7 @@ class ParticipantFormController {
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def downloadFile =
 	{
+		cache false
 		def participantFormInstance = ParticipantForm.get(params.id)
 		
 		def fileDoc = new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.fileName) 
@@ -234,11 +235,13 @@ class ParticipantFormController {
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index = {
+		cache false
         redirect(action: "list", params: params)
     }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def list = {
+		cache false
 		def participantInstance = Participant.get(params.participantId)		
 		def fileResourceInstanceList = []
 		def participantFormInstanceList = []
@@ -261,6 +264,7 @@ class ParticipantFormController {
 		
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create = {
+		cache false
         def participantFormInstance = new ParticipantForm()
         participantFormInstance.properties = params
 		def participantForms = []
@@ -269,6 +273,7 @@ class ParticipantFormController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
+		cache false
         def participantFormInstance = new ParticipantForm(params)
         if (participantFormInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), participantFormInstance.id])}"
@@ -281,6 +286,7 @@ class ParticipantFormController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
+		cache false
         def participantFormInstance = ParticipantForm.get(params.id)
         if (!participantFormInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), params.id])}"
@@ -293,6 +299,7 @@ class ParticipantFormController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
+		cache false
         def participantFormInstance = ParticipantForm.get(params.id)
         if (!participantFormInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participantForm.label', default: 'ParticipantForm'), params.id])}"
@@ -305,6 +312,7 @@ class ParticipantFormController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
+		cache false
         def participantFormInstance = ParticipantForm.get(params.id)
         if (participantFormInstance) {
             if (params.version) {
@@ -333,6 +341,7 @@ class ParticipantFormController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def delete = {
+		cache false
         def participantFormInstance = ParticipantForm.get(params.id)
         if (participantFormInstance) {
             try {

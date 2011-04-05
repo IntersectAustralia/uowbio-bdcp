@@ -10,12 +10,14 @@ class ProjectController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
 	{
+		cache false
 		redirect(action: "list", params: params)
 	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def list =
 	{
+		cache false
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[projectInstanceList: Project.list(params), projectInstanceTotal: Project.count()]
 	}
@@ -23,6 +25,7 @@ class ProjectController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def create =
 	{
+		cache false
 		def projectInstance = new Project()
 		projectInstance.properties = params
 		return [projectInstance: projectInstance]
@@ -31,6 +34,7 @@ class ProjectController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def save =
 	{
+		cache false
 		def projectInstance = new Project(params)
 		if (projectInstance.save(flush: true))
 		{
@@ -46,6 +50,7 @@ class ProjectController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def show =
 	{
+		cache false
 		def projectInstance = Project.get(params.id)
 		if (!projectInstance)
 		{
@@ -61,6 +66,7 @@ class ProjectController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def edit =
 	{
+		cache false
 		def projectInstance = Project.get(params.id)
 		if (!projectInstance)
 		{
@@ -76,6 +82,7 @@ class ProjectController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def update =
 	{
+		cache false
 		def projectInstance = Project.get(params.id)
 		if (projectInstance)
 		{
@@ -113,6 +120,7 @@ class ProjectController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def delete =
 	{
+		cache false
 		def projectInstance = Project.get(params.id)
 		if (projectInstance)
 		{

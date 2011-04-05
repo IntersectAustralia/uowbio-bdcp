@@ -10,12 +10,14 @@ class StudyController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
 	{
+		cache false
 		redirect(action: "list", params: params)
 	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def list =
 	{
+		cache false
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[studyInstanceList: Study.list(params), studyInstanceTotal: Study.count()]
 	}
@@ -23,6 +25,7 @@ class StudyController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def create =
 	{
+		cache false
 		def studyInstance = new Study()
 		studyInstance.properties = params
 		return [studyInstance: studyInstance]
@@ -31,6 +34,7 @@ class StudyController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def save =
 	{
+		cache false
 		def studyInstance = new Study(params)
 		if (studyInstance.save(flush: true))
 		{
@@ -46,6 +50,7 @@ class StudyController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def show =
 	{
+		cache false
 		def studyInstance = Study.get(params.id)
 		def participantsInStudy = Participant.executeQuery('select count(p) from Participant p where p.study = :study',[study:studyInstance])
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -78,6 +83,7 @@ class StudyController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def edit =
 	{
+		cache false
 		def studyInstance = Study.get(params.id)
 		if (!studyInstance)
 		{
@@ -93,6 +99,7 @@ class StudyController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def update =
 	{
+		cache false
 		def studyInstance = Study.get(params.id)
 		if (studyInstance)
 		{
@@ -131,6 +138,7 @@ class StudyController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def delete =
 	{
+		cache false
 		def studyInstance = Study.get(params.id)
 		if (studyInstance)
 		{

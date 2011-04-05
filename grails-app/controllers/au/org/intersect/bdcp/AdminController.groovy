@@ -10,13 +10,18 @@ class AdminController {
     def emailNotifierService
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-	def index = { redirect(action: "accountAdmin", params: params) }
+	def index = {
+		cache false 
+		redirect(action: "accountAdmin", params: params) 
+	}
+	
 	static transactional = true
     
     def allowedMethods = []
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def create = {
+		cache false
 		def username
 		if (params.username == null)
 		{
@@ -31,6 +36,7 @@ class AdminController {
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def save = {
+		cache false
 		def accountStatus = "Failed"
 		def user
 		def email
@@ -66,15 +72,17 @@ class AdminController {
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def createStatus = {
+		cache false
 		
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def accountAdmin = {
-        
+        cache false
     }
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def search = {
+		cache false
 		def matches = []
 		
 		render(view: "search", model:[matches:matches])
@@ -88,6 +96,7 @@ class AdminController {
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def listUsers = {
+		cache false
 		 def matches = []
 		 UserStore.list().each 
 		 { 
@@ -99,12 +108,14 @@ class AdminController {
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def show = {
+		cache false
 		def match = LdapUser.find(filter: "(uid=${params.username})")
 		render (view:"show", model :[matchInstance: match])
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def searchUsers = {
+		cache false
 		def matches = []
 		if (params.firstName != null)
 		{

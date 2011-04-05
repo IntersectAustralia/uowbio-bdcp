@@ -29,6 +29,7 @@ class LoginController {
 	 * Default action; redirects to 'defaultTargetUrl' if logged in, /login/auth otherwise.
 	 */
 	def index = {
+		cache false
 		
 		if (springSecurityService.isLoggedIn()) {
 			redirect uri: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl
@@ -43,6 +44,7 @@ class LoginController {
 	 * Show the login page.
 	 */
 	def auth = {
+		cache false
 
 		def config = SpringSecurityUtils.securityConfig
 		
@@ -61,6 +63,7 @@ class LoginController {
 	 * The redirect action for Ajax requests. 
 	 */
 	def authAjax = {
+		cache false
 		response.setHeader 'Location', SpringSecurityUtils.securityConfig.auth.ajaxLoginFormUrl
 		response.sendError HttpServletResponse.SC_UNAUTHORIZED
 	}
@@ -69,6 +72,7 @@ class LoginController {
 	 * Show denied page.
 	 */
 	def denied = {
+		cache false
 		if (springSecurityService.isLoggedIn() &&
 				authenticationTrustResolver.isRememberMe(SCH.context?.authentication)) {
 			// have cookie but the page is guarded with IS_AUTHENTICATED_FULLY
@@ -80,6 +84,7 @@ class LoginController {
 	 * Login page for users with a remember-me cookie but accessing a IS_AUTHENTICATED_FULLY page.
 	 */
 	def full = {
+		cache false
 		def config = SpringSecurityUtils.securityConfig
 		render view: 'auth', params: params,
 			model: [hasCookie: authenticationTrustResolver.isRememberMe(SCH.context?.authentication),
@@ -90,6 +95,7 @@ class LoginController {
 	 * Callback after a failed login. Redirects to the auth page with a warning message.
 	 */
 	def authfail = {
+		cache false
 
 		def username = session[UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_USERNAME_KEY]
 		String msg = ''
@@ -125,6 +131,7 @@ class LoginController {
 	 * The Ajax success redirect url.
 	 */
 	def ajaxSuccess = {
+		cache false
 		render([success: true, username: springSecurityService.authentication.name] as JSON)
 	}
 
@@ -132,6 +139,7 @@ class LoginController {
 	 * The Ajax denied redirect url.
 	 */
 	def ajaxDenied = {
+		cache false
 		render([error: 'access denied'] as JSON)
 	}
 }

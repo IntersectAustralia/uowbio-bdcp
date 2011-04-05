@@ -34,6 +34,16 @@
 			<locationURI>GRAILS_ROOT/1.3.7/projects/BDCP/plugins/bubbling-2.1.2/src/groovy</locationURI>
 		</link>
 		<link>
+			<name>cache-headers-1.1.4-grails-app-i18n</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.7/projects/BDCP/plugins/cache-headers-1.1.4/grails-app/i18n</locationURI>
+		</link>
+		<link>
+			<name>cache-headers-1.1.4-grails-app-services</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.7/projects/BDCP/plugins/cache-headers-1.1.4/grails-app/services</locationURI>
+		</link>
+		<link>
 			<name>code-coverage-1.2-grails-app-i18n</name>
 			<type>2</type>
 			<locationURI>GRAILS_ROOT/1.3.7/projects/BDCP/plugins/code-coverage-1.2/grails-app/i18n</locationURI>

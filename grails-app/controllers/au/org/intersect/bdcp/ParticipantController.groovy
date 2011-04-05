@@ -8,11 +8,13 @@ class ParticipantController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def index = {
+		cache false
         redirect(action: "list", params: params)
     }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def list = {
+		cache false
 		def studyInstance = Study.get(params.studyId)
 		def participantsInStudy = Participant.executeQuery('select count(p) from Participant p where p.study = :study',[study:studyInstance])
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -21,6 +23,7 @@ class ParticipantController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create = {
+		cache false
         def participantInstance = new Participant()
         participantInstance.properties = params
         return [participantInstance: participantInstance]
@@ -28,7 +31,7 @@ class ParticipantController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
-		
+		cache false
 		def participantInstance = new Participant(params)
 		participantInstance.identifier = participantInstance.identifier?.trim()
 		if (participantInstance.save(flush: true)) {
@@ -44,6 +47,7 @@ class ParticipantController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
+		cache false
         def participantInstance = Participant.get(params.id)
         if (!participantInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participant.label', default: 'Participant'), params.id])}"
@@ -56,6 +60,7 @@ class ParticipantController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
+		cache false
         def participantInstance = Participant.get(params.id)
         if (!participantInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participant.label', default: 'Participant'), params.id])}"
@@ -68,6 +73,7 @@ class ParticipantController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
+		cache false
         def participantInstance = Participant.get(params.id)
         if (participantInstance) {
             if (params.version) {
@@ -97,6 +103,7 @@ class ParticipantController {
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def delete = {
+		cache false
         def participantInstance = Participant.get(params.id)
         if (participantInstance) {
             try {
