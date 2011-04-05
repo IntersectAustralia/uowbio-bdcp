@@ -73,6 +73,7 @@ class StudyController
 			[studyInstance: studyInstance, participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance), participantsInStudy: participantsInStudy,participantsSelected:participantsSelected,detailsSelected:detailsSelected]
 		}
 	}
+	
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def edit =

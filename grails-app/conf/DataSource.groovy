@@ -36,14 +36,25 @@ environments {
 	}
 	production
 	{
-		dataSource
-		{
-			dbCreate = "create-drop" //"update"
-			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
-			driverClassName = "org.postgresql.Driver"
-			username = "bdcp"
-			password = "bdcp"
-		}
+//		dataSource
+//		{
+//			dbCreate = "create-drop" //"update"
+//			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
+//			driverClassName = "org.postgresql.Driver"
+//			username = "bdcp"
+//			password = "bdcp"
+//		}
+		
+		dataSource {
+			pooled = true
+			dbCreate = "create-drop"
+			url = "jdbc:oracle:thin:@sirona.its.uow.edu.au:1521:nuitdev"
+			driverClassName = "oracle.jdbc.driver.OracleDriver"
+			username = "INTERSECT_DATA"
+			password = "wahkcg1p"
+			dialect='org.hibernate.dialect.Oracle10gDialect'
+			
+			}
 	}
 	intersect_test
 	{

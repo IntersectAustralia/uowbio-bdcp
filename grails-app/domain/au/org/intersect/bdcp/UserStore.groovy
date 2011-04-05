@@ -2,9 +2,9 @@ package au.org.intersect.bdcp
 
 class UserStore{
 
-    String uid
+    String username
     static constraints = {
-    	uid(blank:false, unique:true, size:1..1000)
+    	username(blank:false, unique:true, size:1..1000)
 	}
 	
 }

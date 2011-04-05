@@ -91,7 +91,7 @@ class AdminController {
 		 def matches = []
 		 UserStore.list().each 
 		 { 
-			 matches <<LdapUser.find(filter: "(uid=${it?.uid})")
+			 matches <<LdapUser.find(filter: "(uid=${it?.username})")
 		 }
 		 def sortedMatches = matches.sort {x,y -> x.sn <=> y.sn}
 		 render (view: "listUsers", model: [ matches: sortedMatches])

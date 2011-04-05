@@ -5,8 +5,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
-        <resource:tabView />
+         <g:javascript library="jquery" plugin="jquery"/>
+   		<jqui:resources />
         <title><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></title>
+        
+        <script type="text/javascript">
+
+        $(function() {
+    		$( "#tabs" ).tabs();
+        });
+        
+        </script>
     </head>
     <body>
            <div class="body"> 
@@ -16,17 +25,17 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <richui:tabView id="tabView">  
-            <richui:tabLabels>  
-            <richui:tabLabel selected="${detailsSelected}" title="Details" />  
-            <richui:tabLabel selected="${participantsSelected}" title="Participants" />  
-            </richui:tabLabels>
+    
+	<div id="tabs"> 
+	<ul>
+	
+		<li><a href="#tabs-1">Details</a></li>
+		<li><a href="${createLink(mapping:'participantDetails', controller:'participant', action:'list', params:['studyId': studyInstance.id]) }"><span>Participants</span></a></li>
+		<li><a href="#tabs-3">Components</a></li>
+	</ul>
 
-			<richui:tabContents> 
-			<richui:tabContent> 
-
-			
-            <div class="dialog">
+	<div id="tabs-1">
+	   <div class="dialog">
                 <table id="studyTable">
                     <tbody>
                     
@@ -102,13 +111,14 @@
                     <span class="button"><g:actionSubmit class="edit" id="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                 </g:form>
             </div>
-            </richui:tabContent>
-            <richui:tabContent> 
-            <g:render template="list" model="['participantInstanceList': participantInstanceList, 'participantInstanceTotal': participantInstanceTotal, 'participantsInStudy': participantsInStudy]"/>
-            
-            </richui:tabContent>
-
-		 </richui:tabContents> </richui:tabView>
+	</div>
+	<%--<div id="tabs-2">
+	<g:render template="participants" model="['participantInstanceList': participantInstanceList, 'participantInstanceTotal': participantInstanceTotal, 'participantsInStudy': participantsInStudy]"/>
+	</div>
+	--%><div id="tabs-3">
+	<g:render template="components" model="['participantInstanceList': participantInstanceList, 'participantInstanceTotal': participantInstanceTotal, 'participantsInStudy': participantsInStudy]"/>
+	</div>
+	</div> 
         </div>
     </body>
 </html>

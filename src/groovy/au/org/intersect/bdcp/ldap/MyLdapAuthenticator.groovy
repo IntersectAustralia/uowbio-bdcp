@@ -75,7 +75,7 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
 
         String username = authentication.getName();
 		
-		def userStore = ApplicationHolder.application.getClassForName("au.org.intersect.bdcp.UserStore").findByUid(username)
+		def userStore = ApplicationHolder.application.getClassForName("au.org.intersect.bdcp.UserStore").findByUsername(username)
 		if (userStore == null)
 		{
 			logger.debug("Rejecting username as it is not in user store for user " +authentication.getName());

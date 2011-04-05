@@ -3,38 +3,23 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'participant.label', default: 'Participant')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-        	<span class="menuButton"><g:link controller="project" class="list" action="list">Return to Projects</g:link></span>
-        	<span class="menuButton">
-        	<g:if test="${params.studyId != null}"><g:link mapping="participantDetails" class="create" action="create" params="[studyId: params.studyId]">
-        	<g:message code="default.new.label" args="[entityName]" /></g:link>
-        	</g:if>
-        	<g:else>
-        	<g:link class="create" action="create">
-        	<g:message code="default.new.label" args="[entityName]" /></g:link>
-        	</g:else>
-        	</span>
-        	
-        </div>
-        <div class="body">
-            <g:render template="list"/>
-            <h1>${studyInstance} Participants</h1>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
+        <div class="tabs-2">
+            <br />
+            <span class="menuButton"><g:link mapping="participantDetails" controller="participant" class="create" action="create" params="[studyId: studyInstance.id]">
+        	Add Participant</g:link></span>
+        	<br />
+        	<br />
             <g:if test="${ participantsInStudy[0] > 0}">
             <div class="list">
                 <table>
                     <thead>
                         <tr>
                         
-                            <th>${message(code: 'participant.identifier.label', default: 'Identifier')}</th>
+                            <g:sortableColumn property="identifier" title="${message(code: 'participant.identifier.label', default: 'Identifier')}" />
                         
                         </tr>
                     </thead>
@@ -59,6 +44,7 @@
                 <g:paginate total="${participantsInStudy[0]}" mapping="participantDetails" params="[studyId: params.studyId]"/>
             </div>
             </g:if>
+            
         </div>
     </body>
 </html>
