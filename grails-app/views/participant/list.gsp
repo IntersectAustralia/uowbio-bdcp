@@ -30,7 +30,7 @@
                             <td>
                               <div class="columnLeft">${fieldValue(bean: participantInstance, field: "identifier")}</div>
                               <div class="columnRight"><g:link elementId="forms" mapping="participantFormDetails" controller="participantForm" action="list" params="[studyId: params.studyId, participantId: participantInstance.id]">Forms</g:link></div>
-                              <div class="columnRight"><g:link mapping="participantDetails" elementId="edit" controller="participant" action="edit" params="[studyId: params.studyId, id: participantInstance.id]">Edit</g:link></div>
+                              <div class="columnRight"><g:link mapping="participantDetails" elementId="edit-participant[${i}]" controller="participant" action="edit" params="[studyId: params.studyId, id: participantInstance.id]">Edit</g:link></div>
                            	  
                            </td>
                         </tr>

@@ -47,7 +47,7 @@ class AdminController {
 			if (match !=  null)
 			{
 				email = match.mail
-				user= new UserStore(uid: params.username)
+				user= new UserStore(username: params.username)
 			}
 			
 		   
@@ -55,7 +55,7 @@ class AdminController {
 		if (user!= null && user.save(flush:true))
 		{
 				accountStatus = "Successful"
-				emailNotifierService.contactUser(user.uid, email)
+				emailNotifierService.contactUser(user.username, email)
 				render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,username:params.username])
 				session.firstName =  ""
 				session.surname = ""

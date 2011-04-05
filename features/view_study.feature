@@ -84,7 +84,7 @@ Feature: View Study
     Then I should see "Add Participant" 
     
     Given I am on the home page
-    And I follow "My Biomecanics Study"
+    And I follow "My Biomechanics Study"
     Then I follow "Components"
     Then I should see "Add Component"
      
