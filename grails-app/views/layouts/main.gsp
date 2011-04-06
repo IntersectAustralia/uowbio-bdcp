@@ -8,8 +8,10 @@
         <g:javascript library="application" />
         <g:javascript library="jquery" plugin="jquery"/>
    		<jqui:resources />
+   		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<META HTTP-EQUIV="Expires" CONTENT="-1">
     </head>
-    <body class="yui-skin-sam">
+    <body class="yui-skin-sam" onunload="">
         <div id="spinner" class="spinner" style="display:none;">
             <img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
         </div>
@@ -17,4 +19,9 @@
         <div class="columnRight"><sec:username /> <sec:ifLoggedIn>(<g:link elementId="Logout" controller="logout">Logout</g:link>)</sec:ifLoggedIn></div>
         <g:layoutBody />
     </body>
+    <head>
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="-1">
+    </head>
+    </html>
 </html>
