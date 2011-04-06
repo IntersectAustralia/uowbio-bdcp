@@ -10,19 +10,13 @@
         <title><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></title>
         
         <script type="text/javascript">
-
-         //$(document).ready(function () {
-         //   $("#tabs").bind('tabsselect', function(event, ui) {
-         //       window.location.href=ui.tab;
-         //   });
-         //   $('#tabs').tabs();
-            
-       //});
         
        $(document).ready(function(){
+    	   var $tabs = $('#tabs').tabs();
+			
            var param = "${params.tab}"
               $('#tabs').tabs("select", param) 
-    $('#tabs').tabs();
+              $tabs.tabs('select', '#' + param);
     });
        
 				
@@ -43,8 +37,8 @@
 	<ul>
 	
 		<li><a href="#tabs-details">Details</a></li>
-		<li><a href="${createLink(mapping:'participantDetails', controller:'participant', action:'list', params:['studyId': studyInstance.id]) }" name="#tabs-participants"><span>Participants</span></a></li>
-		<li><a href="${createLink(mapping: 'componentDetails', controller:'component', action:'list', params:['studyId': studyInstance.id]) }" name="#tabs-components"><span>Components</span></a></li>
+		<li><a href="${createLink(mapping:'participantDetails', controller:'participant', action:'list', params:['studyId': studyInstance.id]) }" id="tabs-participants" name="#tabs-participants"><span>Participants</span></a></li>
+		<li><a href="${createLink(mapping: 'componentDetails', controller:'component', action:'list', params:['studyId': studyInstance.id]) }" id="tabs-components" name="#tabs-components"><span>Components</span></a></li>
 	</ul>
 
 	<div id="tabs-details">

@@ -38,7 +38,7 @@ class ParticipantController {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
 //			redirect url:createLink(controller: 'participant', action:'list',
 //				mapping:'participantDetails', params:[studyId: params.studyId, id: participantInstance.id])
-			redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
+			redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-1"])
         }
         else {
             render(view: "create", model: [participantInstance: participantInstance])
@@ -51,7 +51,7 @@ class ParticipantController {
         def participantInstance = Participant.get(params.id)
         if (!participantInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participant.label', default: 'Participant'), params.id])}"
-            redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
+            redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-1"])
         }
         else {
             [participantInstance: participantInstance]
@@ -64,7 +64,7 @@ class ParticipantController {
         def participantInstance = Participant.get(params.id)
         if (!participantInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participant.label', default: 'Participant'), params.id])}"
-            redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
+            redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-1"])
         }
         else {
             return [participantInstance: participantInstance, studyId: params.studyId]
@@ -89,7 +89,7 @@ class ParticipantController {
 			participantInstance.identifier = participantInstance.identifier?.trim()
 			if (!participantInstance.hasErrors() && participantInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'participant.label', default: 'Participant'), participantInstance.identifier])}"
-                redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
+                redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-1"])
             }
             else {
                 render(view: "edit", model: [participantInstance: participantInstance])
@@ -97,7 +97,7 @@ class ParticipantController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participant.label', default: 'Participant'), params.id])}"
-            redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
+            redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-1"])
         }
     }
 

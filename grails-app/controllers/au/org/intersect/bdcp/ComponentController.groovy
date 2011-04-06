@@ -25,7 +25,7 @@ class ComponentController {
         if (componentInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'component.label', default: 'Component'), componentInstance.name])}"
 //            redirect(action: "show", id: componentInstance.id)
-			redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
+			redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-2"])
         }
         else {
             render(view: "create", model: [componentInstance: componentInstance])
@@ -47,7 +47,7 @@ class ComponentController {
         def componentInstance = Component.get(params.id)
         if (!componentInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'component.label', default: 'Component'), params.name])}"
-            redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
+            redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-2"])
         }
         else {
             return [componentInstance: componentInstance, studyId: params.studyId]
@@ -69,7 +69,7 @@ class ComponentController {
             componentInstance.properties = params
             if (!componentInstance.hasErrors() && componentInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'component.label', default: 'Component'), componentInstance.name])}"
-                redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
+                redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-2"])
             }
             else {
                 render(view: "edit", model: [componentInstance: componentInstance])
@@ -77,7 +77,7 @@ class ComponentController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'component.label', default: 'Component'), params.id])}"
-            redirect(controller: "study", action: "show", id: params.studyId, params:["participantsSelected":"true"])
+            redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-2"])
         }
     }
 
