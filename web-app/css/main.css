@@ -5,10 +5,28 @@ html * {
 
 /* GENERAL */
 
+.ui-tabs-panel {
+        display: inline-block;
+} 
+
 .spinner {
     padding: 5px;
     position: absolute;
     right: 0;
+}
+
+#component
+{
+  min-width:620px;
+  
+  width:expression(document.body.clientWidth < 600? "600px": "auto" );
+}
+
+#participant
+{
+  min-width:620px;
+  
+  width:expression(document.body.clientWidth < 600? "600px": "auto" );
 }
 
 body {

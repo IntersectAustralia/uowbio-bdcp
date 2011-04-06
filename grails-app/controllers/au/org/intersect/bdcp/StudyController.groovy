@@ -14,6 +14,11 @@ class StudyController
 		redirect(action: "list", params: params)
 	}
 
+	def test = 
+	{
+		
+	}
+	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def list =
 	{

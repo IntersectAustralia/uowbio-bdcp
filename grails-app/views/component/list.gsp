@@ -3,12 +3,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
+        <g:javascript library="application" />
+        <g:javascript library="jquery" plugin="jquery"/>
+   		<jqui:resources />
         <g:set var="entityName" value="${message(code: 'component.label', default: 'Component')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-        
-        <div class="tabs-3">
+        <div id="component">
+        <br />
         <span class="menuButton"><g:link mapping="componentDetails" controller="component" class="create" action="create" params="[studyId: studyInstance.id]">Add Component</g:link></span>
             <br />
             <br />
@@ -42,6 +46,6 @@
                 <g:paginate total="${componentInstanceTotal}" />
             </div>
             </g:if>
-        </div>
+            </div>
     </body>
 </html>

@@ -7,7 +7,7 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="tabs-2">
+           <div id="participant">
             <br />
             <span class="menuButton"><g:link mapping="participantDetails" controller="participant" class="create" action="create" params="[studyId: studyInstance.id]">
         	Add Participant</g:link></span>
@@ -44,7 +44,6 @@
                 <g:paginate total="${participantsInStudy[0]}" mapping="participantDetails" params="[studyId: params.studyId]"/>
             </div>
             </g:if>
-            
-        </div>
+            </div>
     </body>
 </html>
