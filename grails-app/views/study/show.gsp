@@ -5,17 +5,30 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
-         <g:javascript library="jquery" plugin="jquery"/>
+        <g:javascript library="jquery" plugin="jquery"/>
    		<jqui:resources />
         <title><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></title>
         
         <script type="text/javascript">
 
-        $(function() {
-    		$( "#tabs" ).tabs();
-        });
+         //$(document).ready(function () {
+         //   $("#tabs").bind('tabsselect', function(event, ui) {
+         //       window.location.href=ui.tab;
+         //   });
+         //   $('#tabs').tabs();
+            
+       //});
         
-        </script>
+       $(document).ready(function(){
+           var param = "${params.tab}"
+              $('#tabs').tabs("select", param) 
+    $('#tabs').tabs();
+    });
+       
+				
+
+        
+       </script>
     </head>
     <body>
            <div class="body"> 
@@ -29,12 +42,12 @@
 	<div id="tabs"> 
 	<ul>
 	
-		<li><a href="#tabs-1">Details</a></li>
-		<li><a href="${createLink(mapping:'participantDetails', controller:'participant', action:'list', params:['studyId': studyInstance.id]) }"><span>Participants</span></a></li>
-		<li><a href="#tabs-3">Components</a></li>
+		<li><a href="#tabs-details">Details</a></li>
+		<li><a href="${createLink(mapping:'participantDetails', controller:'participant', action:'list', params:['studyId': studyInstance.id]) }" name="#tabs-participants"><span>Participants</span></a></li>
+		<li><a href="${createLink(mapping: 'componentDetails', controller:'component', action:'list', params:['studyId': studyInstance.id]) }" name="#tabs-components"><span>Components</span></a></li>
 	</ul>
 
-	<div id="tabs-1">
+	<div id="tabs-details">
 	   <div class="dialog">
                 <table id="studyTable">
                     <tbody>
@@ -111,12 +124,6 @@
                     <span class="button"><g:actionSubmit class="edit" id="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                 </g:form>
             </div>
-	</div>
-	<%--<div id="tabs-2">
-	<g:render template="participants" model="['participantInstanceList': participantInstanceList, 'participantInstanceTotal': participantInstanceTotal, 'participantsInStudy': participantsInStudy]"/>
-	</div>
-	--%><div id="tabs-3">
-	<g:render template="components" model="['participantInstanceList': participantInstanceList, 'participantInstanceTotal': participantInstanceTotal, 'participantsInStudy': participantsInStudy]"/>
 	</div>
 	</div> 
         </div>

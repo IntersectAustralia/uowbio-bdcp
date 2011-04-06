@@ -52,7 +52,7 @@ class StudyController
 	{
 		cache false
 		def studyInstance = Study.get(params.id)
-		def participantsInStudy = Participant.executeQuery('select count(p) from Participant p where p.study = :study',[study:studyInstance])
+//		def participantsInStudy = Participant.executeQuery('select count(p) from Participant p where p.study = :study',[study:studyInstance])
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 //		[participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count(), studyInstance:studyInstance, participantsInStudy: participantsInStudy]
 		if (!studyInstance)
@@ -75,7 +75,7 @@ class StudyController
 				participantsSelected = "false"
 				detailsSelected = "true"
 			}
-			[studyInstance: studyInstance, participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance), participantsInStudy: participantsInStudy,participantsSelected:participantsSelected,detailsSelected:detailsSelected]
+			[studyInstance: studyInstance, participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance),participantsSelected:participantsSelected,detailsSelected:detailsSelected]
 		}
 	}
 	
