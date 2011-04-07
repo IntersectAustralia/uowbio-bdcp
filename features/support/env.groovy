@@ -29,6 +29,7 @@ After() {
   sql.execute("INSERT INTO user_store (id,version, username) VALUES ('-2','0','chrisk');")
   sql.execute("delete from participant_form")
   sql.execute("delete from participant")
+  sql.execute("delete from session")
   sql.execute("delete from component")
   sql.execute("delete from study")
   sql.execute("delete from project")
