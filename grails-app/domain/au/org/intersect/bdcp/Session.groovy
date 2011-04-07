@@ -1,13 +1,12 @@
 package au.org.intersect.bdcp
 
-class Component {
-	
+class Session {
+
 	String name
 	String description
-
-	static belongsTo = [study:Study]
 	
-	static hasMany = [sessions:Session]
+	static belongsTo = [component:Component]
+	
     static constraints = {
 		name(blank:false)
 		description(blank:false)

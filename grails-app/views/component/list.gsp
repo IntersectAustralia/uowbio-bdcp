@@ -79,33 +79,18 @@ background: #fff; /* set desired hover color */
             <br />
             <br />
             <g:if test="${ componentInstanceTotal > 0}">
-            <div class="list">
-                <table>
-                    <thead>
-                        <tr>
-                        
-                            <th>${message(code: 'component.name.label', default: 'Name')}</th>
-                        
-                            <th>${message(code: 'component.description.label', default: 'Description')}</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="projects">
                     <g:each in="${componentInstanceList}" status="i" var="componentInstance">
-                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td>${fieldValue(bean: componentInstance, field: "name")}</td>
-                        
-                            <td>${fieldValue(bean: componentInstance, field: "description")}</td>
+                            ${fieldValue(bean: componentInstance, field: "name")} - ${fieldValue(bean: componentInstance, field: "description")}
                             
-                            <td><g:link mapping="componentDetails" elementId="edit-component[${i}]" controller="component" action="edit" params="[studyId: params.studyId, id: componentInstance.id]">Edit</g:link></td>
-                        </tr>
+                             <g:link mapping="componentDetails" elementId="edit-component[${i}]" controller="component" action="edit" params="[studyId: params.studyId, id: componentInstance.id]">Edit</g:link>
+                        	<ul><g:each in="${componentInstance.sessions}" status="n" var="sessionInstance">
+                        	<li>${fieldValue(bean: sessionInstance, field: "name")} - ${fieldValue(bean: sessionInstance, field: "description")} <g:link mapping="sessionDetails" elementId="edit-session[${n}]" controller="session" action="edit" params="[studyId: params.studyId, id: sessionInstance.id]">Edit</g:link> </li>
+                        	</g:each>
+                        	 <li><span class="menuButton"><g:link mapping="sessionDetails" controller="session" class="create" action="create" params="[studyId: studyInstance.id]">Add Session</g:link></span></li>
+                    		</ul>
                     </g:each>
-                    </tbody>
-                </table>
-            </div>
-            <div class="paginateButtons">
-                <g:paginate total="${componentInstanceTotal}" />
             </div>
             </g:if>
             </div>
