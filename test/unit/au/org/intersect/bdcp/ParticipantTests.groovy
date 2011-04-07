@@ -3,7 +3,7 @@ package au.org.intersect.bdcp
 import grails.test.*
 
 /**
- * Unit tests for the domain class {@link Study}
+ * Unit tests for the domain class {@link Participant}
  */
 class ParticipantTests extends GrailsUnitTestCase
 {
@@ -55,7 +55,7 @@ class ParticipantTests extends GrailsUnitTestCase
 	}
 
 	/**
-	 * Test the domain class {@link Study} to make sure that blank fields
+	 * Test the domain class {@link Participant} to make sure that blank fields
 	 * are correctly validated
 	 */
 	void testBlank()
@@ -73,6 +73,10 @@ class ParticipantTests extends GrailsUnitTestCase
 		assertTrue "A valid participant did not validate!", participant.validate()
 	}
 	
+	/**
+	* Test the domain class {@link Participant} to make sure that unique fields
+	* are correctly validated
+	*/
 	void testUnique()
 	{
 		participant = new Participant(identifier:"101",

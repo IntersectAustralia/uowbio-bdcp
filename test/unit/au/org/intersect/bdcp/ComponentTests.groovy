@@ -2,6 +2,10 @@ package au.org.intersect.bdcp
 
 import grails.test.*
 
+
+/**
+* Unit tests for the domain class {@link Component}
+*/
 class ComponentTests extends GrailsUnitTestCase {
     
 	def component
@@ -10,6 +14,9 @@ class ComponentTests extends GrailsUnitTestCase {
 	
 	def project
 	
+	/**
+	* Setup operations before each test
+	*/
 	protected void setUp() {
         super.setUp()
 		
@@ -40,10 +47,17 @@ class ComponentTests extends GrailsUnitTestCase {
 		mockForConstraintsTests Component, [component]
     }
 
+	/**
+	* Cleanup operations after each test
+	*/
     protected void tearDown() {
         super.tearDown()
     }
 
+	/**
+	* Test that the blank fields in the domain class {@link Component} are
+	* correctly validated
+	*/
     void testBlank() {
 
 		component = new Component(name: '',
