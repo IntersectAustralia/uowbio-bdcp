@@ -20,7 +20,7 @@
                 <g:renderErrors bean="${sessionInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form mapping="sessionDetails" controller="session" params="[studyId: params.studyId, componentId: params.componentId]" action="update" method="post">
                 <g:hiddenField name="id" value="${sessionInstance?.id}" />
                 <g:hiddenField name="version" value="${sessionInstance?.version}" />
                 <div class="dialog">
@@ -45,20 +45,12 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="component"><g:message code="session.component.label" default="Component" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: sessionInstance, field: 'component', 'errors')}">
-                                    <g:select name="component.id" from="${au.org.intersect.bdcp.Component.list()}" optionKey="id" value="${sessionInstance?.component?.id}"  />
-                                </td>
-                            </tr>
-                        
                         </tbody>
+                        <g:hiddenField name="component.id" value="${params.componentId}" />
                     </table>
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
+                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.create.label', default: 'Save')}" /></span>
                     <span class="button"><g:link elementId="cancel" mapping="componentDetails" controller="component" action="list" id="${params.studyId}" params="[studyId: params.studyId]">Cancel</g:link></span>
                 </div>
             </g:form>

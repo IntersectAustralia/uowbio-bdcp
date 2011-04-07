@@ -20,7 +20,7 @@
                 <g:renderErrors bean="${sessionInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form mapping="sessionDetails" controller="session" params="[studyId: params.studyId, componentId: params.componentId]" action="save">
                 <div class="dialog">
                     <table>
                         <tbody>
@@ -43,17 +43,9 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="component"><g:message code="session.component.label" default="Component" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: sessionInstance, field: 'component', 'errors')}">
-                                    <g:select name="component.id" from="${au.org.intersect.bdcp.Component.list()}" optionKey="id" value="${sessionInstance?.component?.id}"  />
-                                </td>
-                            </tr>
-                        
                         </tbody>
                     </table>
+                    <g:hiddenField name="component.id" value="${params.componentId}" />
                 </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>

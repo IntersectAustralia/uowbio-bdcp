@@ -11,6 +11,10 @@ class UrlMappings
 			controller = 'component'
 		 }
 		
+		name sessionDetails: "/study/$studyId/component/$componentId/session/$action?/$id?" {
+			controller = 'session'
+		 }
+		
 		name participantFormDetails: "/study/$studyId/participant/$participantId/$controller/$action?/$id?" {
 			controller = 'participantForm'
 		 }

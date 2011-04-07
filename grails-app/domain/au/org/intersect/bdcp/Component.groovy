@@ -9,7 +9,7 @@ class Component {
 	
 	static hasMany = [sessions:Session]
     static constraints = {
-		name(blank:false)
-		description(blank:false)
+		name(blank:false, size:1..1000)
+		description(blank:false, size:1..1000)
     }
 }

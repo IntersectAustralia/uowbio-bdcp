@@ -22,8 +22,8 @@ class SessionController {
     def save = {
         def sessionInstance = new Session(params)
         if (sessionInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'session.label', default: 'Session'), sessionInstance.id])}"
-            redirect(action: "show", id: sessionInstance.id)
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'session.label', default: 'Session'), sessionInstance.name])}"
+             redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
         }
         else {
             render(view: "create", model: [sessionInstance: sessionInstance])
@@ -33,7 +33,7 @@ class SessionController {
     def show = {
         def sessionInstance = Session.get(params.id)
         if (!sessionInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'session.label', default: 'Session'), params.id])}"
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'session.label', default: 'Session'), params.name])}"
             redirect(action: "list")
         }
         else {
@@ -44,8 +44,8 @@ class SessionController {
     def edit = {
         def sessionInstance = Session.get(params.id)
         if (!sessionInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'session.label', default: 'Session'), params.id])}"
-            redirect(action: "list")
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'session.label', default: 'Session'), params.name])}"
+             redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
         }
         else {
             return [sessionInstance: sessionInstance]
@@ -66,16 +66,16 @@ class SessionController {
             }
             sessionInstance.properties = params
             if (!sessionInstance.hasErrors() && sessionInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'session.label', default: 'Session'), sessionInstance.id])}"
-                redirect(action: "show", id: sessionInstance.id)
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'session.label', default: 'Session'), sessionInstance.name])}"
+                 redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
             }
             else {
                 render(view: "edit", model: [sessionInstance: sessionInstance])
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'session.label', default: 'Session'), params.id])}"
-            redirect(action: "list")
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'session.label', default: 'Session'), params.name])}"
+             redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
         }
     }
 
