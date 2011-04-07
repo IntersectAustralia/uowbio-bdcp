@@ -27,8 +27,8 @@ class ProjectTests extends GrailsUnitTestCase
 			description: 'Test Description',
 			industryPartners: 'Partner1',
 			collaborators: 'some collaborator',
-			dateStart: new Date(),
-			dateEnd: new Date())
+			startDate: new Date(),
+			endDate: new Date())
 		
 		// Set up default Project so we can easily test single properties.
 		project = new Project(projectTitle: 'TestProject',

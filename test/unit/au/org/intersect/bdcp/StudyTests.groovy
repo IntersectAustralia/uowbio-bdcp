@@ -33,7 +33,7 @@ class StudyTests extends GrailsUnitTestCase
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
-				startDatet: new Date(),
+				startDate: new Date(),
 				endDate: new Date(),
 				project: project,
 				numberOfParticipants:"10",
