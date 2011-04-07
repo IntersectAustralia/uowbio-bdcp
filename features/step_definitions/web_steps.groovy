@@ -67,6 +67,12 @@ Then(~"I should see \"(.*)\"") { String text ->
     assertThat(browser.findElementByTagName('body').text, containsString(text))
 }
 
+Then(~"I clear \"(.*)\"") { String field ->
+	fieldElement = browser.findElement(By.name(field))
+	fieldElement.clear()
+}
+
+
 Then(~"I should see \"(.*)\" with value \"(.*)\"") { String field, String text ->
 	fieldElement = browser.findElement(By.name(field))
 	assertThat(fieldElement.getValue(), containsString(text))

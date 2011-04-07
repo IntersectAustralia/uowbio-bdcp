@@ -87,5 +87,20 @@ Feature: Edit Session
     And I press "save"
     Then I should see "updated"
     Then I should see "Add Session"
-    Then I should see "TestSession1"    
+    Then I should see "TestSession1"
+    
+    Given I am on the home page
+    And I follow "My Biomechanics Study"
+    Then I follow "Components"
+    Then I should see "Add Session"
+    Then I should see "TestSession"
+    Then I press "edit-session[0]"
+    Then I should see "Edit Session"
+    Then I clear "name"
+    Then I clear "description"
+    Then I press "save"
+    Then I should see "Please provide a description for the session"
+    Then I should see "Please provide a name for the session"
+    Then I press "cancel"
+    Then I should see "Add Session"     
   

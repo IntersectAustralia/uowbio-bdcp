@@ -79,3 +79,18 @@ Feature: Edit Component
     Then I should see "Add Component"
     Then I should see "TestComponent1"
     
+    Given I am on the home page
+    And I follow "My Biomechanics Study"
+    Then I follow "Components"
+    Then I should see "Add Component"
+    Then I should see "TestComponent"
+    Then I press "edit-component[0]"
+    Then I should see "Edit Component"
+    Then I clear "name"
+    Then I clear "description"
+    Then I press "save"
+    Then I should see "Please provide a description for the component"
+    Then I should see "Please provide a name for the component"
+    Then I press "cancel"
+    Then I should see "Add Component" 
+    

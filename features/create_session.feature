@@ -68,5 +68,21 @@ Feature: Create Session
     Then I fill in "name" with "TestSession"
     Then I fill in "description" with "Some Description"
     And I press "save"
-    Then I should see "TestSession"  
+    Then I should see "TestSession"
+    
+    Given I am on the home page
+    And I follow "My Biomechanics Study"
+    Then I follow "Components"
+    Then I should see "Add Session"
+    Then I follow "Add Session"
+    Then I should see "Add New Session"
+    Then I fill in "name" with ""
+    Then I fill in "description" with ""
+    And I press "save"
+    Then I should see "Please provide a description for the session"
+    Then I should see "Please provide a name for the session"
+    Then I fill in "name" with "Test Session 2"
+    Then I fill in "description" with "Test Description"
+    Then I press "save"
+    Then I should see "Test Session 2"  
   
