@@ -91,6 +91,7 @@ Then(~"I should see table \"(.*)\" with contents") { String tableId, cuke4duke.T
 	table.diffLists(webTable)
 }
 
+
 Then(~"I should see a 3 column table \"(.*)\" with contents") { String tableId, cuke4duke.Table table ->
 	webTable = browser.findElementsByCssSelector("table#${tableId} tbody tr").collect {
 		def cols = it.findElementsByTagName('td')

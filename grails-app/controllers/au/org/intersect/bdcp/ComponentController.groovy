@@ -1,37 +1,44 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
+
 class ComponentController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def index = {
         redirect(action: "list", params: params)
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def list = {
 		def studyInstance = Study.get(params.studyId)
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance]
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create = {
         def componentInstance = new Component()
         componentInstance.properties = params
         return [componentInstance: componentInstance]
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
         def componentInstance = new Component(params)
         if (componentInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'component.label', default: 'Component'), componentInstance.name])}"
 //            redirect(action: "show", id: componentInstance.id)
-			redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-2"])
+			redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
         }
         else {
             render(view: "create", model: [componentInstance: componentInstance])
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
         def componentInstance = Component.get(params.id)
         if (!componentInstance) {
@@ -43,17 +50,19 @@ class ComponentController {
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
         def componentInstance = Component.get(params.id)
         if (!componentInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'component.label', default: 'Component'), params.name])}"
-            redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-2"])
+            redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
         }
         else {
             return [componentInstance: componentInstance, studyId: params.studyId]
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
         def componentInstance = Component.get(params.id)
         if (componentInstance) {
@@ -69,7 +78,7 @@ class ComponentController {
             componentInstance.properties = params
             if (!componentInstance.hasErrors() && componentInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'component.label', default: 'Component'), componentInstance.name])}"
-                redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-2"])
+                redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
             }
             else {
                 render(view: "edit", model: [componentInstance: componentInstance])
@@ -77,10 +86,11 @@ class ComponentController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'component.label', default: 'Component'), params.id])}"
-            redirect(controller: "study", action: "show", id: params.studyId, params:["tab":"ui-tabs-2"])
+          redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
         }
     }
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def delete = {
         def componentInstance = Component.get(params.id)
         if (componentInstance) {

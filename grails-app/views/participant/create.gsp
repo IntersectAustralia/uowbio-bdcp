@@ -40,7 +40,7 @@
                 </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" id="save" mapping="participantDetails" params="[studyId: params.studyId, participantsSelected: 'true']" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
-                    <span class="button"><g:link elementId="cancel" controller="study" action="show" id="${params.studyId}" params="[studyId: params.studyId, tab: 'ui-tabs-1']">Cancel</g:link></span>
+                    <span class="button"><g:link elementId="cancel" mapping="participantDetails" controller="participant" action="list" id="${params.studyId}" params="[studyId: params.studyId]">Cancel</g:link></span>
                 </div>
             </g:form>
         </div>

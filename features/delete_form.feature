@@ -62,7 +62,7 @@ Feature: Delete Form
     Then I follow "Participants"
     Then I should see "Add Participant"
     Then I should see "101"
-    Then I press "forms"
+    Then I press "forms[0]"
     Then I should see "Participant 101"
     Then I should see "Forms"
     Then I select file "testFile" from "form.0"
