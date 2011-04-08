@@ -43,7 +43,7 @@
 	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you sure?</p>
 </div>
     <div class="body">
-    <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+
      <p> Confirm account creation for ${username} (User will receive an email notification </p>
      <p> advising of new account.) </p>
 	 <br />

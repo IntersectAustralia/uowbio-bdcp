@@ -15,9 +15,50 @@
         <div id="spinner" class="spinner" style="display:none;">
             <img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
         </div>
-        <div id="biomechsLogo"><a href="http://www.uow.edu.au/health/brl/index.html"><img src="${resource(dir:'images',file:'biomechs_logo.jpg')}" alt="Biomechanics" border="0" /></a></div>
-        <div class="columnRight"><sec:username /> <sec:ifLoggedIn>(<g:link elementId="Logout" controller="logout">Logout</g:link>)</sec:ifLoggedIn></div>
-        <g:layoutBody />
+        <div id="biomechsLogo">
+        
+           <a href="http://www.uow.edu.au/health/brl/index.html"><img src="${resource(dir:'images',file:'logo_brl.png')}" alt="Biomechanics" border="0" /></a>
+           <div id="uowLogo">
+              Biomechanics Research Laboratory is a part of:<br>
+              <img src="${resource(dir:'images',file:'logo_uow.png')}" alt="University of Wollongong" width="188" height="33">
+           </div>
+        </div>
+
+
+	    <div id="bg_gradient">
+	      <div id="access">
+            <sec:ifLoggedIn>
+	          <ul id="primary_navigation">
+	            <li>
+                    <a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a>
+	            </li>
+	            <li>
+	                <g:link controller="project" class="list" action="list">Project List</g:link>
+	            </li>
+	            <li>
+	                <g:link elementId="account-administration" class="admin" controller="admin" action="accountAdmin"><g:message code="default.account.admin.label"/></g:link>
+	            </li>
+	          </ul>
+	        </sec:ifLoggedIn>
+	        <div id="profile_options">
+	          <sec:ifLoggedIn>
+		          Welcome, <sec:username />
+		          <ul>
+		            <li>
+		              <g:link elementId="Logout" controller="logout">Logout</g:link>
+		            </li>
+		          </ul>
+	          </sec:ifLoggedIn>
+	        </div>
+	      </div>
+  
+          <g:layoutBody />
+          
+          <div id="footer">
+              Developed by Intersect Australia Ltd
+          </div>
+          
+        </div>
     </body>
     <head>
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">

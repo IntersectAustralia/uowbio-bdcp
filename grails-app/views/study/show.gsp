@@ -57,8 +57,6 @@ background: #fff; /* set desired hover color */
     </head>
     <body>
            <div class="body" id="tab1"> 
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link controller="project" class="list" action="list">Project List</g:link></span>
             <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>

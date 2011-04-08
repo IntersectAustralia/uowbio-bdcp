@@ -9,28 +9,28 @@
     </head>
     <body>
         <div class="body">
-              <span class="menuButton"><g:link elementId="account-administration" class="admin" controller="admin" action="accountAdmin"><g:message code="default.account.admin.label"/></g:link></span>
             <h1>Welcome Researcher</h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+                <div class="message">${flash.message}</div>
             </g:if>
             
             <g:if test="${ projectInstanceList?.size() > 0}">
-            <br />
-            <br />
-            <div class="projects">
-            		<g:each in="${projectInstanceList}" status="i" var="projectInstance">
-            		<g:link action="show" id="${projectInstance.id}">${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link>
-            		<ul><g:each in="${projectInstance.studies}" status="n" var="studyInstance">
-            		<li><g:link mapping="studyDetails" controller="study" action="show" id="${studyInstance.id}" params="[projectId: projectInstance.id]">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link></li>
-            		</g:each>
-            		<li><span class="menuButton"><g:link id="addStudy" mapping="studyDetails" class="create" controller="study" action="create" params="[projectId: projectInstance.id]">Add Study</g:link></span></li>
-            		</ul>
-            		<br />
-            		</g:each>
-            	</div>
+	            <br />
+	            <br />
+	            <div class="projects">
+	            	<g:each in="${projectInstanceList}" status="i" var="projectInstance">
+	            		<g:link action="show" id="${projectInstance.id}">${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link>
+	            		<ul>
+	            		    <g:each in="${projectInstance.studies}" status="n" var="studyInstance">
+                        		<li><g:link mapping="studyDetails" controller="study" action="show" id="${studyInstance.id}" params="[projectId: projectInstance.id]">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link></li>
+	            		    </g:each>
+                    		<li><g:link id="addStudy" mapping="studyDetails" class="create" controller="study" action="create" params="[projectId: projectInstance.id]">Add Study</g:link></li>
+	            		</ul>
+	            		<br />
+	            	</g:each>
+	            </div>
             </g:if>
-            <span class="menuButton"><g:link class="create" controller="project" action="create">Add Project</g:link></span>
+            <g:link class="create" controller="project" action="create">Add Project</g:link>
         </div>
     </body>
 </html>
