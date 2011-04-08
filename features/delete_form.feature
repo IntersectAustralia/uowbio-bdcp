@@ -73,4 +73,4 @@ Feature: Delete Form
     
     Scenario: Delete Form
     Then I press "delete"
-    Then I should see "ParticipantForm test deleted"
+    Then I should see "Participant Form test deleted"

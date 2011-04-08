@@ -352,12 +352,12 @@ class ParticipantFormController {
 				{
 					file.delete()
 				}
-				flash.message = "ParticipantForm ${participantFormInstance.formName} deleted"
+				flash.message = "Participant Form ${participantFormInstance.formName} deleted"
 				redirect url: createLink(controller: 'participantForm', action:'list',
 							mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "ParticipantForm ${participantFormInstance.formName} could not be deleted"
+                flash.message = "Participant Form ${participantFormInstance.formName} could not be deleted"
 				redirect url: createLink(controller: 'participantForm', action:'list',
 							mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
             }
