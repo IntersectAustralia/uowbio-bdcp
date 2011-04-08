@@ -29,7 +29,7 @@ class StudyTests extends GrailsUnitTestCase
 		
 		// Set up default Study so we can easily test single properties.
 		study = new Study(studyTitle: 'TestStudy',
-				ethicsNumber: '110678' ,
+				uowEthicsNumber: '110678' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
@@ -57,7 +57,7 @@ class StudyTests extends GrailsUnitTestCase
 	void testBlank()
 	{
 		study = new Study(studyTitle: '',
-				ethicsNumber: '' ,
+				uowEthicsNumber: '' ,
 				description: '',
 				industryPartners: '',
 				collaborators: '',
@@ -68,17 +68,9 @@ class StudyTests extends GrailsUnitTestCase
 
 		assertEquals 'Study Title is blank.','blank', study.errors['studyTitle']
 		assertEquals 'Description is blank.','blank', study.errors['description']
-		
-		project = new Project(projectTitle: 'TestProject',
-			researcherName: 'TestStudent' ,
-			degree: 'TestDegree',
-			startDate: new Date(),
-			endDate: new Date(),
-			description: 'Test Description',
-			supervisors: 'test supervisor')
-		
+				
 		study = new Study(studyTitle: 'Testing Study',
-				ethicsNumber: '110680' ,
+				uowEthicsNumber: '110680' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',
@@ -90,5 +82,40 @@ class StudyTests extends GrailsUnitTestCase
 		
 		assertTrue "A valid study did not validate!", study.validate()
 	}
+	
+	/**
+	* Test the domain class {@link Study} to make sure that unique fields
+	* are correctly validated
+	*/
+   void testUnique()
+   {
+	   study = new Study(studyTitle: 'TestStudy',
+				uowEthicsNumber: '110678' ,
+				description: 'Test Description',
+				industryPartners: 'Partner1',
+				collaborators: 'some collaborator',
+				startDate: new Date(),
+				endDate: new Date(),
+				project: project,
+				numberOfParticipants:"10",
+				inclusionExclusionCriteria: "No Criteria")
+
+	   assertFalse 'No validation for unique field(s)' ,study.validate()
+
+	   assertEquals 'UOW Ethics Number is not unique.','unique', study.errors['uowEthicsNumber']
+	   
+	   study = new Study(studyTitle: 'Testing Study',
+			   uowEthicsNumber: '110680' ,
+			   description: 'Test Description',
+			   industryPartners: 'Partner1',
+			   collaborators: 'some collaborator',
+			   startDate: new Date(),
+			   endDate: new Date(),
+			   project: project,
+			   numberOfParticipants:"10",
+			   inclusionExclusionCriteria: "No Criteria")
+	   
+	   assertTrue "A valid study did not validate!", study.validate()
+   }
 	
 }

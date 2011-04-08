@@ -39,10 +39,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="ethicsNumber"><g:message code="study.ethicsNumber.label" default="Ethics Number" /></label>
+                                  <label for="uowEthicsNumber"><g:message code="study.uowEthicsNumber.label" default="UOW Ethics Number" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'ethicsNumber', 'errors')}">
-                                    <g:textField name="ethicsNumber" value="${studyInstance?.ethicsNumber}" />
+                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'uowEthicsNumber', 'errors')}">
+                                    <g:textField name="uowEthicsNumber" value="${studyInstance?.uowEthicsNumber}" />
                                 </td>
                             </tr>
                         

@@ -84,9 +84,9 @@ background: #fff; /* set desired hover color */
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="study.ethicsNumber.label" default="Ethics Number" /></td>
+                            <td valign="top" class="name"><g:message code="study.uowEthicsNumber.label" default="UOW Ethics Number" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "ethicsNumber")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "uowEthicsNumber")}</td>
                             
                         </tr>
                     

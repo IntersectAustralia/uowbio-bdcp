@@ -31,7 +31,7 @@ class ComponentTests extends GrailsUnitTestCase {
 		
 		// Set up default Study so we can easily test single properties.
 		study = new Study(studyTitle: 'TestStudy',
-				ethicsNumber: '110678' ,
+				uowEthicsNumber: '110678' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',

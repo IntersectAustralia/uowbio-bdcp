@@ -22,9 +22,9 @@
             		<g:each in="${projectInstanceList}" status="i" var="projectInstance">
             		<g:link action="show" id="${projectInstance.id}">${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link>
             		<ul><g:each in="${projectInstance.studies}" status="n" var="studyInstance">
-            		<li><g:link controller="study" action="show" id="${studyInstance.id}">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link></li>
+            		<li><g:link mapping="studyDetails" controller="study" action="show" id="${studyInstance.id}" params="[projectId: projectInstance.id]">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link></li>
             		</g:each>
-            		<li><span class="menuButton"><g:link id="addStudy" class="create" controller="study" action="create" params="[projectid: projectInstance.id]">Add Study</g:link></span></li>
+            		<li><span class="menuButton"><g:link id="addStudy" mapping="studyDetails" class="create" controller="study" action="create" params="[projectId: projectInstance.id]">Add Study</g:link></span></li>
             		</ul>
             		<br />
             		</g:each>

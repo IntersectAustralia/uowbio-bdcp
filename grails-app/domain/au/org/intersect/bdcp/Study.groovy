@@ -4,7 +4,7 @@ class Study
 {
 
 	String studyTitle
-	String ethicsNumber
+	String uowEthicsNumber
 	String description
 	String industryPartners
 	String collaborators
@@ -34,7 +34,7 @@ class Study
 	static constraints =
 	{
 		studyTitle(blank:false, size:1..1000)
-		ethicsNumber(size:1..1000)
+		uowEthicsNumber(blank:false, unique:true,size:1..1000)
 		description(blank:false, size:1..1000)
 		industryPartners(size:1..1000)
 		collaborators(size:1..1000)

@@ -14,38 +14,6 @@ class StudyController
 		redirect(action: "list", params: params)
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-	def test =
-	{
-		cache false
-		def studyInstance = Study.get(params.id)
-//		def participantsInStudy = Participant.executeQuery('select count(p) from Participant p where p.study = :study',[study:studyInstance])
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-//		[participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count(), studyInstance:studyInstance, participantsInStudy: participantsInStudy]
-		if (!studyInstance)
-		{
-			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'study.label', default: 'Study'), params.id])}"
-			redirect(controller: "project", action: "list")
-		}
-		else
-		{
-			String participantsSelected
-			String detailsSelected
-			
-			if (params.participantsSelected == "true")
-			{
-				participantsSelected = params.participantsSelected
-				detailsSelected = "false"
-			}
-			else
-			{
-				participantsSelected = "false"
-				detailsSelected = "true"
-			}
-			[studyInstance: studyInstance, participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance),participantsSelected:participantsSelected,detailsSelected:detailsSelected]
-		}
-	}
-	
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def list =
@@ -61,7 +29,7 @@ class StudyController
 		cache false
 		def studyInstance = new Study()
 		studyInstance.properties = params
-		return [studyInstance: studyInstance]
+		return [studyInstance: studyInstance, projectid: params.projectid]
 	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
@@ -76,7 +44,7 @@ class StudyController
 		}
 		else
 		{
-			render(view: "create", model: [studyInstance: studyInstance])
+			render(view: "create", model: [studyInstance: studyInstance, projectid: params.projectid])
 		}
 	}
 
@@ -95,20 +63,7 @@ class StudyController
 		}
 		else
 		{
-			String participantsSelected
-			String detailsSelected
-			
-			if (params.participantsSelected == "true")
-			{
-				participantsSelected = params.participantsSelected
-				detailsSelected = "false"
-			}
-			else
-			{
-				participantsSelected = "false"
-				detailsSelected = "true"
-			}
-			[studyInstance: studyInstance, participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance),participantsSelected:participantsSelected,detailsSelected:detailsSelected]
+			[studyInstance: studyInstance, participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance),projectid: params.projectid]
 		}
 	}
 	

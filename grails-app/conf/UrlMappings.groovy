@@ -15,6 +15,10 @@ class UrlMappings
 			controller = 'session'
 		 }
 		
+		name studyDetails: "/project/$projectId/study/$action?/$id?" {
+			controller = 'study'
+		 }
+		
 		name participantFormDetails: "/study/$studyId/participant/$participantId/$controller/$action?/$id?" {
 			controller = 'participantForm'
 		 }

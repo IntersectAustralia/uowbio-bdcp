@@ -59,7 +59,7 @@ class BootStrap
 		project.save()
 
 		def study = new Study(studyTitle: 'TestStudy',
-				ethicsNumber: '110678' ,
+				uowEthicsNumber: '110678' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',

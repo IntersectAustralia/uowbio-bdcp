@@ -1,17 +1,27 @@
 package au.org.intersect.bdcp
 
+import grails.plugin.mail.MailService
 import grails.test.*
+import groovy.mock.interceptor.MockFor
 
 class EmailNotifierServiceTests extends GrailsUnitTestCase {
-    protected void setUp() {
+    
+	def emailNotifierService
+	def mockMail
+	
+	protected void setUp() {
         super.setUp()
+		
+		emailNotifierService = new EmailNotifierService()
+		mockMail = new MockFor(MailService.class)
     }
 
     protected void tearDown() {
         super.tearDown()
     }
 
-    void testSomething() {
+    void testServiceCall() {
+		//emailNotifierService.contactUser("dpollum", "dpollum@uow.edu.au")
 
     }
 }
