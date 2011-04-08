@@ -74,4 +74,25 @@ class SessionTests extends GrailsUnitTestCase {
 			description: "Some Description", component:component)
 		assertTrue "A valid session did not validate!", session.validate()
     }
+	
+	/**
+	* Test the range validation of fields in the domain class {@link Session} are
+	* correctly validated
+	*/
+   void testRange()
+   {
+		session = new Session(name:"012345678910" * 100, 
+			description: "012345678910" * 100,
+			component: component)
+ 
+	   assertFalse "No validation for size of fields", session.validate()
+ 
+	   assertEquals 'Name does not validate size.','size', session.errors['name']
+	   assertEquals 'Description does not validate size.','size', session.errors['description']
+	   
+	   session = new Session(name:"TestSession", description: "Some Description",
+			component: component)
+ 
+	   assertTrue session.validate()
+   }
 }

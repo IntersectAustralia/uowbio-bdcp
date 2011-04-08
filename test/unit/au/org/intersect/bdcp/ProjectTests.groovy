@@ -121,6 +121,40 @@ class ProjectTests extends GrailsUnitTestCase
 	}
 	
 	/**
+	* Test the range validation of fields in the domain class {@link Project} are
+	* correctly validated
+	*/
+   void testRange()
+   {
+	   project = new Project(projectTitle: '012345678910' * 100,
+			   researcherName: '012345678910' * 100 ,
+			   degree: '012345678910' * 100,
+			   startDate: new Date(),
+			   endDate: new Date(),
+			   description: '012345678910' * 100,
+			   supervisors: '012345678910' * 100)
+
+	   assertFalse "No validation for size of fields", project.validate()
+
+	   assertEquals 'Project Title does not validate size.','size', project.errors['projectTitle']
+	   assertEquals 'Researcher Name does not validate size.','size', project.errors['researcherName']
+	   assertEquals 'Degree does not validate size.','size', project.errors['degree']
+	   assertEquals 'Description  does not validate size.','size', project.errors['description']
+	   assertEquals 'Supervisors  does not validate size.','size', project.errors['supervisors']
+	   
+	   project = new Project(projectTitle: 'Testing Project',
+			   researcherName: 'TestStudent' ,
+			   degree: 'TestDegree',
+			   startDate: new Date(),
+			   endDate: new Date(),
+			   description: 'Test Description',
+			   supervisors: 'test supervisor')
+
+	   assertTrue project.validate()
+   }
+   
+	
+	/**
 	 * Test that the one to many relationship between project and study
 	 * works correctly.
 	 */

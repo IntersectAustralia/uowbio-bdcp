@@ -92,4 +92,23 @@ class ParticipantTests extends GrailsUnitTestCase
 		assertTrue "A valid participant did not validate!", participant.validate()
 	}
 	
+	/**
+	* Test the range validation of fields in the domain class {@link Participant} are
+	* correctly validated
+	*/
+   void testRange()
+   {
+		participant = new Participant(identifier:"012345678910" * 100,
+			study:study)
+ 
+	   assertFalse "No validation for size of fields", participant.validate()
+ 
+	   assertEquals 'Identifier does not validate size.','size', participant.errors['identifier']
+	   
+	   participant = new Participant(identifier:"102",
+		   study:study)
+ 
+	   assertTrue participant.validate()
+   }
+	
 }

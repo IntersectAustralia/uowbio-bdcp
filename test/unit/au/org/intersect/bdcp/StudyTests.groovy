@@ -118,4 +118,45 @@ class StudyTests extends GrailsUnitTestCase
 	   assertTrue "A valid study did not validate!", study.validate()
    }
 	
+   /**
+   * Test the range validation of fields in the domain class {@link Study} are
+   * correctly validated
+   */
+  void testRange()
+  {
+	   study = new Study(studyTitle: '012345678910' * 100,
+			   uowEthicsNumber: '012345678910' * 100,
+			   description: '012345678910' * 100,
+			   industryPartners: '012345678910' * 100,
+			   collaborators: '012345678910' * 100,
+			   startDate: new Date(),
+			   endDate: new Date(),
+			   project: project,
+			   numberOfParticipants:'012345678910' * 100,
+			   inclusionExclusionCriteria: '012345678910' * 100)
+
+	  assertFalse "No validation for size of fields", study.validate()
+
+	  assertEquals 'Study Title does not validate size.','size', study.errors['studyTitle']
+	  assertEquals 'UOW Ethics Number does not validate size.','size', study.errors['uowEthicsNumber']
+	  assertEquals 'Description does not validate size.','size', study.errors['description']
+	  assertEquals 'Industry Partners  does not validate size.','size', study.errors['industryPartners']
+	  assertEquals 'Collaborators  does not validate size.','size', study.errors['collaborators']
+	  assertEquals 'Number of Participants  does not validate size.','size', study.errors['numberOfParticipants']
+	  assertEquals 'Inclusion Exclusion Criteria  does not validate size.','size', study.errors['inclusionExclusionCriteria']
+	  
+	  study = new Study(studyTitle: 'Testing Study',
+			   uowEthicsNumber: '110680' ,
+			   description: 'Test Description',
+			   industryPartners: 'Partner1',
+			   collaborators: 'some collaborator',
+			   startDate: new Date(),
+			   endDate: new Date(),
+			   project: project,
+			   numberOfParticipants:"10",
+			   inclusionExclusionCriteria: "No Criteria")
+
+	  assertTrue study.validate()
+  }
+   
 }

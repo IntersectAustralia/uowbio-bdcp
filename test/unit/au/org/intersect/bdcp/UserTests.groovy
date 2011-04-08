@@ -53,5 +53,20 @@ class UserTests extends GrailsUnitTestCase {
 				userStore = new UserStore(username: "test")
 				assertTrue "A valid user did not validate!", userStore.validate()
 			}
-	
+	/**
+	* Test the range validation of fields in the domain class {@link UserStore} are
+	* correctly validated
+	*/
+   void testRange()
+   {
+		userStore = new UserStore(username: "012345678910" * 100)
+ 
+	   assertFalse "No validation for size of fields", userStore.validate()
+ 
+	   assertEquals 'Username does not validate size.','size', userStore.errors['username']
+	   
+	  userStore = new UserStore(username: "test")
+ 
+	   assertTrue userStore.validate()
+   }
 }

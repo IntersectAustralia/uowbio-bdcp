@@ -70,4 +70,26 @@ class ComponentTests extends GrailsUnitTestCase {
 			description: "Some Description", study:study)
 		assertTrue "A valid component did not validate!", component.validate()
     }
+	
+	/**
+	* Test the range validation of fields in the domain class {@link Component} are
+	* correctly validated
+	*/
+   void testRange()
+   {
+		component = new Component(name:"012345678910" * 100,
+			description: "012345678910" * 100,	
+			study:study)
+ 
+	   assertFalse "No validation for size of fields", component.validate()
+ 
+	   assertEquals 'Name does not validate size.','size', component.errors['name']
+	   assertEquals 'Description does not validate size.','size', component.errors['description']
+	   
+	   component = new Component(name:"TestComponent",
+			description: "Some Description",	
+			study:study)
+ 
+	   assertTrue component.validate()
+   }
 }
