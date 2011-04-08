@@ -30,7 +30,7 @@
             <sec:ifLoggedIn>
 	          <ul id="primary_navigation">
 	            <li>
-                    <a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a>
+                    <a class="home" id="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a>
 	            </li>
 	            <li>
 	                <g:link controller="project" class="list" action="list">Project List</g:link>
