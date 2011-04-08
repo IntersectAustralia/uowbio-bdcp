@@ -24,7 +24,7 @@ Feature: Create Study
     Given I am on the project page
     And I follow "Add Study"
     When I fill in "studyTitle" with "My Biomechanics Study"
-    And I fill in "ethicsNumber" with "1073A"
+    And I fill in "uowEthicsNumber" with "1073A"
     And I fill in "description" with "Test Description"
     And I fill in "industryPartners" with "Partner1"
     And I fill in "collaborators" with "Collaborator1"
@@ -40,7 +40,7 @@ Feature: Create Study
     Then I should see "My Biomechanics Study"
     And I should see table "studyTable" with contents
       | Study Title                    | My Biomechanics Study   |
-      | Ethics Number                  | 1073A                   |
+      | UOW Ethics Number              | 1073A                   |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
       | Collaborators                  | Collaborator1           |
