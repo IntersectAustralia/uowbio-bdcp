@@ -6,7 +6,7 @@
     </head>
     <body>
     <div class="body">
-    <span class="menuButton"><a id="home" class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+
     <h1>List All Users</h1>
     <g:render template="listUsers" model="['matches': matches]"/>
    <div class="buttons">

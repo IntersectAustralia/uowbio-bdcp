@@ -17,7 +17,7 @@
     <body>
             
         <div class="body">
-        <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+
             <h1>Participant ${participantInstance}</h1>
             <h2>Forms</h2>
             <g:if test="${flash.message}">

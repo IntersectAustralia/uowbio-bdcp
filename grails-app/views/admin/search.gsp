@@ -6,7 +6,7 @@
     </head>
     <body>
     <div class="body">
-    <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+
     <h1>New User Account</h1>
     <g:form action="searchUsers" method="post" >
     <div class="dialog">
