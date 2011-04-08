@@ -92,6 +92,11 @@ textarea#supervisors {
 	height: 30px;
 }
 
+textarea#additionalEthicsRequirements {
+	width: 250px;
+	height: 45px;
+}
+
 textarea {
 	width: 250px;
 	height: 150px;

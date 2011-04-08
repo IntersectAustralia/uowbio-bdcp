@@ -7,6 +7,17 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
+    	<script type="text/javascript">
+    	function toggleSubmit(obj){
+
+			e=document.getElementById("d"+obj.selectedIndex)
+    		if(obj.selectedIndex == '1')
+    	          e.style.display = '';
+    	       else
+    	          document.getElementById("d1").style.display="none"
+    		}
+		</script>
+    
     </head>
     <body>
     <div class="body">
@@ -34,6 +45,7 @@
                                 </td>
                             </tr>
                         
+                        	
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="uowEthicsNumber"><g:message code="study.uowEthicsNumber.label" default="UOW Ethics Number" /></label>
@@ -42,7 +54,28 @@
                                     <g:textField name="uowEthicsNumber" value="${studyInstance?.uowEthicsNumber}" />
                                 </td>
                             </tr>
-                        
+                            
+                            <tr class="prop">
+                            <td valign="top" class="name">
+                                 <label for="hasAdditionalEthicsRequirements">Additional Ethics Requirements</label>
+                        	</td>
+                        	<td valign="top" class="value">
+                        	    <g:select name="hasAdditionalEthicsRequirements" from="${studyInstance.constraints.hasAdditionalEthicsRequirements.inList}" value="${studyInstance?.hasAdditionalEthicsRequirements}" onchange="toggleSubmit(this)"/>
+                        	    
+                        	</tr>
+							
+							
+							
+                            
+                            <tr class="prop" id="d1" style="display:none">
+                                <td valign="top" class="name">
+                                    <label for="additionalEthicsRequirements"><g:message code="study.additionalEthicsRequirements.label" default="Additional Ethics Requirements" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'additionalEthicsRequirements', 'errors')}">
+                                    <g:textArea name="additionalEthicsRequirements" value="${studyInstance?.additionalEthicsRequirements}" />
+                                </td>
+                            </tr>
+                        	
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="description"><g:message code="study.description.label" default="Description" /></label>

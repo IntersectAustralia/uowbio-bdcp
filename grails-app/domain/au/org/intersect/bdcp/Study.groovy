@@ -5,6 +5,8 @@ class Study
 
 	String studyTitle
 	String uowEthicsNumber
+	String hasAdditionalEthicsRequirements
+	String additionalEthicsRequirements
 	String description
 	String industryPartners
 	String collaborators
@@ -35,6 +37,8 @@ class Study
 	{
 		studyTitle(blank:false, size:1..1000)
 		uowEthicsNumber(blank:false, unique:true,size:1..1000)
+		hasAdditionalEthicsRequirements(nullable:true,inList:["No", "Yes"])
+		additionalEthicsRequirements(nullable:true, size:1..1000)
 		description(blank:false, size:1..1000)
 		industryPartners(size:1..1000)
 		collaborators(size:1..1000)

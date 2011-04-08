@@ -60,6 +60,7 @@ class BootStrap
 
 		def study = new Study(studyTitle: 'TestStudy',
 				uowEthicsNumber: '110678' ,
+				additionalEthicRequirements:"Some requirements",
 				description: 'Test Description',
 				industryPartners: 'Partner1',
 				collaborators: 'some collaborator',

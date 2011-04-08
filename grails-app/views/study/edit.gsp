@@ -43,6 +43,15 @@
                                     <g:textField name="uowEthicsNumber" value="${studyInstance?.uowEthicsNumber}" />
                                 </td>
                             </tr>
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="additionalEthicsRequirements"><g:message code="study.additionalEthicsRequirements.label" default="Additional Ethics Requirements" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'additionalEthicsRequirements', 'errors')}">
+                                    <g:textArea name="additionalEthicsRequirements" value="${studyInstance?.additionalEthicsRequirements}" />
+                                </td>
+                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
