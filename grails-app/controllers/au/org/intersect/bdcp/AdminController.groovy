@@ -94,16 +94,39 @@ class AdminController {
 		return value
 	}
 	
+	def sortListUsers = {
+		cache false
+		def matches = []
+		def activatedMatches = []
+		UserStore.list().each
+		{
+			matches <<LdapUser.find(filter: "(uid=${it?.username})")
+			if (!it?.deactivated)
+			{
+				activatedMatches <<LdapUser.find(filter: "(uid=${it?.username})")
+			}
+		}
+		def sortedMatches = matches.sort {x,y -> x.sn <=> y.sn}
+		def sortedActivatedMatches = activatedMatches.sort {x,y -> x.sn <=> y.sn}
+		render (view: "listUsers", model: [ matches: sortedMatches, activatedUsers: sortedActivatedMatches, showAllUsers:params.showAllUsers])
+	}
+	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def listUsers = {
 		cache false
 		 def matches = []
+		 def activatedMatches = []
 		 UserStore.list().each 
 		 { 
 			 matches <<LdapUser.find(filter: "(uid=${it?.username})")
+			 if (!it?.deactivated)
+			 {
+				 activatedMatches <<LdapUser.find(filter: "(uid=${it?.username})")
+			 }
 		 }
 		 def sortedMatches = matches.sort {x,y -> x.sn <=> y.sn}
-		 render (view: "listUsers", model: [ matches: sortedMatches])
+		 def sortedActivatedMatches = activatedMatches.sort {x,y -> x.sn <=> y.sn}
+		 render (view: "listUsers", model: [ matches: sortedMatches, activatedUsers: sortedActivatedMatches])
      }
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
