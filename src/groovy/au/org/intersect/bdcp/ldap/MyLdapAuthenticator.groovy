@@ -82,6 +82,13 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
 			throw new BadCredentialsException(
 				messages.getMessage("BindAuthenticator.badCredentials", "Bad credentials"));
 		}
+		else if (userStore?.deactivated)
+		{
+			logger.debug("Rejecting username as it is has been disabled for the user " +authentication.getName());
+			throw new BadCredentialsException(
+				messages.getMessage("BindAuthenticator.badCredentials", "Bad credentials"));
+		}
+		
 		
         String password = (String)authentication.getCredentials();
 

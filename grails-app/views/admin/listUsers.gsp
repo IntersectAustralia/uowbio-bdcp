@@ -8,6 +8,9 @@
     <div class="body">
 
     <h1>List All Users</h1>
+    <g:if test="${flash.message}">
+            <div class="message">${flash.message}</div>
+            </g:if>
     <g:render template="listUsers" model="['matches': matches]"/>
    <div class="buttons">
    					<span class="menuButton"><g:link elementId="Back" controller="admin" class="list" action="accountAdmin">Back</g:link></span>

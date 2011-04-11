@@ -107,10 +107,50 @@ class AdminController {
      }
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-	def show = {
+	def edit = {
 		cache false
 		def match = LdapUser.find(filter: "(uid=${params.username})")
-		render (view:"show", model :[matchInstance: match])
+		def userStore = UserStore.findByUsername(params.username)
+		render (view:"edit", model :[matchInstance: match, userInstance: userStore])
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	def update = {
+		cache false
+		def match = LdapUser.find(filter: "(uid=${params.username})")
+		def userInstance = UserStore.get(params.id)
+		if (userInstance) {
+			if (params.version) {
+				def version = params.version.toLong()
+				if (userInstance.version > version) {
+					
+					userInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'userStore.label', default: 'UserStore')] as Object[], "Another user has updated this user while you were editing")
+					render(view: "edit", model: [matchInstance:match, userInstance: userInstance])
+					return
+				}
+			}
+			userInstance.properties = params
+			if (!userInstance.hasErrors() && userInstance.save(flush: true)) {
+				//flash.message = "${message(code: 'default.updated.message', args: [message(code: 'userStore.label', default: 'UserStore'), userInstance.username])}"
+				if (!userInstance?.deactivated)
+				{
+					flash.message ="${userInstance.username} activated successfully"
+				}
+				else
+				{
+					flash.message="${userInstance.username} deactivated successfully"
+				}
+				redirect(action: "listUsers")
+			}
+			else {
+				render(view: "edit", model: [matchInstance:match, userInstance: userInstance])
+			}
+		}
+		else {
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'userStore.label', default: 'UserStore'), params.id])}"
+		  redirect(action: "listUsers")
+		}
+		
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])

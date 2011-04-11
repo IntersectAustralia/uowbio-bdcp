@@ -19,10 +19,10 @@ class BootStrap
 		{
 			production
 			{
-				def user = new UserStore(username:"dpollum")
+				def user = new UserStore(username:"dpollum", deactivated: false)
 				user.save(flush:true)
 				
-				user = new UserStore(username:"egully")
+				user = new UserStore(username:"egully", deactivated: false)
 				user.save(flush:true)
 			}
 			
@@ -31,15 +31,15 @@ class BootStrap
 			
 			test
 			{
-				def user = new UserStore(username:"dpollum")
+				def user = new UserStore(username:"dpollum", deactivated: false)
 				user.save(flush:true)
-				user = new UserStore(username:"chrisk")
+				user = new UserStore(username:"chrisk", deactivated: false)
 				user.save(flush:true)
 			}
 			
 			intersect_test
 			{
-				def user = new UserStore(username:"dpollum")
+				def user = new UserStore(username:"dpollum", deactivated: false)
 				user.save(flush:true)
 			}
 		}
@@ -80,10 +80,10 @@ class BootStrap
 			participant: participant)
 		participantForm.save()
 		
-		def user = new UserStore(username:"dpollum")
+		def user = new UserStore(username:"dpollum", deactivated: false)
 		user.save(flush:true)
 		
-		user = new UserStore(username:"chrisk")
+		user = new UserStore(username:"chrisk", deactivated: false)
 		user.save(flush:true)
 	}
 
