@@ -48,6 +48,11 @@ class Study
 		inclusionExclusionCriteria(size:1..1000) 
 	}
 	
+	void setUowEthicsNumber(String setUowEthicsNumber)
+	{
+		uowEthicsNumber = setUowEthicsNumber.trim()
+	}
+	
 	def getParticipantsList() {
 		return LazyList.decorate(
 			  participants,
