@@ -89,12 +89,19 @@ background: #fff; /* set desired hover color */
                         </tr>
                         
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="study.additionalEthicsRequirements.label" default="Additional Ethics Requirements" /></td>
+                            <td valign="top" class="name"><g:message code="study.hasAdditionalEthicsRequirements.label" default="Additional Ethics Requirements" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "hasAdditionalEthicsRequirements")}</td>
+                            
+                        </tr>
+                        <g:if test="${studyInstance?.hasAdditionalEthicsRequirements?.equals('Yes')}">
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="study.additionalEthicsRequirements.label" default="Additional Ethics Details" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "additionalEthicsRequirements")}</td>
                             
                         </tr>
-                    
+                        </g:if>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="study.description.label" default="Description" /></td>
                             

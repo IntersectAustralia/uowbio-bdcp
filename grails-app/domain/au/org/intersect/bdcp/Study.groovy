@@ -52,7 +52,19 @@ class Study
 	{
 		uowEthicsNumber = setUowEthicsNumber.trim()
 	}
-	
+
+	String getHasAdditionalEthicsRequirements()
+	{
+		if (hasAdditionalEthicsRequirements == null || hasAdditionalEthicsRequirements == "No")
+		{
+			return "No"
+		}
+		else
+		{
+				return "Yes"
+		}
+	}
+		
 	def getParticipantsList() {
 		return LazyList.decorate(
 			  participants,
