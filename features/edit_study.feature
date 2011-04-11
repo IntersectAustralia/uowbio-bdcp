@@ -38,6 +38,7 @@ Feature: Edit Study
     And I should see table "studyTable" with contents
       | Study Title                    | My Biomechanics Study   |
       | UOW Ethics Number              | 1073A                   |
+      | Additional Ethics Requirements |                         |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
       | Collaborators                  | Collaborator1           |
@@ -52,6 +53,7 @@ Feature: Edit Study
   And I should see table "studyTable" with contents
       | Study Title                    | My Biomechanics Study   |
       | UOW Ethics Number              | 1073A                   |
+      | Additional Ethics Requirements |                         |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
       | Collaborators                  | Collaborator1           |
@@ -65,17 +67,18 @@ Feature: Edit Study
    Then I press "edit"
    Then I should see "Edit Study"
    When I press "cancel"
-    Then I should see "My Biomechanics Study"
-    And I should see table "studyTable" with contents
+   Then I should see "My Biomechanics Study"
+   And I should see table "studyTable" with contents
       | Study Title                    | My Biomechanics Study   |
       | UOW Ethics Number              | 1073A                   |
+      | Additional Ethics Requirements |                         |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
       | Collaborators                  | Collaborator1           |
       | Start Date                     | 03/2011                 |
       | End Date                       | 03/2011                 |
       | Number of Participants         | 10                      |
-      | Inclusion Exclusion Criteria   | Test Criteria           |      
+      | Inclusion Exclusion Criteria   | Test Criteria           |  
     
     Then I press "edit"
     Then I should see "Edit Study"
@@ -85,6 +88,7 @@ Feature: Edit Study
     And I should see table "studyTable" with contents
       | Study Title                    | My Biomechanics Study 1 |
       | UOW Ethics Number              | 1073A                   |
+      | Additional Ethics Requirements |                         |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
       | Collaborators                  | Collaborator1           |
@@ -92,3 +96,22 @@ Feature: Edit Study
       | End Date                       | 03/2011                 |
       | Number of Participants         | 10                      |
       | Inclusion Exclusion Criteria   | Test Criteria           |
+      
+    Then I press "edit"
+    Then I should see "Edit Study"
+    And I select "Yes" from "hasAdditionalEthicsRequirements"
+    And I fill in "additionalEthicsRequirements" with "Some Additional Requirements"
+    Then I press "save"
+    Then I should see "My Biomechanics Study 1"
+    And I should see table "studyTable" with contents
+      | Study Title                    | My Biomechanics Study 1       |
+      | UOW Ethics Number              | 1073A                         |
+      | Additional Ethics Requirements | Some Additional Requirements  |
+      | Description                    | Test Description              |
+      | Industry Partners              | Partner1                      |
+      | Collaborators                  | Collaborator1                 |
+      | Start Date                     | 03/2011                       |
+      | End Date                       | 03/2011                       |
+      | Number of Participants         | 10                            |
+      | Inclusion Exclusion Criteria   | Test Criteria                 |
+     
