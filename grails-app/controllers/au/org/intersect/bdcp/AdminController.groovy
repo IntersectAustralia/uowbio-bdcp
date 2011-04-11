@@ -94,22 +94,6 @@ class AdminController {
 		return value
 	}
 	
-	def sortListUsers = {
-		cache false
-		def matches = []
-		def activatedMatches = []
-		UserStore.list().each
-		{
-			matches <<LdapUser.find(filter: "(uid=${it?.username})")
-			if (!it?.deactivated)
-			{
-				activatedMatches <<LdapUser.find(filter: "(uid=${it?.username})")
-			}
-		}
-		def sortedMatches = matches.sort {x,y -> x.sn <=> y.sn}
-		def sortedActivatedMatches = activatedMatches.sort {x,y -> x.sn <=> y.sn}
-		render (view: "listUsers", model: [ matches: sortedMatches, activatedUsers: sortedActivatedMatches, showAllUsers:params.showAllUsers])
-	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def listUsers = {
@@ -126,7 +110,15 @@ class AdminController {
 		 }
 		 def sortedMatches = matches.sort {x,y -> x.sn <=> y.sn}
 		 def sortedActivatedMatches = activatedMatches.sort {x,y -> x.sn <=> y.sn}
-		 render (view: "listUsers", model: [ matches: sortedMatches, activatedUsers: sortedActivatedMatches])
+		 render (view:"listUsers", model: [matches: sortedMatches])
+//		 if (params.showAllUsers == "true")
+//		{
+//			render (view: "listUsers", model: [ matches: sortedActivatedMatches])
+//		}
+//		else
+//		{
+//			render (view: "listUsers", model: [ matches: sortedMatches])
+//		}
      }
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
@@ -242,4 +234,10 @@ class AdminController {
 		
 		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedMatches])
 	}
+}
+
+class listUserCommand 
+{
+	boolean showAllUsers
+	
 }
