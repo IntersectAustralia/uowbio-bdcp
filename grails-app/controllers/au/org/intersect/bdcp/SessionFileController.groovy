@@ -21,6 +21,14 @@ class SessionFileController {
 		
 	}
 	
+	def createDirectory = {
+		
+	}
+	
+	def browseFiles =  {
+		
+	}
+	
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [sessionFileInstanceList: SessionFile.list(params), sessionFileInstanceTotal: SessionFile.count()]

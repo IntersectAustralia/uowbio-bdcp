@@ -13,8 +13,9 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div class="rowTop"><g:link elementId="create" controller="admin" action="search">Create Directory</g:link>
-    <g:link elementId="create" controller="admin" action="listUsers">Browse for Files</g:link></div>
+            <h1>Upload Files</h1>
+            <div class="rowTop"><g:link elementId="create" mapping="sessionFileDetails" controller="sessionFile" action="createDirectory" params="['studyId': params.studyId]">Create Directory</g:link>
+    <g:link elementId="create" mapping="sessionFileDetails" controller="sessionFile" action="browseFiles" params="['studyId': params.studyId]">Browse for Files</g:link></div>
         
         <div class="rowBottom">
     <div class="buttons">
