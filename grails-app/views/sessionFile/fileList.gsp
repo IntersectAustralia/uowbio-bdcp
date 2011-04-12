@@ -62,7 +62,6 @@ background: #fff; /* set desired hover color */
     <body>
        <div class="body" id="tab4">
 
-            <span class="menuButton"><g:link controller="project" class="list" action="list">Project List</g:link></span>
             <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
         <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>

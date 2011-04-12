@@ -15,7 +15,7 @@ class UrlMappings
 			controller = 'session'
 		 }
 		
-		name sessionFileDetails: "/study/$studyId/component/$componentId/sessionFile/$action?/$id?" {
+		name sessionFileDetails: "/study/$studyId/sessionFile/$action?/$id?" {
 			controller = 'sessionFile'
 		 }
 		

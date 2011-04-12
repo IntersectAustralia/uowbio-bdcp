@@ -62,7 +62,6 @@ background: #fff; /* set desired hover color */
     <body>
        <div class="body" id="tab3">
 
-            <span class="menuButton"><g:link controller="project" class="list" action="list">Project List</g:link></span>
             <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
         <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
@@ -73,6 +72,7 @@ background: #fff; /* set desired hover color */
 		<li class="tab1"><a href="${createLink(controller:'study', action:'show', params:['id': studyInstance.id]) }" id="${studyInstance.id}" name="details">Details</a></li>
 		<li class="tab2"><a href="${createLink(mapping:'participantDetails', controller:'participant', action:'list', params:['studyId': studyInstance.id]) }" id="tabs-participants" name="#tabs-participants"><span>Participants</span></a></li>
 		<li class="tab3"><a href="${createLink(mapping: 'componentDetails', controller:'component', action:'list', params:['studyId': studyInstance.id]) }" id="tabs-components" name="#tabs-components"><span>Components</span></a></li>
+		<li class="tab4"><a href="${createLink(mapping: 'sessionFileDetails', controller:'sessionFile', action:'fileList', params:['studyId': studyInstance.id])}" id="tabs-files" name="tabs-files"><span>Files</span></a></li>
 	</ul>
         <br />
         <span class="menuButton"><g:link mapping="componentDetails" controller="component" class="create" action="create" params="[studyId: studyInstance.id]">Add Component</g:link></span>
