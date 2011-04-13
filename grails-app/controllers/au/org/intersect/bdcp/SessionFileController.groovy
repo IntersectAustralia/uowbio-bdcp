@@ -1,16 +1,44 @@
 package au.org.intersect.bdcp
 
+import grails.converters.JSON;
 import grails.plugins.springsecurity.Secured
 
 class SessionFileController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def index = {
+    def upload = {
+		
+		def dirstruct = params.dirStruct
+		
+		def parsed_json = JSON.parse(dirstruct)
+		
+		def upload_root = "./test/data"
+		
+		// Create all folders
+		parsed_json.findAll { p,q -> p.startsWith("folder") }.each {key, val -> 
+			def path = val[0]
+			def filepath = upload_root + path
+			def directory = new File(filepath)
+			if (!directory.exists())
+			{
+				directory.mkdirs()
+			}
+		}
+		
+		// Create all files
+		parsed_json.findAll { p,q -> p.startsWith("file") }.each {key, val ->
+			def path = val[0]
+			def file = params[key]
+			def filepath = upload_root + path
+		}
+    }
+	
+	
+	def index = {
         redirect(action: "list", params: params)
     }
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def fileList = {
 		def studyInstance = Study.get(params.studyId)
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
