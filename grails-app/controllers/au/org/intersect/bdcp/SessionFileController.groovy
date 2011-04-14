@@ -67,51 +67,31 @@ class SessionFileController
 		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance]
 	}
 
-	def showBrowser =
+	def showTempFiles =
 	{ 
-		File dir = new File("${getTmpPath()}/${params.studyId}/${params.sessionId}");
+		File rootDir = new File("${getTmpPath()}/${params.studyId}/${params.sessionId}");
 		// This filter only returns directories
 		FileFilter fileFilter = new FileFilter() {
 			public boolean accept(File file) {
 				return file.isDirectory();
 			}
 		};
-		def opendirs = dir.listFiles(fileFilter);
+		def dirsToOpen = rootDir.listFiles(fileFilter);
 		StringBuffer sb = new StringBuffer()
-		opendirs.each 
+		dirsToOpen.each 
 		{ 
 				sb.append "'"+it.toString() + '/'+"'" +","
 		}
-		sb.setLength(sb.length() -1)
+		if (sb.length() > 0)
+		{
+			sb.setLength(sb.length() -1)
+		}
 		def expandedDirs = "[${sb.toString()}]"
-		println "expandedDirs: " + expandedDirs
 		render (view: "FileBrowser", model: [path: "${getTmpPath()}/${params.studyId}/${params.sessionId}", expandedDirs:expandedDirs]) 
 	}
 
 	def generateFileList = {
 	
-	}
-
-	def test =
-	{
-	}
-
-	def showTempFiles =
-	{
-		cache false
-		def fileResourceInstanceList = []
-		def f = new File( "${getTmpPath()}/${params.studyId}/${params.sessionId}" )
-		if( f.exists() )
-		{
-			f.eachFileRecurse()
-			{ file->
-				if( !file.isDirectory() )
-				{
-					fileResourceInstanceList.add(file)
-				}
-			}
-		}
-		[fileResourceInstanceList: fileResourceInstanceList, fileList:fileResourceInstanceList.size()]
 	}
 
 	def uploadFiles =
