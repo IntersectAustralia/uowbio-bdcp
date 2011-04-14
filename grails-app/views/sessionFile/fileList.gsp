@@ -85,7 +85,7 @@ background: #fff; /* set desired hover color */
                             
                         	<ul>
                         	<g:each in="${componentInstance.sessions}" status="n" var="sessionInstance">
-                        	<li>${fieldValue(bean: sessionInstance, field: "name")} - ${fieldValue(bean: sessionInstance, field: "description")} <g:link mapping="sessionFileDetails" elementId=upload-files[${n}]" controller="sessionFile" action="uploadFiles" params="[studyId: params.studyId, id: sessionInstance.id,componentId: componentInstance.id]">Upload Files</g:link></li>
+                        	<li>${fieldValue(bean: sessionInstance, field: "name")} - ${fieldValue(bean: sessionInstance, field: "description")} <g:link mapping="sessionFileDetails" elementId=upload-files[${n}]" controller="sessionFile" action="uploadFiles" params="[studyId: params.studyId, id: sessionInstance.id, sessionId: sessionInstance.id,componentId: componentInstance.id]">Upload Files</g:link></li>
                         	</g:each>
                     		</ul>
                     </g:each>

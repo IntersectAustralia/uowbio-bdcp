@@ -85,7 +85,7 @@ class ParticipantFormController {
 	
 	private String getRealPath()
 	{
-		return (request.getSession().getServletContext().getRealPath("/") + File.separator + "uowbio" + File.separator + "forms")
+		return (request.getSession().getServletContext().getRealPath("/") + grailsApplication.config.forms.location.toString())
 	}
 	
 	private String getFileExtension(fileName)

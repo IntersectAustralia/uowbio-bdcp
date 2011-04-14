@@ -15,7 +15,11 @@ class UrlMappings
 			controller = 'session'
 		 }
 		
-		name sessionFileDetails: "/study/$studyId/sessionFile/$action?/$id?" {
+		name sessionFileDetails: "/study/$studyId/session/$sessionId/sessionFile/$action?/$id?" {
+			controller = 'sessionFile'
+		 }
+		
+		name sessionFileList: "/study/$studyId/sessionFile/$action?/$id?" {
 			controller = 'sessionFile'
 		 }
 		

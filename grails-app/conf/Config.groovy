@@ -1,3 +1,5 @@
+import au.org.intersect.bdcp.Session;
+
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
@@ -97,6 +99,9 @@ log4j = {
 	warn   'org.mortbay.log'
 }
 images.location = "web-app/images/"
+forms.location = "uowbio/forms/"
+files.location = "sessions/files/"
+tmp.location = "tmp"
 
 ldapServers {
 	d1 {
@@ -293,6 +298,12 @@ environments
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'au.org.intersect.bdcp.SecUser'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'au.org.intersect.bdcp.SecUserSecRole'
 grails.plugins.springsecurity.authority.className = 'au.org.intersect.bdcp.SecRole'
+//grails.plugins.springsecurity.controllerAnnotations.staticRules = [
+//	'/js/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//	'/css/**':     ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//	'/images/**':  ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//	'/**':         ['IS_AUTHENTICATED_REMEMBERED']
+// ]
 
 //Custom grails messages for spring security
 /** error messages */
