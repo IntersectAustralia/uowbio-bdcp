@@ -20,7 +20,7 @@ class SessionFileController
 
 	def upload =
 	{
-		if (params.sessionId != null && params.dirStruct != null)
+		if (params.sessionId != null && params.studyId != null && params.dirStruct != null)
 		{
 			def dirstruct = params.dirStruct
 			def parsed_json = JSON.parse(dirstruct)
@@ -51,6 +51,12 @@ class SessionFileController
 				def filepath = new File(upload_root + path)
 				file.transferTo(filepath)
 			}
+			
+			render "Successfully Uploaded!"
+		}
+		else
+		{
+			response.sendError 404
 		}
 	}
 
@@ -94,6 +100,13 @@ class SessionFileController
 	
 	}
 
+	def clearTempFiles = {
+		println "Clear Temp Files..."
+		File rootDir = new File("${getTmpPath()}/${params.studyId}/${params.sessionId}");
+		rootDir.deleteDir()
+		render (view: "uploadFiles")
+	}
+	
 	def uploadFiles =
 	{
 	}
