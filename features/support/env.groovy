@@ -1,5 +1,7 @@
 //import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
+import org.openqa.selenium.JavascriptExecutor;
+import com.gargoylesoftware.htmlunit.BrowserVersion
 import groovy.sql.Sql
 
 this.metaClass.mixin(cuke4duke.GroovyDsl)
@@ -12,8 +14,10 @@ Before() {
 	sql.execute("delete from user_store")
 	sql.execute("INSERT INTO user_store (id,version, username, deactivated) VALUES ('-1','0','dpollum', 'false');")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated) VALUES ('-2','0','chrisk', 'false');")
-  //browser = new FirefoxDriver()
-  browser = new HtmlUnitDriver()
+  browser = new HtmlUnitDriver(BrowserVersion.FIREFOX_3_6)
+  JavascriptExecutor jsExecutor = (JavascriptExecutor) browser;
+  //browser.setJavascriptEnabled(true)
+  //browser = new HtmlUnitDriver()
   testFile = createTmpFile(FILE_HTML);
   
 }

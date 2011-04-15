@@ -72,6 +72,15 @@ Then(~"I clear \"(.*)\"") { String field ->
 	fieldElement.clear()
 }
 
+Then(~"I enable javascript")
+{ 
+	browser.setJavascriptEnabled(true)
+}
+
+Then(~"I disable javascript")
+{
+	browser.setJavascriptEnabled(false)
+}
 
 Then(~"I should see \"(.*)\" with value \"(.*)\"") { String field, String text ->
 	fieldElement = browser.findElement(By.name(field))

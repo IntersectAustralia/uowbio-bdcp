@@ -38,7 +38,7 @@ Feature: Create Participant
     And I should see table "studyTable" with contents
       | Study Title                    | My Biomechanics Study   |
       | UOW Ethics Number              | 1073A                   |
-      | Additional Ethics Requirements |                         |
+      | Additional Ethics Requirements | No                        |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
       | Collaborators                  | Collaborator1           |

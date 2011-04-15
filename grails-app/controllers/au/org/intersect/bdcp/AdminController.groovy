@@ -113,11 +113,11 @@ class AdminController {
 		 def sortedActivatedMatches = activatedMatches.sort {x,y -> x.sn <=> y.sn}
 		if (hideDeactivatedUsers)
 		{
-			render (view: "listUsers", model: [ matches: sortedActivatedMatches, showAllUsers: hideDeactivatedUsers])
+			render (view: "listUsers", model: [ matches: sortedActivatedMatches, hideUsers: hideDeactivatedUsers])
 		}
 		else
 		{
-			render (view: "listUsers", model: [ matches: sortedMatches, showAllUsers: hideDeactivatedUsers])
+			render (view: "listUsers", model: [ matches: sortedMatches, hideUsers: hideDeactivatedUsers])
 		}
      }
 	

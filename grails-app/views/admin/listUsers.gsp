@@ -10,7 +10,7 @@
 			var form = new Element('form',
                     {method: 'post', action: 'listUsers'});
 			form.insert(new Element('input',
-                     {name: 'hideDeactivatedUsers', value: document.myform.showAllUsers.checked, type: 'hidden'}));
+                     {name: 'hideDeactivatedUsers', value: document.myform.hideUsers.checked, type: 'hidden'}));
 			$(document.body).insert(form);
 			form.submit();
 		}
@@ -31,7 +31,7 @@
      <tr class="prop">
                             <td valign="top" class="name"><g:message code="admin.enabled.label" default="Hide Deactivated Users" /></td>
                             
-                            <td valign="top" class="value"><g:checkBox elementId="showAllUsers" name='showAllUsers' value="${showAllUsers}"
+                            <td valign="top" class="value"><g:checkBox elementId="hide deactivated users" name='hideUsers' value="${hideUsers}"
 onclick="submitform();"/></td>
                             
                         </tr>
