@@ -98,7 +98,8 @@ class AdminController {
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def listUsers = {
 		cache false
-		 def matches = []
+		def hideDeactivatedUsers = (request.getParameter("hideDeactivatedUsers") =="value" ? true : false)   
+		def matches = []
 		 def activatedMatches = []
 		 UserStore.list().each 
 		 { 
@@ -110,15 +111,14 @@ class AdminController {
 		 }
 		 def sortedMatches = matches.sort {x,y -> x.sn <=> y.sn}
 		 def sortedActivatedMatches = activatedMatches.sort {x,y -> x.sn <=> y.sn}
-		 render (view:"listUsers", model: [matches: sortedMatches])
-//		 if (params.showAllUsers == "true")
-//		{
-//			render (view: "listUsers", model: [ matches: sortedActivatedMatches])
-//		}
-//		else
-//		{
-//			render (view: "listUsers", model: [ matches: sortedMatches])
-//		}
+		if (hideDeactivatedUsers)
+		{
+			render (view: "listUsers", model: [ matches: sortedActivatedMatches, showAllUsers: hideDeactivatedUsers])
+		}
+		else
+		{
+			render (view: "listUsers", model: [ matches: sortedMatches, showAllUsers: hideDeactivatedUsers])
+		}
      }
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
