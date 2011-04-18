@@ -32,8 +32,8 @@
 					document.myform.hideUsers.checked = false;
 					submitform("${flash.message}");
 				}
-				
 			}
+			
 		}
 
 		function submitform()
