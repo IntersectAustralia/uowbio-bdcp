@@ -17,7 +17,7 @@
                             <td> ${matchInstance.sn }</td>
                             <td> ${matchInstance.givenName }</td>
                             <td>${matchInstance.username.toArray()[1]}</td>
-                            <td><g:link elementId="edit[${i}]" controller="admin" action="edit" params="[username: matchInstance.username.toArray()[1]]">Edit</g:link></td>
+                            <td><g:link elementId="edit[${i}]" controller="admin" action="edit" params="[username: matchInstance.username.toArray()[1], hideUsers: hideUsers]">Edit</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>

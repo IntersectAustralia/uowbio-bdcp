@@ -126,7 +126,7 @@ class AdminController {
 		cache false
 		def match = LdapUser.find(filter: "(uid=${params.username})")
 		def userStore = UserStore.findByUsername(params.username)
-		render (view:"edit", model :[matchInstance: match, userInstance: userStore])
+		render (view:"edit", model :[matchInstance: match, userInstance: userStore, hideUsers: params.hideUsers])
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
@@ -155,7 +155,7 @@ class AdminController {
 				{
 					flash.message="${userInstance.username} deactivated successfully"
 				}
-				redirect(action: "listUsers")
+				redirect(action: "listUsers", params:["hideUsers":params.hideUsers])
 			}
 			else {
 				render(view: "edit", model: [matchInstance:match, userInstance: userInstance])
@@ -163,7 +163,7 @@ class AdminController {
 		}
 		else {
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'userStore.label', default: 'UserStore'), params.id])}"
-		  redirect(action: "listUsers")
+		  redirect(action: "listUsers", params:["hideUsers":params.hideUsers])
 		}
 		
 	}
