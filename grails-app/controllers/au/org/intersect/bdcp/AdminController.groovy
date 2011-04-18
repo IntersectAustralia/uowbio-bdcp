@@ -98,12 +98,7 @@ class AdminController {
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def listUsers = {
 		cache false
-		def hideDeactivatedUsers = (request.getParameter("hideDeactivatedUsers") =="value" ? true : false)   
-		def message = (request.getParameter("flashMessage"))
-		if (message != null)
-		{
-			flash.message = "${message}"
-		}
+		def hideDeactivatedUsers = (params.hideUsers == null) ? false : true
 		def matches = []
 		 def activatedMatches = []
 		 UserStore.list().each 

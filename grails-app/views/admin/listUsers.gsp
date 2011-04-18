@@ -24,45 +24,22 @@
 				if (gup('hideUsers') == "true")
 				{
 
+					document.myform.hideUsers.value = true;
 					document.myform.hideUsers.checked = true;
-					submitform("${flash.message}");
 				}
 				else if (gup('hideUsers') == "false")
 				{
-					document.myform.hideUsers.checked = false;
-					submitform("${flash.message}");
+					document.myform.hideUsers.value = false;
+					document.myform.hideUsers.checked=false;
 				}
 			}
 			
 		}
 
-		function submitform()
+		function changeValue()
 		{
-			submitform('');
+			document.myform.hideUsers.value = document.myform.hideUsers.checked
 		}
-
-		
-        
-		function submitform(message)
-		{
-			var form = new Element('form',
-                    {method: 'post', action: 'listUsers'});
-				form.insert(new Element('input',
-                     {name: 'hideDeactivatedUsers', value: document.myform.hideUsers.checked, type: 'hidden'}));
-			if (message != null)
-			{
-				form.insert(new Element('input',
-	                     {name: 'flashMessage', value: "${flash.message}", type: 'hidden'}));
-			}
-			else
-			{
-				form.insert(new Element('input',
-	                     {name: 'flashMessage', value: "", type: 'hidden'}));	
-			}
-			$(document.body).insert(form);
-			form.submit();
-		}
-
 		
 		</script>
     </head>
@@ -82,7 +59,7 @@
      <tr class="prop">
                             <td valign="top" class="name"><g:message code="admin.enabled.label" default="Hide Deactivated Users" /></td>
                             
-                            <td valign="top" class="value"><g:checkBox elementId="hide deactivated users" name='hideUsers' value="${hideUsers}" onclick="submitform();"/></td>
+                            <td valign="top" class="value"><g:checkBox elementId="hide deactivated users" name='hideUsers' value="${hideUsers}" onclick="changeValue(); this.form.submit();"/></td>
                             
                         </tr>
      </tbody>
