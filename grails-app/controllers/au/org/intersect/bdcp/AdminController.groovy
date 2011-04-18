@@ -99,6 +99,11 @@ class AdminController {
 	def listUsers = {
 		cache false
 		def hideDeactivatedUsers = (request.getParameter("hideDeactivatedUsers") =="value" ? true : false)   
+		def message = (request.getParameter("flashMessage"))
+		if (message != null)
+		{
+			flash.message = "${message}"
+		}
 		def matches = []
 		 def activatedMatches = []
 		 UserStore.list().each 

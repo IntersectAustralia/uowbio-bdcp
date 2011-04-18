@@ -19,29 +19,46 @@
 
         window.onload = function setcheckbox()
         {
-
 			if (gup('hideUsers') != null )
 			{
 				if (gup('hideUsers') == "true")
 				{
+
 					document.myform.hideUsers.checked = true;
-					submitform();
+					submitform("${flash.message}");
 				}
 				else if (gup('hideUsers') == "false")
 				{
 					document.myform.hideUsers.checked = false;
-					submitform();
+					submitform("${flash.message}");
 				}
-						
+				
 			}
 		}
 
 		function submitform()
 		{
+			submitform('');
+		}
+
+		
+        
+		function submitform(message)
+		{
 			var form = new Element('form',
                     {method: 'post', action: 'listUsers'});
 				form.insert(new Element('input',
                      {name: 'hideDeactivatedUsers', value: document.myform.hideUsers.checked, type: 'hidden'}));
+			if (message != null)
+			{
+				form.insert(new Element('input',
+	                     {name: 'flashMessage', value: "${flash.message}", type: 'hidden'}));
+			}
+			else
+			{
+				form.insert(new Element('input',
+	                     {name: 'flashMessage', value: "", type: 'hidden'}));	
+			}
 			$(document.body).insert(form);
 			form.submit();
 		}
@@ -50,6 +67,7 @@
 		</script>
     </head>
     <body>
+    
     <div class="body">
 
     <h1>List All Users</h1>
@@ -58,6 +76,7 @@
             </g:if>
      
      <g:form name="myform" controller="admin" action="listUsers">
+     <input type="hidden" name="visited" value="" />
      <table>
      <tbody>
      <tr class="prop">
