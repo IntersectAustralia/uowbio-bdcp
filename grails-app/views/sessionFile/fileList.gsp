@@ -61,7 +61,6 @@ background: #fff; /* set desired hover color */
     </head>
     <body>
        <div class="body" id="tab4">
-
             <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
         <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
@@ -86,7 +85,15 @@ background: #fff; /* set desired hover color */
                         	<ul>
                         	<g:each in="${componentInstance.sessions}" status="n" var="sessionInstance">
                         	<li>${fieldValue(bean: sessionInstance, field: "name")} - ${fieldValue(bean: sessionInstance, field: "description")} <g:link mapping="sessionFileDetails" elementId=upload-files[${n}]" controller="sessionFile" action="uploadFiles" params="[studyId: params.studyId, id: sessionInstance.id, sessionId: sessionInstance.id,componentId: componentInstance.id]">Upload Files</g:link></li>
-                        	</g:each>
+                        	<g:if test="${sessionFiles.getAt(sessionInstance.id.toString()).toString() != 'null'}">
+                            <li><g:each in= "${sessionFiles.getAt(sessionInstance.id.toString())}" status="f" var="fileInstance">
+                            <ul id="browser" class="filetree">
+                            <li>${fileInstance}</li>
+                            </ul>
+                            </g:each>
+                            </li>
+                            </g:if>
+                            </g:each>
                     		</ul>
                     </g:each>
             </div>

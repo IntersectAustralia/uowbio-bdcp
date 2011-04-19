@@ -13,7 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder as SCH
 import org.springframework.security.web.WebAttributes
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
-class LoginController {
+class LoginController
+{
 
 	/**
 	 * Dependency injection for the authenticationTrustResolver.
@@ -24,45 +25,51 @@ class LoginController {
 	 * Dependency injection for the springSecurityService.
 	 */
 	def springSecurityService
-	
+
 	/**
 	 * Default action; redirects to 'defaultTargetUrl' if logged in, /login/auth otherwise.
 	 */
-	def index = {
+	def index =
+	{
 		cache false
-		
-		if (springSecurityService.isLoggedIn()) {
+
+		if (springSecurityService.isLoggedIn())
+		{
 			redirect uri: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl
 		}
-		else {
+		else
+		{
 			redirect action: auth, params: params
 		}
 	}
 
-	
+
 	/**
 	 * Show the login page.
 	 */
-	def auth = {
+	def auth =
+	{
 		cache false
 
 		def config = SpringSecurityUtils.securityConfig
-		
-		if (springSecurityService.isLoggedIn()) {
- 			redirect uri: config.successHandler.defaultTargetUrl
+
+		if (springSecurityService.isLoggedIn())
+		{
+			redirect uri: config.successHandler.defaultTargetUrl
 			return
 		}
 
 		String view = 'auth'
 		String postUrl = "${request.contextPath}${config.apf.filterProcessesUrl}"
 		render view: view, model: [postUrl: postUrl,
-		                           rememberMeParameter: config.rememberMe.parameter]
+					rememberMeParameter: config.rememberMe.parameter]
 	}
 
 	/**
 	 * The redirect action for Ajax requests. 
 	 */
-	def authAjax = {
+	def authAjax =
+	{
 		cache false
 		response.setHeader 'Location', SpringSecurityUtils.securityConfig.auth.ajaxLoginFormUrl
 		response.sendError HttpServletResponse.SC_UNAUTHORIZED
@@ -71,10 +78,12 @@ class LoginController {
 	/**
 	 * Show denied page.
 	 */
-	def denied = {
+	def denied =
+	{
 		cache false
 		if (springSecurityService.isLoggedIn() &&
-				authenticationTrustResolver.isRememberMe(SCH.context?.authentication)) {
+		authenticationTrustResolver.isRememberMe(SCH.context?.authentication))
+		{
 			// have cookie but the page is guarded with IS_AUTHENTICATED_FULLY
 			redirect action: full, params: params
 		}
@@ -83,45 +92,55 @@ class LoginController {
 	/**
 	 * Login page for users with a remember-me cookie but accessing a IS_AUTHENTICATED_FULLY page.
 	 */
-	def full = {
+	def full =
+	{
 		cache false
 		def config = SpringSecurityUtils.securityConfig
 		render view: 'auth', params: params,
-			model: [hasCookie: authenticationTrustResolver.isRememberMe(SCH.context?.authentication),
-			        postUrl: "${request.contextPath}${config.apf.filterProcessesUrl}"]
+				model: [hasCookie: authenticationTrustResolver.isRememberMe(SCH.context?.authentication),
+					postUrl: "${request.contextPath}${config.apf.filterProcessesUrl}"]
 	}
 
 	/**
 	 * Callback after a failed login. Redirects to the auth page with a warning message.
 	 */
-	def authfail = {
+	def authfail =
+	{
 		cache false
 
 		def username = session[UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_USERNAME_KEY]
 		String msg = ''
 		def exception = session[WebAttributes.AUTHENTICATION_EXCEPTION]
-		if (exception) {
-			if (exception instanceof AccountExpiredException) {
+		if (exception)
+		{
+			if (exception instanceof AccountExpiredException)
+			{
 				msg = SpringSecurityUtils.securityConfig.errors.login.expired
 			}
-			else if (exception instanceof CredentialsExpiredException) {
+			else if (exception instanceof CredentialsExpiredException)
+			{
 				msg = SpringSecurityUtils.securityConfig.errors.login.passwordExpired
 			}
-			else if (exception instanceof DisabledException) {
+			else if (exception instanceof DisabledException)
+			{
 				msg = SpringSecurityUtils.securityConfig.errors.login.disabled
 			}
-			else if (exception instanceof LockedException) {
+			else if (exception instanceof LockedException)
+			{
 				msg = SpringSecurityUtils.securityConfig.errors.login.locked
 			}
-			else {
+			else
+			{
 				msg = SpringSecurityUtils.securityConfig.errors.login.fail
 			}
 		}
 
-		if (springSecurityService.isAjax(request)) {
+		if (springSecurityService.isAjax(request))
+		{
 			render([error: msg] as JSON)
 		}
-		else {
+		else
+		{
 			flash.message = msg
 			redirect action: auth, params: params
 		}
@@ -130,7 +149,8 @@ class LoginController {
 	/**
 	 * The Ajax success redirect url.
 	 */
-	def ajaxSuccess = {
+	def ajaxSuccess =
+	{
 		cache false
 		render([success: true, username: springSecurityService.authentication.name] as JSON)
 	}
@@ -138,7 +158,8 @@ class LoginController {
 	/**
 	 * The Ajax denied redirect url.
 	 */
-	def ajaxDenied = {
+	def ajaxDenied =
+	{
 		cache false
 		render([error: 'access denied'] as JSON)
 	}

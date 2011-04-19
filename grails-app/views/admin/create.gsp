@@ -1,10 +1,10 @@
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:javascript library="jquery" plugin="jquery"/>
-   		<jqui:resources />
-        <script type="text/javascript">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="layout" content="main" />
+<g:javascript library="jquery" plugin="jquery" />
+<jqui:resources />
+<script type="text/javascript">
         $(function() {
     		// a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     		$( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -35,27 +35,32 @@
              
 	    </script>
 
-        <title>Confirm Account Creation</title>
-    </head>
-    <body>
-    
-    <div id="dialog-confirm" title="Cancel the creation of a user account?">
-	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you sure?</p>
-</div>
-    <div class="body">
+<title>Confirm Account Creation</title>
+</head>
+<body>
 
-     <p> Confirm account creation for ${username} (User will receive an email notification </p>
-     <p> advising of new account.) </p>
-	 <br />
-	 <div class="rowTop">   
-     <g:link controller="admin" class="create" elementId="Confirm" params="[username: params.username]" action="save" method="post">Confirm</g:link>
-     <g:link controller="admin" class="create" elementId="Cancel" action="searchUsers" params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
-     </div>
-    <div class="rowBottom">
-    <div class="buttons">
-    <g:link controller="admin" elementId="Back" class="create" action="searchUsers" params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Back</g:link>
-    </div>
-    </div>
-    </div>
-    </body>
+<div id="dialog-confirm" title="Cancel the creation of a user account?">
+<p><span class="ui-icon ui-icon-alert"
+	style="float: left; margin: 0 7px 20px 0;"></span>Are you sure?</p>
+</div>
+<div class="body">
+
+<p>Confirm account creation for ${username} (User will receive an
+email notification</p>
+<p>advising of new account.)</p>
+<br />
+<div class="rowTop"><g:link controller="admin" class="create"
+	elementId="Confirm" params="[username: params.username]" action="save"
+	method="post">Confirm</g:link> <g:link controller="admin"
+	class="create" elementId="Cancel" action="searchUsers"
+	params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
+</div>
+<div class="rowBottom">
+<div class="buttons"><g:link controller="admin" elementId="Back"
+	class="create" action="searchUsers"
+	params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Back</g:link>
+</div>
+</div>
+</div>
+</body>
 </html>

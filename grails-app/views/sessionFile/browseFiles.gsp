@@ -19,12 +19,14 @@
                             ARCHIVE="acdata-uploader.jar, lib/commons-codec-1.4.jar, lib/commons-httpclient-3.1.jar, lib/commons-logging-1.1.1.jar, lib/log4j-1.2.15.jar, lib/plugin.jar"
                             code="au.org.intersect.acdata.uploader.main.UploadApplet"
                             width="40%" height="20%">
+                            <param name="serverUrl" value="http://localhost:8080/BDCP/study/{$params.studyId}/session/${params.sessionId}/sessionFile/upload" />
 
                        Your browser does not have Java enabled.
                       </applet> 
             
         <div class="rowBottom">
     <div class="buttons">
+    <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create" elementId="OK" action="fileList" params="['studyId': params.studyId,'sessionId': params.sessionId]">OK</g:link></span>
     <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create" elementId="Cancel" action="uploadFiles" params="['studyId': params.studyId,'sessionId': params.sessionId]">Cancel</g:link></span>
     </div>
     </div>
