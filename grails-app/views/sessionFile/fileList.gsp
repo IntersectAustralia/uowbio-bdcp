@@ -88,7 +88,7 @@ background: #fff; /* set desired hover color */
                         	<g:if test="${sessionFiles.getAt(sessionInstance.id.toString()).toString() != 'null'}">
                             <li><g:each in= "${sessionFiles.getAt(sessionInstance.id.toString())}" status="f" var="fileInstance">
                             <ul id="browser" class="filetree">
-                            <li>${fileInstance}</li>
+                            <li>${fileInstance.name}</li>
                             </ul>
                             </g:each>
                             </li>

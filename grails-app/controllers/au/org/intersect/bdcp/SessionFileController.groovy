@@ -2,6 +2,7 @@ package au.org.intersect.bdcp
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+import groovy.xml.MarkupBuilder
 
 import java.io.File
 import java.io.IOException
@@ -75,23 +76,25 @@ class SessionFileController
 		return true;
 	}
 	
-	public static void listRecursively(File fdir, int depth) {
-          
+	public static List listRecursively(File fdir, int depth) {
 		
-		
-        if (fdir.isDirectory() && depth < MAX_DEPTH) {
+        def map
+		def files = []
+		if (fdir.isDirectory() && depth < MAX_DEPTH) {
             for (File f : fdir.listFiles()) {  // Go over each file/subdirectory.
-                listRecursively(f, depth+1);
+                files.addAll(listRecursively(f, depth+1));
             }
-			println fdir.getName()
+			map = ['name':fdir.getName(), 'path':fdir.getPath() , 'directory':true, 'parent': fdir.getParent()]
+			
         }
 		else
 		{
-			println fdir.getName() + " is not a directory";
+			map = ['name':fdir.getName(), 'path':fdir.getPath() , 'directory':false, 'parent': fdir.getParent()]
 		}
 		
+		files.addAll(map)
 		
-		
+		return files
 	}
 	
 
@@ -126,6 +129,10 @@ class SessionFileController
 		
 	}
 
+	def test3 = 
+	{
+		
+	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
@@ -133,6 +140,125 @@ class SessionFileController
 		redirect(action: "list", params: params)
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	def test =
+	{
+		def studyInstance = Study.get(params.studyId)
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		
+		def sessionFiles = [:]
+		studyInstance.components.each {
+			it.sessions.each {
+				File rootDir = new File("${getRealPath()}/${studyInstance.id}/${it.id}");
+				def files = []
+				def map
+				rootDir.listFiles().each
+				{
+					if (it != null && it.isDirectory()) {
+						files.addAll(listRecursively(it, 0))
+					} else {
+						map = ['name':it.getName(), 'directory':false, 'parent': it.getParent()]
+						files.addAll(map)
+					}
+				}
+				
+				if (files != null)
+				{
+					sessionFiles.putAt "${it.id}",files
+				}
+				
+			}
+		}
+		
+		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	def test2 =
+	{
+		def studyInstance = Study.get(params.studyId)
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		
+		def sessionFiles = [:]
+		studyInstance.components.each {
+			it.sessions.each {
+				File rootDir = new File("${getRealPath()}/${studyInstance.id}/${it.id}");
+				def files = []
+				def map
+				rootDir.listFiles().each
+				{
+					if (it != null && it.isDirectory()) {
+						files.addAll(listRecursively(it, 0))
+					} else {
+						map = ['name':it.getName(), 'path':it.getPath() , 'directory':false, 'parent': it.getParent()]
+						files.addAll(map)
+					}
+				}
+				
+				if (files != null)
+				{
+					sessionFiles.putAt "${it.id}",files
+				}
+				
+			}
+		}
+		
+		
+		
+		def writer = new StringWriter()
+		def builder = new groovy.xml.MarkupBuilder(writer)
+		builder.root() {
+			for (componentInstance in studyInstance.components)
+			{
+				
+				item(id: "component_" + componentInstance.id, parent_id:0, rel:"drive")
+				
+				{
+					content
+					{
+						name(componentInstance.name)
+					}
+				}
+				
+				for (sessionInstance in componentInstance.sessions)
+				{
+					item(id:"${getRealPath()}${studyInstance.id}/${sessionInstance.id}" , parent_id:"component_"+componentInstance.id, rel:"drive")
+					
+					{
+						content
+						{
+							name(sessionInstance.name)
+						}
+					}
+					
+					for (e in sessionFiles.getAt(sessionInstance.id.toString())) 
+					 { 
+						 
+						 def rel="file"
+						 if (e.directory == true)
+						 {
+							 rel = "folder"
+						 }
+						 item(id: e.path, parent_id:e.parent, rel:rel)
+						 
+						 {
+							 content
+							 {
+								 name(e.name)
+							 }
+						 }
+					 }
+				}
+			}
+		}
+	  
+		def nodes = writer.toString()
+		println nodes
+		nodes = nodes.replaceAll("[\r\n]+", " ")
+		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles, nodes: nodes]
+	}
+	
+	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def fileList =
 	{
@@ -148,31 +274,12 @@ class SessionFileController
 				rootDir.listFiles().each
 				{
 					if (it != null && it.isDirectory()) {
-						listRecursively(it, 0);
+						files.addAll(listRecursively(it, 0))
 					} else {
-						//map = ['name':it.getName(), 'directory':false, 'parent': it.getParent()]
-						//files.add(map)
-						println "${it.getName()} is not a directory"
+						map = ['name':it.getName(), 'directory':false, 'parent': it.getParentFile()?.getName()]
+						files.addAll(map)
 					}
 				}
-				
-				rootDir.listFiles().each
-				{
-					def isDir = false
-					if (it.isDirectory())
-					{
-							map = ['name':it.getName(), 'directory':isDir, 'parent': it.getParent()]
-							files.add(map)
-					}
-					else
-					{
-						map = ['name':it.getName(), 'directory':isDir, 'parent': it.getParent()]
-						files.add(map)
-					}
-					
-					
-				}
-				
 				
 				if (files != null)
 				{
@@ -181,8 +288,6 @@ class SessionFileController
 				
 			}
 		}
-		
-		println sessionFiles
 		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
 	}
 
