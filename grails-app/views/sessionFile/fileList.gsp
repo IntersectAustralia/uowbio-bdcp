@@ -7,7 +7,9 @@
         <meta name="layout" content="main" />
         <g:javascript library="application" />
         <g:javascript library="jquery" plugin="jquery"/>
-   		<jqui:resources />
+        <script src="${createLinkTo(dir: 'jsTree.v.1.0rc2', file: 'jquery.jstree.js')}" type="text/javascript"></script>
+    
+        <jqui:resources />
         <g:set var="entityName" value="${message(code: 'sessionFile.label', default: 'File')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
          <style>
@@ -74,28 +76,45 @@ background: #fff; /* set desired hover color */
 		<li class="tab4"><a href="${createLink(mapping: 'componentDetails', controller:'component', action:'fileList', params:['studyId': studyInstance.id])}" id="tabs-files" name="tabs-files"><span>Files</span></a></li>
 	</ul>
         <br />
-            <br />
-            <br />
             <g:if test="${ componentInstanceTotal > 0}">
             <div class="projects">
-                    <g:each in="${componentInstanceList}" status="i" var="componentInstance">
-                        
-                            ${fieldValue(bean: componentInstance, field: "name")} - ${fieldValue(bean: componentInstance, field: "description")}
-                            
-                        	<ul>
-                        	<g:each in="${componentInstance.sessions}" status="n" var="sessionInstance">
-                        	<li>${fieldValue(bean: sessionInstance, field: "name")} - ${fieldValue(bean: sessionInstance, field: "description")} <g:link mapping="sessionFileDetails" elementId=upload-files[${n}]" controller="sessionFile" action="uploadFiles" params="[studyId: params.studyId, id: sessionInstance.id, sessionId: sessionInstance.id,componentId: componentInstance.id]">Upload Files</g:link></li>
-                        	<g:if test="${sessionFiles.getAt(sessionInstance.id.toString()).toString() != 'null'}">
-                            <li><g:each in= "${sessionFiles.getAt(sessionInstance.id.toString())}" status="f" var="fileInstance">
-                            <ul id="browser" class="filetree">
-                            <li>${fileInstance.name}</li>
-                            </ul>
-                            </g:each>
-                            </li>
-                            </g:if>
-                            </g:each>
-                    		</ul>
-                    </g:each>
+                    <div id="demo1" class="demo">
+</div>
+<script type="text/javascript" class="source">
+
+$(function () {
+	$("#demo1").jstree({ 
+		"xml_data" : {
+			"data" : "" + "${nodes}"
+		},
+
+		"ui" : {
+			"select_limit" : 1,
+			"select_multiple_modifier" : "alt",
+			"selected_parent_close" : "select_parent",
+		},
+
+		'types' : {
+		    'valid_children' : [ 'folder' ],
+		    'types' : {
+		        'folder' : {
+		            'valid_children' : [ 'file'],
+		            'max_depth' : 5
+		        },
+
+		        'file' : {
+		            'valid_children' : [ 'none' ],
+		            'icon' : { 'image' : "${resource(dir:'images',file:'file.png')}" },
+		        }
+		    }
+		},
+				
+		"plugins" : [ "themes", "xml_data", "types", "ui", "contextmenu", "crrm"]
+	});
+	$("#demo1").jstree("open_all","#nodeID");
+});
+
+</script>
             </div>
             </g:if>
             </div>

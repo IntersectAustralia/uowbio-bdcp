@@ -129,11 +129,6 @@ class SessionFileController
 		
 	}
 
-	def test3 = 
-	{
-		
-	}
-
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
 	{
@@ -141,40 +136,7 @@ class SessionFileController
 	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-	def test =
-	{
-		def studyInstance = Study.get(params.studyId)
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		
-		def sessionFiles = [:]
-		studyInstance.components.each {
-			it.sessions.each {
-				File rootDir = new File("${getRealPath()}/${studyInstance.id}/${it.id}");
-				def files = []
-				def map
-				rootDir.listFiles().each
-				{
-					if (it != null && it.isDirectory()) {
-						files.addAll(listRecursively(it, 0))
-					} else {
-						map = ['name':it.getName(), 'directory':false, 'parent': it.getParent()]
-						files.addAll(map)
-					}
-				}
-				
-				if (files != null)
-				{
-					sessionFiles.putAt "${it.id}",files
-				}
-				
-			}
-		}
-		
-		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
-	}
-	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-	def test2 =
+	def fileList =
 	{
 		def studyInstance = Study.get(params.studyId)
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -253,44 +215,10 @@ class SessionFileController
 		}
 	  
 		def nodes = writer.toString()
-		println nodes
 		nodes = nodes.replaceAll("[\r\n]+", " ")
 		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles, nodes: nodes]
 	}
 	
-	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-	def fileList =
-	{
-		def studyInstance = Study.get(params.studyId)
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		
-		def sessionFiles = [:]
-		studyInstance.components.each {
-			it.sessions.each {
-				File rootDir = new File("${getRealPath()}/${studyInstance.id}/${it.id}");
-				def files = []
-				def map
-				rootDir.listFiles().each
-				{
-					if (it != null && it.isDirectory()) {
-						files.addAll(listRecursively(it, 0))
-					} else {
-						map = ['name':it.getName(), 'directory':false, 'parent': it.getParentFile()?.getName()]
-						files.addAll(map)
-					}
-				}
-				
-				if (files != null)
-				{
-					sessionFiles.putAt "${it.id}",files
-				}
-				
-			}
-		}
-		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
-	}
-
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def showTempFiles =
 	{
