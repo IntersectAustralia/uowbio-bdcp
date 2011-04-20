@@ -94,6 +94,20 @@ $(function () {
 			"selected_parent_close" : "select_parent",
 		},
 
+        "contextmenu" : {
+               "items" : {
+                   "create": false,
+                   "rename": false,
+                   "remove": false,
+                   "ccp": false,
+                   "test": true
+                   }
+        
+
+               
+
+            },
+          
 		'types' : {
 		    'valid_children' : [ 'folder' ],
 		    'types' : {
