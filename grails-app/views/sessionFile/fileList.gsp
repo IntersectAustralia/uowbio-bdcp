@@ -7,7 +7,8 @@
         <meta name="layout" content="main" />
         <g:javascript library="application" />
         <g:javascript library="jquery" plugin="jquery"/>
-        <script src="${createLinkTo(dir: 'jsTree.v.1.0rc2', file: 'jquery.jstree.js')}" type="text/javascript"></script>
+        <link rel="stylesheet" href="${resource(dir:'jquery.treeview',file:'jquery.treeview.css')}".css" type="text/css" />
+  <script type="text/javascript" src="${resource(dir:'jquery.treeview',file:'jquery.treeview.js')}"></script>
     
         <jqui:resources />
         <g:set var="entityName" value="${message(code: 'sessionFile.label', default: 'File')}" />
@@ -58,7 +59,14 @@ background: #fff; /* set desired hover color */
 
 /* end css tabs */
          </style>
-    
+    <script>
+
+  $(document).ready(function(){
+    $("#example").treeview();
+  });
+  
+  
+  </script>
     
     </head>
     <body>
@@ -78,57 +86,25 @@ background: #fff; /* set desired hover color */
         <br />
             <g:if test="${ componentInstanceTotal > 0}">
             <div class="projects">
-                    <div id="demo1" class="demo">
-</div>
-<script type="text/javascript" class="source">
+                    <ul id="example" class="filetree">
+  <g:each in="${componentInstanceList}" status="i" var="componentInstance">
+  <li><span class="folder">${componentInstance.name}</span>
+  <g:each in="${componentInstance.sessions}" status="k" var="sessionInstance">
+          <ul>
+                 <li><span class="folder">${sessionInstance.name} <img src="${resource(dir:'images/icons',file:'plus.gif')}" /></span></li>
+                 <g:each in="${sessionFiles.getAt(sessionInstance.id.toString())}" status="l" var="fileInstance">
+                 <li><span class="${fileInstance.type}">${fileInstance.name}</span></li>
+                 </g:each>
+         </ul>
+  </g:each>
+  </li>
+  </g:each>
+		</ul>
 
-$(function () {
-	$("#demo1").jstree({ 
-		"xml_data" : {
-			"data" : "" + "${nodes}"
-		},
-
-		"ui" : {
-			"select_limit" : 1,
-			"select_multiple_modifier" : "alt",
-			"selected_parent_close" : "select_parent",
-		},
-
-        "contextmenu" : {
-               "items" : {
-                   "create": false,
-                   "rename": false,
-                   "remove": false,
-                   "ccp": false,
-                   "test": true
-                   }
-        
-
-               
-
-            },
-          
-		'types' : {
-		    'valid_children' : [ 'folder' ],
-		    'types' : {
-		        'folder' : {
-		            'valid_children' : [ 'file'],
-		            'max_depth' : 5
-		        },
-
-		        'file' : {
-		            'valid_children' : [ 'none' ],
-		            'icon' : { 'image' : "${resource(dir:'images',file:'file.png')}" },
-		        }
-		    }
-		},
-				
-		"plugins" : [ "themes", "xml_data", "types", "ui", "contextmenu", "crrm"]
-	});
-	$("#demo1").jstree("open_all","#nodeID");
-});
-
-</script>
+<br />
+<br />
+<h2>experimental</h2>
+<g:traversalTag allItems = "${sessionFiles}" componentInstance = "${componentInstance}" />
             </div>
             </g:if>
             </div>
