@@ -8,6 +8,7 @@ class TraversalTagLib {
     def currentItem = attrs.currentItem
 	def allItems = attrs.allItems
 	def currentDir = attrs.currentDir
+	def componentInstance = attrs.componentInstance
 	
 	if (currentItem == null || currentDir == null)
 	{

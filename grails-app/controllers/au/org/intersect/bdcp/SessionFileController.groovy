@@ -134,7 +134,7 @@ class SessionFileController
 					}
 					else
 					{
-						treemap = [name: it.getName(), path: it.getPath(), type: "folder", parent:it.getParentFile()]
+						treemap = [name: it.getName(), path: it.getPath(), type: "folder", parent:it.getParentFile(), children: it.listFiles()]
 					}
 					tree.add(treemap)	
 				}

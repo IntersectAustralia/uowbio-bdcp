@@ -91,10 +91,18 @@ background: #fff; /* set desired hover color */
   <li><span class="folder">${componentInstance.name}</span>
   <g:each in="${componentInstance.sessions}" status="k" var="sessionInstance">
           <ul>
-                 <li><span class="folder">${sessionInstance.name} <img src="${resource(dir:'images/icons',file:'plus.gif')}" /></span></li>
+                 <li><span class="folder">${sessionInstance.name} <img src="${resource(dir:'images/icons',file:'plus.gif')}" /></span>
+                 <ul>
                  <g:each in="${sessionFiles.getAt(sessionInstance.id.toString())}" status="l" var="fileInstance">
-                 <li><span class="${fileInstance.type}">${fileInstance.name}</span></li>
+                 <g:if test="${fileInstance.type == 'folder' }">
+                 <li><span class="folder">${fileInstance.name}</span></li>
+                 <g:each in="${fileInstance.children}" status="m" var="childInstance">
+                 <li><span class="file">${childInstance.getName()}</span></li>
                  </g:each>
+                 </g:if>
+                 </g:each>
+                 </ul>
+                 </li>
          </ul>
   </g:each>
   </li>
