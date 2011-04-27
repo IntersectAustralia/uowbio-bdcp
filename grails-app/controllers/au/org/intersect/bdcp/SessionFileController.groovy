@@ -66,7 +66,7 @@ class SessionFileController
 		{
 			File oldDir = new File(upload_root)
 			File newDir = new File(final_location_root)
-			FileUtils.moveDirectory(oldDir, newDir)
+			FileUtils.copyDirectoryToDirectory(oldDir, newDir)
 			FileUtils.deleteDirectory(oldDir)
 		}
 		catch (IOException ex)
@@ -87,9 +87,7 @@ class SessionFileController
 
 			def success = (createAllFolders(parsed_json, upload_root) == true) ? true: false
 			success = (success == true && createAllFiles(parsed_json, upload_root) == true) ? true:false
-			
-			def final_location_root = "${getRealPath()}${params.studyId}/${params.sessionId}/"
-			
+			def final_location_root = "${getRealPath()}${params.studyId}/"
 			success = (success == true && moveDirectory(upload_root, final_location_root) == true)? true: false
 			if (success)
 			{
@@ -99,10 +97,13 @@ class SessionFileController
 			{
 				response.sendError 500
 			}
+			upload_root = new File(upload_root)
+			upload_root.deleteDir()
 		}
 		else
 		{
 			response.sendError 500
+			
 		}
 		
 	}
@@ -124,27 +125,10 @@ class SessionFileController
 		studyInstance.components.each {
 			it.sessions.each {
 				def dir = new File("${getRealPath()}/${studyInstance.id}/${it.id}")
-				def tree = []
-				def treemap = [:]
-				
-				dir.eachFileRecurse{
-					if (!it.isDirectory())
-					{
-						treemap = [name: it.getName(), path: it.getPath(), type: "file", parent:it.getParentFile()]
-					}
-					else
-					{
-						treemap = [name: it.getName(), path: it.getPath(), type: "folder", parent:it.getParentFile(), children: it.listFiles()]
-					}
-					tree.add(treemap)	
-				}
-			
-				if (tree != null)
-				{
-					sessionFiles.putAt "${it.id}",tree
-				}
+				sessionFiles.putAt "${it.id}", dir.listFiles()
 			}
 		}
+		
 		
 		
 		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
@@ -185,7 +169,6 @@ class SessionFileController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def clearTempFiles =
 	{
-		println "Clear Temp Files..."
 		File rootDir = new File("${getTmpPath()}/${params.studyId}/${params.sessionId}");
 		rootDir.deleteDir()
 		render (view: "uploadFiles")

@@ -4,34 +4,35 @@ import groovy.xml.MarkupBuilder
 
 class TraversalTagLib {
 
-	def traversalTag = {attrs ->
-    def currentItem = attrs.currentItem
-	def allItems = attrs.allItems
-	def currentDir = attrs.currentDir
-	def componentInstance = attrs.componentInstance
-	
-	if (currentItem == null || currentDir == null)
-	{
+	def traversalTag = {attrs ->	
+	def file = attrs.file
+	def sessionInstance = attrs.session
 		
-	}
-	else if (currentItem?.parent == currentDir)
+	def type = file?.isDirectory() ? "folder" : "file"
+	if (type == "file")
 	{
-		out << "<li><span class='${currentItem?.type}'>${currentItem?.name}</span></li>"
+		out << "<li><span class='${type}'>${file?.getName()}</span>"
 	}
-	else if (currentItem?.children != null)
+	else
 	{
-		currentItem.children.each 
+		out << "<li><span class='${type}'>${file?.getName()} <a href='${createLink(mapping:"sessionFileDetails", controller:"sessionFile", action:"browseFiles", params:['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':file.getName(), 'parent': file.getParentFile().getName()])}'><img src=\"${resource(dir:'images/icons',file:'upload.png')}\"  alt=\"Upload\" title=\"Upload\"/></a></span>"
+	}
+	File[] children = file.listFiles()
+	if (children?.size() > 0)
+	{
+		out << "\n<ul>\n"
+		for (File child: children)
 		{
-			allItems.findAll 
-			{
-				  path: it
-			}.each 
-		     {
-				out << "<li><span class='${currentItem?.type}'>${currentItem?.name}</span></li>"
-			 }
+			out << traversalTag(file: child, session: sessionInstance)
 		}
-		
+		out << "\n</ul></li>\n"
 	}
+	else
+	{
+		out <<"</li>\n"
+	}
+			
+
 	
 //    if (false){
 //        out << recursiveTag(item:item)
