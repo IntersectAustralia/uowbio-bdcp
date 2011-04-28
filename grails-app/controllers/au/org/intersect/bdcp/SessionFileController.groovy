@@ -54,6 +54,7 @@ class SessionFileController
 			def path = val[0]
 			def file = params[key]
 			def filepath = new File(upload_root + path)
+			filepath.mkdirs()
 			file.transferTo(filepath)
 		}
 		return true
@@ -62,17 +63,19 @@ class SessionFileController
 	
 	private boolean moveDirectory(upload_root, final_location_root)
 	{
+		File oldDir = new File(upload_root)
+		File newDir = new File(final_location_root)
 		try
 		{
-			File oldDir = new File(upload_root)
-			File newDir = new File(final_location_root)
-			FileUtils.copyDirectoryToDirectory(oldDir, newDir)
-			FileUtils.deleteDirectory(oldDir)
+				FileUtils.copyDirectoryToDirectory(oldDir, newDir)
+				FileUtils.deleteDirectory(oldDir)
+					
 		}
-		catch (IOException ex)
+		catch (IOException ioexception)
 		{
 			return false
 		}
+			
 		return true;
 	}
 	
@@ -84,7 +87,6 @@ class SessionFileController
 			def parsed_json = JSON.parse(dirstruct)
 
 			def upload_root = "${getTmpPath()}/${params.studyId}/${params.sessionId}/"
-
 			def success = (createAllFolders(parsed_json, upload_root) == true) ? true: false
 			success = (success == true && createAllFiles(parsed_json, upload_root) == true) ? true:false
 			def final_location_root = "${getRealPath()}${params.studyId}/"

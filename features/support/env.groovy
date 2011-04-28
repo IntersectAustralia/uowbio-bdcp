@@ -3,6 +3,8 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.JavascriptExecutor;
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import groovy.sql.Sql
+import java.io.File
+import java.io.IOException
 
 this.metaClass.mixin(cuke4duke.GroovyDsl)
 
@@ -37,6 +39,30 @@ After() {
   sql.execute("delete from component")
   sql.execute("delete from study")
   sql.execute("delete from project")
+  
+  File tmpDir = new File(getTmpPath())
+  File realDir = new File(getRealPath())
+  File formsDir = new File(getUowBioFormsPath())
+  
+  tmpDir.deleteDir()
+  realDir.deleteDir()
+  formsDir.deleteDir()
+}
+
+private String getTmpPath()
+{
+	return ("web-app/tmp/")
+}
+
+
+private String getRealPath()
+{
+	return ("web-app/sessions/files/")
+}
+
+private String getUowBioFormsPath()
+{
+	return ("web-app/uowbio/forms")
 }
 
 private File createTmpFile(String content) throws IOException {

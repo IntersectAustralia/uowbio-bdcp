@@ -27,7 +27,7 @@
         <div class="rowBottom">
     <div class="buttons">
     <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create" elementId="OK" action="fileList" params="['studyId': params.studyId,'sessionId': params.sessionId]">OK</g:link></span>
-    <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create" elementId="Cancel" action="uploadFiles" params="['studyId': params.studyId,'sessionId': params.sessionId]">Cancel</g:link></span>
+    <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create" elementId="Cancel" action="fileList" params="['studyId': params.studyId,'sessionId': params.sessionId]">Cancel</g:link></span>
     </div>
     </div>
     </div>
