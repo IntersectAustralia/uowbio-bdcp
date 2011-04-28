@@ -92,10 +92,10 @@ background: #fff; /* set desired hover color */
   <g:each in="${componentInstance.sessions}" status="k" var="sessionInstance">
           <ul>
                  
-                 <li><span class="folder">${sessionInstance.name} <g:link mapping="sessionFileDetails" controller="sessionFile" action="browseFiles" params="['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':params.sessionId, 'parent':params.studyId]" ><img src="${resource(dir:'images/icons',file:'upload.png')}"  alt="Upload" title="Upload"/></g:link></span>
+                 <li><span class="folder">${sessionInstance.name} <g:link elementId="upload[${i}-${0}]" mapping="sessionFileDetails" controller="sessionFile" action="browseFiles" params="['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':params.sessionId, 'parent':params.studyId]" ><img src="${resource(dir:'images/icons',file:'upload.png')}"  alt="Upload Files" title="Upload Files"/></g:link> <img src="${resource(dir:'images/icons',file:'plus.gif')}"  alt="Add Directory" title="Add Directory"/></span>
                  <ul>
                  <g:each in="${sessionFiles.getAt(sessionInstance.id.toString())}" status="l" var="fileInstance">
-                 <g:traversalTag file="${fileInstance}" session="${sessionInstance}"/>
+                 <g:traversalTag file="${fileInstance}" session="${sessionInstance}" status="${i}-${1}"/>
                  </g:each>
                  </ul>
                  </li>
