@@ -14,8 +14,6 @@ class SessionFileController
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-	static int MAX_DEPTH = 5
-	
 	private String getTmpPath()
 	{
 		return (request.getSession().getServletContext().getRealPath("/") + grailsApplication.config.tmp.location.toString())
@@ -110,6 +108,7 @@ class SessionFileController
 		
 	}
 
+	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
 	{
@@ -130,8 +129,6 @@ class SessionFileController
 				sessionFiles.putAt "${it.id}", dir.listFiles()
 			}
 		}
-		
-		
 		
 		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
 	}
@@ -183,9 +180,24 @@ class SessionFileController
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def createDirectory =
-	{
+	{ 
 	}
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	def saveDirectory =
+	{ directoryCommand dirCmd ->
+		
+		if (dirCmd.hasErrors())
+		{
+			render(view: "createDirectory", model: [directoryCommand: dirCmd, studyId: params.studyId, sessionId: params.sessionId])
+		}
+		else
+		{
+			println dirCmd.name
+			redirect( mapping:"sessionFileDetails", controller: "sessionFile", action: "fileList", params: [studyId: params.studyId, sessionId: params.sessionId])
+		}
+	}
+	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def browseFiles =
 	{
@@ -311,5 +323,17 @@ class SessionFileController
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'sessionFile.label', default: 'SessionFile'), params.id])}"
 			redirect(action: "list")
 		}
+	}
+}
+
+class directoryCommand
+{
+	String name
+	String path
+	
+	static constraints =
+	{
+		name(blank:false, size:1..255)
+		path(blank:false)
 	}
 }
