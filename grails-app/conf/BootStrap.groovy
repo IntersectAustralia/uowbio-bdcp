@@ -1,8 +1,9 @@
+import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+
 import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
-import au.org.intersect.bdcp.SecRole
-import au.org.intersect.bdcp.SecUser
 import au.org.intersect.bdcp.Study
 import au.org.intersect.bdcp.UserStore
 
@@ -11,10 +12,17 @@ import au.org.intersect.bdcp.UserStore
 class BootStrap
 {
 	def springSecurityService
-
+	def concurrentSessionController
+	def securityContextPersistenceFilter
+	
+	
 	def init =
 	{ servletContext ->
 
+		securityContextPersistenceFilter.forceEagerSessionCreation = true
+		SpringSecurityUtils.clientRegisterFilter('concurrentSessionFilter',
+		SecurityFilterPosition.CONCURRENT_SESSION_FILTER)
+		
 		environments
 		{
 			production

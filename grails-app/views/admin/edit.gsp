@@ -14,7 +14,11 @@
 	<div class="message">
 	${flash.message}
 	</div>
-</g:if> <g:form method="post" action="update"
+</g:if> 
+<g:if test="${flash.error}">
+            <div class="errors"><ul><li>${flash.error}</li></ul></div>
+            </g:if>
+<g:form method="post" action="update"
 	params="[hideUsers: params.hideUsers]">
 	<g:hiddenField name="id" value="${userInstance?.id}" />
 	<g:hiddenField name="version" value="${userInstance?.version}" />

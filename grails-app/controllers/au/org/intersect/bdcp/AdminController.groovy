@@ -1,6 +1,8 @@
 package au.org.intersect.bdcp
 
 import grails.plugins.springsecurity.Secured
+import org.springframework.security.core.session.SessionRegistry
+import org.springframework.security.core.session.SessionRegistryImpl
 import au.org.intersect.bdcp.ldap.LdapUser
 
 
@@ -9,7 +11,9 @@ class AdminController
 {
 
 	def emailNotifierService
-
+	def sessionRegistry
+	def springSecurityService
+	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
 	{
@@ -93,7 +97,7 @@ class AdminController
 	}
 
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_FULLY'])
 	def listUsers =
 	{
 		cache false
@@ -122,7 +126,7 @@ class AdminController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_FULLY'])
 	def edit =
 	{
 		cache false
@@ -131,7 +135,7 @@ class AdminController
 		render (view:"edit", model :[matchInstance: match, userInstance: userStore, hideUsers: params.hideUsers])
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_FULLY'])
 	def update =
 	{
 		cache false
@@ -153,16 +157,33 @@ class AdminController
 				}
 			}
 			userInstance.properties = params
+			if (userInstance.deactivated && springSecurityService.principal.getUsername() == params.username)
+			{
+				flash.error="${userInstance.username} could not be deactivated because you are the current user"
+				render(view: "edit", model: [matchInstance:match, userInstance: userInstance])
+				return
+			}
 			if (!userInstance.hasErrors() && userInstance.save(flush: true))
 			{
 				//flash.message = "${message(code: 'default.updated.message', args: [message(code: 'userStore.label', default: 'UserStore'), userInstance.username])}"
 				if (!userInstance?.deactivated)
 				{
 					flash.message ="${userInstance.username} activated successfully"
+					println springSecurityService.principal.getUsername()
 				}
 				else
 				{
+					
 					flash.message="${userInstance.username} deactivated successfully"
+					
+					sessionRegistry.getAllPrincipals().each {
+						if (it.getUsername() == params.username)
+						{
+							sessionRegistry.getAllSessions(it, false).each {
+								it.expireNow()
+							}
+						}
+					}
 				}
 				redirect(action: "listUsers", params:["hideUsers":params.hideUsers])
 			}

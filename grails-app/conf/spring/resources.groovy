@@ -4,8 +4,23 @@
 
 import grails.util.*
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy
+import org.springframework.security.web.session.ConcurrentSessionFilter
+import org.springframework.security.core.session.SessionRegistryImpl
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy
 beans = {
 	def conf = SpringSecurityUtils.securityConfig
+	
+	sessionRegistry(SessionRegistryImpl)
+	sessionAuthenticationStrategy(ConcurrentSessionControlStrategy,
+	sessionRegistry) {
+	maximumSessions = -1
+	}
+	
+	concurrentSessionFilter(ConcurrentSessionFilter){
+	sessionRegistry = sessionRegistry
+	expiredUrl = '/login/auth'
+	}
 	
 	contextSource(org.springframework.ldap.core.support.LdapContextSource) {
 		url = conf.ldap.context.server

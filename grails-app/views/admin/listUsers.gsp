@@ -52,7 +52,9 @@
 	<div class="message">
 	${flash.message}
 	</div>
-</g:if> <g:form name="myform" controller="admin" action="listUsers">
+</g:if> 
+
+<g:form name="myform" controller="admin" action="listUsers">
 	<input type="hidden" name="visited" value="" />
 	<table>
 		<tbody>

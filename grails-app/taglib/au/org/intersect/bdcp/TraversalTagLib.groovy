@@ -19,7 +19,7 @@ class TraversalTagLib {
 	}
 	else
 	{
-		out << "<li><span class='${type}'>${file?.getName()} <a href='${createLink(mapping:"sessionFileDetails", controller:"sessionFile", action:"browseFiles", params:['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':file.getName(), 'parent': file.getParentFile().getName()])}' id=\"upload[${status}]\"><img src=\"${resource(dir:'images/icons',file:'upload.png')}\"  alt=\"Upload Files\" title=\"Upload Files\"/></a>  <img src=\"${resource(dir:'images/icons',file:'plus.gif')}\"  alt=\"Add Directory\" title=\"Add Directory\"/></span>"
+		out << "<li><span class='${type}'>${file?.getName()} <a href='${createLink(mapping:"sessionFileDetails", controller:"sessionFile", action:"browseFiles", params:['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':file.getName(), 'parent': file.getParentFile().getName()])}' id=\"upload[${status}]\"><img src=\"${resource(dir:'images/icons',file:'upload.png')}\"  alt=\"Upload Files\" title=\"Upload Files\"/></a>  <a href='${createLink(mapping:"sessionFileDetails", controller:"sessionFile", action:"createDirectory", params:['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':file.getName(), 'parent': file.getParentFile().getName()])}' id=\"createDirectory[${status}]\"><img src=\"${resource(dir:'images/icons',file:'plus.gif')}\"  alt=\"Add Directory\" title=\"Add Directory\"/></a></span>"
 	}
 	File[] children = file.listFiles()
 	if (children?.size() > 0)
