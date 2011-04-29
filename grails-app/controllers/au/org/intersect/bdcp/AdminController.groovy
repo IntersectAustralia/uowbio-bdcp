@@ -101,7 +101,7 @@ class AdminController
 	def listUsers =
 	{
 		cache false
-		def hideDeactivatedUsers = (params.hideUsers == null) ? false : true
+		def hideDeactivatedUsers = (params.hideUsers == null || params.hideUsers == "false") ? false : true
 		def matches = []
 		def activatedMatches = []
 		UserStore.list().each
@@ -169,12 +169,9 @@ class AdminController
 				if (!userInstance?.deactivated)
 				{
 					flash.message ="${userInstance.username} activated successfully"
-					println springSecurityService.principal.getUsername()
 				}
 				else
 				{
-					
-					flash.message="${userInstance.username} deactivated successfully"
 					
 					sessionRegistry.getAllPrincipals().each {
 						if (it.getUsername() == params.username)
@@ -184,6 +181,7 @@ class AdminController
 							}
 						}
 					}
+					flash.message="${userInstance.username} deactivated successfully"
 				}
 				redirect(action: "listUsers", params:["hideUsers":params.hideUsers])
 			}
