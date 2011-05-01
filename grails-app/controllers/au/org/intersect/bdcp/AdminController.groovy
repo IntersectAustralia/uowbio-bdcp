@@ -166,7 +166,6 @@ class AdminController
 			}
 			if (!userInstance.hasErrors() && userInstance.save(flush: true))
 			{
-				//flash.message = "${message(code: 'default.updated.message', args: [message(code: 'userStore.label', default: 'UserStore'), userInstance.username])}"
 				if (!userInstance?.deactivated)
 				{
 					flash.message ="${userInstance.username} activated successfully"
