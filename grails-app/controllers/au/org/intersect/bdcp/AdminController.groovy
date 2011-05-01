@@ -160,6 +160,7 @@ class AdminController
 			if (userInstance.deactivated && springSecurityService.principal.getUsername() == params.username)
 			{
 				flash.error="${userInstance.username} could not be deactivated because you are the current user"
+				userInstance.deactivated = false
 				render(view: "edit", model: [matchInstance:match, userInstance: userInstance])
 				return
 			}
