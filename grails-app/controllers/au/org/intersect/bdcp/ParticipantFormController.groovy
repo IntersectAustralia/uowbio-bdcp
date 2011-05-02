@@ -23,6 +23,12 @@ class ParticipantFormController
 		return participantFormInstance
 	}
 
+	private String normalizeValue(value)
+	{
+		value = value.replaceAll(/[^A-Za-z0-9-_\s]/, '')
+		return value
+	}
+	
 	private boolean validateParticipantForms(participantForms)
 	{
 		def allValid = true

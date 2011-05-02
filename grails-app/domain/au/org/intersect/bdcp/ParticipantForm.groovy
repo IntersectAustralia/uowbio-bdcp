@@ -22,7 +22,7 @@ class ParticipantForm implements Serializable
 	static belongsTo = [participant:Participant]
 	static constraints =
 	{
-		formName(blank:false, size:1..1000)
+		formName(blank:false, size:1..1000, matches:/^[a-zA-Z0-9-_\s.]+/)
 		form(nullable:true)
 		contentType(nullable:true)
 		fileExtension(nullable:true)
