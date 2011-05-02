@@ -46,6 +46,16 @@ Given(~"I have created a study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.
 	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_requirements, description, industry_partners, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria) VALUES ('-2','0', '-1', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria});")
 }
 
+Given(~"I have created a component with \"(.*)\", \"(.*)\"") { String name, String description ->
+	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+	sql.execute("INSERT INTO component (id,version, study_id, name, description) VALUES ('-3','0','-2', ${name}, ${description});")
+}
+
+Given(~"I have created a session with \"(.*)\", \"(.*)\"") { String name, String description ->
+	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+	sql.execute("INSERT INTO session (id,version, component_id, name, description) VALUES ('-4','0', '-3', ${name}, ${description});")
+}
+
 Given(~"I have deleted all emails") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/clear")
 }
