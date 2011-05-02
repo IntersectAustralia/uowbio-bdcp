@@ -61,7 +61,8 @@
 				<td valign="top" class="name"><g:message
 					code="admin.enabled.label" default="Deactivate User Account" /></td>
 
-				<td valign="top" class="value"><g:checkBox
+				<td valign="top" class="value" ${hasErrors(bean:userInstance,field:'deactivated','errors')}">
+                    <g:checkBox
 					elementId="deactivated" name="deactivated"
 					value="${userInstance?.deactivated}" /></td>
 

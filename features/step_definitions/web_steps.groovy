@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import groovy.sql.Sql
 
 import au.org.intersect.bdcp.Project;
 
@@ -34,6 +35,25 @@ Given(~"I have logged in") { ->
 Given(~"I am on the email page") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/list")
 }
+
+Given(~"I have created a project with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String project_title, String researcher_name, String degree, String start_date, String end_date, String description, String supervisors ->
+	
+//	When I fill in "projectTitle" with "My Biomechanics Project"
+//	And I fill in "researcherName" with "Fred Bloggs"
+//	And I fill in "degree" with "Masters of Biomechanics"
+//	And I select "March" from "startDate_month"
+//	And I select "2011" from "startDate_year"
+//	And I select "March" from "endDate_month"
+//	And I select "2011" from "endDate_year"
+//	And I fill in "description" with "Studying some stuff"
+//	And I fill in "supervisors" with "Alice Smith"
+//	And I press "create"
+//	Then I should see "saved"
+	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+	sql.execute("INSERT INTO project (id,version, project_title, researcher_name, degree, start_date, end_date, description, supervisors) VALUES ('-1','0',${project_title}, ${researcher_name}, ${degree}, '${start_date}', '${end_date}', ${description}, ${supervisors});")
+	
+}
+
 
 Given(~"I have deleted all emails") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/clear")
