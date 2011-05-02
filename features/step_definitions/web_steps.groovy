@@ -37,23 +37,14 @@ Given(~"I am on the email page") { ->
 }
 
 Given(~"I have created a project with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String project_title, String researcher_name, String degree, String start_date, String end_date, String description, String supervisors ->
-	
-//	When I fill in "projectTitle" with "My Biomechanics Project"
-//	And I fill in "researcherName" with "Fred Bloggs"
-//	And I fill in "degree" with "Masters of Biomechanics"
-//	And I select "March" from "startDate_month"
-//	And I select "2011" from "startDate_year"
-//	And I select "March" from "endDate_month"
-//	And I select "2011" from "endDate_year"
-//	And I fill in "description" with "Studying some stuff"
-//	And I fill in "supervisors" with "Alice Smith"
-//	And I press "create"
-//	Then I should see "saved"
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
 	sql.execute("INSERT INTO project (id,version, project_title, researcher_name, degree, start_date, end_date, description, supervisors) VALUES ('-1','0',${project_title}, ${researcher_name}, ${degree}, '${start_date}', '${end_date}', ${description}, ${supervisors});")
-	
 }
 
+Given(~"I have created a study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String study_title, String uow_ethics_number, String has_additional_ethics_requirements, String description, industry_partners, collaborators, String start_date, String end_date, String number_of_participants, String inclusion_exclusion_criteria ->
+	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_requirements, description, industry_partners, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria) VALUES ('-2','0', '-1', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria});")
+}
 
 Given(~"I have deleted all emails") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/clear")

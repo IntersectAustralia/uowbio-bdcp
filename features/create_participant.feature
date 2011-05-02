@@ -6,35 +6,7 @@ Feature: Create Participant
  Background:
     Given I have logged in
  	Given I have created a project with "My Biomechanics Project", "Fred Bloggs", "Masters of Biomechanics", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "Studying some stuff", "Alice Smith"
-    
-    Given I am on the home page
-    And I follow "Add Study"
-    When I fill in "studyTitle" with "My Biomechanics Study"
-    And I fill in "uowEthicsNumber" with "1073A"
-    And I fill in "description" with "Test Description"
-    And I fill in "industryPartners" with "Partner1"
-    And I fill in "collaborators" with "Collaborator1"
-    And I select "March" from "startDate_month"
-    And I select "2011" from "startDate_year"
-    And I select "March" from "endDate_month"
-    And I select "2011" from "endDate_year"
-    
-    And I fill in "numberOfParticipants" with "10"
-    And I fill in "inclusionExclusionCriteria" with "Test Criteria"
-    And I press "create"
-    Then I should see "saved"
-    Then I should see "My Biomechanics Study"
-    And I should see table "studyTable" with contents
-      | Study Title                    | My Biomechanics Study   |
-      | UOW Ethics Number              | 1073A                   |
-      | Additional Ethics Requirements | No                        |
-      | Description                    | Test Description        |
-      | Industry Partners              | Partner1                |
-      | Collaborators                  | Collaborator1           |
-      | Start Date                     | 03/2011                 |
-      | End Date                       | 03/2011                 |
-      | Number of Participants         | 10                      |
-      | Inclusion Exclusion Criteria   | Test Criteria           |
+    Given I have created a study with "My Biomechanics Study", "1073A", "No", "Test Description", "Partner1", "Collaborator1", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "10", "Test Criteria"
    
   Scenario: Create Participant
     Given I am on the home page
