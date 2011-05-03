@@ -2,9 +2,6 @@ package au.org.intersect.bdcp
 
 import java.io.Serializable
 
-import org.hibernate.engine.SessionImplementor;
-import org.hibernate.id.IdentifierGenerator;
-
 class ParticipantForm implements Serializable
 {
 
@@ -22,7 +19,7 @@ class ParticipantForm implements Serializable
 	static belongsTo = [participant:Participant]
 	static constraints =
 	{
-		formName(blank:false, size:1..1000, matches:/^[a-zA-Z0-9-_\s.]+/)
+		formName(blank:false, size:1..255, matches:/^[a-zA-Z0-9-_\s]+/)
 		form(nullable:true)
 		contentType(nullable:true)
 		fileExtension(nullable:true)

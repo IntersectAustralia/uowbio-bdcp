@@ -5,6 +5,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'sessionFile.label', default: 'SessionFile')}" />
+        <script type="text/javascript">
+        function callback(s)
+        {
+            if (s == "FINISHED")
+            {
+            	window.location.href = "${createLink(mapping:"sessionFileDetails", controller:"sessionFile", action:'fileList', params:['studyId':params.studyId, 'sessionId':params.sessionId])}"
+            }
+        }
+        </script>
         <title>Browse Files</title>
     </head>
     <body>
@@ -19,10 +28,10 @@
                             code="au.org.intersect.acdata.uploader.main.UploadApplet"
                             width="40%" height="20%">
                             <param name="serverUrl" value="http://localhost:8080/BDCP/study/${params.studyId}/session/${params.sessionId}/sessionFile/upload" />
-
+                            <param name="callback" value="true" />
                        Your browser does not have Java enabled.
                       </applet> 
-            
+         
         <div class="rowBottom">
     <div class="buttons">
     <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create" elementId="OK" action="fileList" params="['studyId': params.studyId,'sessionId': params.sessionId]">OK</g:link></span>
