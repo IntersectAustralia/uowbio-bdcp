@@ -2,7 +2,6 @@ package au.org.intersect.bdcp
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
-import groovy.xml.MarkupBuilder
 
 import java.io.File
 import java.io.IOException
@@ -14,6 +13,7 @@ class SessionFileController
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    
 	private String getTmpPath()
 	{
 		return (request.getSession().getServletContext().getRealPath("/") + grailsApplication.config.tmp.location.toString())
@@ -125,11 +125,10 @@ class SessionFileController
 		
 		studyInstance.components.each {
 			it.sessions.each {
-				def dir = new File("${getRealPath()}/${studyInstance.id}/${it.id}")
+				def dir = new File("${getRealPath()}${studyInstance.id}/${it.id}")
 				sessionFiles.putAt "${it.id}", dir.listFiles()
 			}
 		}
-		
 		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
 	}
 	

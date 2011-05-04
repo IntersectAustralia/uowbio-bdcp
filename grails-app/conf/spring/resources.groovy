@@ -3,14 +3,18 @@
 // Place your Spring DSL code here
 
 import grails.util.*
+
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy
 import org.springframework.security.web.session.ConcurrentSessionFilter
-import org.springframework.security.core.session.SessionRegistryImpl
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy
 beans = {
 	def conf = SpringSecurityUtils.securityConfig
 	
+    javax.servlet.http.HttpServletRequest.metaClass.getSiteUrl = {
+        return (delegate.scheme + "://" + delegate.serverName + ":" + delegate.serverPort + delegate.getContextPath())
+      }
+    
 	sessionRegistry(SessionRegistryImpl)
 	sessionAuthenticationStrategy(ConcurrentSessionControlStrategy,
 	sessionRegistry) {
