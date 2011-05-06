@@ -132,46 +132,6 @@ class SessionFileController
 		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
 	}
 	
-	
-	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-	def showTempFiles =
-	{
-		File rootDir = new File("${getTmpPath()}/${params.studyId}/${params.sessionId}");
-		// This filter only returns directories
-		FileFilter fileFilter = new FileFilter() {
-					public boolean accept(File file)
-					{
-						return file.isDirectory();
-					}
-				};
-		def dirsToOpen = rootDir.listFiles(fileFilter);
-		StringBuffer sb = new StringBuffer()
-		dirsToOpen.each
-		{
-			sb.append "'"+it.toString() + '/'+"'" +","
-		}
-		if (sb.length() > 0)
-		{
-			sb.setLength(sb.length() -1)
-		}
-		def expandedDirs = "[${sb.toString()}]"
-		render (view: "FileBrowser", model: [path: "${getTmpPath()}/${params.studyId}/${params.sessionId}", expandedDirs:expandedDirs])
-	}
-
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-	def generateFileList =
-	{
-	}
-
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-	def clearTempFiles =
-	{
-		File rootDir = new File("${getTmpPath()}/${params.studyId}/${params.sessionId}");
-		rootDir.deleteDir()
-		render (view: "uploadFiles")
-	}
-
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def uploadFiles =
 	{
