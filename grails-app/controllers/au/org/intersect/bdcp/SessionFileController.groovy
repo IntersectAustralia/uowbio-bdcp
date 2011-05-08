@@ -4,15 +4,13 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 import java.io.File
-import java.io.IOException
-
-import org.apache.commons.io.FileUtils
 
 class SessionFileController
 {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def fileService
     
 	private String getTmpPath()
 	{
@@ -24,87 +22,32 @@ class SessionFileController
 		return (request.getSession().getServletContext().getRealPath("/") + grailsApplication.config.files.location.toString())
 	}
 
-	private boolean createAllFolders(parsed_json, upload_root)
-	{
-		// Create all folders
-		parsed_json.findAll { p,q ->
-			p.startsWith("folder")
-		}.each
-		{ key, val ->
-			def path = val[0]
-			def filepath = upload_root + path
-			def directory = new File(filepath)
-			if (!directory.exists())
-			{
-				directory.mkdirs()
-			}
-		}
-		return true;
-	}
-	
-	private boolean createAllFiles(parsed_json, upload_root)
-	{
-		// Create all files
-		parsed_json.findAll { p,q ->
-			p.startsWith("file")
-		}.each
-		{ key, val ->
-			def path = val[0]
-			def file = params[key]
-			def filepath = new File(upload_root + path)
-			filepath.mkdirs()
-			file.transferTo(filepath)
-		}
-		return true
-	}
-	
-	
-	private boolean moveDirectory(upload_root, final_location_root)
-	{
-		File oldDir = new File(upload_root)
-		File newDir = new File(final_location_root)
-		try
-		{
-				FileUtils.copyDirectoryToDirectory(oldDir, newDir)
-				FileUtils.deleteDirectory(oldDir)
-					
-		}
-		catch (IOException ioexception)
-		{
-			return false
-		}
-			
-		return true;
-	}
-	
 	def upload =
 	{
-		if (params.sessionId != null && params.studyId != null && params.dirStruct != null)
-		{
-			def dirstruct = params.dirStruct
-			def parsed_json = JSON.parse(dirstruct)
-
-			def upload_root = "${getTmpPath()}/${params.studyId}/${params.sessionId}/"
-			def success = (createAllFolders(parsed_json, upload_root) == true) ? true: false
-			success = (success == true && createAllFiles(parsed_json, upload_root) == true) ? true:false
-			def final_location_root = "${getRealPath()}${params.studyId}/"
-			success = (success == true && moveDirectory(upload_root, final_location_root) == true)? true: false
-			if (success)
-			{
-				render "Successfully Uploaded Files!"
-			}
-			else
-			{
-				response.sendError 500
-			}
-			upload_root = new File(upload_root)
-			upload_root.deleteDir()
-		}
-		else
-		{
-			response.sendError 500
-			
-		}
+        if (params.sessionId != null && params.studyId != null && params.dirStruct != null)
+        {
+            def context = fileService.createContext(request.getSession().getServletContext().getRealPath("/"))
+            fileService.setParams(params)
+            def dirstruct = params.dirStruct
+            def parsed_json = JSON.parse(dirstruct)
+            def upload_root = "${params.studyId}/${params.sessionId}/"
+            def success = (fileService.createAllFolders(context,parsed_json, upload_root) == true) ? true: false
+            success = (success == true && fileService.createAllFiles(context,parsed_json, upload_root) == true) ? true:false
+            def final_location_root = "${params.studyId}"
+            success = (success == true && fileService.moveDirectory(context,upload_root, final_location_root) == true)? true: false
+            if (success)
+            {
+                render "Successfully Uploaded Files!"
+            }
+            else
+            {
+                response.sendError 500
+            }
+        }
+        else
+        {
+            response.sendError 500
+        }
 		
 	}
 
