@@ -2,16 +2,49 @@ package au.org.intersect.bdcp
 
 import grails.test.*
 
-class FileServiceTests extends GrailsUnitTestCase {
-    protected void setUp() {
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+
+/**
+ * Unit tests for the {@link FileService} class
+ *
+ * @version $Rev: 29 $
+ */
+class FileServiceTests extends GrailsUnitTestCase
+{
+    def fileService
+    
+    /**
+     * Setup operations for testing the {@link FileService} class
+     */
+    protected void setUp()
+    {
         super.setUp()
+        fileService = new FileService()
+        def filePath = new File('grails-app/conf/Config.groovy').toURI().toURL()
+        def config = new ConfigSlurper(System.properties.get('grails.env')).parse(filePath)
+        ConfigurationHolder.config = config
+        fileService.grailsApplication = ConfigurationHolder
     }
 
-    protected void tearDown() {
+    /**
+     * Cleanup operations performed after each test
+     */
+    protected void tearDown()
+    {
         super.tearDown()
     }
 
-    void testSomething() {
-
+    /**
+     * Unit tests to test that the createContext method returns both a temporary file path and
+     * a file file path
+     */
+    void testCreateContext()
+    {
+        def contextMock = fileService.createContext("/")
+        def tmpPath = new File("/" + fileService.grailsApplication.config.tmp.location.toString())
+        def rootPath= new File("/" + fileService.grailsApplication.config.files.location.toString())
+        assertEquals 'Context not created properly.','[tmpPath:' + tmpPath + ', rootPath:' + rootPath + ']', contextMock.toString()
+        
     }
+    
 }

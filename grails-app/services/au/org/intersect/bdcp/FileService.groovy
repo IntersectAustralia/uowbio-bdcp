@@ -10,17 +10,15 @@ class FileService {
 
     def grailsApplication
     
-    
-    
     def parameters = [:]
     
-    def createContext(webAppContextPath) {
+    def createContext(def webAppContextPath) {
         def tmpPath = new File(webAppContextPath,grailsApplication.config.tmp.location.toString())
         def rootPath = new File(webAppContextPath,grailsApplication.config.files.location.toString())
-        return [tmpPath:tmpPath, rootPath:rootPath]
+        return ["tmpPath":tmpPath, "rootPath":rootPath]
     }
     
-    private boolean createAllFolders(context, json, destination)
+    private boolean createAllFolders(def context, def json, def destination)
     {
         // Create all folders
         json.findAll { p,q ->
@@ -38,13 +36,17 @@ class FileService {
         return true;
     }
     
-    private void setParams(params)
+    private void setParams(def params)
     {
         parameters = params
     }
     
     private boolean createAllFiles(def context, def json, def destination)
     {
+        if (params == null)
+        {
+            return false
+        }
         // Create all files
         json.findAll { p,q ->
             p.startsWith("file")
@@ -61,7 +63,7 @@ class FileService {
     }
     
     
-    private boolean moveDirectory(context, previous, destination)
+    private boolean moveDirectory(def context, def previous, def destination)
     {
         File oldDir = new File(context.get("tmpPath"), previous)
         File newDir = new File(context.get("rootPath"), destination)
@@ -78,8 +80,11 @@ class FileService {
         return true
     }
 
-    def createDirectory(String name, String path) 
+    def boolean createDirectory(def context, String name, String path) 
     {
+        File directoryPath = new File(context.get("rootPath"), path)
+        File directory = new File(directoryPath, name)
+        return directory.mkdirs()
         
     }
     
