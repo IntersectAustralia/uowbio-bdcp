@@ -85,7 +85,7 @@ class FileService {
         {
             return false
         }
-        File newDir = new File(context.get("rootPath"), destination)
+        File newDir = new File(context.get("rootPath"), destination).getParentFile()
         if (!checkPathIsValid(context.get("rootPath"), newDir))
         {
             return false;
