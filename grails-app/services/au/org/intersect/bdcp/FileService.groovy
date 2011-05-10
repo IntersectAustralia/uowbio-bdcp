@@ -107,17 +107,20 @@ class FileService {
     {
         File directoryPath = new File(context.get("rootPath"), path)
         File directory = new File(directoryPath, name)
+        def foundDuplicate = false
         if (directory.exists())
         {
              return true   
         }
         else
         {
-            directoryPath.listFiles().each {
-                if (it.getName().compareToIgnoreCase(directory.getName()) == 0)
+            for (def file: directoryPath.listFiles()) 
+            {
+                if (file.getName().compareToIgnoreCase(name) == 0)
                 {
                     return true
                 }
+                
             }
         }
         return false
