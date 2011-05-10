@@ -107,7 +107,21 @@ class FileService {
     {
         File directoryPath = new File(context.get("rootPath"), path)
         File directory = new File(directoryPath, name)
-        return directory.exists()
+        if (directory.exists())
+        {
+             return true   
+        }
+        else
+        {
+            directoryPath.listFiles().each {
+                if (it.getName().compareToIgnoreCase(directory.getName()) == 0)
+                {
+                    return true
+                }
+            }
+        }
+        return false
+        
     }
     
     def boolean createDirectory(def context, String name, String path) 
