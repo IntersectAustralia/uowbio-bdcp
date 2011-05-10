@@ -116,7 +116,6 @@ class FileService {
             File directoryPath = new File(context.get("rootPath"), path)
             File directory = new File(directoryPath, name)
             
-            
             if (checkPathIsValid(context.get("rootPath"), directory))
             {
                     return directory.mkdirs()
