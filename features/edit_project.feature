@@ -15,8 +15,8 @@ Feature: Edit Project
       | Project Title   | My Biomechanics Project |
       | Researcher Name | Fred Bloggs             |
       | Degree          | Masters of Biomechanics |
-      | Start Date      | 03/2011                 |
-      | End Date        | 03/2011                 |
+      | Start Date      | 04/2011                 |
+      | End Date        | 04/2011                 |
       | Description     | Studying some stuff     |
       | Supervisor(s)   | Alice Smith             |
     Then I press "edit"
@@ -24,9 +24,9 @@ Feature: Edit Project
     Then I should see "projectTitle" with value "My Biomechanics Project"
     Then I should see "researcherName" with value "Fred Bloggs"
     Then I should see "degree" with value "Masters of Biomechanics"
-    Then I should see "startDate_month" selected with value "3"
+    Then I should see "startDate_month" selected with value "4"
     Then I should see "startDate_year" selected with value "2011"
-    Then I should see "endDate_month" selected with value "3"
+    Then I should see "endDate_month" selected with value "4"
     Then I should see "endDate_year" selected with value "2011"
     Then I should see "description" with value "Studying some stuff"
     Then I should see "supervisors" with value "Alice Smith"
@@ -37,8 +37,8 @@ Feature: Edit Project
       | Project Title   | My Biomechanics Project |
       | Researcher Name | Fred Bloggs             |
       | Degree          | Masters of Biomechanics |
-      | Start Date      | 03/2011                 |
-      | End Date        | 03/2011                 |
+      | Start Date      | 04/2011                 |
+      | End Date        | 04/2011                 |
       | Description     | Studying some stuff     |
       | Supervisor(s)   | Alice Smith             |       
     Then I press "edit"
@@ -50,8 +50,8 @@ Feature: Edit Project
       | Project Title   | My Biomechanics Project 1 |
       | Researcher Name | Fred Bloggs               |
       | Degree          | Masters of Biomechanics   |
-      | Start Date      | 03/2011                   |
-      | End Date        | 03/2011                   |
+      | Start Date      | 04/2011                   |
+      | End Date        | 04/2011                   |
       | Description     | Studying some stuff       |
       | Supervisor(s)   | Alice Smith               |
    

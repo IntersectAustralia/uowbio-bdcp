@@ -13,6 +13,14 @@ class FileService {
     def createContext(def webAppContextPath) {
         def tmpPath = new File(webAppContextPath,grailsApplication.config.tmp.location.toString())
         def rootPath = new File(webAppContextPath,grailsApplication.config.files.location.toString())
+        if (!tmpPath.exists())
+        {
+            tmpPath.mkdirs()
+        }
+        if (!rootPath.exists())
+        {
+            rootPath.mkdirs()
+        }
         return ["tmpPath":tmpPath, "rootPath":rootPath]
     }
     
@@ -97,8 +105,11 @@ class FileService {
 
     def boolean createDirectory(def context, String name, String path) 
     {
+            
             File directoryPath = new File(context.get("rootPath"), path)
             File directory = new File(directoryPath, name)
+            
+            
             if (checkPathIsValid(context.get("rootPath"), directory))
             {
                     return directory.mkdirs()

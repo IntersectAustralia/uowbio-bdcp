@@ -260,6 +260,6 @@ class directoryCommand
 	static constraints =
 	{
 		name(blank:false, size:1..255, matches:/^[a-zA-Z0-9-_\s]+/)
-		path(blank:false)
+		path()
 	}
 }

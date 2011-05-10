@@ -18,7 +18,7 @@ Feature: Add Files
 	Then I should see "TestSession"
 	Then I press "upload[0-0]"
 	Then I should see "Browse For Files"
-	Then I press "OK"
+	Then I press "Cancel"
 	Then I should see "TestComponent"
 	Then I should see "TestSession"
 	Then I press "upload[0-0]"
