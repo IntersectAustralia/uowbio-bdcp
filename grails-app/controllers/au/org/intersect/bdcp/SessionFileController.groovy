@@ -99,7 +99,7 @@ class SessionFileController
         def context = createContext(request)
         def sessionObj = Session.findById(params.sessionId)
         def path = params.studyId +"/" + sessionObj.component.id + "/" + sessionObj.id +"/" + dirCmd?.path
-        def containsDuplicateName = fileService.checkIfDirectoryExists(context, dirCmd.name, path)
+        def containsDuplicateName = fileService.checkIfDirectoryExists(context, dirCmd.name.trim(), path)
         
 		if (dirCmd.hasErrors() || (containsDuplicateName))
 		{
@@ -112,7 +112,7 @@ class SessionFileController
         }
 		else
 		{
-            if (!fileService.createDirectory(context,dirCmd.name, path))
+            if (!fileService.createDirectory(context,dirCmd.name.trim(), path))
             {
                 flash.error = g.message(code:"directoryCommand.problem.creating.dir" ,args:[dirCmd.name])
                 render(view: "createDirectory", model: [directoryCommand: dirCmd, studyId: params.studyId, sessionId: params.sessionId, directory:params.directory, sessionObj: sessionObj, component: sessionObj?.component])

@@ -7,6 +7,13 @@ class ComponentController
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def fileService
+    
+    def createContext(def servletRequest)
+    {
+        return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"))
+    }
+    
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
 	{
@@ -33,9 +40,13 @@ class ComponentController
 	def save =
 	{
 		def componentInstance = new Component(params)
-		if (componentInstance.save(flush: true))
-		{
-			flash.message = "${message(code: 'default.created.message', args: [message(code: 'component.label', default: 'Component'), componentInstance.name])}"
+        def context = createContext(request)
+        def path = params.studyId +"/"
+        if (componentInstance.save(flush: true))
+        {
+            fileService.createDirectory(context,params.studyId.toString(),"")
+            fileService.createDirectory(context,componentInstance.id.toString(), path)
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'component.label', default: 'Component'), componentInstance.name])}"
 			//            redirect(action: "show", id: componentInstance.id)
 			redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
 		}

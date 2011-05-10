@@ -5,6 +5,13 @@ class SessionController
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def fileService
+    
+    def createContext(def servletRequest)
+    {
+        return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"))
+    }
+    
 	def index =
 	{
 		redirect(action: "list", params: params)
@@ -25,10 +32,14 @@ class SessionController
 
 	def save =
 	{
-		def sessionInstance = new Session(params)
+        def context = createContext(request)
+        def sessionInstance = new Session(params)
+        def path = params.studyId +"/" + sessionInstance.component.id + "/"
 		if (sessionInstance.save(flush: true))
 		{
-			flash.message = "${message(code: 'default.created.message', args: [message(code: 'session.label', default: 'Session'), sessionInstance.name])}"
+            fileService.createDirectory(context,params.studyId.toString(),"")
+            fileService.createDirectory(context,sessionInstance.id.toString(), path)
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'session.label', default: 'Session'), sessionInstance.name])}"
 			redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
 		}
 		else
