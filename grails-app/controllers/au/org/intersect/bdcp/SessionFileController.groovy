@@ -137,6 +137,10 @@ class SessionFileController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def browseFiles =
 	{
+        def sessionObj = Session.findById(params.sessionId)
+        def path = sessionObj.component.name + "/" + sessionObj.name +"/" + params.directory
+        
+        ['path': path]
 	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])

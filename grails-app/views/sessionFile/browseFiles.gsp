@@ -22,13 +22,13 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <h1>Browse For Files</h1>
-            
+            <h2><B>Path:</B> ${path}</h2>
             <h2 id="warning">Warning: files uploaded cannot be removed</h2>
             <br />
             <applet codebase="${request.contextPath}/applets"
                             ARCHIVE="acdata-uploader.jar, lib/commons-codec-1.4.jar, lib/commons-httpclient-3.1.jar, lib/commons-logging-1.1.1.jar, lib/log4j-1.2.15.jar, lib/plugin.jar"
                             code="au.org.intersect.acdata.uploader.main.UploadApplet"
-                            width="40%" height="20%">
+                            width="40%" height="10%">
                             <param name="serverUrl" value="${request.siteUrl}/study/${params.studyId}/session/${params.sessionId}/sessionFile/upload" />
                             <param name="destDir" value = "${params.directory}"
                             <param name="returnUploadStatus" value="true" />
