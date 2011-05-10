@@ -22,14 +22,15 @@ class SessionFileController
             def context = createContext(request)
             def dirstruct = params.dirStruct
             def parsed_json = JSON.parse(dirstruct)
-            def upload_root = "${params.studyId}/${params.sessionId}/"
+            def sessionObj = Session.findById(params.sessionId)
+            def upload_root = "${params.studyId}/${sessionObj.component.id}/${params.sessionId}/"
             if (params.destDir != "")
             {
                 upload_root = upload_root + "${params.destDir}"
             }
             def success = (fileService.createAllFolders(context,parsed_json, upload_root) == true) ? true: false
             success = (success == true && fileService.createAllFiles(context,parsed_json, upload_root, params) == true) ? true:false
-            def final_location_root = "${params.studyId}/"
+            def final_location_root = "${params.studyId}/${sessionObj.component.id}/"
             if (params.destDir != "")
             {
                 final_location_root = final_location_root + "${params.sessionId}/"
@@ -71,7 +72,7 @@ class SessionFileController
 		studyInstance.components.each {
 			def componentId = it.id
             it.sessions.each {
-                def dirFiles = fileService.listFiles(context,"${componentId}/${it.id}")
+                def dirFiles = fileService.listFiles(context,"${params.studyId}/${componentId}/${it.id}")
 				sessionFiles.putAt "${it.id}", dirFiles
 			}
 		}
@@ -97,7 +98,7 @@ class SessionFileController
         directoryCommand dirCmd ->
         def context = createContext(request)
         def sessionObj = Session.findById(params.sessionId)
-        def path = sessionObj.component.id + "/" + sessionObj.id +"/" + dirCmd?.path
+        def path = params.studyId +"/" + sessionObj.component.id + "/" + sessionObj.id +"/" + dirCmd?.path
         def fileContainer = fileService.listFiles(context, path)
         def files = fileContainer.get("files")
         def sessionRoot = fileContainer.get("sessionRoot")
