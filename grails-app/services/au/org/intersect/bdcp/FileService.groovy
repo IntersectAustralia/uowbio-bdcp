@@ -103,6 +103,13 @@ class FileService {
         return true
     }
 
+    def boolean checkIfDirectoryExists(def context, String name, String path)
+    {
+        File directoryPath = new File(context.get("rootPath"), path)
+        File directory = new File(directoryPath, name)
+        return directory.exists()
+    }
+    
     def boolean createDirectory(def context, String name, String path) 
     {
             

@@ -99,18 +99,8 @@ class SessionFileController
         def context = createContext(request)
         def sessionObj = Session.findById(params.sessionId)
         def path = params.studyId +"/" + sessionObj.component.id + "/" + sessionObj.id +"/" + dirCmd?.path
-        def fileContainer = fileService.listFiles(context, path)
-        def files = fileContainer.get("files")
-        def sessionRoot = fileContainer.get("sessionRoot")
-        def containsDuplicateName = false
-        files.each 
-        {
-            if (it.getAbsolutePath().substring(sessionRoot.getAbsolutePath().length()+1) == dirCmd.name)
-            {
-                containsDuplicateName = true
-            }
-            
-        }
+        def containsDuplicateName = fileService.checkIfDirectoryExists(context, dirCmd.name, path)
+        
 		if (dirCmd.hasErrors() || (containsDuplicateName))
 		{
             if (containsDuplicateName)
