@@ -18,7 +18,10 @@
                 <g:renderErrors bean="${directoryCommand}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form mapping="sessionFileDetails" controller="sessionFile" params="[studyId: params.studyId, sessionId: params.sessionId]" action="saveDirectory">
+            <g:if test="${flash.error}">
+            <div class="errors"><ul><li>${flash.error}</li></ul></div>
+            </g:if>
+            <g:form mapping="sessionFileDetails" controller="sessionFile" params="[studyId: params.studyId, sessionId: params.sessionId, directory: params.directory]" action="saveDirectory">
                 <div class="dialog">
                     <table>
                         <tbody>
@@ -36,11 +39,11 @@
                                 <td valign="top" class="path">
                                     <label for="path"><g:message code="directoryCommand.path.label" default="Path" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: directoryCommand, field: 'path', 'errors')}">
-                                    test/test/git_tutorial
+                                <td valign="top" class="value">
+                                     ${component.name}/${sessionObj.name}/${directory}
                                 </td>
                             </tr>
-                             <g:hiddenField name="directoryCommand?.path" value="test/test/git_tutorial" />
+                             <g:hiddenField name="path" value="${directory}" />
                         </tbody>
                     </table>
                 </div>

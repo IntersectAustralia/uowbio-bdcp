@@ -3,8 +3,6 @@ package au.org.intersect.bdcp
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
-import java.io.File
-
 class SessionFileController
 {
 
@@ -12,27 +10,21 @@ class SessionFileController
 
     def fileService
     
-	private String getTmpPath()
-	{
-		return (request.getSession().getServletContext().getRealPath("/") + grailsApplication.config.tmp.location.toString())
-	}
-
-	private String getRealPath()
-	{
-		return (request.getSession().getServletContext().getRealPath("/") + grailsApplication.config.files.location.toString())
-	}
-
+    def createContext(def servletRequest)
+    {
+        return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"))
+    }
+    
 	def upload =
 	{
         if (params.sessionId != null && params.studyId != null && params.dirStruct != null)
         {
-            def context = fileService.createContext(request.getSession().getServletContext().getRealPath("/"))
-            fileService.setParams(params)
+            def context = createContext(request)
             def dirstruct = params.dirStruct
             def parsed_json = JSON.parse(dirstruct)
             def upload_root = "${params.studyId}/${params.sessionId}/"
             def success = (fileService.createAllFolders(context,parsed_json, upload_root) == true) ? true: false
-            success = (success == true && fileService.createAllFiles(context,parsed_json, upload_root) == true) ? true:false
+            success = (success == true && fileService.createAllFiles(context,parsed_json, upload_root, params) == true) ? true:false
             def final_location_root = "${params.studyId}"
             success = (success == true && fileService.moveDirectory(context,upload_root, final_location_root) == true)? true: false
             if (success)
@@ -64,12 +56,15 @@ class SessionFileController
 		def studyInstance = Study.get(params.studyId)
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		
+        def context = createContext(request)
+        
 		def sessionFiles = [:]
 		
 		studyInstance.components.each {
-			it.sessions.each {
-				def dir = new File("${getRealPath()}${studyInstance.id}/${it.id}")
-				sessionFiles.putAt "${it.id}", dir.listFiles()
+			def componentId = it.id
+            it.sessions.each {
+                def dirFiles = fileService.listFiles(context,"${componentId}/${it.id}")
+				sessionFiles.putAt "${it.id}", dirFiles
 			}
 		}
 		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
@@ -83,20 +78,49 @@ class SessionFileController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def createDirectory =
 	{ 
-	}
+        def sessionObj = Session.findById(params.sessionId);
+	    [directory: params.directory, sessionObj: sessionObj, component: sessionObj?.component]
+    }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def saveDirectory =
-	{ directoryCommand dirCmd ->
-		
-		if (dirCmd.hasErrors())
+    { 
+        
+        directoryCommand dirCmd ->
+        def context = createContext(request)
+        def sessionObj = Session.findById(params.sessionId)
+        def path = sessionObj.component.id + "/" + sessionObj.id +"/" + dirCmd?.path
+        def fileContainer = fileService.listFiles(context, path)
+        def files = fileContainer.get("files")
+        def sessionRoot = fileContainer.get("sessionRoot")
+        def containsDuplicateName = false
+        files.each 
+        {
+            if (it.getAbsolutePath().substring(sessionRoot.getAbsolutePath().length()+1) == dirCmd.name)
+            {
+                containsDuplicateName = true
+            }
+            
+        }
+		if (dirCmd.hasErrors() || (containsDuplicateName))
 		{
-			render(view: "createDirectory", model: [directoryCommand: dirCmd, studyId: params.studyId, sessionId: params.sessionId])
-		}
+            if (containsDuplicateName)
+            {
+                flash.error = g.message(code:"directoryCommand.name.unique")
+            }
+            render(view: "createDirectory", model: [directoryCommand: dirCmd, studyId: params.studyId, sessionId: params.sessionId, directory:params.directory, sessionObj: sessionObj, component: sessionObj?.component])
+		    return
+        }
 		else
 		{
-			println dirCmd.name
-			redirect( mapping:"sessionFileDetails", controller: "sessionFile", action: "fileList", params: [studyId: params.studyId, sessionId: params.sessionId])
+            if (!fileService.createDirectory(context,dirCmd.name, path))
+            {
+                flash.error = g.message(code:"directoryCommand.problem.creating.dir" ,args:[dirCmd.name])
+                render(view: "createDirectory", model: [directoryCommand: dirCmd, studyId: params.studyId, sessionId: params.sessionId, directory:params.directory, sessionObj: sessionObj, component: sessionObj?.component])
+                return
+            }
+            
+            redirect( mapping:"sessionFileDetails", controller: "sessionFile", action: "fileList", params: [studyId: params.studyId, sessionId: params.sessionId])
 		}
 	}
 	
@@ -235,7 +259,7 @@ class directoryCommand
 	
 	static constraints =
 	{
-		name(blank:false, size:1..255)
+		name(blank:false, size:1..255, matches:/^[a-zA-Z0-9-_\s]+/)
 		path(blank:false)
 	}
 }

@@ -10,12 +10,16 @@ class FileService {
 
     def grailsApplication
     
-    def parameters = [:]
-    
     def createContext(def webAppContextPath) {
         def tmpPath = new File(webAppContextPath,grailsApplication.config.tmp.location.toString())
         def rootPath = new File(webAppContextPath,grailsApplication.config.files.location.toString())
         return ["tmpPath":tmpPath, "rootPath":rootPath]
+    }
+    
+    def listFiles(def context, def path)
+    {
+        def top = new File(context.get("rootPath"), path)
+        return [files: top.listFiles(), sessionRoot: top]
     }
     
     private boolean createAllFolders(def context, def json, def destination)
@@ -28,6 +32,10 @@ class FileService {
             def path = val[0]
             def tmpDir = new File(context.get("tmpPath"), destination)
             def directory = new File(tmpDir, path)
+            if (!checkPathIsValid(context.get("tmpPath"), directory))
+            {
+                return false
+            }
             if (!directory.exists())
             {
                 directory.mkdirs()
@@ -36,14 +44,9 @@ class FileService {
         return true;
     }
     
-    private void setParams(def params)
+    private boolean createAllFiles(def context, def json, def destination, def parameters)
     {
-        parameters = params
-    }
-    
-    private boolean createAllFiles(def context, def json, def destination)
-    {
-        if (params == null)
+        if (parameters == null)
         {
             return false
         }
@@ -56,6 +59,10 @@ class FileService {
             def file = parameters[key]
             def tmpDir = new File(context.get("tmpPath"), destination )
             def filepath = new File(tmpDir, path)
+            if (!checkPathIsValid(context.get("tmpPath"), filepath))
+            {
+                return false
+            }
             filepath.mkdirs()
             file.transferTo(filepath)
         }
@@ -66,7 +73,15 @@ class FileService {
     private boolean moveDirectory(def context, def previous, def destination)
     {
         File oldDir = new File(context.get("tmpPath"), previous)
+        if (!checkPathIsValid(context.get("tmpPath"), oldDir))
+        {
+            return false
+        }
         File newDir = new File(context.get("rootPath"), destination)
+        if (!checkPathIsValid(context.get("rootPath"), newDir))
+        {
+            return false;
+        }
         
         try
         {
@@ -82,11 +97,26 @@ class FileService {
 
     def boolean createDirectory(def context, String name, String path) 
     {
-        File directoryPath = new File(context.get("rootPath"), path)
-        File directory = new File(directoryPath, name)
-        return directory.mkdirs()
-        
+            File directoryPath = new File(context.get("rootPath"), path)
+            File directory = new File(directoryPath, name)
+            if (checkPathIsValid(context.get("rootPath"), directory))
+            {
+                    return directory.mkdirs()
+            }
+            return false
     }
     
+    def boolean checkPathIsValid(File rootPath, File path)
+    {
+        if (rootPath.isDirectory())
+        {
+            File pathDir = new File(rootPath.getAbsolutePath(),path.getAbsolutePath())
+            if (pathDir.getAbsolutePath().startsWith(rootPath.getAbsolutePath()))
+            {
+                return true
+            }
+        }
+        return false
+    }
     
 }
