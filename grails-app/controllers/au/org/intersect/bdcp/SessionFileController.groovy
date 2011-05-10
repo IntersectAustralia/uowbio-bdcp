@@ -17,15 +17,25 @@ class SessionFileController
     
 	def upload =
 	{
+        println "params = " + params
         if (params.sessionId != null && params.studyId != null && params.dirStruct != null)
         {
             def context = createContext(request)
             def dirstruct = params.dirStruct
             def parsed_json = JSON.parse(dirstruct)
             def upload_root = "${params.studyId}/${params.sessionId}/"
+            if (params.destDir != "")
+            {
+                upload_root = upload_root + "${params.destDir}"
+                println "upload_root = " + upload_root
+            }
             def success = (fileService.createAllFolders(context,parsed_json, upload_root) == true) ? true: false
             success = (success == true && fileService.createAllFiles(context,parsed_json, upload_root, params) == true) ? true:false
-            def final_location_root = "${params.studyId}"
+            def final_location_root = "${params.studyId}/"
+            if (params.destDir != "")
+            {
+                final_location_root = final_location_root + "${params.sessionId}/"
+            }
             success = (success == true && fileService.moveDirectory(context,upload_root, final_location_root) == true)? true: false
             if (success)
             {
