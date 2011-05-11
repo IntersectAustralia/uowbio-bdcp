@@ -78,7 +78,7 @@ class FileService {
     }
     
     
-    private boolean moveDirectory(def context, def previous, def destination)
+    private boolean moveDirectoryFromTmp(def context, def previous, def destination)
     {
         File oldDir = new File(context.get("tmpPath"), previous)
         if (!checkPathIsValid(context.get("tmpPath"), oldDir))
