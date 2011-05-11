@@ -20,22 +20,7 @@
             </div>
             </g:hasErrors>
             <g:form action="save" >
-                <div class="dialog">
-                    <table>
-                        <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="groupingName"><g:message code="deviceGroup.groupingName.label" default="Grouping Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: deviceGroupInstance, field: 'groupingName', 'errors')}">
-                                    <g:textField name="groupingName" value="${deviceGroupInstance?.groupingName}" />
-                                </td>
-                            </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
+                <g:render template="modifyDialog" model= ['body': body()]] />
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                     <span class="button"><g:link elementId="cancel" action="list">Cancel</g:link></span>

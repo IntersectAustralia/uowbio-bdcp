@@ -22,22 +22,7 @@
             <g:form method="post" >
                 <g:hiddenField name="id" value="${deviceGroupInstance?.id}" />
                 <g:hiddenField name="version" value="${deviceGroupInstance?.version}" />
-                <div class="dialog">
-                    <table>
-                        <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="groupingName"><g:message code="deviceGroup.groupingName.label" default="Grouping Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: deviceGroupInstance, field: 'groupingName', 'errors')}">
-                                    <g:textField name="groupingName" cols="40" rows="5" value="${deviceGroupInstance?.groupingName}" />
-                                </td>
-                            </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
+                <g:render template="modifyDialog" model= ['body': body()]] />
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.create.label', default: 'Save')}" /></span>
                     <span class="button"><g:link elementId="cancel" action="list">Cancel</g:link></span>
