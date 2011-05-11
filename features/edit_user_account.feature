@@ -6,6 +6,7 @@
   Scenario: Edit User Account
      Given I have logged in
      Given I am on the home page
+     And I press "system-administration"
      And I press "account-administration"
      Then I should see "Account Administration"
      Then I press "list"
@@ -30,7 +31,8 @@
    	 Then I should see "Please enter your userid and password to login"
    	 
    	 Given I have logged in
-   	 Given I am on the home page 
+   	 Given I am on the home page
+   	 And I press "system-administration" 
    	 And I press "account-administration"
      Then I should see "Account Administration"
      Then I press "list"

@@ -1,8 +1,7 @@
 package au.org.intersect.bdcp
 
 import grails.plugins.springsecurity.Secured
-import org.springframework.security.core.session.SessionRegistry
-import org.springframework.security.core.session.SessionRegistryImpl
+
 import au.org.intersect.bdcp.ldap.LdapUser
 
 
@@ -78,6 +77,11 @@ class AdminController
 	def createStatus =
 	{ cache false }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    def systemAdmin =
+    { cache false }
+    
+    
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def accountAdmin =
 	{ cache false }

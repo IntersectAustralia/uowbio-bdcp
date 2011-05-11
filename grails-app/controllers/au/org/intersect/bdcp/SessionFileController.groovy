@@ -22,19 +22,17 @@ class SessionFileController
             def context = createContext(request)
             def dirstruct = params.dirStruct
             def parsed_json = JSON.parse(dirstruct)
-            def upload_root = "${params.studyId}/${params.sessionId}/"
+            def sessionObj = Session.findById(params.sessionId)
+            def upload_root = "${params.studyId}/${sessionObj.component.id}/${params.sessionId}/"
             if (params.destDir != "")
             {
-                upload_root = upload_root + "${params.destDir}"
+                upload_root = upload_root + "${params.destDir}/"
             }
             def success = (fileService.createAllFolders(context,parsed_json, upload_root) == true) ? true: false
             success = (success == true && fileService.createAllFiles(context,parsed_json, upload_root, params) == true) ? true:false
-            def final_location_root = "${params.studyId}/"
-            if (params.destDir != "")
-            {
-                final_location_root = final_location_root + "${params.sessionId}/"
-            }
-            success = (success == true && fileService.moveDirectory(context,upload_root, final_location_root) == true)? true: false
+            def final_location_root = "${params.studyId}/${sessionObj.component.id}/"
+            
+            success = (success == true && fileService.moveDirectoryFromTmp(context,upload_root, upload_root) == true)? true: false
             if (success)
             {
                 render "Successfully Uploaded Files!"
@@ -55,13 +53,15 @@ class SessionFileController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
 	{
-		redirect(action: "list", params: params)
+		cache false
+        redirect(action: "list", params: params)
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def fileList =
 	{
-		def studyInstance = Study.get(params.studyId)
+		cache false
+        def studyInstance = Study.get(params.studyId)
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		
         def context = createContext(request)
@@ -71,7 +71,7 @@ class SessionFileController
 		studyInstance.components.each {
 			def componentId = it.id
             it.sessions.each {
-                def dirFiles = fileService.listFiles(context,"${componentId}/${it.id}")
+                def dirFiles = fileService.listFiles(context,"${params.studyId}/${componentId}/${it.id}")
 				sessionFiles.putAt "${it.id}", dirFiles
 			}
 		}
@@ -81,11 +81,13 @@ class SessionFileController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def uploadFiles =
 	{
-	}
+	    cache false
+    }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def createDirectory =
 	{ 
+        cache false
         def sessionObj = Session.findById(params.sessionId);
 	    [directory: params.directory, sessionObj: sessionObj, component: sessionObj?.component]
     }
@@ -95,21 +97,12 @@ class SessionFileController
     { 
         
         directoryCommand dirCmd ->
+        cache false
         def context = createContext(request)
         def sessionObj = Session.findById(params.sessionId)
-        def path = sessionObj.component.id + "/" + sessionObj.id +"/" + dirCmd?.path
-        def fileContainer = fileService.listFiles(context, path)
-        def files = fileContainer.get("files")
-        def sessionRoot = fileContainer.get("sessionRoot")
-        def containsDuplicateName = false
-        files.each 
-        {
-            if (it.getAbsolutePath().substring(sessionRoot.getAbsolutePath().length()+1) == dirCmd.name)
-            {
-                containsDuplicateName = true
-            }
-            
-        }
+        def path = params.studyId +"/" + sessionObj.component.id + "/" + sessionObj.id +"/" + dirCmd?.path
+        def containsDuplicateName = fileService.checkIfDirectoryExists(context, dirCmd.name.trim(), path)
+        
 		if (dirCmd.hasErrors() || (containsDuplicateName))
 		{
             if (containsDuplicateName)
@@ -121,7 +114,7 @@ class SessionFileController
         }
 		else
 		{
-            if (!fileService.createDirectory(context,dirCmd.name, path))
+            if (!fileService.createDirectory(context,dirCmd.name.trim(), path))
             {
                 flash.error = g.message(code:"directoryCommand.problem.creating.dir" ,args:[dirCmd.name])
                 render(view: "createDirectory", model: [directoryCommand: dirCmd, studyId: params.studyId, sessionId: params.sessionId, directory:params.directory, sessionObj: sessionObj, component: sessionObj?.component])
@@ -135,6 +128,7 @@ class SessionFileController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def browseFiles =
 	{
+        cache false
         def sessionObj = Session.findById(params.sessionId)
         def path = sessionObj.component.name + "/" + sessionObj.name +"/" + params.directory
         

@@ -75,7 +75,7 @@ background: #fff; /* set desired hover color */
 		<li class="tab4"><a href="${createLink(mapping: 'sessionFileList', controller:'sessionFile', action:'fileList', params:['studyId': studyInstance.id])}" id="tabs-files" name="tabs-files"><span>Files</span></a></li>
 	</ul>
         <br />
-        <span class="menuButton"><g:link mapping="componentDetails" controller="component" class="create" action="create" params="[studyId: studyInstance.id]">Add Component</g:link></span>
+        <span class="menuButton"><g:link elementId="createComponent" mapping="componentDetails" controller="component" class="create" action="create" params="[studyId: studyInstance.id]">Add Component</g:link></span>
             <br />
             <br />
             <g:if test="${ componentInstanceTotal > 0}">
@@ -88,7 +88,7 @@ background: #fff; /* set desired hover color */
                         	<ul><g:each in="${componentInstance.sessions}" status="n" var="sessionInstance">
                         	<li>${fieldValue(bean: sessionInstance, field: "name")} - ${fieldValue(bean: sessionInstance, field: "description")} <g:link mapping="sessionDetails" elementId="edit-session[${n}]" controller="session" action="edit" params="[studyId: params.studyId, id: sessionInstance.id,componentId: componentInstance.id]">Edit</g:link> </li>
                         	</g:each>
-                        	 <li><span class="menuButton"><g:link mapping="sessionDetails" controller="session" class="create" action="create" params="[studyId: studyInstance.id, componentId: componentInstance.id]">Add Session</g:link></span></li>
+                        	 <li><span class="menuButton"><g:link elementId="createSession[${i}]" mapping="sessionDetails" controller="session" class="create" action="create" params="[studyId: studyInstance.id, componentId: componentInstance.id]">Add Session</g:link></span></li>
                     		</ul>
                     </g:each>
             </div>

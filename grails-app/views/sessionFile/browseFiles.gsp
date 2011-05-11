@@ -29,10 +29,10 @@
                             ARCHIVE="acdata-uploader.jar, lib/commons-codec-1.4.jar, lib/commons-httpclient-3.1.jar, lib/commons-logging-1.1.1.jar, lib/log4j-1.2.15.jar, lib/plugin.jar"
                             code="au.org.intersect.acdata.uploader.main.UploadApplet"
                             width="40%" height="10%">
-                            <param name="serverUrl" value="${request.siteUrl}/study/${params.studyId}/session/${params.sessionId}/sessionFile/upload" />
-                            <param name="destDir" value = "${params.directory}"
-                            <param name="returnUploadStatus" value="true" />
                             <PARAM NAME="MAYSCRIPT" VALUE="true" />
+                            <param name="uploadStatus" value="true" />
+                            <param name="serverUrl" value="${request.siteUrl}/study/${params.studyId}/session/${params.sessionId}/sessionFile/upload" />
+                            <param name="destDir" value = "${params.directory}"/>
                        Your browser does not have Java enabled.
                       </applet> 
          

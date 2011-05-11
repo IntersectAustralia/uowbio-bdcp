@@ -1,9 +1,12 @@
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
+import au.org.intersect.bdcp.Component
+import au.org.intersect.bdcp.DeviceGroup
 import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
+import au.org.intersect.bdcp.Session
 import au.org.intersect.bdcp.Study
 import au.org.intersect.bdcp.UserStore
 
@@ -88,11 +91,24 @@ class BootStrap
 			participant: participant)
 		participantForm.save()
 		
+        def component = new Component(name:"test",
+            description: "test", study: study)
+        component.save()
+        
+        def session = new Session(name:"test",
+            description: "test", component: component)
+        session.save()
+        
+        def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")
+        deviceGroup.save()
+        
 		def user = new UserStore(username:"dpollum", deactivated: false)
 		user.save(flush:true)
-		
+        
 		user = new UserStore(username:"chrisk", deactivated: false)
 		user.save(flush:true)
+        
+       
 	}
 
 

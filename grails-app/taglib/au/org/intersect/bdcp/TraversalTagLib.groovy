@@ -20,7 +20,7 @@ class TraversalTagLib {
 	else
 	{
         def relativePath = file.getAbsolutePath().substring(sessionRoot.getAbsolutePath().length()+1)
-		out << "<li><span class='${type}'>${file?.getName()} "
+		out << "<li class=\"closed\"><span class='${type}'>${file?.getName()} "
         out << "<a href='${createLink(mapping:"sessionFileDetails", controller:"sessionFile", action:"browseFiles", params:['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':relativePath])}' id=\"upload[${status}]\"><img src=\"${resource(dir:'images/icons',file:'upload.png')}\"  alt=\"Upload Files\" title=\"Upload Files\"/></a>"
         out << " <a href='${createLink(mapping:"sessionFileDetails", controller:"sessionFile", action:"createDirectory", params:['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':relativePath])}' id=\"createDirectory[${status}]\"><img src=\"${resource(dir:'images/icons',file:'plus.gif')}\"  alt=\"Add Directory\" title=\"Add Directory\"/></a>"
         out << "</span>"

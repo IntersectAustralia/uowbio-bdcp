@@ -92,7 +92,7 @@ background: #fff; /* set desired hover color */
   <g:each in="${componentInstance.sessions}" status="k" var="sessionInstance">
           <ul>
                  
-                 <li><span class="folder">${sessionInstance.name} 
+                 <li class="closed"><span class="folder">${sessionInstance.name} 
                  <g:link elementId="upload[${i}-${0}]" mapping="sessionFileDetails" controller="sessionFile" action="browseFiles" 
                  params="['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':'']" ><img src="${resource(dir:'images/icons',file:'upload.png')}"  alt="Upload Files" title="Upload Files"
                  /></g:link>

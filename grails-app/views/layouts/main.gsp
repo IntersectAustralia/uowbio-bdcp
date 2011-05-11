@@ -34,7 +34,7 @@
 	                <g:link controller="project" class="list" action="list">Project List</g:link>
 	            </li>
 	            <li>
-	                <g:link elementId="account-administration" class="admin" controller="admin" action="accountAdmin"><g:message code="default.account.admin.label"/></g:link>
+	                <g:link elementId="system-administration" class="admin" controller="admin" action="systemAdmin"><g:message code="default.system.admin.label"/></g:link>
 	            </li>
 	          </ul>
 	        </sec:ifLoggedIn>

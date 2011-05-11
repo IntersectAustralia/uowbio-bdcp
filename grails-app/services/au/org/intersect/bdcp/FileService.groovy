@@ -70,14 +70,14 @@ class FileService {
     }
     
     
-    private boolean moveDirectory(def context, def previous, def destination)
+    private boolean moveDirectoryFromTmp(def context, def previous, def destination)
     {
         File oldDir = new File(context.get("tmpPath"), previous)
         if (!checkPathIsValid(context.get("tmpPath"), oldDir))
         {
             return false
         }
-        File newDir = new File(context.get("rootPath"), destination)
+        File newDir = new File(context.get("rootPath"), destination).getParentFile()
         if (!checkPathIsValid(context.get("rootPath"), newDir))
         {
             return false;
@@ -95,14 +95,25 @@ class FileService {
         }
     }
 
+    def boolean checkIfDirectoryExists(def context, String name, String path)
+    {
+        File directoryPath = new File(context.get("rootPath"), path)
+        File directory = new File(directoryPath, name)
+        return directory.exists() ||
+            directoryPath.listFiles().every
+            {
+                return file.getName().compareToIgnoreCase(name) == 0
+            }
+        
+    }
+    
     def boolean createDirectory(def context, String name, String path) 
     {
-            
             File directoryPath = new File(context.get("rootPath"), path)
             File directory = new File(directoryPath, name)
             
             return checkPathIsValid(context.get("rootPath"), directory)
-                && !directory.exists() && directory.mkdirs()
+                && directory.getParentFile().exists() && directory.mkdir()
     }
     
     def boolean checkPathIsValid(File rootPath, File path)

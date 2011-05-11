@@ -6,6 +6,7 @@ Feature: Search User Accounts
   Scenario: Search User Accounts
      Given I have logged in
      Given I am on the home page
+     And I press "system-administration"
      And I press "account-administration"
      Then I should see "Account Administration"
      Then I press "create"
@@ -22,6 +23,7 @@ Feature: Search User Accounts
      
      
      Given I am on the home page
+     And I press "system-administration"
      And I press "account-administration"
      Then I should see "Account Administration"
      Then I press "create"

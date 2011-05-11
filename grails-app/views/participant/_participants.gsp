@@ -21,8 +21,8 @@
                               <div class="columnLeft">${fieldValue(bean: participantInstance, field: "identifier")}</div>
                             </td>
                             <td>
-                             <g:link mapping="participantDetails" elementId="edit-participant[${i}]" controller="participant" action="edit" params="[studyId: studyInstance.id, id: participantInstance.id]">Edit</g:link>
-                             <g:link elementId="forms[${i}]" mapping="participantFormDetails" controller="participantForm" action="list" params="[studyId: studyInstance.id, participantId: participantInstance.id]">Forms</g:link>
+                             <g:link mapping="participantDetails" elementId="edit-participant[${i}]" class="button" controller="participant" action="edit" params="[studyId: studyInstance.id, id: participantInstance.id]">Edit</g:link>
+                             <g:link elementId="forms[${i}]" class="button" mapping="participantFormDetails" controller="participantForm" action="list" params="[studyId: studyInstance.id, participantId: participantInstance.id]">Forms</g:link>
                            </td>
                         </tr>
                     </g:each>

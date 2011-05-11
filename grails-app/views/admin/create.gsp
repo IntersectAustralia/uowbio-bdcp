@@ -50,9 +50,9 @@ email notification</p>
 <p>advising of new account.)</p>
 <br />
 <div class="rowTop"><g:link controller="admin" class="create"
-	elementId="Confirm" params="[username: params.username]" action="save"
+	elementId="Confirm" class="button" params="[username: params.username]" action="save"
 	method="post">Confirm</g:link> <g:link controller="admin"
-	class="create" elementId="Cancel" action="searchUsers"
+	class="create" elementId="Cancel" class="button" action="searchUsers"
 	params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
 </div>
 <div class="rowBottom">
