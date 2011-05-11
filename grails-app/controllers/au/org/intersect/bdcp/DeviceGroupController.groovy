@@ -25,7 +25,7 @@ class DeviceGroupController {
         def deviceGroupInstance = new DeviceGroup(params)
         if (deviceGroupInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'deviceGroup.label', default: 'DeviceGroup'), deviceGroupInstance.id])}"
-            redirect(action: "list", id: deviceGroupInstance.id)
+            redirect(action: "list")
         }
         else {
             render(view: "create", model: [deviceGroupInstance: deviceGroupInstance])
@@ -69,7 +69,7 @@ class DeviceGroupController {
             deviceGroupInstance.properties = params
             if (!deviceGroupInstance.hasErrors() && deviceGroupInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'deviceGroup.label', default: 'DeviceGroup'), deviceGroupInstance.id])}"
-                redirect(action: "list", id: deviceGroupInstance.id)
+                redirect(action: "list")
             }
             else {
                 render(view: "edit", model: [deviceGroupInstance: deviceGroupInstance])

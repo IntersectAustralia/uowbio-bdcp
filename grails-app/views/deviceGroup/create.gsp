@@ -29,7 +29,7 @@
                                     <label for="groupingName"><g:message code="deviceGroup.groupingName.label" default="Grouping Name" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: deviceGroupInstance, field: 'groupingName', 'errors')}">
-                                    <g:textField name="groupingName" cols="40" rows="5" value="${deviceGroupInstance?.groupingName}" />
+                                    <g:textField name="groupingName" value="${deviceGroupInstance?.groupingName}" />
                                 </td>
                             </tr>
                         
