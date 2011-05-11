@@ -52,4 +52,21 @@ class DeviceGroupTests extends GrailsUnitTestCase
         assertTrue "A valid device grouping did not validate!", deviceGroup.validate()
     }
     
+    /**
+    * Test the range validation of fields in the domain class {@link DeviceGroup} are
+    * correctly validated
+    */
+   void testRange()
+   {
+       deviceGroup = new DeviceGroup(groupingName:'012345678910' * 100) 
+       
+       assertFalse "No validation for size of fields", deviceGroup.validate()
+ 
+       assertEquals 'Grouping Name does not validate size.','size', deviceGroup.errors['groupingName']
+       
+       deviceGroup = new DeviceGroup(groupingName:"TestGroupingName")
+ 
+       assertTrue deviceGroup.validate()
+   }
+    
 }
