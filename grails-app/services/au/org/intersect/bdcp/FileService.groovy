@@ -32,24 +32,17 @@ class FileService {
     
     private boolean createAllFolders(def context, def json, def destination)
     {
-        // Create all folders
-        json.findAll { p,q ->
-            p.startsWith("folder")
-        }.each
-        { key, val ->
-            def path = val[0]
-            def tmpDir = new File(context.get("tmpPath"), destination)
-            def directory = new File(tmpDir, path)
-            if (!checkPathIsValid(context.get("tmpPath"), directory))
-            {
-                return false
-            }
-            if (!directory.exists())
-            {
-                directory.mkdirs()
-            }
-        }
-        return true;
+	return json.findAll { p,q ->
+	        p.startsWith("folder")
+	    }.every
+	    { key, val ->
+	        def path = val[0]
+	        def tmpDir = new File(context.get("tmpPath"), destination)
+	        def directory = new File(tmpDir, path)
+	        return checkPathIsValid(context.get("tmpPath"), directory))
+	            && ((directory.exists() && directory.isDirectory())
+                        || directory.mkdirs());
+	    }
     }
     
     private boolean createAllFiles(def context, def json, def destination, def parameters)
@@ -58,23 +51,22 @@ class FileService {
         {
             return false
         }
-        // Create all files
-        json.findAll { p,q ->
-            p.startsWith("file")
-        }.each
-        { key, val ->
-            def path = val[0]
-            def file = parameters[key]
-            def tmpDir = new File(context.get("tmpPath"), destination )
-            def filepath = new File(tmpDir, path)
-            if (!checkPathIsValid(context.get("tmpPath"), filepath))
-            {
-                return false
+        return json.findAll { p,q ->
+                p.startsWith("file")
+            }.every
+            { key, val ->
+                def path = val[0]
+                def file = parameters[key]
+                def tmpDir = new File(context.get("tmpPath"), destination )
+                def filepath = new File(tmpDir, path)
+                if (!checkPathIsValid(context.get("tmpPath"), filepath))
+                {
+                    return false;
+                }
+                filepath.mkdirs()
+                file.transferTo(filepath)
+                return true
             }
-            filepath.mkdirs()
-            file.transferTo(filepath)
-        }
-        return true
     }
     
     
@@ -95,12 +87,12 @@ class FileService {
         {
             FileUtils.copyDirectoryToDirectory(oldDir, newDir)
             FileUtils.deleteDirectory(oldDir)
+            return true
         }
         catch (IOException ioException)
         {
             return false
         }
-        return true
     }
 
     def boolean createDirectory(def context, String name, String path) 
@@ -109,25 +101,13 @@ class FileService {
             File directoryPath = new File(context.get("rootPath"), path)
             File directory = new File(directoryPath, name)
             
-            
-            if (checkPathIsValid(context.get("rootPath"), directory))
-            {
-                    return directory.mkdirs()
-            }
-            return false
+            return checkPathIsValid(context.get("rootPath"), directory)
+                && !directory.exists() && directory.mkdirs()
     }
     
     def boolean checkPathIsValid(File rootPath, File path)
     {
-        if (rootPath.isDirectory())
-        {
-            File pathDir = new File(rootPath.getAbsolutePath(),path.getAbsolutePath())
-            if (pathDir.getAbsolutePath().startsWith(rootPath.getAbsolutePath()))
-            {
-                return true
-            }
-        }
-        return false
+        return rootPath.isDirectory() && path.getAbsolutePath().startsWith(rootPath.getAbsolutePath())
     }
     
 }
