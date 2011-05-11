@@ -31,7 +31,7 @@
                     <g:each in="${deviceGroupInstanceList}" status="i" var="deviceGroupInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                             <td>${fieldValue(bean: deviceGroupInstance, field: "groupingName")}</td>
-                            <td><g:link class="button" action="edit" id="${deviceGroupInstance.id}">Edit name</g:link></td>
+                            <td><g:link elementId="edit-name[${i}]" class="button" action="edit" id="${deviceGroupInstance.id}">Edit name</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>
