@@ -6,6 +6,7 @@ Feature: List User Accounts
   Scenario: List User Accounts
      Given I have logged in
      Given I am on the home page
+     And I press "system-administration"
      And I press "account-administration"
      Then I should see "Account Administration"
      Then I press "list"
@@ -23,6 +24,7 @@ Feature: List User Accounts
      
      Given I am on the home page
      Then I enable javascript
+     And I press "system-administration"
      And I press "account-administration"
      Then I should see "Account Administration"
      Then I press "list"

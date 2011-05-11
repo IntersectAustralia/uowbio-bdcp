@@ -14,7 +14,7 @@
      controller="admin" action="listUsers">List All Users</g:link></div>
 <div class="rowBottom">
 <div class="buttons"><span class="menuButton"><g:link
-     elementId="Back" controller="project" class="list" action="list">Back</g:link></span>
+     elementId="Back" controller="admin" class="list" action="systemAdmin">Back</g:link></span>
 </div>
 </div>
 </div>

@@ -24,7 +24,7 @@ class DeviceGroupController {
     def save = {
         def deviceGroupInstance = new DeviceGroup(params)
         if (deviceGroupInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'deviceGroup.label', default: 'DeviceGroup'), deviceGroupInstance.id])}"
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'deviceGroup.label', default: 'Device Grouping'), deviceGroupInstance.groupingName])}"
             redirect(action: "list")
         }
         else {
@@ -61,14 +61,14 @@ class DeviceGroupController {
                 def version = params.version.toLong()
                 if (deviceGroupInstance.version > version) {
                     
-                    deviceGroupInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'deviceGroup.label', default: 'DeviceGroup')] as Object[], "Another user has updated this DeviceGroup while you were editing")
+                    deviceGroupInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'deviceGroup.label', default: 'Device Grouping')] as Object[], "Another user has updated this Device Grouping while you were editing")
                     render(view: "edit", model: [deviceGroupInstance: deviceGroupInstance])
                     return
                 }
             }
             deviceGroupInstance.properties = params
             if (!deviceGroupInstance.hasErrors() && deviceGroupInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'deviceGroup.label', default: 'DeviceGroup'), deviceGroupInstance.id])}"
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'deviceGroup.label', default: 'Device Grouping'), deviceGroupInstance.groupingName])}"
                 redirect(action: "list")
             }
             else {
@@ -76,7 +76,7 @@ class DeviceGroupController {
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceGroup.label', default: 'DeviceGroup'), params.id])}"
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceGroup.label', default: 'Device Grouping'), params.groupingName])}"
             redirect(action: "list")
         }
     }
