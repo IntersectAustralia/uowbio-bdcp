@@ -59,13 +59,9 @@ class DeviceGroupTests extends GrailsUnitTestCase
    void testRange()
    {
        deviceGroup = new DeviceGroup(groupingName:'012345678910' * 100) 
-       
        assertFalse "No validation for size of fields", deviceGroup.validate()
- 
        assertEquals 'Grouping Name does not validate size.','size', deviceGroup.errors['groupingName']
-       
        deviceGroup = new DeviceGroup(groupingName:"TestGroupingName")
- 
        assertTrue deviceGroup.validate()
    }
     
