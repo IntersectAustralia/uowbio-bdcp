@@ -10,7 +10,9 @@ class DeviceGroupController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [deviceGroupInstanceList: DeviceGroup.list(params), deviceGroupInstanceTotal: DeviceGroup.count()]
+        def DeviceGroupList = DeviceGroup.list(params)
+        def sortedDeviceGroup = DeviceGroupList.sort {x,y -> x.groupingName <=> y.groupingName}
+        [deviceGroupInstanceList: sortedDeviceGroup, deviceGroupInstanceTotal: DeviceGroup.count()]
     }
 
     def create = {
@@ -23,7 +25,7 @@ class DeviceGroupController {
         def deviceGroupInstance = new DeviceGroup(params)
         if (deviceGroupInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'deviceGroup.label', default: 'DeviceGroup'), deviceGroupInstance.id])}"
-            redirect(action: "show", id: deviceGroupInstance.id)
+            redirect(action: "list", id: deviceGroupInstance.id)
         }
         else {
             render(view: "create", model: [deviceGroupInstance: deviceGroupInstance])
@@ -67,7 +69,7 @@ class DeviceGroupController {
             deviceGroupInstance.properties = params
             if (!deviceGroupInstance.hasErrors() && deviceGroupInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'deviceGroup.label', default: 'DeviceGroup'), deviceGroupInstance.id])}"
-                redirect(action: "show", id: deviceGroupInstance.id)
+                redirect(action: "list", id: deviceGroupInstance.id)
             }
             else {
                 render(view: "edit", model: [deviceGroupInstance: deviceGroupInstance])

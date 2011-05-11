@@ -9,11 +9,6 @@
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
             <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
@@ -36,7 +31,7 @@
                                   <label for="groupingName"><g:message code="deviceGroup.groupingName.label" default="Grouping Name" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: deviceGroupInstance, field: 'groupingName', 'errors')}">
-                                    <g:textArea name="groupingName" cols="40" rows="5" value="${deviceGroupInstance?.groupingName}" />
+                                    <g:textField name="groupingName" cols="40" rows="5" value="${deviceGroupInstance?.groupingName}" />
                                 </td>
                             </tr>
                         
@@ -44,8 +39,8 @@
                     </table>
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.create.label', default: 'Save')}" /></span>
+                    <span class="button"><g:link elementId="cancel" action="list">Cancel</g:link></span>
                 </div>
             </g:form>
         </div>

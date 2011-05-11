@@ -12,18 +12,18 @@
             <h1>Device Administration</h1>
             <br />
             <g:link class="button" action="create">Create Grouping</g:link>
+            <br />
+            <br />
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <br />
-            <br />
             <g:if test ="${deviceGroupInstanceList.size() > 0}" >
             <h2>Existing Devices</h2>
             <div class="list">
                 <table>
                     <thead>
                         <tr>
-                            <g:sortableColumn property="groupingName" title="${message(code: 'deviceGroup.groupingName.label', default: 'Grouping Name')}" />
+                            <th>${message(code: 'deviceGroup.groupingName.label', default: 'Grouping Name')}</th>
                             <th></th>
                         </tr>
                     </thead>
