@@ -11,7 +11,7 @@
         <div class="body">
         <h1>${deviceGroupInstance?.groupingName}</h1>
         <br />
-            <g:link mapping="deviceDetails" controller="device" class="button" action="create" params="[deviceGroupId: params.deviceGroupId]">Add new device</g:link>
+            <g:link elementId="Add new device" mapping="deviceDetails" controller="device" class="button" action="create" params="[deviceGroupId: params.deviceGroupId]">Add new device</g:link>
             <br />
             <br />
             <g:if test="${deviceInstanceList.size() > 0}">
@@ -30,8 +30,8 @@
                     <tbody>
                     <g:each in="${deviceInstanceList}" status="i" var="deviceInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td><g:link action="show" id="${deviceInstance.id}">${fieldValue(bean: deviceInstance, field: "name")}</g:link></td>
-                            <td>Edit</td>                        
+                            <td><g:link elementId="view[${i}]" mapping="deviceDetails" controller="device" action="show" id="${deviceInstance.id}" params="[deviceGroupId: params.deviceGroupId]">${fieldValue(bean: deviceInstance, field: "name")}</g:link></td>
+                            <td><g:link elementId="edit[${i}]" class="button" mapping="deviceDetails" controller="device" action="edit" id="${deviceInstance.id}" params="[deviceGroupId: params.deviceGroupId]">Edit</g:link></td>                        
                         </tr>
                     </g:each>
                     </tbody>
@@ -41,6 +41,9 @@
                 <g:paginate total="${deviceInstanceTotal}" />
             </div>
             </g:if>
+            <div class="buttons"><span class="menuButton">
+                <g:link elementId="Back" controller="deviceGroup" class="list" action="list">Back</g:link></span>
+            </div>
         </div>
     </body>
 </html>

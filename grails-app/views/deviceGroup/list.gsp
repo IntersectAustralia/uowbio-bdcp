@@ -18,7 +18,7 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <g:if test ="${deviceGroupInstanceList.size() > 0}" >
-            <h2>Existing Devices</h2>
+            <h2>Existing Device Groupings</h2>
             <div class="list">
                 <table>
                     <thead>
@@ -30,7 +30,7 @@
                     <tbody>
                     <g:each in="${deviceGroupInstanceList}" status="i" var="deviceGroupInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td>${fieldValue(bean: deviceGroupInstance, field: "groupingName")}</td>
+                            <td><g:link elementId="${deviceGroupInstance.groupingName}" mapping="deviceDetails" controller="device" action="list" params="[deviceGroupId: deviceGroupInstance.id]">${fieldValue(bean: deviceGroupInstance, field: "groupingName")}</g:link></td>
                             <td><g:link elementId="edit-name[${i}]" class="button" action="edit" id="${deviceGroupInstance.id}">Edit name</g:link></td>
                         </tr>
                     </g:each>
@@ -41,9 +41,9 @@
                 <g:paginate total="${deviceGroupInstanceTotal}" />
             </div>
             </g:if>
-            <div class="buttons"><span class="menuButton"><g:link
-     elementId="Back" controller="admin" class="list" action="systemAdmin">Back</g:link></span>
-</div>
+            <div class="buttons">
+                <span class="button"><g:link elementId="Back" controller="admin" class="list" action="systemAdmin">Back</g:link></span>
+            </div>
         </div>
     </body>
 </html>

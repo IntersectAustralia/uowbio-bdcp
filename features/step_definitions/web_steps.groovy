@@ -56,6 +56,11 @@ Given(~"I have created a session with \"(.*)\", \"(.*)\"") { String name, String
 	sql.execute("INSERT INTO session (id,version, component_id, name, description) VALUES ('-4','0', '-3', ${name}, ${description});")
 }
 
+Given(~"I have created a device grouping with \"(.*)\"") { String groupingName ->
+    def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+    sql.execute("INSERT INTO device_group(id,version, grouping_name) VALUES ('-5','0',${groupingName});")
+}
+
 Given(~"I have deleted all emails") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/clear")
 }

@@ -8,11 +8,6 @@
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
@@ -21,13 +16,6 @@
             <div class="dialog">
                 <table>
                     <tbody>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="device.id.label" default="Id" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: deviceInstance, field: "id")}</td>
-                            
-                        </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="device.name.label" default="Name" /></td>
@@ -74,14 +62,14 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="device.dateOfPurchase.label" default="Date Of Purchase" /></td>
                             
-                            <td valign="top" class="value"><g:formatDate date="${deviceInstance?.dateOfPurchase}" /></td>
+                            <td valign="top" class="value"><g:formatDate format="dd/MM/yyyy" date="${deviceInstance?.dateOfPurchase}" /></td>
                             
                         </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="device.dateOfDelivery.label" default="Date Of Delivery" /></td>
                             
-                            <td valign="top" class="value"><g:formatDate date="${deviceInstance?.dateOfDelivery}" /></td>
+                            <td valign="top" class="value"><g:formatDate format="dd/MM/yyyy" date="${deviceInstance?.dateOfDelivery}" /></td>
                             
                         </tr>
                     
@@ -106,22 +94,11 @@
                             
                         </tr>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="device.deviceGroup.label" default="Device Group" /></td>
-                            
-                            <td valign="top" class="value"><g:link controller="deviceGroup" action="show" id="${deviceInstance?.deviceGroup?.id}">${deviceInstance?.deviceGroup?.encodeAsHTML()}</g:link></td>
-                            
-                        </tr>
-                    
                     </tbody>
                 </table>
             </div>
             <div class="buttons">
-                <g:form>
-                    <g:hiddenField name="id" value="${deviceInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </g:form>
+                <span class="button"><g:link class="list" mapping="deviceDetails" controller="device" elementId="Back" action="list" params="[deviceGroupId: params.deviceGroupId]">Back</g:link></span>
             </div>
         </div>
     </body>
