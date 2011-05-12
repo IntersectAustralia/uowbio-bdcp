@@ -17,7 +17,7 @@ class BootStrap
 	def springSecurityService
 	def concurrentSessionController
 	def securityContextPersistenceFilter
-	
+	def fileService
 	
 	def init =
 	{ servletContext ->
@@ -111,9 +111,22 @@ class BootStrap
        
 	}
 
-
-
 	def destroy =
 	{
-	}
+        environments
+        {
+            development 
+            {
+                def d1LdapServer
+                d1LdapServer.stop()
+            }
+            
+            test
+            {
+                def d1LdapServer
+                d1LdapServer.stop()
+            }
+        }
+        
+    }
 }

@@ -85,7 +85,7 @@ background: #fff; /* set desired hover color */
                             ${fieldValue(bean: componentInstance, field: "name")} - ${fieldValue(bean: componentInstance, field: "description")}
                             
                              <g:link mapping="componentDetails" elementId="edit-component[${i}]" controller="component" action="edit" params="[studyId: params.studyId, id: componentInstance.id]">Edit</g:link>
-                        	<ul><g:each in="${componentInstance.sessions}" status="n" var="sessionInstance">
+                        	<ul><g:each in="${componentInstance.getSessionsList()}" status="n" var="sessionInstance">
                         	<li>${fieldValue(bean: sessionInstance, field: "name")} - ${fieldValue(bean: sessionInstance, field: "description")} <g:link mapping="sessionDetails" elementId="edit-session[${n}]" controller="session" action="edit" params="[studyId: params.studyId, id: sessionInstance.id,componentId: componentInstance.id]">Edit</g:link> </li>
                         	</g:each>
                         	 <li><span class="menuButton"><g:link elementId="createSession[${i}]" mapping="sessionDetails" controller="session" class="create" action="create" params="[studyId: studyInstance.id, componentId: componentInstance.id]">Add Session</g:link></span></li>

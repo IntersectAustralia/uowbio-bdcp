@@ -1,5 +1,6 @@
 package au.org.intersect.bdcp
 
+
 class Component {
 	
 	String name
@@ -11,5 +12,9 @@ class Component {
     static constraints = {
 		name(blank:false, size:1..1000)
 		description(blank:false, size:1..1000)
+    }
+    
+    def getSessionsList() {
+            return sessions.sort { x,y -> x.name <=> y.name}
     }
 }

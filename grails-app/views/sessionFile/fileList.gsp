@@ -89,7 +89,7 @@ background: #fff; /* set desired hover color */
                     <ul id="example" class="filetree">
   <g:each in="${componentInstanceList}" status="i" var="componentInstance">
   <li><span class="folder">${componentInstance.name}</span>
-  <g:each in="${componentInstance.sessions}" status="k" var="sessionInstance">
+  <g:each in="${componentInstance.getSessionsList()}" status="k" var="sessionInstance">
           <ul>
                  
                  <li class="closed"><span class="folder">${sessionInstance.name} 

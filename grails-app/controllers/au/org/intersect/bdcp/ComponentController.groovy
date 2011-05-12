@@ -25,7 +25,10 @@ class ComponentController
 	{
 		def studyInstance = Study.get(params.studyId)
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance]
+        
+        def sortedComponentInstanceList = Component.findAllByStudy(studyInstance).sort {x,y -> x.name <=> y.name }
+        
+		[componentInstanceList: sortedComponentInstanceList, componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance]
 	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])

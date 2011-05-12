@@ -75,7 +75,12 @@ class SessionFileController
 				sessionFiles.putAt "${it.id}", dirFiles
 			}
 		}
-		[componentInstanceList: Component.findAllByStudy(studyInstance), componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
+        
+        def componentInstanceList = Component.findAllByStudy(studyInstance)
+        
+        def sortedComponentInstanceList = componentInstanceList.sort {x,y -> x.name <=> y.name}
+        
+		[componentInstanceList: sortedComponentInstanceList, componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
 	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
