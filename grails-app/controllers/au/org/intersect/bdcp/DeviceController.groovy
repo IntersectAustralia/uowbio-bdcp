@@ -23,8 +23,8 @@ class DeviceController {
     def save = {
         def deviceInstance = new Device(params)
         if (deviceInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'device.label', default: 'Device'), deviceInstance.id])}"
-            redirect(action: "show", id: deviceInstance.id)
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'device.label', default: 'Device'), deviceInstance.name])}"
+            redirect( controller: "device", action: "list", mapping: "deviceDetails", params: [deviceGroupId: params.deviceGroupId])
         }
         else {
             render(view: "create", model: [deviceInstance: deviceInstance])
@@ -45,7 +45,7 @@ class DeviceController {
     def edit = {
         def deviceInstance = Device.get(params.id)
         if (!deviceInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'device.label', default: 'Device'), params.id])}"
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'device.label', default: 'Device'), params.name])}"
             redirect(action: "list")
         }
         else {
@@ -67,8 +67,8 @@ class DeviceController {
             }
             deviceInstance.properties = params
             if (!deviceInstance.hasErrors() && deviceInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'device.label', default: 'Device'), deviceInstance.id])}"
-                redirect(action: "show", id: deviceInstance.id)
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'device.label', default: 'Device'), deviceInstance.name])}"
+                redirect( controller: "device", action: "list", mapping: "deviceDetails", params: [deviceGroupId: params.deviceGroupId])
             }
             else {
                 render(view: "edit", model: [deviceInstance: deviceInstance])
@@ -76,7 +76,7 @@ class DeviceController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'device.label', default: 'Device'), params.id])}"
-            redirect(action: "list")
+            redirect( controller: "device", action: "list", mapping: "deviceDetails", params: [deviceGroupId: params.deviceGroupId])
         }
     }
 
