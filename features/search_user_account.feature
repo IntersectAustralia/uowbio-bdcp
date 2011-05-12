@@ -14,6 +14,7 @@ Feature: Search User Accounts
      Then I press "search"
      Then I should see a 4 column table "searchTable" with contents
      |abe       | John  | Abe              | Select  |
+     |carlos	| Carlos| Aya			   | Select  |
      |chrisk    | Chris | Kenward          | Select  |
      |davidk    | David | Kenward          | Select  |
      |dpollum   | David | Pollum           | Select  |

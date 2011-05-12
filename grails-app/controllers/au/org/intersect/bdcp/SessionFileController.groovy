@@ -68,7 +68,7 @@ class SessionFileController
         
 		def sessionFiles = [:]
 		
-		studyInstance.components.each {
+		studyInstance?.components.each {
 			def componentId = it.id
             it.sessions.each {
                 def dirFiles = fileService.listFiles(context,"${params.studyId}/${componentId}/${it.id}")
