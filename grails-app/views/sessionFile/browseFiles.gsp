@@ -29,7 +29,7 @@
                             code="au.org.intersect.acdata.uploader.main.UploadApplet"
                             width="40%" height="10%">
                             <PARAM NAME="MAYSCRIPT" VALUE="true" />
-                            <param name="uploadStatus" value="true" />
+                            <param name="returnUploadStatus" value="true" />
                             <param name="serverUrl" value="${request.siteUrl}/study/${params.studyId}/session/${params.sessionId}/sessionFile/upload" />
                             <param name="destDir" value = "${params.directory}"/>
                        Your browser does not have Java enabled.

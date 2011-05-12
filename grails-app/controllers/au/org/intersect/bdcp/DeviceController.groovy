@@ -10,7 +10,8 @@ class DeviceController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [deviceInstanceList: Device.list(params), deviceInstanceTotal: Device.count()]
+        def deviceGroupInstance = DeviceGroup.findById(params.deviceGroupId)
+        [deviceInstanceList: Device.list(params), deviceInstanceTotal: Device.count(), "deviceGroupInstance": deviceGroupInstance]
     }
 
     def create = {
