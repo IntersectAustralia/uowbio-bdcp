@@ -6,7 +6,7 @@ Feature: Create Device
  Background:
  Given I have logged in
  Given I have created a device grouping with "Force Platforms"
- Given I have created a device with "Device1", "Some Description", "Some Manufacturer", "Some location", "Some model", "Some serial number", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "$10.00", "Intersect", "Some funding body"
+ Given I have created a device with "Device1", "Some Description", "Some Manufacturer", "Some location", "Some model", "Some serial number", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "$10.00", "Intersect", "Some funding body"
  
  Scenario: Create Device
  Given I am on the home page
@@ -17,21 +17,12 @@ Feature: Create Device
  Then I press "Force Platforms"
  Then I should see "Force Platforms"
  Then I should see "Add new device"
- Then I press "Add new device"
- Then I should see "Add New Device"
- Then I fill in "name" with "Device1"
- Then I fill in "description" with "Some Description"
- Then I fill in "manufacturer" with "Some manufacturer"
- Then I fill in "locationOfManufacturer" with "Some location"
- Then I fill in "model" with "Some model"
- Then I fill in "serialNumber" with "Some serial number"
- Then I fill in "dateOfPurchase" with ""
- Then I fill in "dateOfDelivery" with ""
- Then I fill in "purchasePrice" with "$10.00"
- Then I fill in "vendor" with "Intersect"
- Then I fill in "fundingBody" with "Some funding body"
+ Then I should see "Device1"
+ Then I press "edit[0]"
+ Then I should see "Edit Device"
+ Then I fill in "name" with " test"
  Then I press "save"
- Then I should see "Device Device1 saved"
- Then I should see "Force Platforms"
- 
+ Then I should see "Device Device1 test updated"
+ Then I should see "Devices"
+ Then I should see "Device1 test" 
    

@@ -39,6 +39,7 @@ After() {
   sql.execute("delete from component")
   sql.execute("delete from study")
   sql.execute("delete from project")
+  sql.execute("delete from device")
   sql.execute("delete from device_group")
   
   File tmpDir = new File(getTmpPath())

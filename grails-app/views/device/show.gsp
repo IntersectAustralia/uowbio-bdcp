@@ -14,7 +14,7 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-                <table>
+                <table id="deviceTable">
                     <tbody>
                     
                         <tr class="prop">

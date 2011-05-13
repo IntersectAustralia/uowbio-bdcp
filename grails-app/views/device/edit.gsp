@@ -24,7 +24,7 @@
                 <g:hiddenField name="version" value="${deviceInstance?.version}" />
                 <g:render template="modifyDialog" model= ['body': body()]] />
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
+                    <span class="button"><g:actionSubmit id="save" class="save" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
                     <span class="button"><g:link mapping="deviceDetails" controller="device" elementId="cancel" action="list" params="[deviceGroupId: params.deviceGroupId]">Cancel</g:link></span>
                 </div>
             </g:form>

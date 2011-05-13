@@ -61,6 +61,11 @@ Given(~"I have created a device grouping with \"(.*)\"") { String groupingName -
     sql.execute("INSERT INTO device_group(id,version, grouping_name) VALUES ('-5','0',${groupingName});")
 }
 
+Given(~"I have created a device with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String name, String description, String manufacturer, String locationOfManufacturer, String model, String serialNumber, String dateOfPurchase, String dateOfDelivery, String purchasePrice, String vendor, String fundingBody ->
+    def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver") 
+    sql.execute("INSERT INTO device(id,version, name, device_group_id, description, manufacturer, location_of_manufacturer, model, serial_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_body) VALUES ('-6','0','-5', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, '${dateOfPurchase}', '${dateOfDelivery}', '${purchasePrice}', ${vendor}, ${fundingBody});")
+}
+
 Given(~"I have deleted all emails") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/clear")
 }
