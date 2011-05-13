@@ -125,29 +125,5 @@ class ComponentController
 			redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
 		}
 	}
-
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-	def delete =
-	{
-		def componentInstance = Component.get(params.id)
-		if (componentInstance)
-		{
-			try
-			{
-				componentInstance.delete(flush: true)
-				flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'component.label', default: 'Component'), params.id])}"
-				redirect(action: "list")
-			}
-			catch (org.springframework.dao.DataIntegrityViolationException e)
-			{
-				flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'component.label', default: 'Component'), params.id])}"
-				redirect(action: "show", id: params.id)
-			}
-		}
-		else
-		{
-			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'component.label', default: 'Component'), params.id])}"
-			redirect(action: "list")
-		}
-	}
+	
 }

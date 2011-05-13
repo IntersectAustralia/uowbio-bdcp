@@ -1,13 +1,17 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
+
 class DeviceController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def index = {
         redirect(action: "list", params: params)
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def deviceGroupInstance = DeviceGroup.findById(params.deviceGroupId)
@@ -15,12 +19,14 @@ class DeviceController {
         [deviceInstanceList: sortedDeviceInstanceList, deviceInstanceTotal: Device.count(), "deviceGroupInstance": deviceGroupInstance]
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create = {
         def deviceInstance = new Device()
         deviceInstance.properties = params
         return [deviceInstance: deviceInstance]
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
         def deviceInstance = new Device(params)
         if (deviceInstance.save(flush: true)) {
@@ -32,6 +38,7 @@ class DeviceController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
         def deviceInstance = Device.get(params.id)
         if (!deviceInstance) {
@@ -43,6 +50,7 @@ class DeviceController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
         def deviceInstance = Device.get(params.id)
         if (!deviceInstance) {
@@ -53,7 +61,8 @@ class DeviceController {
             return [deviceInstance: deviceInstance]
         }
     }
-
+    
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
         def deviceInstance = Device.get(params.id)
         if (deviceInstance) {
@@ -81,22 +90,4 @@ class DeviceController {
         }
     }
 
-    def delete = {
-        def deviceInstance = Device.get(params.id)
-        if (deviceInstance) {
-            try {
-                deviceInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'device.label', default: 'Device'), params.id])}"
-                redirect(action: "list")
-            }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'device.label', default: 'Device'), params.id])}"
-                redirect(action: "show", id: params.id)
-            }
-        }
-        else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'device.label', default: 'Device'), params.id])}"
-            redirect(action: "list")
-        }
-    }
 }

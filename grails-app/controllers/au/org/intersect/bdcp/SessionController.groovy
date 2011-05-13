@@ -1,5 +1,7 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
+
 class SessionController
 {
 
@@ -12,17 +14,20 @@ class SessionController
         return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"))
     }
     
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def index =
 	{
 		redirect(action: "list", params: params)
 	}
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def list =
 	{
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[sessionInstanceList: Session.list(params), sessionInstanceTotal: Session.count()]
 	}
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def create =
 	{
 		def sessionInstance = new Session()
@@ -30,6 +35,7 @@ class SessionController
 		return [sessionInstance: sessionInstance]
 	}
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def save =
 	{
         def context = createContext(request)
@@ -48,6 +54,7 @@ class SessionController
 		}
 	}
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def show =
 	{
 		def sessionInstance = Session.get(params.id)
@@ -62,6 +69,7 @@ class SessionController
 		}
 	}
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def edit =
 	{
 		def sessionInstance = Session.get(params.id)
@@ -76,6 +84,7 @@ class SessionController
 		}
 	}
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def update =
 	{
 		def sessionInstance = Session.get(params.id)
@@ -112,27 +121,4 @@ class SessionController
 		}
 	}
 
-	def delete =
-	{
-		def sessionInstance = Session.get(params.id)
-		if (sessionInstance)
-		{
-			try
-			{
-				sessionInstance.delete(flush: true)
-				flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'session.label', default: 'Session'), params.id])}"
-				redirect(action: "list")
-			}
-			catch (org.springframework.dao.DataIntegrityViolationException e)
-			{
-				flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'session.label', default: 'Session'), params.id])}"
-				redirect(action: "show", id: params.id)
-			}
-		}
-		else
-		{
-			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'session.label', default: 'Session'), params.id])}"
-			redirect(action: "list")
-		}
-	}
 }
