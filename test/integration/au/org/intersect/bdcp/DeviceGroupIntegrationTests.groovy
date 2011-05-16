@@ -50,7 +50,7 @@ class DeviceGroupIntegrationTests extends GroovyTestCase
         
         assertFalse 'No validation for unique field(s)' ,deviceGroup.validate()
         assertNotNull 'Grouping Name is not unique.', deviceGroup.errors.getFieldError('groupingName')
-        def code = deviceGroup.errors.getFieldError('groupingName')?.codes.find {it == 'deviceGroup.groupingName.trulyunique.invalid'}
+        def code = deviceGroup.errors.getFieldError('groupingName')?.codes.find {it == 'deviceGroup.groupingName.uniqueIgnoreCase.invalid'}
         assertNotNull 'Grouping Name is not unique', code
         deviceGroup = new DeviceGroup(groupingName: 'TestGrouping2')
         assertTrue "A valid device grouping did not validate!", deviceGroup.validate()

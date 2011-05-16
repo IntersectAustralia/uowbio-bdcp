@@ -61,7 +61,7 @@ class DeviceIntegrationTests extends GroovyTestCase {
         
         assertFalse 'No validation for unique field(s)' ,device.validate()
         assertNotNull 'Name is not unique.', device.errors.getFieldError('name')
-        def code = device.errors.getFieldError('name')?.codes.find {it == 'device.name.trulyunique.invalid'}
+        def code = device.errors.getFieldError('name')?.codes.find {it == 'device.name.uniqueIgnoreCase.invalid'}
         assertNotNull 'Name is not unique', code
         device = new Device(name: "Device2",
             description: "Some description",

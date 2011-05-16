@@ -18,7 +18,7 @@ class Device {
     
     static constraints = 
     {
-        name(blank:false, size:1..1000, trulyunique:true)
+        name(blank:false, size:1..1000, uniqueIgnoreCase:true)
         description(blank:false, size:1..1000)
         manufacturer(blank:false, size:1..1000)
         locationOfManufacturer(size:1..1000)
