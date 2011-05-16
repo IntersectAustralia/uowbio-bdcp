@@ -48,7 +48,7 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="device.model.label" default="Model" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: deviceInstance, field: "model")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: deviceInstance, field: "modelName")}</td>
                             
                         </tr>
                     
