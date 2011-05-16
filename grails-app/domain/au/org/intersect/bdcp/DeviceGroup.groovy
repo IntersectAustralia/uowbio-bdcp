@@ -8,7 +8,11 @@ class DeviceGroup {
         
     static constraints = 
     {
-        groupingName(blank:false, size:1..1000, unique:true)
+        groupingName(blank:false, size:1..1000, unique:true, trulyunique:true)
     }
     
+    void setGroupingName(String groupingName)
+    {
+        this.groupingName = groupingName?.trim()
+    }
 }

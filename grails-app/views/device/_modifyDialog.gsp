@@ -40,10 +40,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="model"><g:message code="device.model.label" default="Model" /></label>
+                                    <label for="modelName"><g:message code="device.model.label" default="Model" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: deviceInstance, field: 'model', 'errors')}">
-                                    <g:textField name="model" cols="40" rows="5" value="${deviceInstance?.model}" />
+                                <td valign="top" class="value ${hasErrors(bean: deviceInstance, field: 'modelName', 'errors')}">
+                                    <g:textField name="modelName" cols="40" rows="5" value="${deviceInstance?.modelName}" />
                                 </td>
                             </tr>
                         
