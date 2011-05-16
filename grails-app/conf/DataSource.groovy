@@ -27,11 +27,11 @@ environments {
 	{
 		dataSource
 		{
-			dbCreate = "create-drop"
-			url = "jdbc:postgresql://localhost:5432/bdcp-test"
-			driverClassName = "org.postgresql.Driver"
-			username = "bdcp"
-			password = "bdcp"
+			dbCreate = "create"
+			url = "jdbc:hsqldb:mem:devDB"
+			driverClassName = "org.hsqldb.jdbcDriver"
+			username = "sa"
+			password = ""
 		}
 	}
 	production
