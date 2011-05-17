@@ -2,6 +2,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 import au.org.intersect.bdcp.Component
+import au.org.intersect.bdcp.Device
 import au.org.intersect.bdcp.DeviceGroup
 import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
@@ -67,7 +68,7 @@ class BootStrap
 				endDate: new Date(),
 				description: 'Test Description',
 				supervisors: 'test supervisor')
-		project.save()
+		project.save(flush: true)
 
 		def study = new Study(studyTitle: 'TestStudy',
 				uowEthicsNumber: '110678' ,
@@ -80,24 +81,24 @@ class BootStrap
 				project: project,
 				numberOfParticipants:"10",
 				inclusionExclusionCriteria:"test Criteria")
-		study.save()
+		study.save(flush: true)
 
 		def participant = new Participant(identifier:"10",
 				study: study)
-		participant.save()
+		participant.save(flush: true)
 		
 		def participantForm = new ParticipantForm(formName:"bash profile",
 			form: ".bashrc",
 			participant: participant)
-		participantForm.save()
+		participantForm.save(flush: true)
 		
         def component = new Component(name:"test",
             description: "test", study: study)
-        component.save()
+        component.save(flush: true)
         
         def session = new Session(name:"test",
             description: "test", component: component)
-        session.save()
+        session.save(flush:true)
         
         def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")
         deviceGroup.save()
@@ -107,6 +108,20 @@ class BootStrap
         
 		user = new UserStore(username:"chrisk", deactivated: false)
 		user.save(flush:true)
+        
+        def device = new Device(name: "Device1",
+            description: "Some device",
+            manufacturer: "Some manufacturer",
+            locationOfManufacturer: "Some location",
+            modelName: "Some model",
+            serialNumber: "11231ABC",
+            dateOfPurchase: new Date(),
+            dateOfDelivery: new Date(),
+            purchasePrice: "\$10.00",
+            vendor: "Intersect",
+            fundingBody: "Some funding Body",
+            deviceGroup: deviceGroup)
+        device.save(flush:true)
         
        
 	}

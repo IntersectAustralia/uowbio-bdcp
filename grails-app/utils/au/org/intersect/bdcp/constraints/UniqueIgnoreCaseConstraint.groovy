@@ -55,8 +55,6 @@ class UniqueIgnoreCaseConstraint
             return false
         }
         
-        // if result.size == 0, ok; result.size == 1, get(1).id == obj.id
-       // return result ? false : true    // If we find a result, then non-unique
     }
 
 

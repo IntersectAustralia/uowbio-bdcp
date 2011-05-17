@@ -31,6 +31,8 @@ class Device {
         fundingBody(size:1..1000)
     }
     
+    static hasMany = [deviceFields: DeviceField]
+    
     String getName()
     {
         name?.trim()
