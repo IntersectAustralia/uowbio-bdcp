@@ -48,6 +48,14 @@ class BootStrap
 				user.save(flush:true)
 			}
 			
+			cucumber
+			{
+				def user = new UserStore(username:"dpollum", deactivated: false)
+				user.save(flush:true)
+				user = new UserStore(username:"chrisk", deactivated: false)
+				user.save(flush:true)
+			}
+			
 			intersect_test
 			{
 				def user = new UserStore(username:"dpollum", deactivated: false)
@@ -122,6 +130,12 @@ class BootStrap
             }
             
             test
+            {
+                def d1LdapServer
+                d1LdapServer.stop()
+            }
+
+			cucumber
             {
                 def d1LdapServer
                 d1LdapServer.stop()

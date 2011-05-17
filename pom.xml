@@ -47,6 +47,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>cuke4duke</groupId>
 			<artifactId>cuke4duke</artifactId>
 			<version>${cuke4duke.version}</version>
