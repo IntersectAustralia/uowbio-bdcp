@@ -28,10 +28,22 @@ environments {
 		dataSource
 		{
 			dbCreate = "create-drop"
+			url = "jdbc:hsqldb:file:devDB;shutdown=true"
+			driverClassName = "org.hsqldb.jdbcDriver"
+			username = "sa"
+			password = ""
+		}
+	}
+	
+	cucumber
+	{
+		dataSource
+		{
+			dbCreate = "create-drop"
 			url = "jdbc:postgresql://localhost:5432/bdcp-test"
 			driverClassName = "org.postgresql.Driver"
-			username = "bdcp"
-			password = "bdcp"
+			username = "grails"
+			password = "grails"
 		}
 	}
 	production

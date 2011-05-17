@@ -79,42 +79,6 @@ class DeviceTests extends GrailsUnitTestCase {
     }
     
     /**
-    * Test that the blank fields in the domain class {@link DeviceGroup} are
-    * correctly validated
-    */
-    void testUnique() {
-
-        device = new Device(name: "Device1",
-            description: "Some description",
-            manufacturer: "Some manufacturer",
-            locationOfManufacturer: "Some location",
-            modelName: "Some model",
-            serialNumber: "Some serialNumber",
-            dateOfPurchase: new Date(),
-            dateOfDelivery: new Date(),
-            purchasePrice: "\$10.00",
-            vendor: "Some vendor",
-            fundingBody: "Some funding Body",
-            deviceGroup: deviceGroup)
-        
-        assertFalse 'No validation for unique field(s)' ,device.validate()
-        assertEquals 'Name is not unique.','unique', device.errors['name']
-        device = new Device(name: "Device2",
-            description: "Some description",
-            manufacturer: "Some manufacturer",
-            locationOfManufacturer: "Some location",
-            modelName: "Some model",
-            serialNumber: "Some serialNumber",
-            dateOfPurchase: new Date(),
-            dateOfDelivery: new Date(),
-            purchasePrice: "\$10.00",
-            vendor: "Some vendor",
-            fundingBody: "Some funding Body",
-            deviceGroup: deviceGroup)
-        assertTrue "A valid device did not validate!", device.validate()
-    }
-    
-    /**
     * Test the range validation of fields in the domain class {@link DeviceGroup} are
     * correctly validated
     */

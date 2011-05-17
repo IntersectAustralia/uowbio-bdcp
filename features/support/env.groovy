@@ -1,6 +1,6 @@
 //import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.JavascriptExecutor
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import groovy.sql.Sql
 import java.io.File

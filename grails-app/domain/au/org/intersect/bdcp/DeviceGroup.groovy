@@ -1,5 +1,7 @@
 package au.org.intersect.bdcp
 
+import au.org.intersect.bdcp.constraints.UniqueIgnoreCaseConstraint
+
 class DeviceGroup {
     
     String groupingName
