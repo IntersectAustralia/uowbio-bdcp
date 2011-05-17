@@ -22,13 +22,14 @@ class DeviceFieldController {
     }
 
     def save = {
+        def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = new DeviceField(params)
         if (deviceFieldInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), deviceFieldInstance.fieldLabel])}"
             redirect(action: "list", mapping: "deviceFieldDetails", params: [deviceGroupId: params.deviceGroupId, deviceId: params.deviceId])
         }
         else {
-            render(view: "create", model: [deviceFieldInstance: deviceFieldInstance])
+            render(view: "create", model: [deviceFieldInstance: deviceFieldInstance, deviceInstance: deviceInstance])
         }
     }
 
