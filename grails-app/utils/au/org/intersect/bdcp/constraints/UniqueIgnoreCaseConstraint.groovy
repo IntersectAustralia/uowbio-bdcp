@@ -7,10 +7,10 @@ import org.hibernate.Session
 import org.hibernate.criterion.Restrictions
 import org.springframework.orm.hibernate3.HibernateCallback
 
-class TrulyUniqueConstraint
+class UniqueIgnoreCaseConstraint
 {
-    static name = "trulyunique"
-    static defaultMessageCode = "default.not.trulyunique.message"
+    static name = "uniqueIgnoreCase"
+    static defaultMessageCode = "default.not.uniqueIgnoreCase.message"
 
     def supports = { type ->
         return type!= null && String.class.isAssignableFrom(type);
@@ -38,12 +38,23 @@ class TrulyUniqueConstraint
         }
     }
 
-    def validate = { propertyValue -> 
+    def validate = { propertyValue, target -> 
         dbCall.delegate = delegate
         def _v = dbCall.curry(propertyValue) as HibernateCallback
         def result = hibernateTemplate.executeFind(_v)
-
-        return result ? false : true    // If we find a result, then non-unique
+        if (result.size() == 0)
+        {
+            return true
+        }
+        else if(result.size() == 1)
+        {
+            return result.get(0)?.id == target?.id
+        }
+        else
+        {
+            return false
+        }
+        
     }
 
 

@@ -1,4 +1,4 @@
-Feature: Add Files
+ Feature: Add Files
   In order manage my data
   As a researcher
   I want to upload files for a particular session and particular study

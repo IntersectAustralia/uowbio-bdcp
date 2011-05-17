@@ -311,6 +311,10 @@ th.desc a {
 	/*white-space: nowrap;*/
 }
 
+.prop#radiobuttons input{
+	width: 10px
+}	
+
 .prop .value {
 	text-align: left;
 	width: 85%;

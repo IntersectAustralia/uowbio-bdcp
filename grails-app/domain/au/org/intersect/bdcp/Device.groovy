@@ -18,7 +18,7 @@ class Device {
     
     static constraints = 
     {
-        name(blank:false, size:1..1000, unique:true)
+        name(blank:false, size:1..1000, uniqueIgnoreCase:true)
         description(blank:false, size:1..1000)
         manufacturer(blank:false, size:1..1000)
         locationOfManufacturer(size:1..1000)
@@ -30,6 +30,8 @@ class Device {
         vendor(size:1..1000)
         fundingBody(size:1..1000)
     }
+    
+    static hasMany = [deviceFields: DeviceField]
     
     String getName()
     {

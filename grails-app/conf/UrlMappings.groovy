@@ -11,6 +11,10 @@ class UrlMappings
             controller = 'device'
         }
         
+        name deviceFieldDetails: "/deviceGroup/$deviceGroupId/device/$deviceId/deviceField/$action?/$id?" {
+            controller = 'deviceField'
+        }
+        
 		name componentDetails: "/study/$studyId/component/$action?/$id?" {
 			controller = 'component'
 		 }
