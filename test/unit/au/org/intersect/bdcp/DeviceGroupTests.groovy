@@ -39,20 +39,6 @@ class DeviceGroupTests extends GrailsUnitTestCase
     }
     
     /**
-    * Test that the blank fields in the domain class {@link DeviceGroup} are
-    * correctly validated
-    */
-    void testUnique() {
-
-        deviceGroup = new DeviceGroup(groupingName: 'TestGrouping')
-        
-        assertFalse 'No validation for unique field(s)' ,deviceGroup.validate()
-        assertEquals 'Grouping Name is not unique.','unique', deviceGroup.errors['groupingName']
-        deviceGroup = new DeviceGroup(groupingName: 'TestGrouping2')
-        assertTrue "A valid device grouping did not validate!", deviceGroup.validate()
-    }
-    
-    /**
     * Test the range validation of fields in the domain class {@link DeviceGroup} are
     * correctly validated
     */
