@@ -86,6 +86,17 @@ When(~"I select \"(.*)\" from \"(.*)\"") { String value, String field ->
 	select.selectByVisibleText(value);
 }
 
+When(~"I select radiobutton \"(.*)\" from \"(.*)\"") { String value, String field ->
+    List<WebElement> radioButtons = browser.findElements(By.name(field))
+    for (WebElement radio: radioButtons)
+    {
+       if (radio.getAttribute("value").equals(value))
+       {
+           radio.click();
+       }
+    }
+}
+
 When(~"I press \"(.*)\"") { String button ->
     browser.findElementById(button).click()
 }
