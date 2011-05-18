@@ -25,7 +25,7 @@ class DeviceFieldController {
         def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = new DeviceField(params)
         if (deviceFieldInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), deviceFieldInstance.fieldLabel])}"
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'deviceField.label', default: 'Field'), deviceFieldInstance.fieldLabel])}"
             redirect(action: "list", mapping: "deviceFieldDetails", params: [deviceGroupId: params.deviceGroupId, deviceId: params.deviceId])
         }
         else {
@@ -36,7 +36,7 @@ class DeviceFieldController {
     def show = {
         def deviceFieldInstance = DeviceField.get(params.id)
         if (!deviceFieldInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), params.id])}"
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceField.label', default: 'Field'), params.id])}"
             redirect(action: "list")
         }
         else {
@@ -47,7 +47,7 @@ class DeviceFieldController {
     def edit = {
         def deviceFieldInstance = DeviceField.get(params.id)
         if (!deviceFieldInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), params.id])}"
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceField.label', default: 'Field'), params.id])}"
             redirect(action: "list")
         }
         else {
@@ -62,14 +62,14 @@ class DeviceFieldController {
                 def version = params.version.toLong()
                 if (deviceFieldInstance.version > version) {
                     
-                    deviceFieldInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'deviceField.label', default: 'DeviceField')] as Object[], "Another user has updated this DeviceField while you were editing")
+                    deviceFieldInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'deviceField.label', default: 'Field')] as Object[], "Another user has updated this Field while you were editing")
                     render(view: "edit", model: [deviceFieldInstance: deviceFieldInstance])
                     return
                 }
             }
             deviceFieldInstance.properties = params
             if (!deviceFieldInstance.hasErrors() && deviceFieldInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), deviceFieldInstance.fieldLabel])}"
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'deviceField.label', default: 'Field'), deviceFieldInstance.fieldLabel])}"
                 redirect(action: "list", mapping: "deviceFieldDetails", params: [deviceGroupId: params.deviceGroupId, deviceId: params.deviceId])
             }
             else {
@@ -77,7 +77,7 @@ class DeviceFieldController {
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), params.id])}"
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceField.label', default: 'Field'), params.id])}"
             redirect(action: "list", mapping: "deviceFieldDetails", params: [deviceGroupId: params.deviceGroupId, deviceId: params.deviceId])
         }
     }

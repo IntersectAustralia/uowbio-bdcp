@@ -7,7 +7,9 @@ public enum FieldType
     TEXTAREA('Text Area'),
     NUMERIC('Numeric'),
     DATE('Date'),
-    TIME('Time')
+    TIME('Time'),
+    DROP_DOWN("Drop Down"),
+    RADIO_BUTTONS("Radio Buttons")
     
     String name
     
