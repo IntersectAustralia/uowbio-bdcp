@@ -29,4 +29,8 @@ grails.project.dependency.resolution = {
 
 		// runtime 'mysql:mysql-connector-java:5.1.13'
 	}
+    
+    plugins{
+        runtime ":greenmail:1.2.2.2-SNAPSHOT"
+       }
 }

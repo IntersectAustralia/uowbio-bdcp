@@ -22,7 +22,7 @@ Feature: Create Device
  Then I fill in "description" with "Some Description"
  Then I fill in "manufacturer" with "Some manufacturer"
  Then I fill in "locationOfManufacturer" with "Some location"
- Then I fill in "model" with "Some model"
+ Then I fill in "modelName" with "Some model"
  Then I fill in "serialNumber" with "Some serial Number"
  Then I select "2011" from "dateOfPurchase_year"
  Then I select "March" from "dateOfPurchase_month"
