@@ -24,30 +24,30 @@
                     <table>
                         <tbody>
                         
-                            <tr class="prop">
+                            <tr class="radiobutton">
                                 <td valign="top" class="name">
                                     <label for="fieldLabel"><g:message code="deviceField.fieldLabel.label" default="Field Label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldLabel', 'errors')}">
-                                    <g:textField name="fieldLabel" value="${deviceFieldInstance?.fieldLabel}" />
+                                    <g:textField id="label" name="fieldLabel" value="${deviceFieldInstance?.fieldLabel}" />
                                 </td>
                             </tr>
                            
                          <g:set var="i" value="${0}" />
-                         <g:radioGroup name="fieldType" labels="${au.org.intersect.bdcp.enums.FieldType?.list()}" values="${au.org.intersect.bdcp.enums.FieldType?.values()}" value="${au.org.intersect.bdcp.enums.FieldType.TEXT}"> 
-                        <tr class="prop" id="radiobuttons">
+                        <tr class="radiobutton">
                                 <td valign="top" class="name">
-                                <g:if test="${i++ < 1}">
+                                <g:if test="${i++ < 1}"
                                     <label for="fieldType"><g:message code="deviceField.fieldType.label" default="Field Type" /></label>
                                 </g:if>
                                 </td>
+                                
+                                <g:radioGroup name="fieldType" labels="${au.org.intersect.bdcp.enums.FieldType?.constrainedList(0,3)}" values="${au.org.intersect.bdcp.enums.FieldType?.constrainedValues(0,3)}"> 
                                 <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldType', 'errors')}">
-                                 ${it.radio} ${it.label}
-                                 
+                                 <span onclick="return confirm('${it.label}');"> ${it.radio} <g:message code="deviceField.fieldType.${it.label}" /></span>
                                 </td>
+                                </g:radioGroup>
+                                
                         </tr>
-                        </g:radioGroup>
-                         
                             <g:hiddenField name="device.id" value="${params.deviceId}" />
                         </tbody>
                     </table>
