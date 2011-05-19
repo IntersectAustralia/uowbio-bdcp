@@ -40,12 +40,17 @@
                                     <label for="fieldType"><g:message code="deviceField.fieldType.label" default="Field Type" /></label>
                                 </g:if>
                                 </td>
-                                
+                                <td>
+                                <table style="width:auto; border-width: 0px;">
+                                <tr>
                                 <g:radioGroup name="fieldType" labels="${au.org.intersect.bdcp.enums.FieldType?.constrainedList(0,3)}" values="${au.org.intersect.bdcp.enums.FieldType?.constrainedValues(0,3)}"> 
-                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldType', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldType', 'errors')}" style="width:auto">
                                  <span onclick="return confirm('${it.label}');"> ${it.radio} <g:message code="deviceField.fieldType.${it.label}" /></span>
                                 </td>
                                 </g:radioGroup>
+                                </tr>
+                                </table>
+                                </td>
                                 
                         </tr>
                             <g:hiddenField name="device.id" value="${params.deviceId}" />
