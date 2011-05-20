@@ -30,32 +30,4 @@ public enum FieldType
         return items
     }
     
-    static constrainedList(int start, int end)
-    {
-        def items = []
-        def size = end - start
-        if ((size >0))
-        {
-            for (int i=start;i< end;i++)
-            {
-                items.add(this.values().getAt(i).getName())
-            }
-        }
-        return items
-    }
-    
-    static constrainedValues(int start, int end)
-    {
-        def constrainedValues = []
-        def size = end - start
-        if ((size >0))
-        {
-            for (int i=start;i< end;i++)
-            {
-                constrainedValues.add(this.values().getAt(i))
-            }
-        }
-        return constrainedValues
-    }
-    
 }

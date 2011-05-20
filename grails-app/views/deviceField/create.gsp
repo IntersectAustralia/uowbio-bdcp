@@ -34,25 +34,18 @@
                             </tr>
                            
                          <g:set var="i" value="${0}" />
+                        <g:radioGroup name="fieldType" horizontal="true" labels="${au.org.intersect.bdcp.enums.FieldType?.list()}" values="${au.org.intersect.bdcp.enums.FieldType?.values()}" value="${au.org.intersect.bdcp.enums.FieldType?.TEXT}"> 
                         <tr class="radiobutton">
                                 <td valign="top" class="name">
                                 <g:if test="${i++ < 1}"
                                     <label for="fieldType"><g:message code="deviceField.fieldType.label" default="Field Type" /></label>
                                 </g:if>
                                 </td>
-                                <td>
-                                <table style="width:auto; border-width: 0px;">
-                                <tr>
-                                <g:radioGroup name="fieldType" labels="${au.org.intersect.bdcp.enums.FieldType?.constrainedList(0,3)}" values="${au.org.intersect.bdcp.enums.FieldType?.constrainedValues(0,3)}"> 
                                 <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldType', 'errors')}" style="width:auto">
                                  <span onclick="return confirm('${it.label}');"> ${it.radio} <g:message code="deviceField.fieldType.${it.label}" /></span>
                                 </td>
-                                </g:radioGroup>
-                                </tr>
-                                </table>
-                                </td>
-                                
                         </tr>
+                        </g:radioGroup>
                             <g:hiddenField name="device.id" value="${params.deviceId}" />
                         </tbody>
                     </table>

@@ -43,9 +43,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="paginateButtons">
-                <g:paginate total="${deviceFieldInstanceTotal}" />
-            </div>
             </g:if>
             <br />
             <g:link mapping="deviceDetails" class="list" class="button" action="list" params="[deviceGroupId: params.deviceGroupId]">Return to Device List</g:link>
