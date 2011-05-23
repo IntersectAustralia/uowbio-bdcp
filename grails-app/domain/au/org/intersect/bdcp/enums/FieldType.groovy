@@ -9,7 +9,8 @@ public enum FieldType
     DATE('date.label'),
     TIME('time.label'),
     DROP_DOWN("dropDown.label"),
-    RADIO_BUTTONS("radioButtons.label")
+    RADIO_BUTTONS("radioButtons.label"),
+	STATIC_TEXT('staticText.label')
     
     String name
     
@@ -27,6 +28,13 @@ public enum FieldType
     {
         def items = []
         this.values().each { items.add(it.getName())}
+        return items
+    }
+    
+    static listValues()
+    {
+        def items = []
+        this.values().each { items.add(it)}
         return items
     }
     

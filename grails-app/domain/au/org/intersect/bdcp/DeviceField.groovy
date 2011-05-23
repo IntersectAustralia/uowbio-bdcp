@@ -7,6 +7,7 @@ class DeviceField
 
     String fieldLabel
     FieldType fieldType
+	String staticContent
     
     // automatically updated by GORM
     Date dateCreated
@@ -20,5 +21,8 @@ class DeviceField
     {
         fieldLabel(blank:false, size:1..1000)
         fieldType(nullable:false)
+		staticContent(validator:{val, obj ->
+			return obj.fieldType != FieldType.STATIC_TEXT || (val != null && val.trim().length() > 0) 
+			})
     }
 }

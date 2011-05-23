@@ -7,6 +7,23 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'deviceField.label', default: 'DeviceField')}" />
         <title>Add New ${deviceInstance.name} Metadata Template Field</title>
+        <g:javascript library="jquery" plugin="jquery"/>
+        <jqui:resources />
+        <g:javascript>
+        $(function() {
+            function showOrHideStatic() {
+        		if ($("input[name='fieldType']:checked").val() == 'STATIC_TEXT') {
+        			$('#staticFieldRow').show();
+        		} else {
+        			$('#staticFieldRow').hide();
+        		}
+            }
+        	$("input[name='fieldType']").change(function() {
+        	    showOrHideStatic();
+        	});
+        	showOrHideStatic();
+        })
+        </g:javascript>
     </head>
     <body>
         <div class="body">
@@ -33,19 +50,35 @@
                                 </td>
                             </tr>
                            
-                         <g:set var="i" value="${0}" />
-                        <g:radioGroup name="fieldType" horizontal="true" labels="${au.org.intersect.bdcp.enums.FieldType?.list()}" values="${au.org.intersect.bdcp.enums.FieldType?.values()}" value="${au.org.intersect.bdcp.enums.FieldType?.TEXT}"> 
-                        <tr class="radiobutton">
+                            <tr class="radiobutton">
                                 <td valign="top" class="name">
-                                <g:if test="${i++ < 1}"
                                     <label for="fieldType"><g:message code="deviceField.fieldType.label" default="Field Type" /></label>
-                                </g:if>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldType', 'errors')}" style="width:auto">
-                                 <span onclick="return confirm('${it.label}');"> ${it.radio} <g:message code="deviceField.fieldType.${it.label}" /></span>
+                                <td style="padding:0px 0px;">
+                                <table style="border: 0px; padding:0px;">
+                                <g:each in="${au.org.intersect.bdcp.enums.FieldType?.listValues().partition(3)}" var="row">
+                                <tr>
+                                   <g:each in="${row}" var="fieldTypeOption">
+                                   <g:set var="checked" value="${fieldTypeOption.equals(deviceFieldInstance?.fieldType)?'checked=checked':''}"/>
+                                   <td><span><input type="radio" value="${fieldTypeOption}" name="fieldType"
+                                     ${checked}
+                                     >&nbsp;<g:message code="deviceField.fieldType.${fieldTypeOption.name}" /></span></td>
+                                   </g:each>
+                                </tr>
+                                </g:each>
+		                        </table>
+		                        </td>
+                            </tr>
+                            
+                            <tr class="radiobutton" id="staticFieldRow">
+                                <td valign="top" class="name">
+                                    <label for="staticContent"><g:message code="deviceField.staticContent.label" default="Static content" /></label>
                                 </td>
-                        </tr>
-                        </g:radioGroup>
+                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'staticContent', 'errors')}">
+                                    <g:textArea id="static" name="staticContent" value="${deviceFieldInstance?.staticContent}" />
+                                </td>
+                            </tr>
+                           
                             <g:hiddenField name="device.id" value="${params.deviceId}" />
                         </tbody>
                     </table>
