@@ -90,7 +90,7 @@ select {
 	padding: 2px 2px 2px 0;
 }
 
-input {
+input, .radiobutton input#label {
 	width: 250px;
 }
 
@@ -311,14 +311,26 @@ th.desc a {
 	/*white-space: nowrap;*/
 }
 
-.prop#radiobuttons input{
-	width: 10px
-}	
-
 .prop .value {
 	text-align: left;
 	width: 85%;
 }
+
+.radiobutton .name{
+	text-align: left;
+	width: 15%;
+	/*white-space: nowrap;*/
+}
+
+.radiobutton input {
+	width: 10px;
+}
+
+.radiobutton .value {
+	text-align: left;
+	width: 85%;
+}
+
 
 /* ACTION BUTTONS */
 input.edit {

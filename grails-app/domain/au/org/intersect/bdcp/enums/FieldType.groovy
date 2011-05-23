@@ -3,13 +3,13 @@ package au.org.intersect.bdcp.enums
 
 public enum FieldType
 {
-    TEXT('Text Field'),
-    TEXTAREA('Text Area'),
-    NUMERIC('Numeric'),
-    DATE('Date'),
-    TIME('Time'),
-    DROP_DOWN("Drop Down"),
-    RADIO_BUTTONS("Radio Buttons")
+    TEXT('textField.label'),
+    TEXTAREA('textArea.label'),
+    NUMERIC('numeric.label'),
+    DATE('date.label'),
+    TIME('time.label'),
+    DROP_DOWN("dropDown.label"),
+    RADIO_BUTTONS("radioButtons.label")
     
     String name
     

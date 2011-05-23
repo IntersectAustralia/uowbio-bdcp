@@ -36,15 +36,12 @@
                         
                             <td>${fieldValue(bean: deviceFieldInstance, field: "fieldLabel")}</td>
                         
-                            <td>${deviceFieldInstance?.fieldType?.getName()}</td>
+                            <td><g:message code="deviceField.fieldType.${deviceFieldInstance?.fieldType?.getName()}" /></td>
                         
                         </tr>
                     </g:each>
                     </tbody>
                 </table>
-            </div>
-            <div class="paginateButtons">
-                <g:paginate total="${deviceFieldInstanceTotal}" />
             </div>
             </g:if>
             <br />
