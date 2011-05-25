@@ -9,6 +9,21 @@
         <title>Add New ${deviceInstance.name} Metadata Template Field</title>
         <g:javascript library="jquery" plugin="jquery"/>
         <jqui:resources />
+        <ckeditor:resources />
+        <ckeditor:config var="toolbar_Default">
+        [
+	 	['Source'],
+	 	['Cut','Copy','Paste','PasteText','PasteFromWord'],
+	 	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat','-','Maximize', 'ShowBlocks'],
+	 	'/',
+	 	['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],['TextColor','BGColor'],
+	 	['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
+	 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+	 	['Table','HorizontalRule','SpecialChar','PageBreak'],
+	 	['Styles','Format','Font','FontSize']
+	    ]
+        </ckeditor:config>
+        <ckeditor:config enterMode="CKEDITOR.ENTER_BR" toolbar="Default"/>
         <g:javascript>
         $(function() {
             function showOrHideStatic() {
@@ -75,7 +90,7 @@
                                     <label for="staticContent"><g:message code="deviceField.staticContent.label" default="Static content" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'staticContent', 'errors')}">
-                                    <g:textArea id="static" name="staticContent" value="${deviceFieldInstance?.staticContent}" />
+                                    <ckeditor:editor name="text">${deviceFieldInstance?.staticContent}</ckeditor:editor>
                                 </td>
                             </tr>
                            
