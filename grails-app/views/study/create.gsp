@@ -7,7 +7,7 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
-    	<g:javascript lib="jquery"/>
+    	<g:javascript library="jquery" plugin="jquery"/>
     	<jqui:resources />
     	<script type="text/javascript">
     	function toggleSubmit(obj){

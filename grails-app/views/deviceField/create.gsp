@@ -7,6 +7,32 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'deviceField.label', default: 'DeviceField')}" />
         <title>Add New ${deviceInstance.name} Metadata Template Field</title>
+        <g:javascript library="jquery" plugin="jquery"/>
+        <jqui:resources />
+        <script type="text/javascript">
+        function showOptions(obj){
+            if (obj == "dropDown.label" || obj == "radioButtons.label")
+            {
+            	document.getElementById("d1").style.display=""
+            }
+            else
+            {
+            	document.getElementById("d1").style.display="none"
+            }
+        }
+
+        $(document).ready(function(){
+        if (${deviceFieldInstance?.fieldType.toString() == "DROP_DOWN" || deviceFieldInstance?.fieldType.toString() == "RADIO_BUTTONS"})
+ 		   {
+				 	document.getElementById("d1").style.display=""
+ 		   }
+		   else
+ 		   {
+					document.getElementById("d1").style.display="none"
+ 		   }
+       });
+
+    </script>
     </head>
     <body>
         <div class="body">
@@ -34,18 +60,27 @@
                             </tr>
                            
                          <g:set var="i" value="${0}" />
-                        <g:radioGroup name="fieldType" horizontal="true" labels="${au.org.intersect.bdcp.enums.FieldType?.list()}" values="${au.org.intersect.bdcp.enums.FieldType?.values()}" value="${au.org.intersect.bdcp.enums.FieldType?.TEXT}"> 
+                        <g:radioGroup name="fieldType" horizontal="true" labels="${au.org.intersect.bdcp.enums.FieldType?.list()}" values="${au.org.intersect.bdcp.enums.FieldType?.values()}" value="${deviceFieldInstance?.fieldType}"> 
                         <tr class="radiobutton">
                                 <td valign="top" class="name">
                                 <g:if test="${i++ < 1}"
                                     <label for="fieldType"><g:message code="deviceField.fieldType.label" default="Field Type" /></label>
                                 </g:if>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldType', 'errors')}" style="width:auto">
-                                 <span onclick="return confirm('${it.label}');"> ${it.radio} <g:message code="deviceField.fieldType.${it.label}" /></span>
+                                <td>
+                                 <span onclick="showOptions('${it.label}')"> ${it.radio} <g:message code="deviceField.fieldType.${it.label}" /></span>
                                 </td>
                         </tr>
                         </g:radioGroup>
+                        <tr class="radiobutton" id="d1" style="display:none">
+                                <td valign="top" class="name">
+                                    <label for="fieldOptions"><g:message code="deviceField.fieldLabel.label" default="Field Options" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldOptions', 'errors')}">
+                                    <g:textArea id="label" name="fieldOptions" value="${deviceFieldInstance?.fieldOptions}" />
+                                </td>
+                            </tr>
+                        
                             <g:hiddenField name="device.id" value="${params.deviceId}" />
                         </tbody>
                     </table>
