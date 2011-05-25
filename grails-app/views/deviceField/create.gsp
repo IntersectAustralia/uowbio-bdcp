@@ -65,7 +65,6 @@
         	showOrHideStatic();
         })
         </g:javascript>
->>>>>>> 823c7949f967215770a2fa148801829c86b52d12
     </head>
     <body>
         <div class="body">
