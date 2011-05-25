@@ -34,8 +34,20 @@ class DeviceField
               return true
             }
           })
-        staticContent(validator:{val, obj ->
-            return obj.fieldType != FieldType.STATIC_TEXT || (val != null && val.trim().length() > 0)
+        staticContent(nullable:true, validator:{val, obj ->
+            def fieldType = obj.properties["fieldType"]
+            if (fieldType == FieldType.STATIC_TEXT)
+            {
+                if (val != null && val.trim().length() > 0)
+                {
+                    return true
+                }
+                return ['nullable']
+            }
+            else
+            {
+                return true
+            }
             })
     }
     
