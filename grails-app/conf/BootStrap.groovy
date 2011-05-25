@@ -63,6 +63,17 @@ class BootStrap
 				user.save(flush:true)
 			}
 		}
+
+		List.metaClass.partition = {size ->
+			if (!delegate)
+				return []
+		
+			def rslt = delegate.inject([[]]) {ret, elem ->
+				(ret.last() << elem).size() >= size ? (ret << []) : ret
+			}
+			!rslt.last() ? rslt[0..-2] : rslt
+		}
+		
 	}
 
 	def createTestData =

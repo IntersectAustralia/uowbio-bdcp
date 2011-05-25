@@ -13,6 +13,7 @@ class Device {
     String purchasePrice
     String vendor
     String fundingBody
+	List deviceFields
     
     static belongsTo = [deviceGroup: DeviceGroup]
     

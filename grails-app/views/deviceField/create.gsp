@@ -9,6 +9,7 @@
         <title>Add New ${deviceInstance.name} Metadata Template Field</title>
         <g:javascript library="jquery" plugin="jquery"/>
         <jqui:resources />
+<<<<<<< HEAD
         <script type="text/javascript">
         function showOptions(obj){
             if (obj == "dropDown.label" || obj == "radioButtons.label")
@@ -33,6 +34,38 @@
        });
 
     </script>
+=======
+        <ckeditor:resources />
+        <ckeditor:config var="toolbar_Default">
+        [
+	 	['Source'],
+	 	['Cut','Copy','Paste','PasteText','PasteFromWord'],
+	 	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat','-','Maximize', 'ShowBlocks'],
+	 	'/',
+	 	['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],['TextColor','BGColor'],
+	 	['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
+	 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+	 	['Table','HorizontalRule','SpecialChar','PageBreak'],
+	 	['Styles','Format','Font','FontSize']
+	    ]
+        </ckeditor:config>
+        <ckeditor:config enterMode="CKEDITOR.ENTER_BR" toolbar="Default"/>
+        <g:javascript>
+        $(function() {
+            function showOrHideStatic() {
+        		if ($("input[name='fieldType']:checked").val() == 'STATIC_TEXT') {
+        			$('#staticFieldRow').show();
+        		} else {
+        			$('#staticFieldRow').hide();
+        		}
+            }
+        	$("input[name='fieldType']").change(function() {
+        	    showOrHideStatic();
+        	});
+        	showOrHideStatic();
+        })
+        </g:javascript>
+>>>>>>> 823c7949f967215770a2fa148801829c86b52d12
     </head>
     <body>
         <div class="body">
@@ -63,9 +96,9 @@
                         <g:radioGroup name="fieldType" horizontal="true" labels="${au.org.intersect.bdcp.enums.FieldType?.list()}" values="${au.org.intersect.bdcp.enums.FieldType?.values()}" value="${deviceFieldInstance?.fieldType}"> 
                         <tr class="radiobutton">
                                 <td valign="top" class="name">
-                                <g:if test="${i++ < 1}"
+                                    <g:if test="${i++ < 1}"
                                     <label for="fieldType"><g:message code="deviceField.fieldType.label" default="Field Type" /></label>
-                                </g:if>
+                                    </g:if>
                                 </td>
                                 <td>
                                  <span onclick="showOptions('${it.label}')"> ${it.radio} <g:message code="deviceField.fieldType.${it.label}" /></span>
@@ -80,7 +113,16 @@
                                     <g:textArea id="label" name="fieldOptions" value="${deviceFieldInstance?.fieldOptions}" />
                                 </td>
                             </tr>
-                        
+
+                            <tr class="radiobutton" id="staticFieldRow">
+                                <td valign="top" class="name">
+                                    <label for="staticContent"><g:message code="deviceField.staticContent.label" default="Static content" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'staticContent', 'errors')}">
+                                    <ckeditor:editor name="text">${deviceFieldInstance?.staticContent}</ckeditor:editor>
+                                </td>
+                            </tr>
+                           
                             <g:hiddenField name="device.id" value="${params.deviceId}" />
                         </tbody>
                     </table>

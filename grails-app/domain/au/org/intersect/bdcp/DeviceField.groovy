@@ -8,6 +8,8 @@ class DeviceField
     String fieldLabel
     FieldType fieldType
     String fieldOptions
+	String staticContent
+    
     // automatically updated by GORM
     Date dateCreated
     
@@ -32,6 +34,9 @@ class DeviceField
               return true
             }
           })
+        staticContent(validator:{val, obj ->
+            return obj.fieldType != FieldType.STATIC_TEXT || (val != null && val.trim().length() > 0)
+            })
     }
     
     static validFieldOptions(String val)
