@@ -63,7 +63,14 @@ Given(~"I have created a device grouping with \"(.*)\"") { String groupingName -
 
 Given(~"I have created a device with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String name, String description, String manufacturer, String locationOfManufacturer, String model, String serialNumber, String dateOfPurchase, String dateOfDelivery, String purchasePrice, String vendor, String fundingBody ->
     def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver") 
-    sql.execute("INSERT INTO device(id,version, device_group_id, name, description, manufacturer, location_of_manufacturer, model_name, serial_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_body) VALUES ('-6','0','-5', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, '${dateOfPurchase}', '${dateOfDelivery}', '${purchasePrice}', ${vendor}, ${fundingBody});")
+    sql.execute("INSERT INTO device(id,version, device_group_id, name, description, manufacturer, location_of_manufacturer, model_name, serial_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_body) VALUES ('-6','0','-5', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, '${dateOfPurchase}', '${dateOfDelivery}', ${purchasePrice}, ${vendor}, ${fundingBody});")
+}
+
+Given(~"I have created a device field with \"(.*)\", \"(.*)\", \"(.*)\" for \"(.*)\"") { String fieldLabel, String fieldType, String staticContent, String deviceName ->
+    def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver") 
+	def row = sql.firstRow("SELECT id FROM device WHERE name=${deviceName}")
+	def deviceId = row.id;
+    sql.execute("INSERT INTO device_field(id,device_id,field_label,field_type,static_content,date_created,last_updated,version) VALUES (nextval('hibernate_sequence'),${deviceId},${fieldLabel},${fieldType},${staticContent}, '2011-03-01 00:00:00', '2011-03-01 00:00:00',0);")
 }
 
 Given(~"I have deleted all emails") { ->
@@ -107,6 +114,15 @@ When(~"I press browser back button"){
 
 Then(~"I should see \"(.*)\"") { String text ->
     assertThat(browser.findElementByTagName('body').text, containsString(text))
+}
+
+Then(~"I should have \"(.*)\" in text field named \"(.*)\"") { String text, String fieldname ->
+	fieldElement = browser.findElement(By.name(fieldname))
+    assertThat(fieldElement.value, containsString(text))
+}
+
+Then(~"There must be an ID \"(.*)\"") { String elementId ->
+    assertNotNull(browser.findElementById(elementId))
 }
 
 Then(~"I clear \"(.*)\"") { String field ->

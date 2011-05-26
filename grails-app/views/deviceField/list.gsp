@@ -1,5 +1,6 @@
 
 <%@ page import="au.org.intersect.bdcp.DeviceField" %>
+<%@ page import="au.org.intersect.bdcp.enums.FieldType" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -19,10 +20,9 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="list">
-                <table>
+                <table id="listTable">
                     <thead>
                         <tr>
-                        
                         
                             <th>${message(code: 'deviceField.fieldLabel.label', default: 'Field Label')}</th>
                         
@@ -35,9 +35,13 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
                             <td>${fieldValue(bean: deviceFieldInstance, field: "fieldLabel")}</td>
-                        
-                            <td><g:message code="deviceField.fieldType.${deviceFieldInstance?.fieldType?.getName()}" /></td>
-                        
+
+                            <td><g:message code="deviceField.fieldType.${deviceFieldInstance?.fieldType?.getName()}" />
+                            <g:if test="${deviceFieldInstance?.fieldType == FieldType.STATIC_TEXT}"
+                            ><g:link elementId="edit_${i}" mapping="deviceFieldDetails" action="edit" class="button" id="${deviceFieldInstance?.id}"
+                             params="[deviceGroupId: deviceFieldInstance.device.deviceGroup.id, deviceId: deviceFieldInstance.device.id]">Edit</g:link
+                             ></g:if></td>
+
                         </tr>
                     </g:each>
                     </tbody>

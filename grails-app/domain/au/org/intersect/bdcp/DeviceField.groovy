@@ -1,6 +1,7 @@
 package au.org.intersect.bdcp
 
 import au.org.intersect.bdcp.enums.FieldType;
+import au.org.intersect.bdcp.util.TextUtils;
 
 class DeviceField 
 {
@@ -22,7 +23,7 @@ class DeviceField
         fieldLabel(blank:false, size:1..1000)
         fieldType(nullable:false)
 		staticContent(validator:{val, obj ->
-			return obj.fieldType != FieldType.STATIC_TEXT || (val != null && val.trim().length() > 0) 
+			return obj.fieldType != FieldType.STATIC_TEXT || TextUtils.isNotEmpty(val) 
 			})
     }
 }

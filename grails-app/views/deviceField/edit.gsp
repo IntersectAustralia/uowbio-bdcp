@@ -6,11 +6,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'deviceField.label', default: 'DeviceField')}" />
-        <title><g:message code="default.edit.label" args="[entityName]" /></title>
+        <title>Edit ${deviceInstance.name} Metadata Template Static Field</title>
+        <g:javascript library="jquery" plugin="jquery"/>
+        <jqui:resources />
+        <g:render template="ckeditor" />
     </head>
     <body>
         <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+            <h1>Edit ${deviceInstance.name} Metadata Template Static text</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -19,46 +22,39 @@
                 <g:renderErrors bean="${deviceFieldInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form mapping="deviceFieldDetails" method="post" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]" >
-                <g:hiddenField name="id" value="${deviceFieldInstance?.id}" />
-                <g:hiddenField name="version" value="${deviceFieldInstance?.version}" />
+             <g:form mapping="deviceFieldDetails" action="update" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]" >
                 <div class="dialog">
                     <table>
                         <tbody>
                         
-                            <tr class="prop">
+                            <tr class="radiobutton">
                                 <td valign="top" class="name">
-                                  <label for="fieldLabel"><g:message code="deviceField.fieldLabel.label" default="Field Label" /></label>
+                                    <label for="fieldLabel"><g:message code="deviceField.fieldLabel.label" default="Field Label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldLabel', 'errors')}">
-                                    <g:textArea name="fieldLabel" cols="40" rows="5" value="${deviceFieldInstance?.fieldLabel}" />
+                                    <g:textField id="label" name="fieldLabel" value="${deviceFieldInstance?.fieldLabel}" />
                                 </td>
                             </tr>
-                        
-                            <tr class="prop">
+                           
+                            <g:hiddenField name="fieldType" value="${deviceFieldInstance?.fieldType}" />
+                            
+                            <tr class="radiobutton" id="staticFieldRow">
                                 <td valign="top" class="name">
-                                  <label for="fieldType"><g:message code="deviceField.fieldType.label" default="Field Type" /></label>
+                                    <label for="staticContent"><g:message code="deviceField.staticContent.label" default="Static content" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldType', 'errors')}">
-                                    <g:select name="fieldType" from="${au.org.intersect.bdcp.enums.FieldType?.values()}" keys="${au.org.intersect.bdcp.enums.FieldType?.values()*.name()}" value="${deviceFieldInstance?.fieldType?.name()}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="device"><g:message code="deviceField.device.label" default="Device" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'device', 'errors')}">
-                                    <g:select name="device.id" from="${au.org.intersect.bdcp.Device.list()}" optionKey="id" value="${deviceFieldInstance?.device?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'staticContent', 'errors')}">
+                                    <ckeditor:editor name="staticContent">${deviceFieldInstance?.staticContent}</ckeditor:editor>
                                 </td>
                             </tr>
-                        
+                           
+                            <g:hiddenField name="device.id" value="${params.deviceId}" />
+                            <g:hiddenField name="id" value="${deviceFieldInstance?.id}" />
                         </tbody>
                     </table>
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:submitButton name="update" class="save" value="${message(code: 'default.button.update.label', default: 'Save')}" /></span>
+                    <span class="button"><g:link mapping="deviceFieldDetails" elementId="cancel" action="list" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]">Cancel</g:link></span>
                 </div>
             </g:form>
         </div>

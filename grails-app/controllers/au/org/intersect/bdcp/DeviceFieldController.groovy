@@ -1,19 +1,24 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
+
 class DeviceFieldController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def index = {
         redirect(action: "list", params: params)
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def deviceInstance = Device.findById(params.deviceId)
         [deviceFieldInstanceList: DeviceField.findAllByDevice(deviceInstance), deviceFieldInstanceTotal: DeviceField.count(), deviceInstance: deviceInstance]
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create = {
         def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = new DeviceField()
@@ -21,6 +26,7 @@ class DeviceFieldController {
         return [deviceFieldInstance: deviceFieldInstance, deviceInstance: deviceInstance]
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
         def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = new DeviceField(params)
@@ -35,6 +41,7 @@ class DeviceFieldController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
         def deviceFieldInstance = DeviceField.get(params.id)
         if (!deviceFieldInstance) {
@@ -47,13 +54,14 @@ class DeviceFieldController {
     }
 
     def edit = {
+        def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = DeviceField.get(params.id)
         if (!deviceFieldInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceField.label', default: 'Field'), params.id])}"
             redirect(action: "list")
         }
         else {
-            return [deviceFieldInstance: deviceFieldInstance]
+            return [deviceFieldInstance: deviceFieldInstance, deviceInstance: deviceInstance]
         }
     }
 
@@ -65,17 +73,17 @@ class DeviceFieldController {
                 if (deviceFieldInstance.version > version) {
                     
                     deviceFieldInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'deviceField.label', default: 'Field')] as Object[], "Another user has updated this Field while you were editing")
-                    render(view: "edit", model: [deviceFieldInstance: deviceFieldInstance])
+                    render(view: "edit", model: [deviceFieldInstance: deviceFieldInstance, deviceInstance: deviceFieldInstance.device])
                     return
                 }
             }
-            deviceFieldInstance.properties = params
-            if (!deviceFieldInstance.hasErrors() && deviceFieldInstance.save(flush: true)) {
+            deviceFieldInstance.properties = [fieldLabel: params.fieldLabel, fieldType: params.fieldType, staticContent: params.staticContent] 
+            if (deviceFieldInstance.validate() && deviceFieldInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'deviceField.label', default: 'Field'), deviceFieldInstance.fieldLabel])}"
                 redirect(action: "list", mapping: "deviceFieldDetails", params: [deviceGroupId: params.deviceGroupId, deviceId: params.deviceId])
             }
             else {
-                render(view: "edit", model: [deviceFieldInstance: deviceFieldInstance])
+                render(view: "edit", model: [deviceFieldInstance: deviceFieldInstance, deviceInstance: deviceFieldInstance.device])
             }
         }
         else {
