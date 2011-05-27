@@ -5,29 +5,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'deviceField.label', default: 'DeviceField')}" />
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <title>Show Field Details</title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
+            <h1>Show Field Details</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-                <table>
+                <table id="fieldDetailsTable">
                     <tbody>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="deviceField.id.label" default="Id" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: deviceFieldInstance, field: "id")}</td>
-                            
-                        </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="deviceField.fieldLabel.label" default="Field Label" /></td>
@@ -39,39 +27,28 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="deviceField.fieldType.label" default="Field Type" /></td>
                             
-                            <td valign="top" class="value">${deviceFieldInstance?.fieldType?.encodeAsHTML()}</td>
+                            <td valign="top" class="value"><g:message code="deviceField.fieldType.${deviceFieldInstance?.fieldType?.getName()}" /></td>
                             
                         </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="deviceField.dateCreated.label" default="Date Created" /></td>
-                            
-                            <td valign="top" class="value"><g:formatDate date="${deviceFieldInstance?.dateCreated}" /></td>
-                            
+                        
+                        <g:each in="${deviceFieldInstance?.fieldOptions.split('\n')}" status="i" var="deviceFieldOption">
+                        <tr class="radiobutton">
+                            <g:if test="${i < 1}">
+                            <td valign="top" class="name"><g:message code="deviceField.fieldOptions.label" default="Field Options" /></td>
+                            </g:if>
+                            <g:else>
+                            <td valign="top" class="name"></td>
+                            </g:else>
+                            <td valign="top" class="value">${deviceFieldOption}</td>
                         </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="deviceField.device.label" default="Device" /></td>
-                            
-                            <td valign="top" class="value"><g:link controller="device" action="show" id="${deviceFieldInstance?.device?.id}">${deviceFieldInstance?.device?.encodeAsHTML()}</g:link></td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="deviceField.lastUpdated.label" default="Last Updated" /></td>
-                            
-                            <td valign="top" class="value"><g:formatDate date="${deviceFieldInstance?.lastUpdated}" /></td>
-                            
-                        </tr>
-                    
+                        </g:each>
                     </tbody>
                 </table>
             </div>
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${deviceFieldInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:link mapping="deviceFieldDetails" elementId="Back" action="list" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]">Back</g:link></span>
                 </g:form>
             </div>
         </div>

@@ -35,9 +35,13 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
                             <td>${fieldValue(bean: deviceFieldInstance, field: "fieldLabel")}</td>
-                        
-                            <td><g:message code="deviceField.fieldType.${deviceFieldInstance?.fieldType?.getName()}" /></td>
-                        
+                            
+                            <g:if test="${deviceFieldInstance?.fieldType?.toString() == 'DROP_DOWN' || deviceFieldInstance?.fieldType?.toString() == 'RADIO_BUTTONS'}">
+                            <td><g:link elementId="show[${i}]" mapping="deviceFieldDetails" action="show" id="${deviceFieldInstance.id}" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]"><g:message code="deviceField.fieldType.${deviceFieldInstance?.fieldType?.getName()}" /></g:link></td>
+                            </g:if>
+                            <g:else>
+                             <td><g:message code="deviceField.fieldType.${deviceFieldInstance?.fieldType?.getName()}" /></td>
+                            </g:else>
                         </tr>
                     </g:each>
                     </tbody>

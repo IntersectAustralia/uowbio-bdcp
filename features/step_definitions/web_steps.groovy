@@ -11,8 +11,6 @@ import au.org.intersect.bdcp.Project;
 
 this.metaClass.mixin(cuke4duke.GroovyDsl)
 
-
-
 /**
  * This is a set of steps that do the usual things on web pages, such as filling in form fields, clicking buttons and links etc
  * This should not contain application-specific steps - they should go in their own step file.
@@ -66,6 +64,21 @@ Given(~"I have created a device with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(
     sql.execute("INSERT INTO device(id,version, device_group_id, name, description, manufacturer, location_of_manufacturer, model_name, serial_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_body) VALUES ('-6','0','-5', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, '${dateOfPurchase}', '${dateOfDelivery}', '${purchasePrice}', ${vendor}, ${fundingBody});")
 }
 
+Given(~"I have created a deviceField with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String id, String deviceName, String dateCreated, String lastUpdated, String fieldLabel, String fieldType, String fieldOptions ->
+    def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+    def deviceId = (int)(getDevice("${deviceName}").id)
+    sql.execute("INSERT INTO device_field(id, version,device_id, date_created, last_updated, field_label, field_type, field_options) VALUES ('${id}', '0','${deviceId}', '${dateCreated}', '${lastUpdated}', ${fieldLabel}, ${fieldType}, ${fieldOptions});")
+}
+
+def getDevice(String name) {
+    def device
+    def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+    sql.eachRow("Select * from Device WHERE name = ?", [name]) {
+        device = it.toRowResult()
+    }
+    return device
+}
+
 Given(~"I have deleted all emails") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/clear")
 }
@@ -78,6 +91,11 @@ Given(~"I follow \"(.*)\"") { String link->
 When(~"I fill in \"(.*)\" with \"(.*)\"") { String field, String text ->
 	fieldElement = browser.findElement(By.name(field))
     fieldElement.sendKeys(text)
+}
+
+When(~"I fill in \"(.*)\" with enter") { String field ->
+    fieldElement = browser.findElement(By.name(field))
+    fieldElement.sendKeys("\n")
 }
 
 When(~"I select \"(.*)\" from \"(.*)\"") { String value, String field ->

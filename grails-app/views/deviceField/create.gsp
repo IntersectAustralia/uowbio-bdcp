@@ -9,7 +9,6 @@
         <title>Add New ${deviceInstance.name} Metadata Template Field</title>
         <g:javascript library="jquery" plugin="jquery"/>
         <jqui:resources />
-<<<<<<< HEAD
         <script type="text/javascript">
         function showOptions(obj){
             if (obj == "dropDown.label" || obj == "radioButtons.label")
@@ -109,7 +108,7 @@
                                     <label for="fieldOptions"><g:message code="deviceField.fieldLabel.label" default="Field Options" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldOptions', 'errors')}">
-                                    <g:textArea id="label" name="fieldOptions" value="${deviceFieldInstance?.fieldOptions}" />
+                                    <g:textArea id="fieldOptions" name="fieldOptions" value="${deviceFieldInstance?.fieldOptions}" />
                                 </td>
                             </tr>
 
