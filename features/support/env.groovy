@@ -11,6 +11,7 @@ this.metaClass.mixin(cuke4duke.GroovyDsl)
 private final String LOREM_IPSUM_TEXT = "lorem ipsum dolor sit amet";
 private final String FILE_HTML = "<div>" + LOREM_IPSUM_TEXT + "</div>";
 
+
 Before() {
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
 	sql.execute("delete from user_store")

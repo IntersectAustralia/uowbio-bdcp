@@ -27,5 +27,28 @@ Feature: Create Device Metadata Template
  Then I press "save"
  Then I should see "Location of Strap saved"
  
+ Then I should see "Device1 Metadata Template"
+ Then I press "Add Field"
+ Then I should see "Add New Device1 Metadata Template Field"
+ Then I fill in "fieldLabel" with "Select a Radio Button Option"
+ Then I select radiobutton "RADIO_BUTTONS" from "fieldType"
+ Then I fill in "fieldOptions" with "Option1"
+ Then I fill in "fieldOptions" with enter
+ Then I fill in "fieldOptions" with "Option2"
+ Then I fill in "fieldOptions" with enter
+ Then I press "save"
+ Then I should see "Select a Radio Button Option saved"
+ 
+ Then I should see "Device1 Metadata Template"
+ Then I press "Add Field"
+ Then I should see "Add New Device1 Metadata Template Field"
+ Then I fill in "fieldLabel" with "Select a Drop Down Option"
+ Then I select radiobutton "DROP_DOWN" from "fieldType"
+ Then I fill in "fieldOptions" with "Option1"
+ Then I fill in "fieldOptions" with enter
+ Then I fill in "fieldOptions" with "Option2"
+ Then I fill in "fieldOptions" with enter
+ Then I press "save"
+ Then I should see "Select a Drop Down Option saved"
   
    

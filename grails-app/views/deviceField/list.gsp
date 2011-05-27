@@ -40,8 +40,13 @@
                             <g:if test="${deviceFieldInstance?.fieldType == FieldType.STATIC_TEXT}"
                             ><g:link elementId="edit_${i}" mapping="deviceFieldDetails" action="edit" class="button" id="${deviceFieldInstance?.id}"
                              params="[deviceGroupId: deviceFieldInstance.device.deviceGroup.id, deviceId: deviceFieldInstance.device.id]">Edit</g:link
-                             ></g:if></td>
-
+                             ></g:if>
+                            <g:if test="${[FieldType.DROP_DOWN, FieldType.RADIO_BUTTONS].contains(deviceFieldInstance?.fieldType)}"
+                            ><g:link elementId="show[${i}]" mapping="deviceFieldDetails" action="show" class="button" id="${deviceFieldInstance?.id}"
+                             params="[deviceGroupId: deviceFieldInstance.device.deviceGroup.id, deviceId: deviceFieldInstance.device.id]">Show</g:link
+                             ></g:if>
+                             
+                             </td>
                         </tr>
                     </g:each>
                     </tbody>
