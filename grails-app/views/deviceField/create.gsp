@@ -10,21 +10,26 @@
         <g:javascript library="jquery" plugin="jquery"/>
         <jqui:resources />
         <g:render template="ckeditor" />
-        <g:javascript>
+        <script type="text/javascript">
         $(function() {
-            function showOrHideStatic() {
-        		if ($("input[name='fieldType']:checked").val() == 'STATIC_TEXT') {
-        			$('#staticFieldRow').show();
+            function showOrHideRelationship(options, elementId) {
+                var $checked = $("input[name='fieldType']:checked");
+        		if ($checked.size() > 0 && $.inArray($checked.val(),options) > -1) {
+        			$(elementId).show();
         		} else {
-        			$('#staticFieldRow').hide();
+        			$(elementId).hide();
         		}
             }
+            function showOrHide() {
+            	showOrHideRelationship(['STATIC_TEXT'],'#staticFieldRow');
+            	showOrHideRelationship(['DROP_DOWN', 'RADIO_BUTTONS'],'#fieldOptionsRow');
+            }
         	$("input[name='fieldType']").change(function() {
-        	    showOrHideStatic();
+        	    showOrHide();
         	});
-        	showOrHideStatic();
+        	showOrHide();
         })
-        </g:javascript>
+        </script>
     </head>
     <body>
         <div class="body">
@@ -70,7 +75,16 @@
 		                        </table>
 		                        </td>
                             </tr>
-                            
+                        
+                            <tr class="radiobutton" id="fieldOptionsRow">
+                                <td valign="top" class="name">
+                                    <label for="fieldOptions"><g:message code="deviceField.fieldLabel.label" default="Field Options" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldOptions', 'errors')}">
+                                    <g:textArea id="label" name="fieldOptions" value="${deviceFieldInstance?.fieldOptions}" />
+                                </td>
+                            </tr>
+
                             <tr class="radiobutton" id="staticFieldRow">
                                 <td valign="top" class="name">
                                     <label for="staticContent"><g:message code="deviceField.staticContent.label" default="Static content" /></label>

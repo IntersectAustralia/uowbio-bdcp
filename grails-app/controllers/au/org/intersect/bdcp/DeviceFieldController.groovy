@@ -6,7 +6,7 @@ class DeviceFieldController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def index = {
         redirect(action: "list", params: params)
     }
@@ -53,6 +53,7 @@ class DeviceFieldController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
         def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = DeviceField.get(params.id)
@@ -65,6 +66,7 @@ class DeviceFieldController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
         def deviceFieldInstance = DeviceField.get(params.id)
         if (deviceFieldInstance) {
@@ -92,6 +94,7 @@ class DeviceFieldController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def delete = {
         def deviceFieldInstance = DeviceField.get(params.id)
         if (deviceFieldInstance) {
