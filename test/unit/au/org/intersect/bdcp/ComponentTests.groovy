@@ -92,4 +92,36 @@ class ComponentTests extends GrailsUnitTestCase {
  
 	   assertTrue component.validate()
    }
+   
+   /**
+    * Test that the sorting of sessions in the domain class {@link Component} functions
+    * correctly sorting by name
+    */
+   void testSort()
+   {
+      def mockComponent = new Component(name:"TestComponent",
+           description: "Test Description",
+           study: study)
+       mockDomain(Component, [mockComponent])
+       def session1 = new Session(name: "B",
+           description: "Some Description",
+           component: mockComponent)
+       mockComponent.addToSessions(session1)
+       
+       def session2 = new Session(name:"A",
+           description: "Some Description",
+           component: mockComponent)
+       
+       mockComponent.addToSessions(session2)
+       def session3 = new Session(name:"C",
+           description: "Some description",
+           component: mockComponent)
+       mockComponent.addToSessions(session3)
+       mockDomain(Session, [session1,session2,session3])
+       
+       List<Session> sessions = mockComponent.getSessionsList()
+       assertEquals "Session order incorrect for first session", "A", sessions.get(0).name
+       assertEquals "Session order incorrect for second session","B", sessions.get(1).name
+       assertEquals "Session order incorrect for third session","C", sessions.get(2).name
+   }
 }

@@ -96,6 +96,13 @@ class DeviceFieldTests extends GrailsUnitTestCase {
         
         deviceField = new DeviceField(fieldLabel: "Some label",
             fieldType: FieldType.DROP_DOWN,
+            fieldOptions: "",
+            device: device) 
+        assertFalse "No validation for FieldOptions", deviceField.validate()
+        assertEquals "FieldOptions is not validated for empty values", 'nullable', deviceField.errors['fieldOptions']
+        
+        deviceField = new DeviceField(fieldLabel: "Some label",
+            fieldType: FieldType.DROP_DOWN,
             fieldOptions: "test\n test2",
             device: device)
         
