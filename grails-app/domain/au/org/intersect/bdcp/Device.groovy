@@ -32,7 +32,7 @@ class Device {
         fundingBody(size:1..1000)
     }
     
-    static hasMany = [deviceFields: DeviceField]
+    static hasMany = [deviceFields: DeviceField, studyDevices: StudyDevice]
     
     String getName()
     {

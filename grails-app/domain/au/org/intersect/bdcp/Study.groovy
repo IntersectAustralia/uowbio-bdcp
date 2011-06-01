@@ -18,7 +18,7 @@ class Study
 	String numberOfParticipants
 	String inclusionExclusionCriteria
 
-	static hasMany = [participants:Participant, components:Component]
+	static hasMany = [participants:Participant, components:Component, studyDevices:StudyDevice]
 	
 	static belongsTo = [project:Project]
 	
