@@ -80,7 +80,9 @@
                                 <td valign="top" class="name">
                                     <label for="fieldOptions"><g:message code="deviceField.fieldLabel.label" default="Field Options" /></label>
                                 </td>
+                                
                                 <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'fieldOptions', 'errors')}">
+                                    <p>Enter each option on a new line:</p>
                                     <g:textArea id="fieldOptions" name="fieldOptions" value="${deviceFieldInstance?.fieldOptions}" />
                                 </td>
                             </tr>
