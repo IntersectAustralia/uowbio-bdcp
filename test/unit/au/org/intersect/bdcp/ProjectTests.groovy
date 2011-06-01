@@ -65,6 +65,7 @@ class ProjectTests extends GrailsUnitTestCase
 	{
 		project = new Project(projectTitle: '',
 				researcherName: '' ,
+				studentNumber: '',
 				degree: '',
 				startDate: '',
 				endDate: '',
@@ -75,12 +76,14 @@ class ProjectTests extends GrailsUnitTestCase
 
 		assertEquals 'Project Title is blank.','blank', project.errors['projectTitle']
 		assertEquals 'Researcher Name is blank.','blank', project.errors['researcherName']
+		assertEquals 'Student Number is blank.','blank', project.errors['studentNumber']
 		assertEquals 'Degree is blank.','blank', project.errors['degree']
 		assertEquals 'Description is blank.','blank', project.errors['description']
 		assertEquals 'Supervisors is blank.','blank', project.errors['supervisors']
 
 		project = new Project(projectTitle: 'Testing Project',
 				researcherName: 'TestStudent' ,
+				studentNumber: 'StudentNumber' ,
 				degree: 'TestDegree',
 				startDate: new Date(),
 				endDate: new Date(),
@@ -98,6 +101,7 @@ class ProjectTests extends GrailsUnitTestCase
 	{
 		project = new Project(projectTitle: 'Testing Project',
 				researcherName: 'TestStudent' ,
+				studentNumber: 'TestNumber',
 				degree: 'TestDegree',
 				startDate: null,
 				endDate: null,
@@ -111,6 +115,7 @@ class ProjectTests extends GrailsUnitTestCase
 
 		project = new Project(projectTitle: 'Testing Project',
 				researcherName: 'TestStudent' ,
+				studentNumber: 'TestNumber',
 				degree: 'TestDegree',
 				startDate: new Date(),
 				endDate: new Date(),
@@ -128,6 +133,7 @@ class ProjectTests extends GrailsUnitTestCase
    {
 	   project = new Project(projectTitle: '012345678910' * 100,
 			   researcherName: '012345678910' * 100 ,
+			   studentNumber: '012345678910' * 100,
 			   degree: '012345678910' * 100,
 			   startDate: new Date(),
 			   endDate: new Date(),
@@ -138,12 +144,14 @@ class ProjectTests extends GrailsUnitTestCase
 
 	   assertEquals 'Project Title does not validate size.','size', project.errors['projectTitle']
 	   assertEquals 'Researcher Name does not validate size.','size', project.errors['researcherName']
+	   assertEquals 'Student Number does not validate size.','size', project.errors['studentNumber']
 	   assertEquals 'Degree does not validate size.','size', project.errors['degree']
 	   assertEquals 'Description  does not validate size.','size', project.errors['description']
 	   assertEquals 'Supervisors  does not validate size.','size', project.errors['supervisors']
 	   
 	   project = new Project(projectTitle: 'Testing Project',
 			   researcherName: 'TestStudent' ,
+			   studentNumber: 'TestNumber',
 			   degree: 'TestDegree',
 			   startDate: new Date(),
 			   endDate: new Date(),
