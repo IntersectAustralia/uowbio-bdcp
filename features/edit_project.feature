@@ -5,7 +5,7 @@ Feature: Edit Project
 
   Background:
     Given I have logged in
-    Given I have created a project with "My Biomechanics Project", "Fred Bloggs", "Masters of Biomechanics", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "Studying some stuff", "Alice Smith"
+    Given I have created a project with "My Biomechanics Project", "Fred Bloggs", "123456", "Masters of Biomechanics", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "Studying some stuff", "Alice Smith"
 
    Scenario: Edit Project
    Given I am on the home page
@@ -14,6 +14,7 @@ Feature: Edit Project
     And I should see table "projectTable" with contents
       | Project Title   | My Biomechanics Project |
       | Researcher Name | Fred Bloggs             |
+      | Student Number  | 123456                  |
       | Degree          | Masters of Biomechanics |
       | Start Date      | 04/2011                 |
       | End Date        | 04/2011                 |
@@ -23,6 +24,7 @@ Feature: Edit Project
     Then I should see "Edit Project"
     Then I should see "projectTitle" with value "My Biomechanics Project"
     Then I should see "researcherName" with value "Fred Bloggs"
+    Then I should see "studentNumber" with value "123456"
     Then I should see "degree" with value "Masters of Biomechanics"
     Then I should see "startDate_month" selected with value "4"
     Then I should see "startDate_year" selected with value "2011"
@@ -36,6 +38,7 @@ Feature: Edit Project
     And I should see table "projectTable" with contents
       | Project Title   | My Biomechanics Project |
       | Researcher Name | Fred Bloggs             |
+      | Student Number  | 123456                  |
       | Degree          | Masters of Biomechanics |
       | Start Date      | 04/2011                 |
       | End Date        | 04/2011                 |
@@ -49,6 +52,7 @@ Feature: Edit Project
     And I should see table "projectTable" with contents
       | Project Title   | My Biomechanics Project 1 |
       | Researcher Name | Fred Bloggs               |
+      | Student Number  | 123456                    |
       | Degree          | Masters of Biomechanics   |
       | Start Date      | 04/2011                   |
       | End Date        | 04/2011                   |

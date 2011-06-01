@@ -8,6 +8,7 @@ Feature: View Project
     Given I am on the create project page
     When I fill in "projectTitle" with "My Biomechanics Project"
     And I fill in "researcherName" with "Fred Bloggs"
+    And I fill in "studentNumber" with "123456"
     And I fill in "degree" with "Masters of Biomechanics"
     And I select "March" from "startDate_month"
     And I select "2011" from "startDate_year"
@@ -22,6 +23,7 @@ Feature: View Project
     And I should see table "projectTable" with contents
       | Project Title   | My Biomechanics Project |
       | Researcher Name | Fred Bloggs             |
+      | Student Number  | 123456                  |
       | Degree          | Masters of Biomechanics |
       | Start Date      | 03/2011                 |
       | End Date        | 03/2011                 |
@@ -36,6 +38,7 @@ Feature: View Project
     And I should see table "projectTable" with contents
       | Project Title   | My Biomechanics Project |
       | Researcher Name | Fred Bloggs             |
+      | Student Number  | 123456                  |
       | Degree          | Masters of Biomechanics |
       | Start Date      | 03/2011                 |
       | End Date        | 03/2011                 |

@@ -8,6 +8,7 @@ Feature: View Study
  	Given I am on the create project page
     When I fill in "projectTitle" with "My Biomechanics Project"
     And I fill in "researcherName" with "Fred Bloggs"
+    And I fill in "studentNumber" with "123456"
     And I fill in "degree" with "Masters of Biomechanics"
     And I select "March" from "startDate_month"
     And I select "2011" from "startDate_year"
