@@ -5,6 +5,7 @@ class Project
 
 	String projectTitle
 	String researcherName
+	String studentNumber
 	String degree
 	Date startDate
 	Date endDate
@@ -27,6 +28,7 @@ class Project
 	{
 		projectTitle(blank:false, size:1..1000)
 		researcherName(blank:false, size:1..1000)
+		studentNumber(blank:false, size:1..1000)
 		degree(blank:false, size:1..1000)
 		startDate(nullable:false)
 		endDate(nullable:false)

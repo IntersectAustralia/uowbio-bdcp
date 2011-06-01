@@ -42,6 +42,15 @@
                                     <g:textField name="researcherName" value="${projectInstance?.researcherName}" />
                                 </td>
                             </tr>
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="studentNumber"><g:message code="project.studentNumber.label" default="Student Number" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: projectInstance, field: 'studentNumber', 'errors')}">
+                                    <g:textField name="studentNumber" value="${projectInstance?.studentNumber}" />
+                                </td>
+                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">

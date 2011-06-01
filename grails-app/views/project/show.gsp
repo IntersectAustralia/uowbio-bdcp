@@ -31,6 +31,13 @@
                             <td valign="top" class="value">${fieldValue(bean: projectInstance, field: "researcherName")}</td>
                             
                         </tr>
+                        
+						<tr class="prop">
+                            <td valign="top" class="name"><g:message code="project.studentNumber.label" default="Student Number" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: projectInstance, field: "studentNumber")}</td>
+                            
+                        </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="project.degree.label" default="Degree" /></td>
