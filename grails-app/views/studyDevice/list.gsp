@@ -27,12 +27,14 @@
             <span class="menuButton"><g:link elementId="Add Device" mapping="studyDeviceDetails" class="create" action="create" params="[studyId: studyInstance.id]">Add Device</g:link></span>
             <br />
             <br />
-            <div class="project">
+            <div class="projects">
                 <g:each in="${deviceGroupsMapping}" status="i" var="deviceGroupMap">
                 <h2>${deviceGroupMap?.deviceGroup.groupingName}</h2>
+                <ul>
                 <g:each in="${deviceGroupMap?.devices}" status="j" var="deviceInstance">
-                <p>${deviceInstance?.name}</p>
+                <li>${deviceInstance?.name}</li>
                 </g:each>
+                </ul>
                 </g:each>
                 
             </div>

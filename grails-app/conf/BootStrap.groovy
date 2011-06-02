@@ -9,6 +9,7 @@ import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
 import au.org.intersect.bdcp.Session
 import au.org.intersect.bdcp.Study
+import au.org.intersect.bdcp.StudyDevice
 import au.org.intersect.bdcp.UserStore
 
 
@@ -142,6 +143,7 @@ class BootStrap
             deviceGroup: deviceGroup)
         device.save(flush:true)
         
+        def studyDevice = StudyDevice.link(study, device);
        
 	}
 
