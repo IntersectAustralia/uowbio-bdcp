@@ -506,7 +506,8 @@ a#forms:active {
 		no-repeat;
 }
 
-a#create,a#account-administration,a.button {
+a#create,a#account-administration,a.button, input.button {
+	width: auto;
 	margin-top: 10px;
 	padding: 4px 9px;
 	display: inline;

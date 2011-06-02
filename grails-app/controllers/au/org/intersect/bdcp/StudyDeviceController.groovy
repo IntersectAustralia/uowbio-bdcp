@@ -2,7 +2,7 @@ package au.org.intersect.bdcp
 
 class StudyDeviceController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [update: "POST", delete: "POST"]
 
     def index = {
         redirect(action: "list", params: params)
@@ -10,21 +10,27 @@ class StudyDeviceController {
 
     def list = {
         def studyInstance = Study.get(params.studyId)
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [studyDeviceInstanceList: StudyDevice.list(params), studyDeviceInstanceTotal: StudyDevice.count(), studyInstance: studyInstance]
+        def deviceGroupsMapping = DeviceGroup.list().collect {deviceGroup ->
+            def devices = StudyDevice.list().findAll { it.device.deviceGroup.id == deviceGroup.id }
+            devices = devices.collect { it.device }
+            [deviceGroup:deviceGroup, devices:devices]
+        }
+        deviceGroupsMapping = deviceGroupsMapping.findAll { it.devices.size() > 0 }
+        [deviceGroupsMapping: deviceGroupsMapping, studyInstance: studyInstance]
     }
 
     def create = {
         def studyDeviceInstance = new StudyDevice()
+        def studyInstance = Study.findById(params.studyId)
         studyDeviceInstance.properties = params
-        return [studyDeviceInstance: studyDeviceInstance]
+        return [studyDeviceInstance: studyDeviceInstance, studyInstance: studyInstance]
     }
 
     def save = {
         def studyDeviceInstance = new StudyDevice(params)
         if (studyDeviceInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDevice.label', default: 'StudyDevice'), studyDeviceInstance.id])}"
-            redirect(action: "show", id: studyDeviceInstance.id)
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDevice.label', default: 'Device'), studyDeviceInstance.device])}"
+            redirect(mapping:"studyDeviceDetails",controller: "studyDevice", action: "list", id: studyDeviceInstance.id, params:[studyId: params.studyId])
         }
         else {
             render(view: "create", model: [studyDeviceInstance: studyDeviceInstance])
