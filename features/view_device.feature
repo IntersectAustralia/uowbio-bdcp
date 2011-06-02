@@ -6,7 +6,7 @@ Feature: View Device
  Background:
  Given I have logged in
  Given I have created a device grouping with "Force Platforms"
- Given I have created a device with "Device1", "Some Description", "Some Manufacturer", "Some location", "Some model", "Some serial number", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "$10.00", "Intersect", "Some funding body"
+ Given I have created a device with "Device1", "Some Description", "Some Manufacturer", "Some location", "Some model", "Some serial number", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "$10.00", "Intersect", "Some funding Source"
  
  Scenario: View Device
  Given I am on the home page
@@ -20,16 +20,16 @@ Feature: View Device
  Then I should see "Device1"
  Then I press "Device1"
  And I should see table "deviceTable" with contents
-      | Name                      | Device1            |
-      | Description			      | Some Description   |
-      | Manufacturer			  | Some Manufacturer  |
-      | Location Of Manufacturer  | Some location      |
-      | Model					  | Some model         |
-      | Serial Number			  | Some serial number |
-      | Date Of Purchase		  | 01/03/2011         |
-      | Date Of Delivery          | 01/03/2011         |
-      | Purchase Price		      | $10.00             |
-      | Vendor					  | Intersect          |
-      | Funding Body			  | Some funding body  |
+      | Name                      | Device1             |
+      | Description			      | Some Description    |
+      | Manufacturer			  | Some Manufacturer   |
+      | Location Of Manufacturer  | Some location       |
+      | Model					  | Some model          |
+      | Serial Number			  | Some serial number  |
+      | Date Of Purchase		  | 01/03/2011          |
+      | Date Of Delivery          | 01/03/2011          |
+      | Purchase Price		      | $10.00              |
+      | Vendor					  | Intersect           |
+      | Funding Source			  | Some funding Source |
       
    

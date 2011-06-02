@@ -32,7 +32,7 @@ Feature: Create Device
  Then I select "1" from "dateOfDelivery_day"
  Then I fill in "purchasePrice" with "$10.00"
  Then I fill in "vendor" with "Some vendor"
- Then I fill in "fundingBody" with "Some funding Body"
+ Then I fill in "fundingSource" with "Some funding Source"
  Then I press "save"
  Then I should see "Device Device1 saved"
  Then I should see "Devices"

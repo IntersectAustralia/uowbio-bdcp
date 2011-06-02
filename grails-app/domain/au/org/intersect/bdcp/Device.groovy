@@ -12,7 +12,7 @@ class Device {
     Date dateOfDelivery
     String purchasePrice
     String vendor
-    String fundingBody
+    String fundingSource
 	List deviceFields
     
     static belongsTo = [deviceGroup: DeviceGroup]
@@ -29,7 +29,7 @@ class Device {
         dateOfDelivery(nullable:false)
         purchasePrice(size:1..1000)
         vendor(size:1..1000)
-        fundingBody(size:1..1000)
+        fundingSource(size:1..1000)
     }
     
     static hasMany = [deviceFields: DeviceField]

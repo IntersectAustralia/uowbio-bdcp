@@ -25,7 +25,7 @@ class DeviceTests extends GrailsUnitTestCase {
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Some vendor",
-            fundingBody: "Some funding Body",
+            fundingSource: "Some funding Source",
             deviceGroup: deviceGroup)
         
         mockForConstraintsTests Device, [device]
@@ -55,7 +55,7 @@ class DeviceTests extends GrailsUnitTestCase {
             dateOfDelivery: new Date(),
             purchasePrice: "",
             vendor: "",
-            fundingBody: "",
+            fundingSource: "",
             deviceGroup: deviceGroup)
         
         assertFalse 'No validation for blank field(s)' ,device.validate()
@@ -73,7 +73,7 @@ class DeviceTests extends GrailsUnitTestCase {
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Some vendor",
-            fundingBody: "Some funding Body",
+            fundingSource: "Some funding Source",
             deviceGroup: deviceGroup)
         assertTrue "A valid device grouping did not validate!", device.validate()
     }
@@ -94,7 +94,7 @@ class DeviceTests extends GrailsUnitTestCase {
             dateOfDelivery: new Date(),
             purchasePrice: "012345678910" * 100,
             vendor: "012345678910" * 100,
-            fundingBody: "012345678910" * 100,
+            fundingSource: "012345678910" * 100,
             deviceGroup: deviceGroup)
        assertFalse "No validation for size of fields", device.validate()
        
@@ -106,7 +106,7 @@ class DeviceTests extends GrailsUnitTestCase {
        assertEquals 'serialNumber does not validate size.','size', device.errors['serialNumber']
        assertEquals 'purchasePrice does not validate size.','size', device.errors['purchasePrice']
        assertEquals 'vendor does not validate size.','size', device.errors['vendor']
-       assertEquals 'fundingBody does not validate size.','size', device.errors['fundingBody']
+       assertEquals 'fundingSource does not validate size.','size', device.errors['fundingSource']
        device = new Device(name: "Device2",
             description: "Some description",
             manufacturer: "Some manufacturer",
@@ -117,7 +117,7 @@ class DeviceTests extends GrailsUnitTestCase {
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Some vendor",
-            fundingBody: "Some funding Body",
+            fundingSource: "Some funding Source",
             deviceGroup: deviceGroup)
        assertTrue device.validate()
    }

@@ -94,10 +94,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="fundingBody"><g:message code="device.fundingBody.label" default="Funding Body" /></label>
+                                    <label for="fundingSource"><g:message code="device.fundingSource.label" default="Funding Source" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: deviceInstance, field: 'fundingBody', 'errors')}">
-                                    <g:textField name="fundingBody" cols="40" rows="5" value="${deviceInstance?.fundingBody}" />
+                                <td valign="top" class="value ${hasErrors(bean: deviceInstance, field: 'fundingSource', 'errors')}">
+                                    <g:textField name="fundingSource" cols="40" rows="5" value="${deviceInstance?.fundingSource}" />
                                 </td>
                             </tr>
                             

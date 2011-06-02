@@ -59,9 +59,9 @@ Given(~"I have created a device grouping with \"(.*)\"") { String groupingName -
     sql.execute("INSERT INTO device_group(id,version, grouping_name) VALUES ('-5','0',${groupingName});")
 }
 
-Given(~"I have created a device with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String name, String description, String manufacturer, String locationOfManufacturer, String model, String serialNumber, String dateOfPurchase, String dateOfDelivery, String purchasePrice, String vendor, String fundingBody ->
+Given(~"I have created a device with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String name, String description, String manufacturer, String locationOfManufacturer, String model, String serialNumber, String dateOfPurchase, String dateOfDelivery, String purchasePrice, String vendor, String fundingSource ->
     def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver") 
-    sql.execute("INSERT INTO device(id,version, device_group_id, name, description, manufacturer, location_of_manufacturer, model_name, serial_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_body) VALUES ('-6','0','-5', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, '${dateOfPurchase}', '${dateOfDelivery}', ${purchasePrice}, ${vendor}, ${fundingBody});")
+    sql.execute("INSERT INTO device(id,version, device_group_id, name, description, manufacturer, location_of_manufacturer, model_name, serial_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_source) VALUES ('-6','0','-5', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, '${dateOfPurchase}', '${dateOfDelivery}', ${purchasePrice}, ${vendor}, ${fundingSource});")
 }
 
 Given(~"I have created a device field with \"(.*)\", \"(.*)\", \"(.*)\" for \"(.*)\"") { String fieldLabel, String fieldType, String staticContent, String deviceName ->

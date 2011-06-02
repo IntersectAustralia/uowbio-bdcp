@@ -88,9 +88,9 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="device.fundingBody.label" default="Funding Body" /></td>
+                            <td valign="top" class="name"><g:message code="device.fundingSource.label" default="Funding Source" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: deviceInstance, field: "fundingBody")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: deviceInstance, field: "fundingSource")}</td>
                             
                         </tr>
                     
