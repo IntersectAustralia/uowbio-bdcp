@@ -58,6 +58,13 @@
                             <td valign="top" class="value">${fieldValue(bean: deviceInstance, field: "serialNumber")}</td>
                             
                         </tr>
+                        
+						<tr class="prop">
+                            <td valign="top" class="name"><g:message code="device.uowAssetNumber.label" default="UOW Asset Number" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: deviceInstance, field: "uowAssetNumber")}</td>
+                            
+                        </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="device.dateOfPurchase.label" default="Date Of Purchase" /></td>
@@ -91,6 +98,13 @@
                             <td valign="top" class="name"><g:message code="device.fundingSource.label" default="Funding Source" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: deviceInstance, field: "fundingSource")}</td>
+                            
+                        </tr>
+                        
+						<tr class="prop">
+                            <td valign="top" class="name"><g:message code="device.maintServiceInfo.label" default="Maintenance/Service Information (Please record the date, details and cost for each entry)" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: deviceInstance, field: "maintServiceInfo")}</td>
                             
                         </tr>
                     

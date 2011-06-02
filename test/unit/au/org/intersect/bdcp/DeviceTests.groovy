@@ -21,11 +21,13 @@ class DeviceTests extends GrailsUnitTestCase {
             locationOfManufacturer: "Some location",
             modelName: "Some model",
             serialNumber: "Some serialNumber",
+			uowAssetNumber: "Some uowAssetNumber",
             dateOfPurchase: new Date(),
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Some vendor",
             fundingSource: "Some funding Source",
+			maintServiceInfo: "Maintenance Service Info",
             deviceGroup: deviceGroup)
         
         mockForConstraintsTests Device, [device]
@@ -51,11 +53,13 @@ class DeviceTests extends GrailsUnitTestCase {
             locationOfManufacturer: "",
             modelName: "",
             serialNumber: "",
+			uowAssetNumber: "",
             dateOfPurchase: new Date(),
             dateOfDelivery: new Date(),
             purchasePrice: "",
             vendor: "",
             fundingSource: "",
+			maintServiceInfo: "",
             deviceGroup: deviceGroup)
         
         assertFalse 'No validation for blank field(s)' ,device.validate()
@@ -69,11 +73,13 @@ class DeviceTests extends GrailsUnitTestCase {
             locationOfManufacturer: "Some location",
             modelName: "Some model",
             serialNumber: "Some serialNumber",
+			uowAssetNumber: "Some uowAssetNumber",
             dateOfPurchase: new Date(),
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Some vendor",
             fundingSource: "Some funding Source",
+			maintServiceInfo: "Maintenance Service Info",
             deviceGroup: deviceGroup)
         assertTrue "A valid device grouping did not validate!", device.validate()
     }
@@ -90,11 +96,13 @@ class DeviceTests extends GrailsUnitTestCase {
             locationOfManufacturer: "012345678910" * 100,
             modelName: "012345678910" * 100,
             serialNumber: "012345678910" * 100,
+			uowAssetNumber: "012345678910" * 100,
             dateOfPurchase: new Date(),
             dateOfDelivery: new Date(),
             purchasePrice: "012345678910" * 100,
             vendor: "012345678910" * 100,
             fundingSource: "012345678910" * 100,
+			maintServiceInfo: "012345678910" * 100,
             deviceGroup: deviceGroup)
        assertFalse "No validation for size of fields", device.validate()
        
@@ -113,11 +121,13 @@ class DeviceTests extends GrailsUnitTestCase {
             locationOfManufacturer: "Some location",
             modelName: "Some model",
             serialNumber: "Some serialNumber",
+			uowAssetNumber: "Some uowAssetNumber",
             dateOfPurchase: new Date(),
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Some vendor",
             fundingSource: "Some funding Source",
+			maintServiceInfo: "Maintenance Service Info",
             deviceGroup: deviceGroup)
        assertTrue device.validate()
    }

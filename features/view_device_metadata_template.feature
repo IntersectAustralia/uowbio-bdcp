@@ -6,7 +6,7 @@ Feature: View Device Metadata Template
  Background:
  Given I have logged in
  Given I have created a device grouping with "Force Platforms"
- Given I have created a device with "Device1", "Some Description", "Some Manufacturer", "Some location", "Some model", "Some serial number", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "$10.00", "Intersect", "Some funding source"
+ Given I have created a device with "Device1", "Some Description", "Some Manufacturer", "Some location", "Some model", "Some serial number", "Some UOW Asset number", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "$10.00", "Intersect", "Some funding source", "Maintenance Service Info"
  Given I have created a deviceField with "-101", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "Location of Strap", "TEXTAREA", ""
  Given I have created a deviceField with "-102", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "Select a Radio Button Option", "RADIO_BUTTONS", "Option1"
  Given I have created a deviceField with "-103", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "Select a Drop Down Option", "DROP_DOWN", "Option1"

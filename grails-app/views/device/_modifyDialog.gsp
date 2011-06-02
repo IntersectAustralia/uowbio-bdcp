@@ -55,6 +55,15 @@
                                     <g:textField name="serialNumber" cols="40" rows="5" value="${deviceInstance?.serialNumber}" />
                                 </td>
                             </tr>
+                            
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="uowAssetNumber"><g:message code="device.uowAssetNumber.label" default="UOW Asset Number" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: deviceInstance, field: 'uowAssetNumber', 'errors')}">
+                                    <g:textField name="uowAssetNumber" cols="40" rows="5" value="${deviceInstance?.uowAssetNumber}" />
+                                </td>
+                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -98,6 +107,15 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: deviceInstance, field: 'fundingSource', 'errors')}">
                                     <g:textField name="fundingSource" cols="40" rows="5" value="${deviceInstance?.fundingSource}" />
+                                </td>
+                            </tr>
+                            
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="description"><g:message code="device.maintServiceInfo.label" default="Maintenance/Service Information (Please record the date, details and cost for each entry)" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: deviceInstance, field: 'maintServiceInfo', 'errors')}">
+                                    <g:textArea name="maintServiceInfo" cols="40" rows="5" value="${deviceInstance?.maintServiceInfo}" />
                                 </td>
                             </tr>
                             

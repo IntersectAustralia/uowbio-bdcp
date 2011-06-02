@@ -23,11 +23,13 @@ class DeviceFieldTests extends GrailsUnitTestCase {
             locationOfManufacturer: "Some location",
             modelName: "Some model",
             serialNumber: "Some serialNumber",
+			uowAssetNumber: "Some uowAssetNumber",
             dateOfPurchase: new Date(),
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Some vendor",
             fundingSource: "Some funding Source",
+			maintServiceInfo: "Maintenance Service Info",
             deviceGroup: deviceGroup)
         
         deviceField = new DeviceField(fieldLabel:"Test Field",

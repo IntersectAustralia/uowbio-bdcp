@@ -6,7 +6,7 @@ Feature: Create Device Metadata Template
  Background:
  Given I have logged in
  Given I have created a device grouping with "Force Platforms"
- Given I have created a device with "Device1", "Some Description", "Some Manufacturer", "Some location", "Some model", "Some serial number", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "$10.00", "Intersect", "Some funding source"
+ Given I have created a device with "Device1", "Some Description", "Some Manufacturer", "Some location", "Some model", "Some serial number", "Some UOW Asset number", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "$10.00", "Intersect", "Some funding source", "Maintenance Service Info"
  
  Scenario: Create Device Metadata Template with static field
  Given I am on the home page
