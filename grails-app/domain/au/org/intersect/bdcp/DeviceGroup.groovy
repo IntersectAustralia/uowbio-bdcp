@@ -1,6 +1,5 @@
 package au.org.intersect.bdcp
 
-import au.org.intersect.bdcp.constraints.UniqueIgnoreCaseConstraint
 
 class DeviceGroup {
     
@@ -16,5 +15,10 @@ class DeviceGroup {
     void setGroupingName(String groupingName)
     {
         this.groupingName = groupingName?.trim()
+    }
+    
+    String toString()
+    {
+        groupingName?.trim()
     }
 }

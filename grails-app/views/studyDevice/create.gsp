@@ -9,12 +9,8 @@
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
+            <h1>Add Device to ${studyInstance?.studyTitle}</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -23,36 +19,28 @@
                 <g:renderErrors bean="${studyDeviceInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
-                <div class="dialog">
-                    <table>
-                        <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="device"><g:message code="studyDevice.device.label" default="Device" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: studyDeviceInstance, field: 'device', 'errors')}">
-                                    <g:select name="device.id" from="${au.org.intersect.bdcp.Device.list()}" optionKey="id" value="${studyDeviceInstance?.device?.id}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="study"><g:message code="studyDevice.study.label" default="Study" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: studyDeviceInstance, field: 'study', 'errors')}">
-                                    <g:select name="study.id" from="${au.org.intersect.bdcp.Study.list()}" optionKey="id" value="${studyDeviceInstance?.study?.id}"  />
-                                </td>
-                            </tr>
-                        
-                        </tbody>
-                    </table>
+                <div class="projects">
+                <g:each in="${au.org.intersect.bdcp.DeviceGroup.list()}" status="i" var="deviceGroupInstance">
+                
+                <h2>${deviceGroupInstance.groupingName}</h2>
+                <ul>
+                <g:each in="${deviceGroupInstance.devices}" status="j" var="deviceInstance">
+                <g:if test="${au.org.intersect.bdcp.StudyDevice?.findByStudyAndDevice(au.org.intersect.bdcp.Study?.findById(params.studyId), deviceInstance) == null}">
+                <li>${deviceInstance.name} <g:link name="select_${j}" mapping="studyDeviceDetails" class="button" action="save" id="${deviceInstance.id}" params="['device.id':deviceInstance.id,'study.id':params.studyId, studyId: params.studyId]">Select</g:link></li>
+                </g:if>
+                <g:else>
+                 <li>${deviceInstance.name} ... Already Selected</li>
+                </g:else>
+                </g:each>
+                </ul>
+                </g:each>
+                <br />
+                <br />
+                    
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                    <span class="button"><g:link elementId="cancel" mapping="studyDeviceDetails" controller="studyDevice" action="list" params="[studyId: params.studyId]">Cancel</g:link></span>
                 </div>
-            </g:form>
         </div>
     </body>
 </html>

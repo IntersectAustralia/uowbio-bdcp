@@ -38,6 +38,11 @@ class Device {
     
     static hasMany = [deviceFields: DeviceField, studyDevices: StudyDevice]
     
+    String toString()
+    {
+        name?.trim()
+    }
+    
     String getName()
     {
         name?.trim()
