@@ -23,6 +23,13 @@ class StudyController
 		[studyInstanceList: Study.list(params), studyInstanceTotal: Study.count()]
 	}
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    def device = 
+    {
+        cache false
+        
+    }
+    
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def create =
 	{

@@ -7,6 +7,10 @@ class UrlMappings
 			controller = 'participant'
 	     }
 		
+        name studyDeviceDetails: "/study/$studyId/studyDevice/$action?/$id?" {
+            controller = 'studyDevice'
+        }
+        
         name deviceDetails: "/deviceGroup/$deviceGroupId/device/$action?/$id?" {
             controller = 'device'
         }
