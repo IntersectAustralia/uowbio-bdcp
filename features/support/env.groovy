@@ -38,6 +38,7 @@ After() {
   sql.execute("delete from participant")
   sql.execute("delete from session")
   sql.execute("delete from component")
+  sql.execute("delete from study_device")
   sql.execute("delete from study")
   sql.execute("delete from project")
   sql.execute("delete from device_field")
