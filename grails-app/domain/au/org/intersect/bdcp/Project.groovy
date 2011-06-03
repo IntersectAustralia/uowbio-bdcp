@@ -28,7 +28,7 @@ class Project
 	{
 		projectTitle(blank:false, size:1..1000)
 		researcherName(blank:false, size:1..1000)
-		studentNumber(blank:false, size:1..1000)
+		studentNumber(blank:true, size:0..1000)
 		degree(blank:false, size:1..1000)
 		startDate(nullable:false)
 		endDate(nullable:false)

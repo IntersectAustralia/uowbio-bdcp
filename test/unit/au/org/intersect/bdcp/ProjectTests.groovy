@@ -65,7 +65,6 @@ class ProjectTests extends GrailsUnitTestCase
 	{
 		project = new Project(projectTitle: '',
 				researcherName: '' ,
-				studentNumber: '',
 				degree: '',
 				startDate: '',
 				endDate: '',
@@ -76,7 +75,6 @@ class ProjectTests extends GrailsUnitTestCase
 
 		assertEquals 'Project Title is blank.','blank', project.errors['projectTitle']
 		assertEquals 'Researcher Name is blank.','blank', project.errors['researcherName']
-		assertEquals 'Student Number is blank.','blank', project.errors['studentNumber']
 		assertEquals 'Degree is blank.','blank', project.errors['degree']
 		assertEquals 'Description is blank.','blank', project.errors['description']
 		assertEquals 'Supervisors is blank.','blank', project.errors['supervisors']

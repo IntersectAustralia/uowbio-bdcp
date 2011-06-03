@@ -85,6 +85,7 @@ class BootStrap
 
 		def project = new Project(projectTitle: 'TestProject',
 				researcherName: 'TestStudent' ,
+				studentNumber: 'StudentNumber' ,
 				degree: 'TestDegree',
 				startDate: new Date(),
 				endDate: new Date(),
@@ -137,11 +138,13 @@ class BootStrap
             locationOfManufacturer: "Some location",
             modelName: "Some model",
             serialNumber: "11231ABC",
+			uowAssetNumber: "11231ABC",
             dateOfPurchase: new Date(),
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Intersect",
-            fundingBody: "Some funding Body",
+            fundingSource: "Some funding Body",
+			maintServiceInfo: "Maintenance/Service information",
             deviceGroup: deviceGroup)
         device.save(flush:true)
         

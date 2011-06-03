@@ -27,13 +27,13 @@ class Device {
         locationOfManufacturer(size:1..1000)
         modelName(blank:false, size:1..1000)
         serialNumber(size:1..1000)
-		uowAssetNumber(size:1..1000)
+		uowAssetNumber(size:0..1000)
         dateOfPurchase(nullable:false)
         dateOfDelivery(nullable:false)
         purchasePrice(size:1..1000)
         vendor(size:1..1000)
         fundingSource(size:1..1000)
-		maintServiceInfo(size:1..1000)
+		maintServiceInfo(size:0..1000)
     }
     
     static hasMany = [deviceFields: DeviceField, studyDevices: StudyDevice]

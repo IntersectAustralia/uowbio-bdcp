@@ -23,11 +23,13 @@ class DeviceIntegrationTests extends GroovyTestCase {
             locationOfManufacturer: "Some location",
             modelName: "Some model",
             serialNumber: "Some serialNumber",
+			uowAssetNumber: "Some uowAssetNumber",
             dateOfPurchase: new Date(),
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Some vendor",
-            fundingBody: "Some funding Body",
+            fundingSource: "Some funding Body",
+			maintServiceInfo: "Some maintenance service info",
             deviceGroup: deviceGroup)
         device.save(flush:true)
     }
@@ -52,11 +54,13 @@ class DeviceIntegrationTests extends GroovyTestCase {
             locationOfManufacturer: "Some location",
             modelName: "Some model",
             serialNumber: "Some serialNumber",
+			uowAssetNumber: "Some uowAssetNumber",
             dateOfPurchase: new Date(),
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Some vendor",
-            fundingBody: "Some funding Body",
+            fundingSource: "Some funding Body",
+			maintServiceInfo: "Some maintenance service info",
             deviceGroup: deviceGroup)
         
         assertFalse 'No validation for unique field(s)' ,device.validate()
@@ -69,11 +73,13 @@ class DeviceIntegrationTests extends GroovyTestCase {
             locationOfManufacturer: "Some location",
             modelName: "Some model",
             serialNumber: "Some serialNumber",
+			uowAssetNumber: "Some uowAssetNumber",
             dateOfPurchase: new Date(),
             dateOfDelivery: new Date(),
             purchasePrice: "\$10.00",
             vendor: "Some vendor",
-            fundingBody: "Some funding Body",
+            fundingSource: "Some funding Body",
+			maintServiceInfo: "Some maintenance service info",
             deviceGroup: deviceGroup)
         assertTrue "A valid device did not validate!", device.validate()
     }
