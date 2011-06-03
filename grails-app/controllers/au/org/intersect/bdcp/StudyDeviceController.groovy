@@ -1,13 +1,17 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
+
 class StudyDeviceController {
 
     static allowedMethods = [update: "POST", delete: "POST"]
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def index = {
         redirect(action: "list", params: params)
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def list = {
         def studyInstance = Study.get(params.studyId)
         def deviceGroupsMapping = DeviceGroup.list().collect {deviceGroup ->
@@ -19,6 +23,7 @@ class StudyDeviceController {
         [deviceGroupsMapping: deviceGroupsMapping, studyInstance: studyInstance]
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create = {
         def studyDeviceInstance = new StudyDevice()
         def studyInstance = Study.findById(params.studyId)
@@ -26,6 +31,7 @@ class StudyDeviceController {
         return [studyDeviceInstance: studyDeviceInstance, studyInstance: studyInstance]
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
         def studyDeviceInstance = new StudyDevice(params)
         if (studyDeviceInstance.save(flush: true)) {
@@ -37,6 +43,7 @@ class StudyDeviceController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
         def studyDeviceInstance = StudyDevice.get(params.id)
         if (!studyDeviceInstance) {
@@ -48,6 +55,7 @@ class StudyDeviceController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
         def studyDeviceInstance = StudyDevice.get(params.id)
         if (!studyDeviceInstance) {
@@ -59,6 +67,7 @@ class StudyDeviceController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
         def studyDeviceInstance = StudyDevice.get(params.id)
         if (studyDeviceInstance) {
@@ -86,6 +95,7 @@ class StudyDeviceController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def delete = {
         def studyDeviceInstance = StudyDevice.get(params.id)
         if (studyDeviceInstance) {

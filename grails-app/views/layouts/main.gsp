@@ -6,6 +6,7 @@
         <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
         <g:layoutHead />
         <g:javascript library="application" />
+        <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store">
    		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 		<META HTTP-EQUIV="Expires" CONTENT="-1">
     </head>
@@ -59,6 +60,7 @@
         </div>
     </body>
     <head>
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store">
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 	<META HTTP-EQUIV="Expires" CONTENT="-1">
     </head>
