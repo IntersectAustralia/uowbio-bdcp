@@ -62,6 +62,8 @@ class BootStrap
 			{
 				def user = new UserStore(username:"dpollum", deactivated: false)
 				user.save(flush:true)
+                user = new UserStore(username:"chrisk", deactivated: false)
+                user.save(flush:true)
 			}
 		}
 
@@ -116,9 +118,9 @@ class BootStrap
             description: "test", study: study)
         component.save(flush: true)
         
-        def session = new Session(name:"test",
+        def sessionInstance = new Session(name:"test",
             description: "test", component: component)
-        session.save(flush:true)
+        sessionInstance.save(flush:true)
         
         def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")
         deviceGroup.save()
