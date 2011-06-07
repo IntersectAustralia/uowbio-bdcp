@@ -1,7 +1,7 @@
 package au.org.intersect.bdcp
 
-import au.org.intersect.bdcp.enums.FieldType;
-import au.org.intersect.bdcp.util.TextUtils;
+import au.org.intersect.bdcp.enums.FieldType
+import au.org.intersect.bdcp.util.TextUtils
 
 class DeviceField 
 {
@@ -18,6 +18,8 @@ class DeviceField
     Date lastUpdated
     
     static belongsTo = [device: Device]
+    
+    static hasMany = [studyDeviceFields: StudyDeviceField]
     
     static constraints = 
     {
@@ -57,5 +59,10 @@ class DeviceField
             return ['nullable']
         }
         
+    }
+    
+    String toString()
+    {
+        fieldLabel
     }
 }

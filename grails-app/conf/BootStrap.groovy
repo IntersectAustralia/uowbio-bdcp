@@ -146,10 +146,13 @@ class BootStrap
             fundingSource: "Some funding Body",
 			maintServiceInfo: "Maintenance/Service information",
             deviceGroup: deviceGroup)
-        device.save(flush:true)
+        device.save()
         
         def studyDevice = StudyDevice.link(study, device);
-       
+        studyDevice.save(flush: true)
+
+        
+        
 	}
 
 	def destroy =

@@ -15,7 +15,7 @@ class StudyDeviceController {
     def list = {
         def studyInstance = Study.get(params.studyId)
         def deviceGroupsMapping = DeviceGroup.list().collect {deviceGroup ->
-            def devices = StudyDevice.list().findAll { it.device.deviceGroup.id == deviceGroup.id }
+            def devices = studyInstance.studyDevices.findAll { it.device.deviceGroup.id == deviceGroup.id }
             devices = devices.collect { it.device }
             [deviceGroup:deviceGroup, devices:devices]
         }

@@ -4,6 +4,9 @@ class StudyDevice {
 
     Study study
     Device device
+    
+    static hasMany = [studyDeviceFields: StudyDeviceField]
+    
     static StudyDevice link(Study study,Device device) {
         StudyDevice studyDevice = StudyDevice.findByStudyAndDevice(study,device)
         if (!studyDevice) {
