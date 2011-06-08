@@ -10,13 +10,15 @@ class StudyDeviceFieldController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [studyDeviceFieldInstanceList: StudyDeviceField.list(params), studyDeviceFieldInstanceTotal: StudyDeviceField.count()]
+        def studyDeviceFields = []
+        [studyDeviceFieldInstanceList: StudyDeviceField.list(params), studyDeviceFieldInstanceTotal: StudyDeviceField.count(), studyDeviceFields: studyDeviceFields]
     }
 
     def create = {
         def studyDeviceFieldInstance = new StudyDeviceField()
         studyDeviceFieldInstance.properties = params
-        return [studyDeviceFieldInstance: studyDeviceFieldInstance]
+        def studyDeviceFields = []
+        return [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields]
     }
 
     def save = {

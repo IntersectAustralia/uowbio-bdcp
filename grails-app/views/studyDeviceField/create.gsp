@@ -28,8 +28,7 @@
             <div class="dialog">
             <table>
             <g:each in="${au.org.intersect.bdcp.DeviceField.list()}" status="i" var="deviceFieldInstance">
-            ${deviceFieldInstance.fieldType.toString().toLowerCase()}
-            <g:render template="${deviceFieldInstance.fieldType.toString().toLowerCase()}"  model = "['deviceFieldInstance':deviceFieldInstance, 'studyDeviceFieldInstance':studyDeviceFieldInstance]"/>
+            <g:render template="${deviceFieldInstance.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceFields': studyDeviceFields, 'deviceFieldInstance':deviceFieldInstance, 'studyDeviceFieldInstance':studyDeviceFieldInstance]"/>
             </g:each>
             </table>
             </div>

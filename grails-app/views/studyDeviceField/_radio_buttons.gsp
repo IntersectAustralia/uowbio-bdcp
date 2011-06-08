@@ -6,11 +6,12 @@
                                 <table style="border: 0px; padding:0px;">
                                 <tr>
                                    <g:each in="${deviceFieldInstance.getFieldOptionsList()}" var="fieldOptionInstance">
-                                   <td><span><input type="radio" value="${studyDeviceFieldInstance?.radioButtonsOption}" name="fieldOption"
+                                   <td><span><input type="radio" value="${studyDeviceFields[i]?.radioButtonsOption}" name="fieldOption"
                                      ${checked}
                                      >&nbsp;${fieldOptionInstance}</span></td>
                                    </g:each>
                                 </tr>
                                 </table>
                                 </td>
+                                <g:hiddenField name="studyDeviceFields[i].deviceFieldId" value="${deviceFieldInstance.id}" />
                             </tr>

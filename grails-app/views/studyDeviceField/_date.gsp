@@ -2,7 +2,8 @@
                                 <td valign="top" class="name">
                                     <label for="date">${deviceFieldInstance.fieldLabel}</label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: studyDeviceFieldInstance, field: 'date', 'errors')}">
-                                    <g:datePicker name="date" precision="day" value="${studyDeviceFieldInstance?.date}" default="none" noSelection="['': '']" />
+                                <td valign="top" class="value ${hasErrors(bean: studyDeviceFields[i], field: 'date', 'errors')}">
+                                    <g:datePicker name="date" precision="day" value="${studyDeviceFields[i]?.date}" default="none" noSelection="['': '']" />
                                 </td>
+                                    <g:hiddenField name="studyDeviceFields[i].deviceFieldId" value="${deviceFieldInstance.id}" />
                             </tr>
