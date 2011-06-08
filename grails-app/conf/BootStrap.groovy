@@ -154,7 +154,13 @@ class BootStrap
             fieldType: FieldType.TEXT)
         device.addToDeviceFields(deviceField)
         deviceField.save(flush: true)
-                
+        
+        def deviceField2 = new DeviceField(fieldLabel: "Radio buttons?",
+            fieldType: FieldType.RADIO_BUTTONS,
+            fieldOptions: "test1\ntest2\n")
+        device.addToDeviceFields(deviceField2)
+        deviceField2.save(flush:true)
+        
         def studyDevice = StudyDevice.link(study, device);
         studyDevice.save(flush: true)
 

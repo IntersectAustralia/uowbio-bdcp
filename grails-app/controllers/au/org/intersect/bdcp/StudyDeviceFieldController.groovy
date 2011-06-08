@@ -1,19 +1,24 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
+
 class StudyDeviceFieldController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def index = {
         redirect(action: "list", params: params)
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def studyDeviceFields = []
         [studyDeviceFieldInstanceList: StudyDeviceField.list(params), studyDeviceFieldInstanceTotal: StudyDeviceField.count(), studyDeviceFields: studyDeviceFields]
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def create = {
         def studyDeviceFieldInstance = new StudyDeviceField()
         studyDeviceFieldInstance.properties = params
@@ -21,6 +26,7 @@ class StudyDeviceFieldController {
         return [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields]
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
         def studyDeviceFieldInstance = new StudyDeviceField(params)
         if (studyDeviceFieldInstance.save(flush: true)) {
@@ -32,6 +38,7 @@ class StudyDeviceFieldController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
         def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
         if (!studyDeviceFieldInstance) {
@@ -43,6 +50,7 @@ class StudyDeviceFieldController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
         def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
         if (!studyDeviceFieldInstance) {
@@ -54,6 +62,7 @@ class StudyDeviceFieldController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
         def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
         if (studyDeviceFieldInstance) {
@@ -80,7 +89,8 @@ class StudyDeviceFieldController {
             redirect(action: "list")
         }
     }
-
+    
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def delete = {
         def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
         if (studyDeviceFieldInstance) {
