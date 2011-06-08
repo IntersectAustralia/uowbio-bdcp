@@ -1,4 +1,4 @@
-
+<
 <%@ page import="au.org.intersect.bdcp.Study" %>
 <html>
     <head>

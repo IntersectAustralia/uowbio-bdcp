@@ -203,6 +203,7 @@ td.errors textarea {
 table {
 	border: 1px solid #ccc;
 	width: 100%
+	table-layout: fixed;
 }
 
 tr {
@@ -314,6 +315,9 @@ th.desc a {
 .prop .value {
 	text-align: left;
 	width: 85%;
+	word-break:break-all;
+	word-wrap: break-word;
+	white-space: -moz-pre-wrap;
 }
 
 .radiobutton .name{

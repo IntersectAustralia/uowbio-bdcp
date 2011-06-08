@@ -3,6 +3,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 import au.org.intersect.bdcp.Component
 import au.org.intersect.bdcp.Device
+import au.org.intersect.bdcp.DeviceField
 import au.org.intersect.bdcp.DeviceGroup
 import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
@@ -11,6 +12,7 @@ import au.org.intersect.bdcp.Session
 import au.org.intersect.bdcp.Study
 import au.org.intersect.bdcp.StudyDevice
 import au.org.intersect.bdcp.UserStore
+import au.org.intersect.bdcp.enums.FieldType
 
 
 
@@ -146,8 +148,13 @@ class BootStrap
             fundingSource: "Some funding Body",
 			maintServiceInfo: "Maintenance/Service information",
             deviceGroup: deviceGroup)
-        device.save()
-        
+        device.save(flush: true)
+
+        def deviceField = new DeviceField(fieldLabel: "Is the device currently being used?",
+            fieldType: FieldType.TEXT)
+        device.addToDeviceFields(deviceField)
+        deviceField.save(flush: true)
+                
         def studyDevice = StudyDevice.link(study, device);
         studyDevice.save(flush: true)
 
