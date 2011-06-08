@@ -65,4 +65,9 @@ class DeviceField
     {
         fieldLabel
     }
+    
+    def getFieldOptionsList()
+    {
+        def options = fieldOptions?.tokenize("\n")
+    }
 }
