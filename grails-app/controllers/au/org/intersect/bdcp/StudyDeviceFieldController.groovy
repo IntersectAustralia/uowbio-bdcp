@@ -28,13 +28,53 @@ class StudyDeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
-        def studyDeviceFieldInstance = new StudyDeviceField(params)
-        if (studyDeviceFieldInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), studyDeviceFieldInstance.id])}"
-            redirect(action: "show", id: studyDeviceFieldInstance.id)
+        
+        def studyDeviceInstance = StudyDevice.link(Study.findById(params.study.id),Device.findById(params.device.id))
+        def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
+        def allValid = true
+        def studyDeviceFieldInstance = []
+        for (int i=0; i < deviceFields.size(); i++)
+        {
+            studyDeviceFieldInstance[i] = new StudyDeviceField(params["studyDeviceFields["+i+"]"])
+            studyDeviceInstance?.addToStudyDeviceFields(studyDeviceFieldInstance[i])
+            deviceFields[i]?.addToStudyDeviceFields(studyDeviceFieldInstance[i])
+            if (!studyDeviceFieldInstance[i].validate())
+            {
+                allValid = false
+            }
+            println "STudyDevice[${i}] = " + studyDeviceFieldInstance[i].dropDownOption
+    
+        }
+                
+        if (allValid)
+        {
+            if (studyDeviceFieldInstance[0].save(flush: true)) 
+            {
+                flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), studyDeviceFieldInstance.id])}"
+                redirect(action: "show", id: studyDeviceFieldInstance[0].id)
+            }
+            else
+            {
+                
+                for (int i=0; i < deviceFields.size(); i++)
+                {
+                    studyDeviceInstance?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
+                    deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
+                }
+                StudyDevice?.unlink(Study.findById(params.study.id),Device.findById(params.device.id))
+                def studyDeviceFields = studyDeviceFieldInstance
+                render(view: "create", model: [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields])
+             }
         }
         else {
-            render(view: "create", model: [studyDeviceFieldInstance: studyDeviceFieldInstance])
+            for (int i=0; i < deviceFields.size(); i++)
+            {
+                studyDeviceInstance?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
+                deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
+            }
+            StudyDevice?.unlink(Study.findById(params.study.id),Device.findById(params.device.id))
+            def studyDeviceFields = studyDeviceFieldInstance
+            render(view: "create", model: [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields, 'study.id': params.study.id])
         }
     }
 

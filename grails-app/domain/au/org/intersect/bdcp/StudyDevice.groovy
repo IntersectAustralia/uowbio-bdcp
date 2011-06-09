@@ -27,7 +27,14 @@ class StudyDevice {
         }
     }
 
+    static mapping = {
+        studyDeviceFields cascade:'all-delete-orphan'
+    }
+
+    
     static constraints = {
+        study(nullable: true)
+        device(nullable: true)
         
     }
 }

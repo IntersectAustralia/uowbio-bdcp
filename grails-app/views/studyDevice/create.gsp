@@ -26,7 +26,8 @@
                 <ul>
                 <g:each in="${deviceGroupInstance.devices}" status="j" var="deviceInstance">
                 <g:if test="${au.org.intersect.bdcp.StudyDevice?.findByStudyAndDevice(au.org.intersect.bdcp.Study?.findById(params.studyId), deviceInstance) == null}">
-                <li>${deviceInstance.name} <g:link elementId="select_${j}" mapping="studyDeviceDetails" class="button" action="save" id="${deviceInstance.id}" params="['device.id':deviceInstance.id,'study.id':params.studyId, studyId: params.studyId]">Select</g:link></li>
+                <li>${deviceInstance.name} <g:link elementId="select_${j}" mapping="studyDeviceDetails" class="button" action="save" id="${deviceInstance.id}" params="['device.id':deviceInstance.id,'study.id':params.studyId, studyId: params.studyId]">Select</g:link>
+                <g:link elementId="template_${j}" mapping="studyDeviceFieldDetails" class="button" action="create" params="['device.id':deviceInstance.id,'study.id':params.studyId, studyId: params.studyId]">Template</g:link><li>
                 </g:if>
                 <g:else>
                  <li>${deviceInstance.name} ... already selected</li>

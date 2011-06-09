@@ -150,6 +150,22 @@ class BootStrap
             deviceGroup: deviceGroup)
         device.save(flush: true)
 
+        def device2 = new Device(name: "Device2",
+            description: "Some device",
+            manufacturer: "Some manufacturer",
+            locationOfManufacturer: "Some location",
+            modelName: "Some model",
+            serialNumber: "11231ABC",
+            uowAssetNumber: "11231ABC",
+            dateOfPurchase: new Date(),
+            dateOfDelivery: new Date(),
+            purchasePrice: "\$10.00",
+            vendor: "Intersect",
+            fundingSource: "Some funding Body",
+            maintServiceInfo: "Maintenance/Service information",
+            deviceGroup: deviceGroup)
+        device2.save(flush: true)
+        
         def deviceField = new DeviceField(fieldLabel: "Is the device currently being used?",
             fieldType: FieldType.TEXT)
         device.addToDeviceFields(deviceField)
@@ -161,6 +177,15 @@ class BootStrap
         device.addToDeviceFields(deviceField2)
         deviceField2.save(flush:true)
         
+        def deviceField3 = new DeviceField(fieldLabel: "Device 2 questions?",
+            fieldType: FieldType.TEXT)
+        device2.addToDeviceFields(deviceField3)
+        deviceField3.save(flush: true)
+        
+        def deviceField4 = new DeviceField(fieldLabel: "Device 2 questions 2?",
+            fieldType: FieldType.TEXT)
+        device2.addToDeviceFields(deviceField4)
+        deviceField4.save(flush: true)
         def studyDevice = StudyDevice.link(study, device);
         studyDevice.save(flush: true)
 
