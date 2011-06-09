@@ -26,6 +26,17 @@ class StudyDeviceFieldController {
         return [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields]
     }
 
+    def saveAllStudyDeviceFields(studyDeviceFields)
+    {
+        studyDeviceFields.every {
+           if (!it.save(flush: true))
+           {
+               return false
+           }
+        }
+        return true
+    }
+    
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
         
@@ -42,16 +53,16 @@ class StudyDeviceFieldController {
             {
                 allValid = false
             }
-            println "STudyDevice[${i}] = " + studyDeviceFieldInstance[i].dropDownOption
     
         }
                 
         if (allValid)
         {
-            if (studyDeviceFieldInstance[0].save(flush: true)) 
+            if (saveAllStudyDeviceFields(studyDeviceFieldInstance)) 
             {
-                flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), studyDeviceFieldInstance.id])}"
-                redirect(action: "show", id: studyDeviceFieldInstance[0].id)
+                flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDevice.label', default: 'Device'), studyDeviceInstance.device])}"
+                //flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), studyDeviceFieldInstance.id])}"
+                redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":params.studyId, "device.id": params.device.id, "study.id": params.study.id] )
             }
             else
             {

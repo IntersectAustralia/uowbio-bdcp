@@ -24,7 +24,9 @@
             </g:each>
             
             <br />
-            <g:form action="save" mapping="studyDeviceFieldDetails" controller="studyDeviceField" params="['device.id':params.device.id,'study.id':params.studyId, studyId: params.studyId]">
+            
+            <g:form id="saveForm" action="save" mapping="studyDeviceFieldDetails" controller="studyDeviceField" params="['device.id':params.device.id,'study.id':params.studyId, studyId: params.studyId]">
+            <g:if test="${au.org.intersect.bdcp.DeviceField.findAllByDevice(Device.findById(params.device.id))?.size() > 0}">
             <div class="dialog">
             <table>
             <g:each in="${au.org.intersect.bdcp.DeviceField.findAllByDevice(Device.findById(params.device.id))}" status="i" var="deviceFieldInstance">
@@ -32,6 +34,7 @@
             </g:each>
             </table>
             </div>
+            </g:if>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                     <span class="button"><g:link elementId="cancel" mapping="studyDeviceDetails" controller="studyDevice" action="create" params="[studyId: params.studyId]">Cancel</g:link></span>

@@ -1,6 +1,7 @@
 package au.org.intersect.bdcp
 
 
+
 class DeviceGroup {
     
     String groupingName
@@ -20,5 +21,11 @@ class DeviceGroup {
     String toString()
     {
         groupingName?.trim()
+    }
+    
+    def getDevicesList() {
+        
+        def sortedDeviceList = devices.sort {x,y -> x.name <=> y.name}
+        return sortedDeviceList
     }
 }

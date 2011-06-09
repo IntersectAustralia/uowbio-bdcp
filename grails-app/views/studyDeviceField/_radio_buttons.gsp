@@ -1,3 +1,8 @@
+<script>
+function pick_${i}(option){
+	document.getElementById("studyDeviceFields[${i}].radioButtonsOption").value=option
+}
+</script>
 <tr class="radiobutton">
                                 <td valign="top" class="name">
                                     <label for="radioButtonsOption">${deviceFieldInstance.fieldLabel}</label>
@@ -7,12 +12,11 @@
                                 <tr>
                                    <g:each in="${deviceFieldInstance.getFieldOptionsList()}" var="fieldOptionInstance">
                                    <g:set var="checked" value="${fieldOptionInstance.equals(studyDeviceFields[i]?.radioButtonsOption)?'checked=checked':''}"/>
-                                   <td><span><input id="studyDeviceFields[${i}]?.radioButtonsOption" type="radio" value="${fieldOptionInstance}" name="studyDeviceFields[${i}]?.radioButtonsOption"
-                                     ${checked}
+                                   <td><span onclick="pick_${i}('${fieldOptionInstance.trim()}')"><input id="${i}" type="radio" value="${fieldOptionInstance}" name="studyDeviceFields[${i}]?.radioButtonsOption"
                                      >&nbsp;${fieldOptionInstance}</span></td>
                                      </g:each>
                                 </tr>
                                 </table>
                                 </td>
-                                <g:hiddenField name="studyDeviceFields[${i}].deviceFieldId" value="${deviceFieldInstance.id}" />
+                                <g:hiddenField id="studyDeviceFields[${i}].radioButtonsOption" name="studyDeviceFields[${i}].radioButtonsOption" value="" />
                             </tr>

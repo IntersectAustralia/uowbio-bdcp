@@ -5,5 +5,4 @@
                                 <td valign="top" class="value ${hasErrors(bean: studyDeviceFields[i], field: 'numeric', 'errors')}">
                                     <g:textField name="numeric" value="${fieldValue(bean: studyDeviceFields[i], field: 'numeric')}" />
                                 </td>
-                                <g:hiddenField name="studyDeviceFields[i].deviceFieldId" value="${deviceFieldInstance.id}" />
                             </tr>

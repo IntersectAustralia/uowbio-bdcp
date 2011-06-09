@@ -38,9 +38,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="paginateButtons">
-                <g:paginate total="${deviceInstanceTotal}" />
-            </div>
             </g:if>
             <div class="buttons"><span class="menuButton">
                 <g:link elementId="Back" controller="deviceGroup" class="list" action="list">Back</g:link></span>
