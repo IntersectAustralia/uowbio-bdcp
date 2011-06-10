@@ -11,9 +11,9 @@ function pick_${i}(option){
                                 <table style="border: 0px; padding:0px;">
                                 <tr>
                                    <g:each in="${deviceFieldInstance.getFieldOptionsList()}" var="fieldOptionInstance">
-                                   <g:set var="checked" value="${fieldOptionInstance.equals(studyDeviceFields[i]?.radioButtonsOption)?'checked=checked':''}"/>
+                                   <g:set var="checked" value="${studyDeviceFields[i]?.radioButtonsOption.trim() == fieldOptionInstance.trim()?'checked=checked':''}"/>
                                    <td><span onclick="pick_${i}('${fieldOptionInstance.trim()}')"><input id="${i}" type="radio" value="${fieldOptionInstance}" name="studyDeviceFields[${i}]?.radioButtonsOption"
-                                     >&nbsp;${fieldOptionInstance}</span></td>
+                                     ${checked}>&nbsp;${fieldOptionInstance}</span></td>
                                      </g:each>
                                 </tr>
                                 </table>
