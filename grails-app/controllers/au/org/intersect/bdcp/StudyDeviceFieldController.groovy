@@ -74,7 +74,7 @@ class StudyDeviceFieldController {
                 }
                 StudyDevice?.unlink(Study.findById(params.study.id),Device.findById(params.device.id))
                 def studyDeviceFields = studyDeviceFieldInstance
-                render(view: "create", model: [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields])
+                render(view: "create", model: [studyDeviceFields: studyDeviceFields,studyDeviceFieldInstance: studyDeviceFieldInstance])
              }
         }
         else {
@@ -85,7 +85,7 @@ class StudyDeviceFieldController {
             }
             StudyDevice?.unlink(Study.findById(params.study.id),Device.findById(params.device.id))
             def studyDeviceFields = studyDeviceFieldInstance
-            render(view: "create", model: [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields, 'study.id': params.study.id])
+            render(view: "create", model: [studyDeviceFields: studyDeviceFields, studyDeviceFieldInstance: studyDeviceFieldInstance, 'study.id': params.study.id])
         }
     }
 

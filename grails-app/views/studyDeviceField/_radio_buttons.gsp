@@ -11,12 +11,12 @@ function pick_${i}(option){
                                 <table style="border: 0px; padding:0px;">
                                 <tr>
                                    <g:each in="${deviceFieldInstance.getFieldOptionsList()}" var="fieldOptionInstance">
-                                   <g:set var="checked" value="${studyDeviceFields[i]?.radioButtonsOption?.trim() == fieldOptionInstance?.trim()?'checked=checked':''}"/>
-                                   <td><span onclick="pick_${i}('${fieldOptionInstance?.trim()}')"><input id="${i}" type="radio" value="${fieldOptionInstance}" name="studyDeviceFields[${i}]?.radioButtonsOption"
+                                   <g:set var="checked" value="${studyDeviceFields[i]?.radioButtonsOption?.trim().equals(fieldOptionInstance?.trim())?'checked=checked':''}"/>
+                                   <td><span onclick="pick_${i}('${fieldOptionInstance?.trim()}')"><input id="${i}" type="radio" value="${fieldOptionInstance}" name="radioButtonsOption"
                                      ${checked}>&nbsp;${fieldOptionInstance}</span></td>
                                      </g:each>
                                 </tr>
                                 </table>
                                 </td>
-                                <g:hiddenField id="studyDeviceFields[${i}].radioButtonsOption" name="studyDeviceFields[${i}].radioButtonsOption" value="" />
+                                <g:hiddenField id="studyDeviceFields[${i}].radioButtonsOption" name="studyDeviceFields[${i}].radioButtonsOption" value="${fieldValue(bean: studyDeviceFields[i], field: 'radioButtonsOption')}" />
                             </tr>
