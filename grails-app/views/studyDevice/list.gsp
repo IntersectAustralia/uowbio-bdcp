@@ -32,7 +32,7 @@
                 <h2>${deviceGroupMap?.deviceGroup.groupingName}</h2>
                 <ul>
                 <g:each in="${deviceGroupMap?.devices}" status="j" var="deviceInstance">
-                <li>${deviceInstance?.name}</li>
+                <li>${deviceInstance?.name} - ${deviceInstance.vendor} - ${deviceInstance.modelName}</li>
                 </g:each>
                 </ul>
                 </g:each>

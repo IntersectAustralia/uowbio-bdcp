@@ -3,6 +3,6 @@
                                     <label for="time">${deviceFieldInstance.fieldLabel}</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: studyDeviceFields[i], field: 'time', 'errors')}">
-                                    <g:datePicker name="time" precision="day" value="${studyDeviceFields[i]?.time}" default="none" noSelection="['': '']" />
+                                    <joda:timePicker name="time" precision="minute" value="${studyDeviceFields[i]?.time}" default="none" noSelection="['': '']" />
                                 </td>
                             </tr>

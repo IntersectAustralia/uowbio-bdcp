@@ -2,6 +2,9 @@ package au.org.intersect.bdcp
 
 import java.util.Date
 
+import org.joda.time.*
+import org.joda.time.contrib.hibernate.*
+
 import au.org.intersect.bdcp.enums.FieldType
 import au.org.intersect.bdcp.util.TextUtils
 
@@ -10,8 +13,8 @@ class StudyDeviceField {
     String text
     String textArea
     BigDecimal numeric
-    Date date
-    Date time
+    LocalDate date
+    LocalTime time
     String radioButtonsOption
     String dropDownOption
     String staticContent
@@ -23,6 +26,11 @@ class StudyDeviceField {
     Date lastUpdated
     
     static belongsTo = [studyDevice: StudyDevice, deviceField: DeviceField]
+    
+    static mapping = {
+        date type: PersistentLocalDate
+        time type: PersistentLocalTimeAsTime
+    }
     
     static constraints = {
         
