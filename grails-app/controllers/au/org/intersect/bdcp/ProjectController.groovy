@@ -14,7 +14,7 @@ class ProjectController
 		redirect(action: "list", params: params)
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_USER'])
 	def list =
 	{
 		cache false

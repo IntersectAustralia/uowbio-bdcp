@@ -128,7 +128,7 @@ class BootStrap
         def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")
         deviceGroup.save()
         
-		def user = new UserStore(username:"dpollum", deactivated: false)
+		def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_USER")
 		user.save(flush:true)
         
 		user = new UserStore(username:"chrisk", deactivated: false)

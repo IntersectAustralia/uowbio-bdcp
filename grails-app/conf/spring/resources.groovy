@@ -40,6 +40,8 @@ beans = {
 
 //	// this overrides the default Authentication Provider with our authenticator and our user details service
 	myLdapAuthenticationProvider(org.springframework.security.ldap.authentication.LdapAuthenticationProvider,
-			ref("myLdapAuthenticator")) 
+			ref("myLdapAuthenticator"), ref("ldapAuthoritiesPopulator"))
+    
+    ldapAuthoritiesPopulator(au.org.intersect.bdcp.ldap.MyLdapAuthoritiesPopulator) 
 
 }
