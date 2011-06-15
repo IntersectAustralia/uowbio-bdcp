@@ -7,6 +7,7 @@ class UserStore{
     String authority
     static constraints = {
     	username(blank:false, unique:true, size:1..1000)
+        authority(nullable: true)
 	}
 	
 }
