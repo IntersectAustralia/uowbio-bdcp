@@ -92,7 +92,7 @@ class StudyDeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
-       
+       def studyDeviceFields = []
         def studyDeviceFieldInstance = []
 //        def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
 //        if (!studyDeviceFieldInstance) {
@@ -124,7 +124,25 @@ class StudyDeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
-        def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
+        
+        def studyDeviceInstance = StudyDevice.findAllByStudyAndDevice(Study.findById(params.study.id),Device.findById(params.device.id))
+        def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
+        def allValid = true
+        def studyDeviceFieldInstance = []
+        
+        for (int i=0; i < deviceFields.size(); i++)
+        {
+            studyDeviceFieldInstance[i] = new StudyDeviceField(params["studyDeviceFields["+i+"]"])
+            studyDeviceInstance?.addToStudyDeviceFields(studyDeviceFieldInstance[i])
+            deviceFields[i]?.addToStudyDeviceFields(studyDeviceFieldInstance[i])
+            if (!studyDeviceFieldInstance[i].validate())
+            {
+                allValid = false
+            }
+    
+        }
+        
+        
         if (studyDeviceFieldInstance) {
             if (params.version) {
                 def version = params.version.toLong()
