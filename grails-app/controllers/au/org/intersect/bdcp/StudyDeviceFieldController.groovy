@@ -107,7 +107,8 @@ class StudyDeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
-        def studyDeviceFields = StudyDevice.findByStudyAndDevice(Study.findById(params.studyId), Device.findById(params.device.id))?.studyDeviceFields
+        //def studyDeviceFields = StudyDevice.findByStudyAndDevice(Study.findById(params.studyId), Device.findById(params.device.id))?.studyDeviceFields.toArray()
+        def studyDeviceFields = []
         def studyDeviceFieldInstance = []
         //def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
         if (studyDeviceFields == null) {
