@@ -32,7 +32,7 @@
                 <h2>${deviceGroupMap?.deviceGroup.groupingName}</h2>
                 <ul>
                 <g:each in="${deviceGroupMap?.devices}" status="j" var="deviceInstance">
-                <li>${deviceInstance?.name} - ${deviceInstance.vendor} - ${deviceInstance.modelName}</li>
+                <li>${deviceInstance?.name} - ${deviceInstance.vendor} - ${deviceInstance.modelName} <g:link elementId="edit_${j}" mapping="studyDeviceFieldDetails" class="button" action="edit" params="['device.id':deviceInstance.id,'study.id':params.studyId, studyId: params.studyId]">Edit</g:link></li>
                 </g:each>
                 </ul>
                 </g:each>

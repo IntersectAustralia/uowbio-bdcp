@@ -91,25 +91,31 @@ class StudyDeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def show = {
-        def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
-        if (!studyDeviceFieldInstance) {
+       
+        def studyDeviceFieldInstance = []
+//        def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
+//        if (!studyDeviceFieldInstance) {
+         if (!studyDeviceFields)
+         {  
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
             redirect(action: "list")
         }
         else {
-            [studyDeviceFieldInstance: studyDeviceFieldInstance]
+            [studyDeviceFields: studyDeviceFields, studyDeviceFieldInstance: studyDeviceFieldInstance]
         }
     }
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
-        def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
-        if (!studyDeviceFieldInstance) {
+        def studyDeviceFields = StudyDevice.findByStudyAndDevice(Study.findById(params.studyId), Device.findById(params.device.id))?.studyDeviceFields
+        def studyDeviceFieldInstance = []
+        //def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
+        if (studyDeviceFields == null) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
             redirect(action: "list")
         }
         else {
-            return [studyDeviceFieldInstance: studyDeviceFieldInstance]
+            return [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields]
         }
     }
 
