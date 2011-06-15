@@ -23,7 +23,8 @@ class StudyDeviceFieldController {
         def studyDeviceFieldInstance = new StudyDeviceField()
         studyDeviceFieldInstance.properties = params
         def studyDeviceFields = []
-        return [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields]
+        def checked = []
+        return [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields, checked: checked]
     }
 
     def saveAllStudyDeviceFields(studyDeviceFields)
