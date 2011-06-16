@@ -16,6 +16,35 @@
     <script>
 
   $(document).ready(function(){
+	  function updateDirectory(reference) {
+		  var $input = $("input[value='"+reference+"']");
+      	  var parentRef = $input.attr("parentDir");
+		  var $e = $input.closest("li");
+		  var $children = $e.find("input[parentDir='"+reference+"']");
+		  var $selectedChildren = $e.find("input[parentDir='"+reference+"']:checked");
+		  var checked = $input.prop("checked");
+		  var newChecked = $children.size() == $selectedChildren.size();
+		  if (checked != newChecked) {
+			  $input.prop("checked", newChecked);
+			  if (parentRef != null && parentRef.length>0) {
+				  updateDirectory(parentRef);
+			  }
+		  }
+	  }
+    $("input.fileSelect").change(function(){
+        	var parentRef = $(this).attr("parentDir");
+	        updateDirectory(parentRef);
+        });
+    $("input.directorySelect").change(function(){
+    		var reference = $(this).prop("value");
+    		var isChecked = this.checked
+        	$(this).closest("li").find("input").each(function(i,elem){
+            	var $e = $(elem);
+            	$e.prop("checked", isChecked)
+            	});
+        	var parentRef = $(this).attr("parentDir");
+	        updateDirectory(parentRef);
+        });
     $("#example").treeview();
   });
   
@@ -57,7 +86,7 @@
                  <ul>
                  <g:def var="sessionRoot" value="${sessionFiles.getAt(sessionInstance.id.toString()).getAt('sessionRoot')}" />
                  <g:each in="${sessionFiles.getAt(sessionInstance.id.toString()).getAt('files')}" status="l" var="fileInstance">
-                 <g:traversalTag file="${fileInstance}" sessionRoot="${sessionRoot}" session="${sessionInstance}" status="${i}-${1}"/>
+                 <g:traversalTag file="${fileInstance}" sessionRoot="${sessionRoot}" session="${sessionInstance}" status="${i}-${1}" parent="" position="${l}"/>
                  </g:each>
                  </ul>
                  </li>
