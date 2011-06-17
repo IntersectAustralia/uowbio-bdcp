@@ -16,7 +16,21 @@
     <script>
 
   $(document).ready(function(){
-	  function updateDirectory(reference) {
+	 
+    var $downloadButton = $("#downloadButton");
+    var $fileTree = $(".filetree");
+    var numf = 0;
+    $downloadButton.button({disabled:true}); 
+    $downloadButton.click(function(){
+        alert("Get ready to download " + numf + " files and directories");
+    });
+    
+    function refreshButton() {
+        numf = $fileTree.find("input:checkbox:checked").size();
+        $downloadButton.button("option","disabled",numf == 0);
+    }
+        
+	function updateDirectory(reference) {
 		  var $input = $("input[value='"+reference+"']");
       	  var parentRef = $input.attr("parentDir");
 		  var $e = $input.closest("li");
@@ -30,10 +44,11 @@
 				  updateDirectory(parentRef);
 			  }
 		  }
-	  }
+	}
     $("input.fileSelect").change(function(){
         	var parentRef = $(this).attr("parentDir");
 	        updateDirectory(parentRef);
+	        refreshButton();
         });
     $("input.directorySelect").change(function(){
     		var reference = $(this).prop("value");
@@ -44,6 +59,7 @@
             	});
         	var parentRef = $(this).attr("parentDir");
 	        updateDirectory(parentRef);
+	        refreshButton();
         });
     $("#example").treeview();
   });
@@ -97,7 +113,7 @@
 		</ul>
 
 
-
+			<button id="downloadButton">Download</button>
 
             </div>
             </g:if>

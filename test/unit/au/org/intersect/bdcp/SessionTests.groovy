@@ -70,7 +70,7 @@ class SessionTests extends GrailsUnitTestCase {
 		assertFalse 'No validation for blank field(s)' ,session.validate()
 		assertEquals 'Name is blank.','blank', session.errors['name']
 		assertEquals 'Description is blank.','blank', session.errors['description']
-		session = new Session(name:"TestSession", 
+		session = new Session(name:"TestSession too", 
 			description: "Some Description", component:component)
 		assertTrue "A valid session did not validate!", session.validate()
     }
@@ -90,7 +90,7 @@ class SessionTests extends GrailsUnitTestCase {
 	   assertEquals 'Name does not validate size.','size', session.errors['name']
 	   assertEquals 'Description does not validate size.','size', session.errors['description']
 	   
-	   session = new Session(name:"TestSession", description: "Some Description",
+	   session = new Session(name:"TestSession too", description: "Some Description",
 			component: component)
  
 	   assertTrue session.validate()
