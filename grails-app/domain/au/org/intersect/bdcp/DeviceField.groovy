@@ -69,5 +69,10 @@ class DeviceField
     def getFieldOptionsList()
     {
         def options = fieldOptions?.tokenize("\n")
+        def trimmedOptions = []
+        options.each {
+            trimmedOptions.add(it.trim())
+        }
+        return trimmedOptions
     }
 }

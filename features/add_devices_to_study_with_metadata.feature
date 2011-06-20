@@ -1,7 +1,7 @@
 Feature: Add Device to Study with Metadata
   In order manage my data
   As a Researcher
-  I want to add a device to a studywith metadata
+  I want to add a device to a study with metadata
  
  Background:
  Given I have logged in
@@ -10,11 +10,11 @@ Feature: Add Device to Study with Metadata
  Given I have created a device grouping with "Force Platforms"
  Given I have created a device with "Device1", "Some Description", "Some Manufacturer", "Some location", "Some model", "Some serial number", "Some UOW Asset number", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "$10.00", "Intersect", "Some funding source", "Maintenance Service Info"
  Given I have created a deviceField with "-101", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "Location of Strap", "TEXT", ""
- Given I have created a deviceField with "-102", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "Location of Text Area", "TEXTAREA", ""
- Given I have created a deviceField with "-103", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "Select a Radio Button Option", "RADIO_BUTTONS", "Option1"
- Given I have created a deviceField with "-104", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "Select a Drop Down Option", "DROP_DOWN", "Option1"
- Given I have created a deviceField with "-105", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "Select a time", "TIME", ""
- Given I have created a deviceField with "-106", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "Select a date", "DATE", ""
+ Given I have created a deviceField with "-102", "Device1", "2011-03-01 00:01:00", "2011-03-01 00:01:00", "Location of Text Area", "TEXTAREA", ""
+ Given I have created a deviceField with "-103", "Device1", "2011-03-01 00:02:00", "2011-03-01 00:02:00", "Select a Radio Button Option", "RADIO_BUTTONS", "Option1"
+ Given I have created a deviceField with "-104", "Device1", "2011-03-01 00:03:00", "2011-03-01 00:03:00", "Select a Drop Down Option", "DROP_DOWN", "Option1"
+ Given I have created a deviceField with "-105", "Device1", "2011-03-01 00:04:00", "2011-03-01 00:04:00", "Select a time", "TIME", ""
+ Given I have created a deviceField with "-106", "Device1", "2011-03-01 00:05:00", "2011-03-01 00:05:00", "Select a date", "DATE", ""
  
  Scenario: Add Device to Study with Metadata
  Given I am on the home page
@@ -26,7 +26,7 @@ Feature: Add Device to Study with Metadata
  Then I press "select_0"
  Then I fill in "studyDeviceFields[0].text" with "Some text"
  Then I fill in "studyDeviceFields[1].textArea" with "Some textarea"
- Then I fill in "studyDeviceFields[2].radioButtonsOption" with "Option1"
+ Then I fill in "studyDeviceFields[2].radioButtonsOption" with "Option1" 
  Then I select "Option1" from "studyDeviceFields[3].dropDownOption"
  Then I select "01" from "studyDeviceFields[4].time_hour"
  Then I select "01" from "studyDeviceFields[4].time_minute"
