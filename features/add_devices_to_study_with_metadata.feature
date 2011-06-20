@@ -26,7 +26,7 @@ Feature: Add Device to Study with Metadata
  Then I press "select_0"
  Then I fill in "studyDeviceFields[0].text" with "Some text"
  Then I fill in "studyDeviceFields[1].textArea" with "Some textarea"
- Then I fill in "studyDeviceFields[2].radioButtonsOption" with "Option1" 
+ Then I select radiobutton "Option1" from "studyDeviceFields[2].radioButtonsOption"
  Then I select "Option1" from "studyDeviceFields[3].dropDownOption"
  Then I select "01" from "studyDeviceFields[4].time_hour"
  Then I select "01" from "studyDeviceFields[4].time_minute"
