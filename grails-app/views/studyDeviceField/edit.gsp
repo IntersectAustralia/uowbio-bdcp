@@ -29,10 +29,10 @@
                 <g:if test="${au.org.intersect.bdcp.DeviceField.findAllByDevice(Device.findById(params.device.id))?.size() > 0}">
                 <div class="dialog">
                     <table>
-                       <g:each in="${au.org.intersect.bdcp.DeviceField.findAllByDevice(Device.findById(params.device.id)).sort {it.dateCreated}}" status="i" var="deviceFieldInstance">
-                            <g:hiddenField name="StudyDeviceFieldInstance[${i}].id" value="${studyDeviceFieldInstance[i]?.id}" />
-                            <g:hiddenField name="StudyDeviceFieldInstance[${i}].version" value="${studyDeviceFieldInstance[i]?.version}" />
-                            <g:render template="${deviceFieldInstance.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceFields': studyDeviceFields, 'deviceFieldInstance':deviceFieldInstance, 'studyDeviceFieldInstance':studyDeviceFieldInstance]"/>
+                       <g:each in="${studyDeviceFields.sort {x,y -> x.dateCreated <=> y.dateCreated }}" status="i" var="studyDeviceFieldInstance">
+                            <g:hiddenField name="StudyDeviceFields[${i}].id" value="${studyDeviceFields[i]?.id}" />
+                            <g:hiddenField name="version[${i}]" value="${studyDeviceFields[i]?.version}" />
+                            <g:render template="${studyDeviceFieldInstance.deviceField.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceFields': studyDeviceFields, 'deviceFieldInstance':studyDeviceFieldInstance.deviceField, 'studyDeviceFieldInstance':studyDeviceFieldInstance]"/>
                         </g:each>
                     </table>
                 </div>
