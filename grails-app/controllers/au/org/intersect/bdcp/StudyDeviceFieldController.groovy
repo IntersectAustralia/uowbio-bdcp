@@ -38,6 +38,50 @@ class StudyDeviceFieldController {
         return true
     }
     
+    def validStudyDeviceFields(studyDeviceFields)
+    {
+        def studyDeviceInstance = StudyDevice.link(Study.findById(params.study.id),Device.findById(params.device.id))
+        def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
+        def allValid = true
+        for (int i=0; i < studyDeviceFields.size(); i++)
+        {
+            if (studyDeviceFields[i]?.id == null)
+            {
+                studyDeviceFields[i] = new StudyDeviceField(params["studyDeviceFields["+i+"]"])
+            }
+            else
+            {
+                studyDeviceFields[i].properties =params["studyDeviceFields["+i+"]"]
+            }
+            studyDeviceInstance?.addToStudyDeviceFields(studyDeviceFields[i])
+            deviceFields[i]?.addToStudyDeviceFields(studyDeviceFields[i])
+            if (!studyDeviceFields[i].validate())
+            {
+                allValid = false
+            }
+    
+        }
+        
+        return allValid
+    }
+    
+    def laterVersion(studyDeviceFields)
+    {
+        def isLaterVersion = false
+        for (int i=0; i < studyDeviceFields.size(); i++)
+        {
+            if (params["studyDeviceFields["+i+"]"].version) {
+                def version = params["studyDeviceFields["+i+"]"].version.toLong()
+                if (studyDeviceFields[i].version > version)
+                {
+                    isLaterVersion = true
+                }
+            }
+        }
+        return isLaterVersion
+    }
+    
+    
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def save = {
         
@@ -109,7 +153,7 @@ class StudyDeviceFieldController {
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def edit = {
         def studyDeviceFields = []
-        studyDeviceFields.addAll(StudyDevice.findByStudyAndDevice(Study.findById(params.studyId), Device.findById(params.device.id))?.studyDeviceFields as StudyDeviceField[])
+        studyDeviceFields.addAll(StudyDevice.findByStudyAndDevice(Study.findById(params.studyId), Device.findById(params.device.id))?.studyDeviceFields)
         
         def studyDeviceFieldInstance = []
         //def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
@@ -125,46 +169,69 @@ class StudyDeviceFieldController {
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update = {
         
-        def studyDeviceInstance = StudyDevice.findAllByStudyAndDevice(Study.findById(params.study.id),Device.findById(params.device.id))
+        def studyDeviceInstance = StudyDevice.findByStudyAndDevice(Study.findById(params.study.id),Device.findById(params.device.id))
         def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
+        def studyDeviceFields = StudyDeviceField.findAllByStudyDevice(studyDeviceInstance)
         def allValid = true
         def studyDeviceFieldInstance = []
+        studyDeviceFieldInstance.addAll(studyDeviceFields)
+        studyDeviceFields = studyDeviceFieldInstance
         
-        for (int i=0; i < deviceFields.size(); i++)
-        {
-            studyDeviceFieldInstance[i] = new StudyDeviceField(params["studyDeviceFields["+i+"]"])
-            studyDeviceInstance?.addToStudyDeviceFields(studyDeviceFieldInstance[i])
-            deviceFields[i]?.addToStudyDeviceFields(studyDeviceFieldInstance[i])
-            if (!studyDeviceFieldInstance[i].validate())
+        if (validStudyDeviceFields(studyDeviceFields)) {
+            if (laterVersion(studyDeviceFields))
             {
-                allValid = false
-            }
-    
-        }
-        
-        
-        if (studyDeviceFieldInstance) {
-            if (params.version) {
-                def version = params.version.toLong()
-                if (studyDeviceFieldInstance.version > version) {
-                    
-                    studyDeviceFieldInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'studyDeviceField.label', default: 'StudyDeviceField')] as Object[], "Another user has updated this StudyDeviceField while you were editing")
-                    render(view: "edit", model: [studyDeviceFieldInstance: studyDeviceFieldInstance])
-                    return
-                }
-            }
-            studyDeviceFieldInstance.properties = params
-            if (!studyDeviceFieldInstance.hasErrors() && studyDeviceFieldInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), studyDeviceFieldInstance.id])}"
-                redirect(action: "show", id: studyDeviceFieldInstance.id)
-            }
+                        for (int i=0; i < deviceFields.size(); i++)
+                        {
+                            if (studyDeviceFields[i]?.id == null)
+                            {
+                                studyDeviceInstance?.removeFromStudyDeviceFields(studyDeviceFields[i])
+                                deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFields[i])
+                            }
+                            
+                            if (params["studyDeviceFields["+i+"]"].version) {
+                                def version = params["studyDeviceFields["+i+"]"].version.toLong()
+                                if (studyDeviceFields[i].version > version)
+                                {
+                                    studyDeviceFields[i].errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'studyDeviceField.label', default: 'StudyDeviceField')] as Object[], "Another user has updated this StudyDeviceField while you were editing")
+                                    studyDeviceFields[i].hasErrors()    
+                                }
+                            }
+                        }
+                        
+                        render(view: "edit", model: [studyDeviceFields: studyDeviceFields])
+                        return
+             }
+            
+            if (saveAllStudyDeviceFields(studyDeviceFieldInstance)) {
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'studyDevice.label', default: 'Device'), studyDeviceInstance.device])}"
+                //flash.message = "${message(code: 'default.updated.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), studyDeviceFieldInstance.id])}"
+                 redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":params.studyId, "device.id": params.device.id, "study.id": params.study.id] )
+             }
             else {
-                render(view: "edit", model: [studyDeviceFieldInstance: studyDeviceFieldInstance])
+                for (int i=0; i < deviceFields.size(); i++)
+                {
+                    if (studyDeviceFieldInstance[i]?.id == null)
+                    {
+                        studyDeviceInstance?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
+                        deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
+                    }
+                }
+                studyDeviceFields = studyDeviceFieldInstance
+                render(view: "edit", model: [studyDeviceFields: studyDeviceFields,studyDeviceFieldInstance: studyDeviceFieldInstance])
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
-            redirect(action: "list")
+            //flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
+            for (int i=0; i < deviceFields.size(); i++)
+                {
+                    if (studyDeviceFieldInstance[i]?.id == null)
+                    {
+                        studyDeviceInstance?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
+                        deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
+                    }
+                }
+                studyDeviceFields = studyDeviceFieldInstance
+                render(view: "edit", model: [studyDeviceFields: studyDeviceFields,studyDeviceFieldInstance: studyDeviceFieldInstance])
         }
     }
     
