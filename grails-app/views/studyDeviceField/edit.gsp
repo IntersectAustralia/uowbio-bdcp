@@ -29,16 +29,16 @@
                 <g:if test="${au.org.intersect.bdcp.DeviceField.findAllByDevice(Device.findById(params.device.id))?.size() > 0}">
                 <div class="dialog">
                     <table>
-                       <g:each in="${studyDeviceFields.sort {x,y -> x.dateCreated <=> y.dateCreated }}" status="i" var="studyDeviceFieldInstance">
+                       <g:each in="${studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}}" status="i" var="studyDeviceFieldInstance">
                             <g:hiddenField name="StudyDeviceFields[${i}].id" value="${studyDeviceFields[i]?.id}" />
-                            <g:hiddenField name="version[${i}]" value="${studyDeviceFields[i]?.version}" />
-                            <g:render template="${studyDeviceFieldInstance.deviceField.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceFields': studyDeviceFields, 'deviceFieldInstance':studyDeviceFieldInstance.deviceField, 'studyDeviceFieldInstance':studyDeviceFieldInstance]"/>
+                            <g:hiddenField name="studyDeviceFields[${i}].version" value="${studyDeviceFields[i]?.version}" />
+                            <g:render template="${studyDeviceFields[i].deviceField.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceFields': studyDeviceFields, 'deviceFieldInstance':studyDeviceFieldInstance.deviceField, 'studyDeviceFieldInstance':studyDeviceFieldInstance]"/>
                         </g:each>
                     </table>
                 </div>
                 </g:if>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
+                    <span class="button"><g:actionSubmit id="update" class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                    <span class="button"><g:link elementId="cancel" mapping="studyDeviceDetails" controller="studyDevice" action="list" params="[studyId: params.studyId]">Cancel</g:link></span>
                 </div>
             </g:form>

@@ -70,8 +70,8 @@ class StudyDeviceFieldController {
         def isLaterVersion = false
         for (int i=0; i < studyDeviceFields.size(); i++)
         {
-            if (params["version["+i+"]"]) {
-                def version = params["version["+i+"]"].toLong()
+            if (params["studyDeviceFields["+i+"]"].version) {
+                def version = params["studyDeviceFields["+i+"]"].version.toLong()
                 if (studyDeviceFields[i].version > version)
                 {
                     isLaterVersion = true
@@ -188,8 +188,8 @@ class StudyDeviceFieldController {
                                 deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFields[i])
                             }
                             
-                            if (params["version["+i+"]"]) {
-                                def version = params["version["+i+"]"].toLong()
+                            if (params["studyDeviceFields["+i+"]"].version) {
+                                def version = params["studyDeviceFields["+i+"]"].version.toLong()
                                 if (studyDeviceFields[i].version > version)
                                 {
                                     studyDeviceFields[i].errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'studyDeviceField.label', default: 'StudyDeviceField')] as Object[], "Another user has updated this StudyDeviceField while you were editing")
