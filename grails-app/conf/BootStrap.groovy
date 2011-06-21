@@ -62,8 +62,8 @@ class BootStrap
 			
 			intersect_test
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false)
-				user.save(flush:true)
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_USER")
+                user.save(flush:true)
                 user = new UserStore(username:"chrisk", deactivated: false)
                 user.save(flush:true)
 			}
