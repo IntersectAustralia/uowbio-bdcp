@@ -19,8 +19,7 @@ class ParticipantForm implements Serializable
 	static belongsTo = [participant:Participant]
 	static constraints =
 	{
-		formName(blank:false, unique:'participant', size:1..255, matches:/^[a-zA-Z0-9-_\s]+/,
-            validator: {val, obj -> return ParticipantForm?.findAllByFormNameIlikeAndParticipant(val, obj?.participant)?.size() < 1})
+		formName(blank:false, size:1..255, matches:/^[a-zA-Z0-9-_\s]+/, uniqueIgnoreCase:[scope:"participant"])
 		form(nullable:true)
 		contentType(nullable:true)
 		fileExtension(nullable:true)

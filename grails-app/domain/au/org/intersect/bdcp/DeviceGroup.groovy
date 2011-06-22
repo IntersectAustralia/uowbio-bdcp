@@ -10,7 +10,7 @@ class DeviceGroup {
         
     static constraints = 
     {
-        groupingName(blank:false, size:1..1000, uniqueIgnoreCase:true)
+        groupingName(blank:false, size:1..1000, uniqueIgnoreCase:[scope:"none"])
     }
     
     void setGroupingName(String groupingName)

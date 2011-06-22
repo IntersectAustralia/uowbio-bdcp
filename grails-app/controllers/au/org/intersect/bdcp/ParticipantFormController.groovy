@@ -38,10 +38,11 @@ class ParticipantFormController
 			{
 				participantForms[i].fileName = null
 			}
-			if (!participantForms[i]?.validate())
+			if (!participantForms[i]?.validate() && !participantForms[i].hasErrors())
 			{
 				allValid = false
 			}
+            
 		}
 
 		return allValid
@@ -127,6 +128,7 @@ class ParticipantFormController
 			participantFormInstance.fileExtension = fileExtension
 			participantFormInstance.fileName = fileName
 			participantFormInstance.save(flush: true)
+            
 		}
 		else
 		{
@@ -169,12 +171,9 @@ class ParticipantFormController
 		}
 		else
 		{
-			def message = []
 			for (i in participantFormsToLoad())
 			{
-				def participantFormInstance = participantForms[i]
-
-				if (participantFormInstance.save(flush: true))
+                if (participantForms[i].save(flush: true))
 				{
 					new File( getRealPath() + File.separatorChar + params.participantId.toString()).mkdirs()
 					def file = request.getFile("form.${i}")
@@ -183,10 +182,36 @@ class ParticipantFormController
 						file = session["fileName[${i}]"]
 					}
 
-					saveFile(file, participantFormInstance)
+					saveFile(file, participantForms[i])
 				}
+                else
+                {
+                    for (int b=0; b<i;b++)
+                    {
+                        participantForms[b].delete(flush:true)
+                    }
+                    populateSessionValues(participantFormsToLoad())
+                    def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
+                    if( f.exists() )
+                    {
+                        f.eachFile()
+                        { file->
+                            if( !file.isDirectory() )
+                            {
+                                def participantForm = ParticipantForm.findWhere(fileName: file.name)
+                                if(participantForm != null)
+                                {
+                                    participantFormInstanceList.add(participantForm)
+                                }
+                            }
+                        }
+                    }
+                    render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
+                    return
+                 }
+                
 			}
-
+            
 			switch (participantFormsToLoad().size())
 			{
 				case 0: flash.error = "No forms selected to upload"
