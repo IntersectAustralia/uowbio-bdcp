@@ -263,7 +263,7 @@ class ParticipantFormController
 				if( !file.isDirectory() )
 				{
 					def participantForm = ParticipantForm.findWhere(fileName: file.name)
-					if(participantForm != null)
+                    if(participantForm != null)
 					{
 						participantFormInstanceList.add(participantForm)
 					}

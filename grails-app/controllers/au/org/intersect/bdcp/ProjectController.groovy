@@ -36,6 +36,7 @@ class ProjectController
 	{
 		cache false
 		def projectInstance = new Project(params)
+        projectInstance.owner = UserStore.findByUsername("dpollum")
 		if (projectInstance.save(flush: true))
 		{
 			flash.message = "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.projectTitle])}"
