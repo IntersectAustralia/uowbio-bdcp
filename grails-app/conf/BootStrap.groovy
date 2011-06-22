@@ -54,17 +54,17 @@ class BootStrap
 			
 			cucumber
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false)
-				user.save(flush:true)
-				user = new UserStore(username:"chrisk", deactivated: false)
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user.save(flush:true)
+				user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
 				user.save(flush:true)
 			}
 			
 			intersect_test
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_USER")
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
                 user.save(flush:true)
-                user = new UserStore(username:"chrisk", deactivated: false)
+                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
                 user.save(flush:true)
 			}
 		}
@@ -85,6 +85,12 @@ class BootStrap
 	{
 		println "creating test data"
 
+        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+        user1.save(flush:true)
+        
+        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
+        user2.save(flush:true)
+        
 		def project = new Project(projectTitle: 'TestProject',
 				researcherName: 'TestStudent' ,
 				studentNumber: 'StudentNumber' ,
@@ -92,7 +98,8 @@ class BootStrap
 				startDate: new Date(),
 				endDate: new Date(),
 				description: 'Test Description',
-				supervisors: 'test supervisor')
+				supervisors: 'test supervisor',
+                owner: user2)
 		project.save(flush: true)
 
 		def study = new Study(studyTitle: 'TestStudy',
@@ -127,12 +134,6 @@ class BootStrap
         
         def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")
         deviceGroup.save()
-        
-		def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_USER")
-		user.save(flush:true)
-        
-		user = new UserStore(username:"chrisk", deactivated: false)
-		user.save(flush:true)
         
         def device = new Device(name: "Device1",
             description: "Some device",
