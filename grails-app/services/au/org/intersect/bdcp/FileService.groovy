@@ -118,4 +118,9 @@ class FileService
     {
         return rootPath.isDirectory() && path.getAbsolutePath().startsWith(rootPath.getAbsolutePath())
     }
+	
+	def File getFileReference(def context, String path)
+	{
+        return new File(context.get("rootPath"), path)
+	}
 }

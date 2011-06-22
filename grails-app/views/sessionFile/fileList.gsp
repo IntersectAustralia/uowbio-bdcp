@@ -12,6 +12,8 @@
     
         <jqui:resources />
         <g:set var="entityName" value="${message(code: 'sessionFile.label', default: 'File')}" />
+        <g:set var="downloadError" value="${message(code: 'sessionFile.downloadError.msg', default: 'Error downloading files')}" />
+        <g:set var="downloadUrl" value="${createLink(mapping:'sessionFileList', controller:'sessionFile', action:'downloadFiles', params:['studyId': studyInstance.id])}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     <script>
 
@@ -22,7 +24,12 @@
     var numf = 0;
     $downloadButton.button({disabled:true}); 
     $downloadButton.click(function(){
-        alert("Get ready to download " + numf + " files and directories");
+        var url = '${downloadUrl}';
+        var $selected = $fileTree.find("input:checkbox:checked");
+        var $form = $('<form action="'+url+'" method="POST"></form>');
+        $form.appendTo('body');
+        $selected.clone().appendTo($form);
+        $form.submit().remove();
     });
     
     function refreshButton() {
@@ -31,7 +38,7 @@
     }
         
 	function updateDirectory(reference) {
-		  var $input = $("input[value='"+reference+"']");
+		  var $input = $("input[reference='"+reference+"']");
       	  var parentRef = $input.attr("parentDir");
 		  var $e = $input.closest("li");
 		  var $children = $e.find("input[parentDir='"+reference+"']");
@@ -51,7 +58,7 @@
 	        refreshButton();
         });
     $("input.directorySelect").change(function(){
-    		var reference = $(this).prop("value");
+    		var reference = $(this).prop("reference");
     		var isChecked = this.checked
         	$(this).closest("li").find("input").each(function(i,elem){
             	var $e = $(elem);
