@@ -17,6 +17,9 @@ Before() {
 	sql.execute("delete from user_store")
 	sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-1','0','dpollum', 'false', 'ROLE_LAB_MANAGER');")
 	sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-2','0','chrisk', 'false', 'ROLE_LAB_MANAGER');")
+	sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-3','0','labman', 'false', 'ROLE_LAB_MANAGER');")
+	sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-4','0','sysadm', 'false', 'ROLE_SYS_ADM');")
+	sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-5','0','researcher', 'false', 'ROLE_RESEARCHER');")
   browser = new HtmlUnitDriver(BrowserVersion.FIREFOX_3_6)
   JavascriptExecutor jsExecutor = (JavascriptExecutor) browser;
   //browser.setJavascriptEnabled(true)
@@ -45,6 +48,9 @@ After() {
   sql.execute("delete from user_store")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-1','0','dpollum', 'false', 'ROLE_LAB_MANAGER');")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-2','0','chrisk', 'false', 'ROLE_LAB_MANAGER');")
+  sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-3','0','labman', 'false', 'ROLE_LAB_MANAGER');")
+  sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-4','0','sysadm', 'false', 'ROLE_SYS_ADM');")
+  sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-5','0','researcher', 'false', 'ROLE_RESEARCHER');")
   
   File tmpDir = new File(getTmpPath())
   File realDir = new File(getRealPath())
