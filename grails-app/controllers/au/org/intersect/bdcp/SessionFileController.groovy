@@ -58,14 +58,14 @@ class SessionFileController
 	}
 
 	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def index =
 	{
 		cache false
         redirect(action: "fileList", params: params)
 	}
 	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def fileList =
 	{
 		cache false
@@ -91,7 +91,7 @@ class SessionFileController
 		[componentInstanceList: sortedComponentInstanceList, componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def createDirectory =
 	{ 
         cache false
@@ -99,7 +99,7 @@ class SessionFileController
 	    [directory: params.directory, sessionObj: sessionObj, component: sessionObj?.component]
     }
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def saveDirectory =
     { 
         
@@ -132,7 +132,7 @@ class SessionFileController
 		}
 	}
 	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def browseFiles =
 	{
         cache false
@@ -142,7 +142,7 @@ class SessionFileController
         ['path': path]
 	}
 	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def downloadFiles =
 	{
 		cache false

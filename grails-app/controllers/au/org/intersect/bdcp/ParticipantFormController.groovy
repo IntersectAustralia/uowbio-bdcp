@@ -164,7 +164,7 @@ class ParticipantFormController
         render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
     }
     
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def upload =
 	{
 		cache false
@@ -232,7 +232,7 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def downloadFile =
 	{
 		cache false
@@ -266,14 +266,14 @@ class ParticipantFormController
 		return null
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def index =
 	{
 		cache false
 		redirect(action: "list", params: params)
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def list =
 	{
 		cache false
@@ -298,7 +298,7 @@ class ParticipantFormController
 		[participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: participantInstance,participantForms: participantForms, forms:participantForms, participantId: params.participantId]
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def create =
 	{
 		cache false
@@ -308,7 +308,7 @@ class ParticipantFormController
 		return [participantFormInstance: participantFormInstance, participantForms: participantForms]
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def save =
 	{
 		cache false
@@ -324,7 +324,7 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def show =
 	{
 		cache false
@@ -340,7 +340,7 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def edit =
 	{
 		cache false
@@ -356,7 +356,7 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def update =
 	{
 		cache false
@@ -394,7 +394,7 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def delete =
 	{
 		cache false

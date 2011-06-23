@@ -83,7 +83,7 @@ class StudyDeviceFieldController {
     }
     
     
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def save = {
         
         def studyDeviceInstance = StudyDevice.link(Study.findById(params.study.id),Device.findById(params.device.id))

@@ -14,13 +14,13 @@ class ComponentController
         return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"))
     }
     
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def index =
 	{
 		redirect(action: "list", params: params)
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def list =
 	{
 		def studyInstance = Study.get(params.studyId)
@@ -31,7 +31,7 @@ class ComponentController
 		[componentInstanceList: sortedComponentInstanceList, componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance]
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def create =
 	{
 		def componentInstance = new Component()
@@ -39,7 +39,7 @@ class ComponentController
 		return [componentInstance: componentInstance]
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def save =
 	{
 		def componentInstance = new Component(params)
@@ -59,7 +59,7 @@ class ComponentController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def show =
 	{
 		def componentInstance = Component.get(params.id)
@@ -74,7 +74,7 @@ class ComponentController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def edit =
 	{
 		def componentInstance = Component.get(params.id)
@@ -89,7 +89,7 @@ class ComponentController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def update =
 	{
 		def componentInstance = Component.get(params.id)

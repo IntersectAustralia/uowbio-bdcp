@@ -16,7 +16,7 @@ class ProjectController
 	}
 
 	
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def list =
 	{
 		cache false
