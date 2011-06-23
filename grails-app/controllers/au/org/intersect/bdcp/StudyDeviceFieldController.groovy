@@ -154,16 +154,19 @@ class StudyDeviceFieldController {
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def edit = {
         def studyDeviceFields = []
+        def studyFields = []
         studyDeviceFields.addAll(StudyDevice.findByStudyAndDevice(Study.findById(params.studyId), Device.findById(params.device.id))?.studyDeviceFields)
-        
+        studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}
+        def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
         def studyDeviceFieldInstance = []
+        
         //def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
         if (studyDeviceFields == null) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
             redirect(action: "list")
         }
         else {
-            return [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields]
+            return [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields, deviceFields: deviceFields]
         }
     }
 

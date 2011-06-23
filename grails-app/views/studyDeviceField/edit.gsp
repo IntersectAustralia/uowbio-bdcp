@@ -29,10 +29,10 @@
                 <g:if test="${au.org.intersect.bdcp.DeviceField.findAllByDevice(Device.findById(params.device.id))?.size() > 0}">
                 <div class="dialog">
                     <table>
-                       <g:each in="${studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}}" status="i" var="studyDeviceFieldInstance">
+                       <g:each in="${deviceFields.sort {x,y -> x.dateCreated <=> y.dateCreated}}" status="i" var="deviceFieldInstance">
                             <g:hiddenField name="StudyDeviceFields[${i}].id" value="${studyDeviceFields[i]?.id}" />
                             <g:hiddenField name="studyDeviceFields[${i}].version" value="${studyDeviceFields[i]?.version}" />
-                            <g:render template="${studyDeviceFields[i].deviceField.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceFields': studyDeviceFields, 'deviceFieldInstance':studyDeviceFieldInstance.deviceField, 'studyDeviceFieldInstance':studyDeviceFieldInstance]"/>
+                            <g:render template="${deviceFieldInstance.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceFields': studyDeviceFields, 'deviceFieldInstance':deviceFieldInstance]"/>
                         </g:each>
                     </table>
                 </div>
