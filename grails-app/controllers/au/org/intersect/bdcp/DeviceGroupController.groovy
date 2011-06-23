@@ -6,12 +6,12 @@ class DeviceGroupController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def index = {
         redirect(action: "list", params: params)
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def DeviceGroupList = DeviceGroup.list(params)
@@ -19,14 +19,14 @@ class DeviceGroupController {
         [deviceGroupInstanceList: sortedDeviceGroup, deviceGroupInstanceTotal: DeviceGroup.count()]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def create = {
         def deviceGroupInstance = new DeviceGroup()
         deviceGroupInstance.properties = params
         return [deviceGroupInstance: deviceGroupInstance]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def save = {
         def deviceGroupInstance = new DeviceGroup(params)
         if (deviceGroupInstance.save(flush: true)) {
@@ -38,7 +38,7 @@ class DeviceGroupController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def show = {
         def deviceGroupInstance = DeviceGroup.get(params.id)
         if (!deviceGroupInstance) {
@@ -50,7 +50,7 @@ class DeviceGroupController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def edit = {
         def deviceGroupInstance = DeviceGroup.get(params.id)
         if (!deviceGroupInstance) {
@@ -62,7 +62,7 @@ class DeviceGroupController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def update = {
         def deviceGroupInstance = DeviceGroup.get(params.id)
         if (deviceGroupInstance) {

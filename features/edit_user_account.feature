@@ -12,9 +12,12 @@
      Then I press "list"
      Then I should see "List All Users"
      Then I should see a 4 column table "listTable" with contents
-     |Kenward  |Chris |chrisk  |Edit |        
-     |Pollum   |David |dpollum |Edit |
-     Then I press "edit[1]"
+     |Administrator	|System 		|sysadm		|Edit |
+     |Kenward		|Chris			|chrisk 	|Edit |
+     |Manager		|Lab Manager	|labman		|Edit |        
+     |Pollum		|David			|dpollum	|Edit |
+     |Researcher	|The	 		|researcher	|Edit |
+     Then I press "edit[3]"
      Then I should see table "userDetailsTable" with contents
      |Firstname               | David   |
      |Surname                 | Pollum  |
@@ -38,9 +41,12 @@
      Then I press "list"
      Then I should see "List All Users"
      Then I should see a 4 column table "listTable" with contents
-     |Kenward  |Chris |chrisk  |Edit |        
-     |Pollum   |David |dpollum |Edit |
-     Then I press "edit[1]"
+     |Administrator	|System 		|sysadm		|Edit |
+     |Kenward		|Chris			|chrisk 	|Edit |
+     |Manager		|Lab Manager	|labman		|Edit |        
+     |Pollum		|David			|dpollum	|Edit |
+     |Researcher	|The	 		|researcher	|Edit |
+     Then I press "edit[3]"
      Then I press "deactivated"
      Then I press "save"
      Then I should see "dpollum activated successfully"

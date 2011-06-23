@@ -56,18 +56,28 @@ class BootStrap
 			{
 				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
                 user.save(flush:true)
-				user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
+				user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
+				user.save(flush:true)
+				user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
+				user.save(flush:true)
+				user = new UserStore(username:"sysadm", deactivated: false, authority: "ROLE_SYS_ADMIN")
+				user.save(flush:true)
+				user = new UserStore(username:"researcher", deactivated: false, authority: "ROLE_RESEARCHER")
 				user.save(flush:true)
 			}
 			
 			intersect_test
 			{
 				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+				user.save(flush:true)				
+                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user.save(flush:true)
+				user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
 				user.save(flush:true)
-                user = new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
-                user.save(flush:true)
-                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
-                user.save(flush:true)
+				user = new UserStore(username:"sysadm", deactivated: false, authority: "ROLE_SYS_ADMIN")
+				user.save(flush:true)
+				user = new UserStore(username:"researcher", deactivated: false, authority: "ROLE_RESEARCHER")
+				user.save(flush:true)
 			}
 		}
 
@@ -141,6 +151,15 @@ class BootStrap
 		user.save(flush:true)
         
 		user = new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
+		user.save(flush:true)
+		
+		user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
+		user.save(flush:true)
+		
+		user = new UserStore(username:"sysadm", deactivated: false, authority: "ROLE_SYS_ADMIN")
+		user.save(flush:true)
+		
+		user = new UserStore(username:"researcher", deactivated: false, authority: "ROLE_RESEARCHER")
 		user.save(flush:true)
         
         def device = new Device(name: "Device1",

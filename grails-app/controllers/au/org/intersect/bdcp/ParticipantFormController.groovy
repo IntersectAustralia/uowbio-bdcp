@@ -15,7 +15,7 @@ class ParticipantFormController
 
 	private ParticipantForm extractParticipantForm(i)
 	{
-
+        
 		def pfc = new ParticipantFormCommand()
 		bindData( pfc, params )
 		ParticipantForm participantFormInstance = pfc.forms[i];
@@ -38,11 +38,12 @@ class ParticipantFormController
 			{
 				participantForms[i].fileName = null
 			}
+            
 			if (!participantForms[i]?.validate() && !participantForms[i].hasErrors())
 			{
 				allValid = false
 			}
-            else if( participantForms.findAll { it.formName.equalsIgnoreCase(participantForms[i].formName) }.size() > 1 )
+            else if(participantForms[i]?.validate() && participantForms.findAll { it.formName.equalsIgnoreCase(participantForms[i].formName) }.size() > 1 )
             {
                 participantForms[i].errors.rejectValue('formName', 'participantForm.formName.uniqueIgnoreCase.invalid')
                 allValid = false   
@@ -53,30 +54,26 @@ class ParticipantFormController
 		return allValid
 	}
 
-	private List<Integer> participantFormsToLoad()
+	private participantFormsToLoad()
 	{
-		int size = 0
-		int count = 0
 		def participantFormCommand = new ParticipantFormCommand()
 		bindData( participantFormCommand, params )
 		List<Integer> usedFields = new ArrayList<Integer>();
-		participantFormCommand.forms.each
-		{
+		participantFormCommand.forms.eachWithIndex()
+		{ obj, i ->
 
-			if ((it?.formName.size() > 0) || it?.fileName.size() >0)
+			if ((obj?.formName.size() > 0) || obj?.fileName.size() >0)
 			{
-				usedFields.add (count)
+				usedFields.add (i)
 			}
-
-			count++
 		}
-
+        
 		return usedFields
 	}
 
-	private populateSessionValues(List<Integer> formsToLoad)
+	private populateSessionValues()
 	{
-		for (i in formsToLoad)
+		for (i in participantFormsToLoad())
 		{
 			if (!request.getFile("form.${i}")?.isEmpty())
 			{
@@ -85,6 +82,11 @@ class ParticipantFormController
 		}
 	}
 
+    private clearSessionValues()
+    {
+        session.fileName = null
+    }
+    
 	private String getMimeType(File file)
 	{
 		// use mime magic
@@ -131,8 +133,8 @@ class ParticipantFormController
 			participantFormInstance.form = participantFormInstance.id
 			participantFormInstance.contentType = file.contentType
 			participantFormInstance.fileExtension = fileExtension
-			participantFormInstance.fileName = fileName
-			participantFormInstance.save(flush: true)
+			participantFormInstance.storedFileName = fileName
+            participantFormInstance.save(flush: true)
             
 		}
 		else
@@ -144,7 +146,6 @@ class ParticipantFormController
     private renderUploadErrorMsg(participantForms)
     {
         def participantFormInstanceList = []
-        populateSessionValues(participantFormsToLoad())
         def participantInstance = Participant.get(params.participantId)
         def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
         if( f.exists() )
@@ -153,7 +154,7 @@ class ParticipantFormController
             { file->
                 if( !file.isDirectory() )
                 {
-                    def participantForm = ParticipantForm.findWhere(fileName: file.name, participant: participantInstance)
+                    def participantForm = ParticipantForm.findWhere(storedFileName: file.name, participant: participantInstance)
                     if(participantForm != null)
                     {
                         participantFormInstanceList.add(participantForm)
@@ -161,10 +162,10 @@ class ParticipantFormController
                 }
             }
         }
-        render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
+        render(view: "list", model: [participantForms: participantForms,participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
     }
     
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def upload =
 	{
 		cache false
@@ -174,11 +175,12 @@ class ParticipantFormController
         
         for (i in participantFormsToLoad())
 		{
-			participantForms[i] = extractParticipantForm(i)
-		}
+			participantForms[i] = new ParticipantForm(params["forms["+i+"]"])		
+        }
 
 		if (!validateParticipantForms(participantForms))
 		{
+            populateSessionValues()
             renderUploadErrorMsg(participantForms);
 		}
 		else
@@ -193,7 +195,7 @@ class ParticipantFormController
 					{
 						file = session["fileName[${i}]"]
 					}
-
+                    populateSessionValues()
 					saveFile(file, participantForms[i])
 				}
                 else
@@ -209,8 +211,13 @@ class ParticipantFormController
                 {
                     participantForms[i].delete(flush:true)
                 }
+                
                 renderUploadErrorMsg(participantForms);
                 return
+            }
+            else
+            {
+                clearSessionValues()
             }
             
 			switch (participantFormsToLoad().size())
@@ -232,7 +239,7 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def downloadFile =
 	{
 		cache false
@@ -266,14 +273,14 @@ class ParticipantFormController
 		return null
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def index =
 	{
 		cache false
 		redirect(action: "list", params: params)
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def list =
 	{
 		cache false
@@ -287,7 +294,7 @@ class ParticipantFormController
 			{ file->
 				if( !file.isDirectory() )
 				{
-					def participantForm = ParticipantForm.findWhere(fileName: file.name, participant: participantInstance)
+					def participantForm = ParticipantForm.findWhere(storedFileName: file.name, participant: participantInstance)
                     if(participantForm != null)
 					{
 						participantFormInstanceList.add(participantForm)
@@ -298,7 +305,7 @@ class ParticipantFormController
 		[participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: participantInstance,participantForms: participantForms, forms:participantForms, participantId: params.participantId]
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def create =
 	{
 		cache false
@@ -308,7 +315,7 @@ class ParticipantFormController
 		return [participantFormInstance: participantFormInstance, participantForms: participantForms]
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def save =
 	{
 		cache false
@@ -324,7 +331,7 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def show =
 	{
 		cache false
@@ -340,7 +347,7 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def edit =
 	{
 		cache false
@@ -356,7 +363,7 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def update =
 	{
 		cache false
@@ -394,7 +401,7 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def delete =
 	{
 		cache false
