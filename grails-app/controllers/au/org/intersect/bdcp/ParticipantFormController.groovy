@@ -42,7 +42,7 @@ class ParticipantFormController
 			{
 				allValid = false
 			}
-            else if( participantForms.findAll { it.formName.equalsIgnoreCase(participantForms[i].formName) }.size() > 1 )
+            else if(participantForms[i]?.validate() && participantForms.findAll { it.formName.equalsIgnoreCase(participantForms[i].formName) }.size() > 1 )
             {
                 participantForms[i].errors.rejectValue('formName', 'participantForm.formName.uniqueIgnoreCase.invalid')
                 allValid = false   
@@ -144,7 +144,6 @@ class ParticipantFormController
     private renderUploadErrorMsg(participantForms)
     {
         def participantFormInstanceList = []
-        populateSessionValues(participantFormsToLoad())
         def participantInstance = Participant.get(params.participantId)
         def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
         if( f.exists() )
@@ -179,6 +178,7 @@ class ParticipantFormController
 
 		if (!validateParticipantForms(participantForms))
 		{
+            populateSessionValues(participantForms)
             renderUploadErrorMsg(participantForms);
 		}
 		else
