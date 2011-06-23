@@ -15,13 +15,15 @@ class TraversalTagLib {
 		def outputStatus = "${statusValues[0]}-${incrementedValue}"
 		def type = file?.isDirectory() ? "folder" : "file"
 		def reference = parent + '_' + position
-	    def relativePath = file.getAbsolutePath().substring(sessionRoot.getAbsolutePath().length()+1)
+		def relativePath = file.getAbsolutePath().substring(sessionRoot.getAbsolutePath().length()+1)
+		def relativePathHTML = relativePath.replace("'","&#39")
+
 		
 		if (type == "file")
 		{
 			out << "<li reference='${reference}' parentDir='${parent}'><span class='${type}'>"
 			out << "${file?.getName()}"
-	        out << " <input type='checkbox' class='fileSelect' name='files' parentDir='${parent}' reference='${reference}' value='F/${sessionInstance.id}/${relativePath}'>"
+	        out << "<input type='checkbox' class='fileSelect' name='files' parentDir='${parent}' reference='${reference}' value='F/${sessionInstance.id}/${relativePathHTML}'>"
 			out << "</span>"
 			out << "</li>\n"
 		}
@@ -31,7 +33,7 @@ class TraversalTagLib {
 			out << "<li reference='${reference}'  parentDir='${parent}' class=\"closed\"><span class='${type}'>${file?.getName()} "
 	        out << " <a href='${createLink(mapping:"sessionFileDetails", controller:"sessionFile", action:"browseFiles", params:['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':relativePath])}' id=\"upload[${status}]\"><img src=\"${resource(dir:'images/icons',file:'upload.png')}\"  alt=\"Upload Files\" title=\"Upload Files\"/></a>"
 	        out << " <a href='${createLink(mapping:"sessionFileDetails", controller:"sessionFile", action:"createDirectory", params:['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':relativePath])}' id=\"createDirectory[${status}]\"><img src=\"${resource(dir:'images/icons',file:'plus.gif')}\"  alt=\"Add Directory\" title=\"Add Directory\"/></a>"
-	        out << " <input type='checkbox' class='directorySelect' name='files' parentDir='${parent}' reference='${reference}' value='D/${sessionInstance.id}/${relativePath}'>"
+	        out << " <input type='checkbox' class='directorySelect' name='files' parentDir='${parent}' reference='${reference}' value='D/${sessionInstance.id}/${relativePathHTML}'>"
 	        out << "</span>"
 			if (children?.size() > 0)
 			{

@@ -1,5 +1,7 @@
 package au.org.intersect.bdcp.constraints
 
+import java.util.regex.Matcher
+
 class ValidFilenameConstraint
 {
     static name = "validFilename"
@@ -12,7 +14,7 @@ class ValidFilenameConstraint
 
     static persistent = false
 
-    def pattern = ~"[/\\?%*:|\"<>]"
+    def pattern = ~"[/\\\\?%*:|\"<>]"
 
     def validate = { propertyValue -> 
 	def matcher = propertyValue =~ pattern
