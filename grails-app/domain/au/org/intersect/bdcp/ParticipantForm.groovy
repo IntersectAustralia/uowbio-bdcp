@@ -10,7 +10,7 @@ class ParticipantForm implements Serializable
 	String fileName
 	String contentType
 	String fileExtension
-	
+	String storedFileName
 	String toString()
 	{
 		return "${formName}"
@@ -24,5 +24,6 @@ class ParticipantForm implements Serializable
 		contentType(nullable:true)
 		fileExtension(nullable:true)
 		fileName(nullable:false, blank:false, size:1..1000)
+        storedFileName(nullable:true)
 	}
 }

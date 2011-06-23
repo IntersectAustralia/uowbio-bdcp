@@ -54,24 +54,20 @@ class ParticipantFormController
 		return allValid
 	}
 
-	private List<Integer> participantFormsToLoad()
+	private participantFormsToLoad()
 	{
-		int size = 0
-		int count = 0
 		def participantFormCommand = new ParticipantFormCommand()
 		bindData( participantFormCommand, params )
 		List<Integer> usedFields = new ArrayList<Integer>();
-		participantFormCommand.forms.each
-		{
+		participantFormCommand.forms.eachWithIndex()
+		{ obj, i ->
 
-			if ((it?.formName.size() > 0) || it?.fileName.size() >0)
+			if ((obj?.formName.size() > 0) || obj?.fileName.size() >0)
 			{
-				usedFields.add (count)
+				usedFields.add (i)
 			}
-
-			count++
 		}
-
+        
 		return usedFields
 	}
 
@@ -137,8 +133,8 @@ class ParticipantFormController
 			participantFormInstance.form = participantFormInstance.id
 			participantFormInstance.contentType = file.contentType
 			participantFormInstance.fileExtension = fileExtension
-			participantFormInstance.fileName = fileName
-			participantFormInstance.save(flush: true)
+			participantFormInstance.storedFileName = fileName
+            participantFormInstance.save(flush: true)
             
 		}
 		else
@@ -158,7 +154,7 @@ class ParticipantFormController
             { file->
                 if( !file.isDirectory() )
                 {
-                    def participantForm = ParticipantForm.findWhere(fileName: file.name, participant: participantInstance)
+                    def participantForm = ParticipantForm.findWhere(storedFileName: file.name, participant: participantInstance)
                     if(participantForm != null)
                     {
                         participantFormInstanceList.add(participantForm)
@@ -199,7 +195,7 @@ class ParticipantFormController
 					{
 						file = session["fileName[${i}]"]
 					}
-
+                    populateSessionValues()
 					saveFile(file, participantForms[i])
 				}
                 else
@@ -215,9 +211,13 @@ class ParticipantFormController
                 {
                     participantForms[i].delete(flush:true)
                 }
-                populateSessionValues()
+                
                 renderUploadErrorMsg(participantForms);
                 return
+            }
+            else
+            {
+                clearSessionValues()
             }
             
 			switch (participantFormsToLoad().size())
@@ -294,7 +294,7 @@ class ParticipantFormController
 			{ file->
 				if( !file.isDirectory() )
 				{
-					def participantForm = ParticipantForm.findWhere(fileName: file.name, participant: participantInstance)
+					def participantForm = ParticipantForm.findWhere(storedFileName: file.name, participant: participantInstance)
                     if(participantForm != null)
 					{
 						participantFormInstanceList.add(participantForm)
