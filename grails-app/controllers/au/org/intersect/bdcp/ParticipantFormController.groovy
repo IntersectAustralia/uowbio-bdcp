@@ -15,7 +15,7 @@ class ParticipantFormController
 
 	private ParticipantForm extractParticipantForm(i)
 	{
-
+        
 		def pfc = new ParticipantFormCommand()
 		bindData( pfc, params )
 		ParticipantForm participantFormInstance = pfc.forms[i];
@@ -38,6 +38,7 @@ class ParticipantFormController
 			{
 				participantForms[i].fileName = null
 			}
+            
 			if (!participantForms[i]?.validate() && !participantForms[i].hasErrors())
 			{
 				allValid = false
@@ -74,9 +75,9 @@ class ParticipantFormController
 		return usedFields
 	}
 
-	private populateSessionValues(List<Integer> formsToLoad)
+	private populateSessionValues()
 	{
-		for (i in formsToLoad)
+		for (i in participantFormsToLoad())
 		{
 			if (!request.getFile("form.${i}")?.isEmpty())
 			{
@@ -85,6 +86,11 @@ class ParticipantFormController
 		}
 	}
 
+    private clearSessionValues()
+    {
+        session.fileName = null
+    }
+    
 	private String getMimeType(File file)
 	{
 		// use mime magic
@@ -160,7 +166,7 @@ class ParticipantFormController
                 }
             }
         }
-        render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
+        render(view: "list", model: [participantForms: participantForms,participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
     }
     
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
@@ -173,12 +179,12 @@ class ParticipantFormController
         
         for (i in participantFormsToLoad())
 		{
-			participantForms[i] = extractParticipantForm(i)
-		}
+			participantForms[i] = new ParticipantForm(params["forms["+i+"]"])		
+        }
 
 		if (!validateParticipantForms(participantForms))
 		{
-            populateSessionValues(participantForms)
+            populateSessionValues()
             renderUploadErrorMsg(participantForms);
 		}
 		else
@@ -209,6 +215,7 @@ class ParticipantFormController
                 {
                     participantForms[i].delete(flush:true)
                 }
+                populateSessionValues()
                 renderUploadErrorMsg(participantForms);
                 return
             }
