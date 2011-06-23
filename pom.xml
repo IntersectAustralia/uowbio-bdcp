@@ -37,9 +37,12 @@
 		<cuke4duke.version>0.4.3</cuke4duke.version>
 		<groovy.version>1.7.6</groovy.version>
 		<selenium.version>2.0a7</selenium.version>
+		<gherkin.version>2.3.5</gherkin.version>
+		<cucumber.version>0.10.2</cucumber.version>
 	</properties>
 
 	<dependencies>
+		
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -128,6 +131,7 @@
 						<cucumberArg>--guess</cucumberArg>
 					</cucumberArgs>
 					<gems>
+					    <gem>install gherkin --version ${gherkin.version}</gem>
 						<gem>install cuke4duke --version ${cuke4duke.version}</gem>
 					</gems>
 				</configuration>

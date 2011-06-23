@@ -145,6 +145,7 @@ class ParticipantFormController
     {
         def participantFormInstanceList = []
         populateSessionValues(participantFormsToLoad())
+        def participantInstance = Participant.get(params.participantId)
         def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
         if( f.exists() )
         {
@@ -152,7 +153,7 @@ class ParticipantFormController
             { file->
                 if( !file.isDirectory() )
                 {
-                    def participantForm = ParticipantForm.findWhere(fileName: file.name)
+                    def participantForm = ParticipantForm.findWhere(fileName: file.name, participant: participantInstance)
                     if(participantForm != null)
                     {
                         participantFormInstanceList.add(participantForm)
@@ -277,7 +278,6 @@ class ParticipantFormController
 	{
 		cache false
 		def participantInstance = Participant.get(params.participantId)
-		def fileResourceInstanceList = []
 		def participantFormInstanceList = []
 		def participantForms = []
 		def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
@@ -287,7 +287,7 @@ class ParticipantFormController
 			{ file->
 				if( !file.isDirectory() )
 				{
-					def participantForm = ParticipantForm.findWhere(fileName: file.name)
+					def participantForm = ParticipantForm.findWhere(fileName: file.name, participant: participantInstance)
                     if(participantForm != null)
 					{
 						participantFormInstanceList.add(participantForm)
