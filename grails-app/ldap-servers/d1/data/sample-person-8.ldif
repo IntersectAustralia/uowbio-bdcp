@@ -10,4 +10,4 @@ objectClass: inetOrgPerson
 objectClass: person
 userPassword: password
 mail: labman@biomechanics.local
-mail: labman@biomechanics.local
+mail: lab_man@biomechanics.local

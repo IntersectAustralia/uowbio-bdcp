@@ -12,9 +12,12 @@ Feature: Hide User Accounts
      Then I press "list"
      Then I should see "List All Users"
      Then I should see a 3 column table "listTable" with contents
-     |Kenward  |Chris |chrisk  |        
-     |Pollum   |David |dpollum |
-     Then I press "edit[1]"
+     |Administrator	|System 		|sysadm		|
+     |Kenward		|Chris			|chrisk 	|
+     |Manager		|Lab Manager	|labman		|        
+     |Pollum		|David			|dpollum	|
+     |Researcher	|The	 		|researcher	|
+     Then I press "edit[3]"
      Then I should see table "userDetailsTable" with contents
      |Firstname               | David   |
      |Surname                 | Pollum  |
@@ -34,7 +37,10 @@ Feature: Hide User Accounts
      Then I should see "List All Users"
      Then I press "hideUsers"
      Then I should see a 3 column table "listTable" with contents
-     |Kenward  |Chris |chrisk  |        
+     |Administrator	|System 		|sysadm		|
+     |Kenward		|Chris			|chrisk 	|
+     |Manager		|Lab Manager	|labman		|        
+     |Researcher	|The	 		|researcher	|
      Then I disable javascript
      
       
