@@ -13,6 +13,8 @@ class Project
 	String supervisors
 	String username
 	
+    static belongsTo = [owner: UserStore]
+    
 	static hasMany = [studies: Study]
 	
 	String toString()

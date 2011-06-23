@@ -1,14 +1,22 @@
 package au.org.intersect.bdcp
 
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import java.util.zip.ZipOutputStream
+import java.util.zip.ZipEntry
+
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 class SessionFileController
 {
 
-	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+	static allowedMethods = [save: "POST", update: "POST", delete: "POST", downloadFiles: "POST"]
 
-    def fileService
+	def fileService
+
+	def pattern = ~/^([DF])\/(\d+)\/(.*)$/
+
     
     def createContext(def servletRequest)
     {
@@ -133,6 +141,62 @@ class SessionFileController
         
         ['path': path]
 	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+	def downloadFiles =
+	{
+		cache false
+		def context = createContext(request)
+		def study = Study.findById(params.studyId)
+		def files = params.files;
+		def zipName = study.studyTitle + ".zip"
+		
+		response.setContentType "application/zip"
+		response.setHeader "Content-Disposition", "attachment; filename=\"" + zipName + "\""
+		response.setHeader "Content-Description", "File download for BDCP"
+		response.setHeader "Content-Transfer-Encoding", "binary"
+		
+		def zipOs = new ZipOutputStream(response.outputStream)
+		files.each { String file ->
+				addFileToZip(study, context, zipOs, file)
+			}
+		zipOs.close()
+		response.flushBuffer()
+		
+		return true
+
+	}
+
+	private void addFileToZip(Study study, Object context, ZipOutputStream zipOs, String file)
+	{
+		def matcher = file =~ pattern
+		if (!matcher.matches())
+		{
+			// this shouldn't happen
+			throw new RuntimeException("Incorrect request")
+		}
+		def isDirectory = "D".equals(matcher[0][1])
+		def session = Session.findById(matcher[0][2].toLong())
+		def component = session.component
+		def thePath = matcher[0][3]
+		File theFile = fileService.getFileReference(context, study.id + "/"
+			+ component.id + "/" + session.id + "/" + thePath)
+		if (isDirectory != theFile.isDirectory())
+		{
+			throw new RuntimeException("Incorrect file store state")
+		}
+		long fileSize = !isDirectory ? theFile.length() : 0L
+		def zipEntry = new ZipEntry(component.name + "/" + session.name + "/" + thePath + (isDirectory ? "/" : ""))
+		zipEntry.setSize(fileSize)
+		zipOs.putNextEntry(zipEntry)
+		if (!isDirectory)
+		{
+			zipOs << new FileInputStream(theFile)
+		}
+		zipOs.closeEntry()
+	}
+	
+
 }
 class directoryCommand
 {

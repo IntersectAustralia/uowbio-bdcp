@@ -54,9 +54,9 @@ class BootStrap
 			
 			cucumber
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false)
-				user.save(flush:true)
-				user = new UserStore(username:"chrisk", deactivated: false)
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user.save(flush:true)
+				user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
 				user.save(flush:true)
 			}
 			
@@ -65,6 +65,8 @@ class BootStrap
 				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
 				user.save(flush:true)
                 user = new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user.save(flush:true)
+                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
                 user.save(flush:true)
 			}
 		}
@@ -85,6 +87,12 @@ class BootStrap
 	{
 		println "creating test data"
 
+        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+        user1.save(flush:true)
+        
+        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
+        user2.save(flush:true)
+        
 		def project = new Project(projectTitle: 'TestProject',
 				researcherName: 'TestStudent' ,
 				studentNumber: 'StudentNumber' ,
@@ -92,7 +100,8 @@ class BootStrap
 				startDate: new Date(),
 				endDate: new Date(),
 				description: 'Test Description',
-				supervisors: 'test supervisor')
+				supervisors: 'test supervisor',
+                owner: user2)
 		project.save(flush: true)
 
 		def study = new Study(studyTitle: 'TestStudy',

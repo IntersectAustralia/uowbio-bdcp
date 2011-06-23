@@ -83,8 +83,8 @@ log4j = {
 	//    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
 	//}
 
-	debug  'org.codehaus.groovy.grails.plugins.springsecurity'
-	debug  'au.org.intersect.bdcp.ldap'
+	//debug  'org.codehaus.groovy.grails.plugins.springsecurity'
+	//debug  'au.org.intersect.bdcp.ldap'
 	error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 			'org.codehaus.groovy.grails.web.pages', //  GSP
 			'org.codehaus.groovy.grails.web.sitemesh', //  layouts

@@ -66,7 +66,7 @@ class ComponentTests extends GrailsUnitTestCase {
 		assertFalse 'No validation for blank field(s)' ,component.validate()
 		assertEquals 'Name is blank.','blank', component.errors['name']
 		assertEquals 'Description is blank.','blank', component.errors['description']
-		component = new Component(name:"TestComponent", 
+		component = new Component(name:"TestComponent too", 
 			description: "Some Description", study:study)
 		assertTrue "A valid component did not validate!", component.validate()
     }
@@ -86,7 +86,7 @@ class ComponentTests extends GrailsUnitTestCase {
 	   assertEquals 'Name does not validate size.','size', component.errors['name']
 	   assertEquals 'Description does not validate size.','size', component.errors['description']
 	   
-	   component = new Component(name:"TestComponent",
+	   component = new Component(name:"TestComponent too",
 			description: "Some Description",	
 			study:study)
  

@@ -29,8 +29,5 @@
                     </tbody>
                 </table>
             </div>
-            <div class="paginateButtons" >
-                <g:paginate total="${participantsInStudy[0]}" mapping="participantDetails" params="[studyId: studyInstance.id]"/>
-            </div>
            </g:if>
            

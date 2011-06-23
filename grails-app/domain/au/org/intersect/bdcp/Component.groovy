@@ -10,7 +10,7 @@ class Component {
 	
 	static hasMany = [sessions:Session]
     static constraints = {
-		name(blank:false, size:1..1000)
+		name(blank:false, size:1..1000, unique:'study', validFilename:true)
 		description(blank:false, size:1..1000)
     }
     

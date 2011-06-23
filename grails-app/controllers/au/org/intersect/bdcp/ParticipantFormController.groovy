@@ -38,10 +38,16 @@ class ParticipantFormController
 			{
 				participantForms[i].fileName = null
 			}
-			if (!participantForms[i]?.validate())
+			if (!participantForms[i]?.validate() && !participantForms[i].hasErrors())
 			{
 				allValid = false
 			}
+            else if( participantForms.findAll { it.formName.equalsIgnoreCase(participantForms[i].formName) }.size() > 1 )
+            {
+                participantForms[i].errors.rejectValue('formName', 'participantForm.formName.uniqueIgnoreCase.invalid')
+                allValid = false   
+            }
+            
 		}
 
 		return allValid
@@ -127,6 +133,7 @@ class ParticipantFormController
 			participantFormInstance.fileExtension = fileExtension
 			participantFormInstance.fileName = fileName
 			participantFormInstance.save(flush: true)
+            
 		}
 		else
 		{
@@ -134,47 +141,50 @@ class ParticipantFormController
 		}
 	}
 
+    private renderUploadErrorMsg(participantForms)
+    {
+        def participantFormInstanceList = []
+        populateSessionValues(participantFormsToLoad())
+        def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
+        if( f.exists() )
+        {
+            f.eachFile()
+            { file->
+                if( !file.isDirectory() )
+                {
+                    def participantForm = ParticipantForm.findWhere(fileName: file.name)
+                    if(participantForm != null)
+                    {
+                        participantFormInstanceList.add(participantForm)
+                    }
+                }
+            }
+        }
+        render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
+    }
+    
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def upload =
 	{
 		cache false
 		def participantForms = []
-		def participantFormsError = []
 		def participantFormInstanceList = []
-		for (i in participantFormsToLoad())
+		def allValid = true
+        
+        for (i in participantFormsToLoad())
 		{
 			participantForms[i] = extractParticipantForm(i)
 		}
 
 		if (!validateParticipantForms(participantForms))
 		{
-
-			populateSessionValues(participantFormsToLoad())
-			def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
-			if( f.exists() )
-			{
-				f.eachFile()
-				{ file->
-					if( !file.isDirectory() )
-					{
-						def participantForm = ParticipantForm.findWhere(fileName: file.name)
-						if(participantForm != null)
-						{
-							participantFormInstanceList.add(participantForm)
-						}
-					}
-				}
-			}
-			render(view: "list", model: [participantForms: participantForms,participantFormInstance: participantForms[0],participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
+            renderUploadErrorMsg(participantForms);
 		}
 		else
 		{
-			def message = []
 			for (i in participantFormsToLoad())
 			{
-				def participantFormInstance = participantForms[i]
-
-				if (participantFormInstance.save(flush: true))
+                if (participantForms[i].save(flush: true))
 				{
 					new File( getRealPath() + File.separatorChar + params.participantId.toString()).mkdirs()
 					def file = request.getFile("form.${i}")
@@ -183,10 +193,25 @@ class ParticipantFormController
 						file = session["fileName[${i}]"]
 					}
 
-					saveFile(file, participantFormInstance)
+					saveFile(file, participantForms[i])
 				}
+                else
+                {
+                    allValid = false    
+                }
+                
 			}
-
+            
+            if (allValid == false)
+            {
+                for (i in participantFormsToLoad())
+                {
+                    participantForms[i].delete(flush:true)
+                }
+                renderUploadErrorMsg(participantForms);
+                return
+            }
+            
 			switch (participantFormsToLoad().size())
 			{
 				case 0: flash.error = "No forms selected to upload"
@@ -263,7 +288,7 @@ class ParticipantFormController
 				if( !file.isDirectory() )
 				{
 					def participantForm = ParticipantForm.findWhere(fileName: file.name)
-					if(participantForm != null)
+                    if(participantForm != null)
 					{
 						participantFormInstanceList.add(participantForm)
 					}

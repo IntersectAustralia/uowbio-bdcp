@@ -96,7 +96,6 @@
                                     <g:textArea name="supervisors" value="${projectInstance?.supervisors}" />
                                 </td>
                             </tr>
-                        
                         </tbody>
                     </table>
                 </div>

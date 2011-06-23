@@ -12,10 +12,62 @@
     
         <jqui:resources />
         <g:set var="entityName" value="${message(code: 'sessionFile.label', default: 'File')}" />
+        <g:set var="downloadError" value="${message(code: 'sessionFile.downloadError.msg', default: 'Error downloading files')}" />
+        <g:set var="downloadUrl" value="${createLink(mapping:'sessionFileList', controller:'sessionFile', action:'downloadFiles', params:['studyId': studyInstance.id])}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     <script>
 
   $(document).ready(function(){
+	 
+    var $downloadButton = $("#downloadButton");
+    var $fileTree = $(".filetree");
+    var numf = 0;
+    $downloadButton.button({disabled:true}); 
+    $downloadButton.click(function(){
+        var url = '${downloadUrl}';
+        var $selected = $fileTree.find("input:checkbox:checked");
+        var $form = $('<form action="'+url+'" method="POST"></form>');
+        $form.appendTo('body');
+        $selected.clone().appendTo($form);
+        $form.submit().remove();
+    });
+    
+    function refreshButton() {
+        numf = $fileTree.find("input:checkbox:checked").size();
+        $downloadButton.button("option","disabled",numf == 0);
+    }
+        
+	function updateDirectory(reference) {
+		  var $input = $("input[reference='"+reference+"']");
+      	  var parentRef = $input.attr("parentDir");
+		  var $e = $input.closest("li");
+		  var $children = $e.find("input[parentDir='"+reference+"']");
+		  var $selectedChildren = $e.find("input[parentDir='"+reference+"']:checked");
+		  var checked = $input.prop("checked");
+		  var newChecked = $children.size() == $selectedChildren.size();
+		  if (checked != newChecked) {
+			  $input.prop("checked", newChecked);
+			  if (parentRef != null && parentRef.length>0) {
+				  updateDirectory(parentRef);
+			  }
+		  }
+	}
+    $("input.fileSelect").change(function(){
+        	var parentRef = $(this).attr("parentDir");
+	        updateDirectory(parentRef);
+	        refreshButton();
+        });
+    $("input.directorySelect").change(function(){
+    		var reference = $(this).prop("reference");
+    		var isChecked = this.checked
+        	$(this).closest("li").find("input").each(function(i,elem){
+            	var $e = $(elem);
+            	$e.prop("checked", isChecked)
+            	});
+        	var parentRef = $(this).attr("parentDir");
+	        updateDirectory(parentRef);
+	        refreshButton();
+        });
     $("#example").treeview();
   });
   
@@ -57,7 +109,7 @@
                  <ul>
                  <g:def var="sessionRoot" value="${sessionFiles.getAt(sessionInstance.id.toString()).getAt('sessionRoot')}" />
                  <g:each in="${sessionFiles.getAt(sessionInstance.id.toString()).getAt('files')}" status="l" var="fileInstance">
-                 <g:traversalTag file="${fileInstance}" sessionRoot="${sessionRoot}" session="${sessionInstance}" status="${i}-${1}"/>
+                 <g:traversalTag file="${fileInstance}" sessionRoot="${sessionRoot}" session="${sessionInstance}" status="${i}-${1}" parent="" position="${l}"/>
                  </g:each>
                  </ul>
                  </li>
@@ -68,7 +120,7 @@
 		</ul>
 
 
-
+			<button id="downloadButton">Download</button>
 
             </div>
             </g:if>
