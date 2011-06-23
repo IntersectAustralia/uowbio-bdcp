@@ -21,6 +21,7 @@ class ProjectController
 	{
 		cache false
 		
+		// TODO only a researcher can look at their own project
 //		checkRoleResearcher();
 				
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -45,6 +46,7 @@ class ProjectController
 	{
 		cache false
 		
+		// TODO only a researcher can look at their own project
 		/*def myUser = currentUser()*/
 //		print "the userKarlxss is: \n" 
 //		def userDetailsService = springSecurityService.getUserDetailsService();
