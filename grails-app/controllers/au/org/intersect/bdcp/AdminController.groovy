@@ -37,6 +37,9 @@ class AdminController
 		{
 			username = params.username
 		}
+		
+		print "create::controller, username is: ${username} \n"
+		
 		return [username: username]
 	}
 
@@ -273,4 +276,24 @@ class AdminController
 
 		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedMatches])
 	}
+	
+	@Secured(['IS_AUTHENTICATED_FULLY'])
+	def addRole =
+	{
+		cache false
+		def username
+		if (params.username == null)
+		{
+			username = ""
+		}
+		else
+		{
+			username = params.username
+		}
+		
+		print "addRole::controller, username is: ${username} \n"
+		
+		return [username: username]
+	}
+	
 }

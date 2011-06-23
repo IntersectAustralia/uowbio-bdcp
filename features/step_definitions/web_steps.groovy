@@ -29,6 +29,14 @@ Given(~"I have logged in") { ->
 	browser.findElementById("Login").click()
 }
 
+Given(~"I have logged in as \"(.*)\"") { String username ->
+	browser.get("http://localhost:8080/BDCP/login/auth")
+	fieldElement = browser.findElement(By.name("j_username"))
+	fieldElement.sendKeys(username)
+	fieldElement = browser.findElement(By.name("j_password"))
+	fieldElement.sendKeys("password")
+	browser.findElementById("Login").click()
+}
 
 Given(~"I am on the email page") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/list")

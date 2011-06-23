@@ -4,7 +4,7 @@ Feature: Create project
   I want to create a project
 
   Scenario: Create project
-    Given I have logged in
+    Given I have logged in as "dpollum"
     Given I am on the create project page
     When I fill in "projectTitle" with "My Biomechanics Project"
     And I fill in "researcherName" with "Fred Bloggs"

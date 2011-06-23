@@ -62,9 +62,9 @@ class BootStrap
 			
 			intersect_test
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false)
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
 				user.save(flush:true)
-                user = new UserStore(username:"chrisk", deactivated: false)
+                user = new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
                 user.save(flush:true)
 			}
 		}
@@ -128,10 +128,10 @@ class BootStrap
         def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")
         deviceGroup.save()
         
-		def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_USER")
+		def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
 		user.save(flush:true)
         
-		user = new UserStore(username:"chrisk", deactivated: false)
+		user = new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
 		user.save(flush:true)
         
         def device = new Device(name: "Device1",

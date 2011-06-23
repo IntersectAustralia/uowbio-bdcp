@@ -15,8 +15,8 @@ private final String FILE_HTML = "<div>" + LOREM_IPSUM_TEXT + "</div>";
 Before() {
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
 	sql.execute("delete from user_store")
-	sql.execute("INSERT INTO user_store (id,version, username, deactivated) VALUES ('-1','0','dpollum', 'false');")
-  sql.execute("INSERT INTO user_store (id,version, username, deactivated) VALUES ('-2','0','chrisk', 'false');")
+	sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-1','0','dpollum', 'false', 'ROLE_LAB_MANAGER');")
+	sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-2','0','chrisk', 'false', 'ROLE_LAB_MANAGER');")
   browser = new HtmlUnitDriver(BrowserVersion.FIREFOX_3_6)
   JavascriptExecutor jsExecutor = (JavascriptExecutor) browser;
   //browser.setJavascriptEnabled(true)
@@ -32,8 +32,8 @@ After() {
   
   def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
   sql.execute("delete from user_store")
-  sql.execute("INSERT INTO user_store (id,version, username, deactivated) VALUES ('-1','0','dpollum', 'false');")
-  sql.execute("INSERT INTO user_store (id,version, username, deactivated) VALUES ('-2','0','chrisk', 'false');")
+  sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-1','0','dpollum', 'false', 'ROLE_LAB_MANAGER');")
+  sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority) VALUES ('-2','0','chrisk', 'false', 'ROLE_LAB_MANAGER');")
   sql.execute("delete from participant_form")
   sql.execute("delete from participant")
   sql.execute("delete from session")

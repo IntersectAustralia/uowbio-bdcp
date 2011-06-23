@@ -4,7 +4,7 @@ Feature: Edit Project
   I want to edit a project
 
   Background:
-    Given I have logged in
+    Given I have logged in as "dpollum"
     Given I have created a project with "My Biomechanics Project", "Fred Bloggs", "123456", "Masters of Biomechanics", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "Studying some stuff", "Alice Smith"
 
    Scenario: Edit Project

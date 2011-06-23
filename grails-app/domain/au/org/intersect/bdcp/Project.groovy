@@ -11,6 +11,7 @@ class Project
 	Date endDate
 	String description
 	String supervisors
+	String username
 	
 	static hasMany = [studies: Study]
 	
@@ -34,5 +35,6 @@ class Project
 		endDate(nullable:false)
 		description(blank:false, size:1..1000)
 		supervisors(blank:false, size:1..1000)
+		username(nullable:true)
 	}
 }

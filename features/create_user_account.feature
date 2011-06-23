@@ -51,6 +51,8 @@ Feature: Create User Account
      Then I should see a 4 column table "searchTable" with contents
      |johnk  |John      | Kenward  | Select |
      Then I press "select[0]"
+     Then I should see "Select User Role"
+     Then I press "save"
      Then I should see "Confirm account creation for"
      Then I press "Confirm"
      Then I should see "Account Creation Successful"
@@ -70,6 +72,8 @@ Feature: Create User Account
      Then I should see a 4 column table "searchTable" with contents
      |johnk |John |Kenward  |Select  |
      Then I press "select[0]"
+     Then I should see "Select User Role"
+     Then I press "save"
      Then I should see "Confirm account creation for"
      Then I press "Confirm"
      Then I should see "Account Creation Failed"
