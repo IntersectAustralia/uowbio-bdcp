@@ -26,7 +26,7 @@
     $downloadButton.click(function(){
         var url = '${downloadUrl}';
         var $selected = $fileTree.find("input:checkbox:checked");
-        var $form = $('<form action="'+url+'" method="POST"></form>');
+        var $form = $('<form action="'+url+'" method="POST" target="_blank"></form>');
         $form.appendTo('body');
         $selected.clone().appendTo($form);
         $form.submit().remove();
@@ -109,7 +109,7 @@
                  <ul>
                  <g:def var="sessionRoot" value="${sessionFiles.getAt(sessionInstance.id.toString()).getAt('sessionRoot')}" />
                  <g:each in="${sessionFiles.getAt(sessionInstance.id.toString()).getAt('files')}" status="l" var="fileInstance">
-                 <g:traversalTag file="${fileInstance}" sessionRoot="${sessionRoot}" session="${sessionInstance}" status="${i}-${1}" parent="" position="${l}"/>
+                 <g:traversalTag file="${fileInstance}" sessionRoot="${sessionRoot}" session="${sessionInstance}" status="${i}-${1}" parent="${sessionInstance.id}" position="${l}"/>
                  </g:each>
                  </ul>
                  </li>
