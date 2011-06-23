@@ -14,7 +14,8 @@ class ProjectController
 		redirect(action: "list", params: params)
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
+	
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def list =
 	{
 		cache false
@@ -36,7 +37,6 @@ class ProjectController
 	{
 		cache false
 		def projectInstance = new Project(params)
-        projectInstance.owner = UserStore.findByUsername("dpollum")
 		if (projectInstance.save(flush: true))
 		{
 			flash.message = "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.projectTitle])}"
