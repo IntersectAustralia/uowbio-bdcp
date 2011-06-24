@@ -44,23 +44,13 @@ class StudyDeviceFieldController {
         def studyDeviceInstance = StudyDevice.link(Study.findById(params.study.id),Device.findById(params.device.id))
         def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
         def allValid = true
-        for (int i=0; i < studyDeviceFields.size(); i++)
+        
+        for (int i=0; i < deviceFields.size(); i++)
         {
-            if (studyDeviceFields[i]?.id == null)
-            {
-                studyDeviceFields[i] = new StudyDeviceField(params["studyDeviceFields["+i+"]"])
-            }
-            else
-            {
-                studyDeviceFields[i].properties =params["studyDeviceFields["+i+"]"]
-            }
-            studyDeviceInstance?.addToStudyDeviceFields(studyDeviceFields[i])
-            deviceFields[i]?.addToStudyDeviceFields(studyDeviceFields[i])
             if (!studyDeviceFields[i].validate())
             {
                 allValid = false
             }
-    
         }
         
         return allValid
@@ -69,16 +59,20 @@ class StudyDeviceFieldController {
     def laterVersion(studyDeviceFields)
     {
         def isLaterVersion = false
-        for (int i=0; i < studyDeviceFields.size(); i++)
-        {
-            if (params["studyDeviceFields["+i+"]"].version) {
-                def version = params["studyDeviceFields["+i+"]"].version.toLong()
-                if (studyDeviceFields[i].version > version)
-                {
-                    isLaterVersion = true
-                }
-            }
-        }
+        def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
+        for (int i=0; i < deviceFields.size(); i++)
+                        {
+                            
+                            if (params["studyDeviceFields["+i+"]"].version) {
+                                def version = params["studyDeviceFields["+i+"]"].version.toLong()
+                                if (studyDeviceFields[i].version > version)
+                                {
+                                    studyDeviceFields[i].errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'studyDeviceField.label', default: 'StudyDeviceField')] as Object[], "Another user has updated this StudyDeviceField while you were editing")
+                                    studyDeviceFields[i].hasErrors()
+                                    isLaterVersion = true    
+                                }
+                            }
+                        }
         return isLaterVersion
     }
     
@@ -107,7 +101,6 @@ class StudyDeviceFieldController {
             if (saveAllStudyDeviceFields(studyDeviceFieldInstance)) 
             {
                 flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDevice.label', default: 'Device'), studyDeviceInstance.device])}"
-                //flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), studyDeviceFieldInstance.id])}"
                 redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":params.studyId, "device.id": params.device.id, "study.id": params.study.id] )
             }
             else
@@ -139,8 +132,6 @@ class StudyDeviceFieldController {
     def show = {
        def studyDeviceFields = []
         def studyDeviceFieldInstance = []
-//        def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
-//        if (!studyDeviceFieldInstance) {
          if (!studyDeviceFields)
          {  
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
@@ -154,19 +145,15 @@ class StudyDeviceFieldController {
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def edit = {
         def studyDeviceFields = []
-        def studyFields = []
         studyDeviceFields.addAll(StudyDevice.findByStudyAndDevice(Study.findById(params.studyId), Device.findById(params.device.id))?.studyDeviceFields)
         studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}
         def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
-        def studyDeviceFieldInstance = []
-        
-        //def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
         if (studyDeviceFields == null) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
             redirect(action: "list")
         }
         else {
-            return [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields, deviceFields: deviceFields]
+            return [studyDeviceFields: studyDeviceFields, deviceFields: deviceFields]
         }
     }
 
@@ -175,67 +162,50 @@ class StudyDeviceFieldController {
         
         def studyDeviceInstance = StudyDevice.findByStudyAndDevice(Study.findById(params.study.id),Device.findById(params.device.id))
         def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
-        def studyDeviceFields = StudyDeviceField.findAllByStudyDevice(studyDeviceInstance)
         def allValid = true
-        def studyDeviceFieldInstance = []
-        studyDeviceFieldInstance.addAll(studyDeviceFields)
-        studyDeviceFields = studyDeviceFieldInstance
+        def studyDeviceFields = []
         
-        if (validStudyDeviceFields(studyDeviceFields)) {
+        
+        for (int i=0; i < deviceFields.size(); i++)
+        {
+            
+            if (params["studyDeviceFields["+i+"]"] != null)
+            {
+                studyDeviceFields[i] = StudyDeviceField.get(params["studyDeviceFields["+i+"]"]?.id)
+                if (studyDeviceFields[i])
+                {
+                    studyDeviceFields[i].properties = params["studyDeviceFields["+i+"]"]
+                }
+                else
+                {
+                    studyDeviceFields[i] = new StudyDeviceField(params["studyDeviceFields["+i+"]"])
+                    studyDeviceInstance?.addToStudyDeviceFields(studyDeviceFields[i])
+                    deviceFields[i]?.addToStudyDeviceFields(studyDeviceFields[i])
+                }
+                
+            }
+        }
+        
+         if (validStudyDeviceFields(studyDeviceFields)) {
             if (laterVersion(studyDeviceFields))
             {
-                        for (int i=0; i < deviceFields.size(); i++)
-                        {
-                            if (studyDeviceFields[i]?.id == null)
-                            {
-                                studyDeviceInstance?.removeFromStudyDeviceFields(studyDeviceFields[i])
-                                deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFields[i])
-                            }
-                            
-                            if (params["studyDeviceFields["+i+"]"].version) {
-                                def version = params["studyDeviceFields["+i+"]"].version.toLong()
-                                if (studyDeviceFields[i].version > version)
-                                {
-                                    studyDeviceFields[i].errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'studyDeviceField.label', default: 'StudyDeviceField')] as Object[], "Another user has updated this StudyDeviceField while you were editing")
-                                    studyDeviceFields[i].hasErrors()    
-                                }
-                            }
-                        }
-                        
-                        render(view: "edit", model: [studyDeviceFields: studyDeviceFields])
+                        studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}
+                        render(view: "edit", model: [studyDeviceFields: studyDeviceFields, deviceFields: deviceFields])
                         return
              }
             
-            if (saveAllStudyDeviceFields(studyDeviceFieldInstance)) {
+            if (saveAllStudyDeviceFields(studyDeviceFields)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'studyDevice.label', default: 'Device'), studyDeviceInstance.device])}"
-                //flash.message = "${message(code: 'default.updated.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), studyDeviceFieldInstance.id])}"
                  redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":params.studyId, "device.id": params.device.id, "study.id": params.study.id] )
              }
             else {
-                for (int i=0; i < deviceFields.size(); i++)
-                {
-                    if (studyDeviceFieldInstance[i]?.id == null)
-                    {
-                        studyDeviceInstance?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
-                        deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
-                    }
-                }
-                studyDeviceFields = studyDeviceFieldInstance
-                render(view: "edit", model: [studyDeviceFields: studyDeviceFields,studyDeviceFieldInstance: studyDeviceFieldInstance])
+                studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}
+                render(view: "edit", model: [studyDeviceFields: studyDeviceFields, deviceFields: deviceFields])
             }
         }
         else {
-            //flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
-            for (int i=0; i < deviceFields.size(); i++)
-                {
-                    if (studyDeviceFieldInstance[i]?.id == null)
-                    {
-                        studyDeviceInstance?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
-                        deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
-                    }
-                }
-                studyDeviceFields = studyDeviceFieldInstance
-                render(view: "edit", model: [studyDeviceFields: studyDeviceFields,studyDeviceFieldInstance: studyDeviceFieldInstance])
+                studyDeviceFields.sort {x,y -> x?.deviceField?.dateCreated <=> y?.deviceField?.dateCreated}
+                render(view: "edit", model: [studyDeviceFields: studyDeviceFields,deviceFields: deviceFields])
         }
     }
     

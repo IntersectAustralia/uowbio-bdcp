@@ -30,7 +30,7 @@
                 <div class="dialog">
                     <table>
                        <g:each in="${deviceFields.sort {x,y -> x.dateCreated <=> y.dateCreated}}" status="i" var="deviceFieldInstance">
-                            <g:hiddenField name="StudyDeviceFields[${i}].id" value="${studyDeviceFields[i]?.id}" />
+                            <g:hiddenField name="studyDeviceFields[${i}].id" value="${studyDeviceFields[i]?.id}" />
                             <g:hiddenField name="studyDeviceFields[${i}].version" value="${studyDeviceFields[i]?.version}" />
                             <g:render template="${deviceFieldInstance.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceFields': studyDeviceFields, 'deviceFieldInstance':deviceFieldInstance]"/>
                         </g:each>
