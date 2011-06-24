@@ -49,7 +49,7 @@ Given(~"I have created a project with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"
 
 Given(~"I have created a study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String study_title, String uow_ethics_number, String has_additional_ethics_requirements, String description, industry_partners, collaborators, String start_date, String end_date, String number_of_participants, String inclusion_exclusion_criteria ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_requirements, description, industry_partners, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria) VALUES ('-2','0', '-1', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria});")
+	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_reqs, description, industry_partners, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria) VALUES ('-2','0', '-1', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria});")
 }
 
 Given(~"I have created a component with \"(.*)\", \"(.*)\"") { String name, String description ->

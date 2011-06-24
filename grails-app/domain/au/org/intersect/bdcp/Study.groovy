@@ -32,6 +32,12 @@ class Study
 	static mapping =
 	{
 		participants cascade: "all-delete-orphan"
+        table 'study'
+            columns 
+            {
+                hasAdditionalEthicsRequirements column: "has_additional_ethics_reqs"
+            }
+        
 	}
 	
 	
