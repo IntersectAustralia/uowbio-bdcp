@@ -20,8 +20,8 @@ Feature: Create Device Metadata Template
  Then I press "Force Platforms"
  Then I should see "Force Platforms"
  And I should see "Device1"
- Then I press "metadata-template[0]"
- Then I should see "Device1 Metadata Template"
+ Then I press "device-details[0]"
+ Then I should see "Device1 Details Template"
  Then I should see table "listTable" with contents
  |Header 123  |Static text Edit |        
  |Sample size |Text Area        |
