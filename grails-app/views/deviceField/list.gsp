@@ -10,7 +10,7 @@
     </head>
     <body>
         <div class="body">
-            <h1>${deviceInstance.name} Metadata Template</h1>
+            <h1>${deviceInstance.name} Details</h1>
             <br />
             <g:link elementId="Add Field" mapping="deviceFieldDetails" class="create" class="button" action="create" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]">Add Field</g:link>
             <br />

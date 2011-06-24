@@ -6,11 +6,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'studyDeviceField.label', default: 'StudyDeviceField')}" />
-        <title>${Device?.findById(params.device.id)} Metadata Template Form</title>
+        <title>${Device?.findById(params.device.id)} Details Template Form</title>
     </head>
     <body>
         <div class="body">
-            <h1>${Device?.findById(params.device.id)} Metadata Template Form</h1>
+            <h1>${Device?.findById(params.device.id)} Details Template Form</h1>
             
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
