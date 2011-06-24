@@ -13,7 +13,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <g:each in="${participantInstanceList}" status="i" var="participantInstance">
+                    <g:each in="${participantsInStudy}" status="i" var="participantInstance">
                          <g:if test="${participantInstance?.study.id.toString() == params.studyId}">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                             <td>
