@@ -6,11 +6,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'studyDeviceField.label', default: 'StudyDeviceField')}" />
-        <title>${Device?.findById(params.device.id)} Metadata Template Form</title>
+        <title>${Device?.findById(params.device.id)} Details Template Form</title>
     </head>
     <body>
         <div class="body">
-            <h1>${Device?.findById(params.device.id)} Metadata Template Form</h1>
+            <h1>${Device?.findById(params.device.id)} Details Template Form</h1>
             
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
@@ -29,10 +29,10 @@
                 <g:if test="${au.org.intersect.bdcp.DeviceField.findAllByDevice(Device.findById(params.device.id))?.size() > 0}">
                 <div class="dialog">
                     <table>
-                       <g:each in="${studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}}" status="i" var="studyDeviceFieldInstance">
-                            <g:hiddenField name="StudyDeviceFields[${i}].id" value="${studyDeviceFields[i]?.id}" />
+                       <g:each in="${deviceFields.sort {x,y -> x.dateCreated <=> y.dateCreated}}" status="i" var="deviceFieldInstance">
+                            <g:hiddenField name="studyDeviceFields[${i}].id" value="${studyDeviceFields[i]?.id}" />
                             <g:hiddenField name="studyDeviceFields[${i}].version" value="${studyDeviceFields[i]?.version}" />
-                            <g:render template="${studyDeviceFields[i].deviceField.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceFields': studyDeviceFields, 'deviceFieldInstance':studyDeviceFieldInstance.deviceField, 'studyDeviceFieldInstance':studyDeviceFieldInstance]"/>
+                            <g:render template="${deviceFieldInstance.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceFields': studyDeviceFields, 'deviceFieldInstance':deviceFieldInstance]"/>
                         </g:each>
                     </table>
                 </div>

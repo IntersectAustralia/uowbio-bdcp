@@ -21,8 +21,8 @@ Feature: View Device Metadata Template
  Then I should see "Force Platforms"
  Then I should see "Add new device"
  Then I should see "Device1"
- Then I press "metadata-template[0]"
- Then I should see "Device1 Metadata Template"
+ Then I press "device-details[0]"
+ Then I should see "Device1 Details Template"
  Then I press "show[1]"
  Then I should see table "fieldDetailsTable" with contents
       | Field Label   | Select a Radio Button Option |
@@ -30,7 +30,7 @@ Feature: View Device Metadata Template
       | Field Options | Option1                      |
  
  Then I press "Back"
- Then I should see "Device1 Metadata Template"
+ Then I should see "Device1 Details Template"
  Then I press "show[2]"
  Then I should see table "fieldDetailsTable" with contents
       | Field Label   | Select a Drop Down Option    |
