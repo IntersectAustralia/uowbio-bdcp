@@ -23,7 +23,7 @@ class TraversalTagLib {
 		{
 			out << "<li reference='${reference}' parentDir='${parent}'><span class='${type}'>"
 			out << "${file?.getName()}"
-	        out << "<input type='checkbox' class='fileSelect' name='files' parentDir='${parent}' reference='${reference}' value='F/${sessionInstance.id}/${relativePathHTML}'>"
+	 		out << "<input type='checkbox' class='fileSelect' name='files' parentDir='${parent}' reference='${reference}' value='F/${sessionInstance.id}/${relativePathHTML}'>"
 			out << "</span>"
 			out << "</li>\n"
 		}

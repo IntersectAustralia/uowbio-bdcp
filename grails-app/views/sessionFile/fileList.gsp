@@ -8,6 +8,17 @@
         <g:javascript library="application" />
         <g:javascript library="jquery" plugin="jquery"/>
         <link rel="stylesheet" href="${resource(dir:'jquery.treeview',file:'jquery.treeview.css')}".css" type="text/css" />
+        <style type="text/css">
+        <!--
+        input.fileSelect, input.directorySelect {
+	    width : 1em;
+	    height :1em;
+	    padding: 0px;
+	    margin: 0px;
+	}
+        -->
+        </style>
+
   <script type="text/javascript" src="${resource(dir:'jquery.treeview',file:'jquery.treeview.js')}"></script>
     
         <jqui:resources />
@@ -26,7 +37,7 @@
     $downloadButton.click(function(){
         var url = '${downloadUrl}';
         var $selected = $fileTree.find("input:checkbox:checked");
-        var $form = $('<form action="'+url+'" method="POST" target="_blank"></form>');
+        var $form = $('<form action="'+url+'" method="POST"></form>');
         $form.appendTo('body');
         $selected.clone().appendTo($form);
         $form.submit().remove();
@@ -81,6 +92,7 @@
         <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+        
         <div id="component">
         <ul id="tabnav">
 	
@@ -94,8 +106,10 @@
             <g:if test="${ componentInstanceTotal > 0}">
             <div class="projects">
                     <ul id="example" class="filetree">
+  <p>To download file/s, please check box/es next to files or directories and click "Download”</p>
   <g:each in="${componentInstanceList}" status="i" var="componentInstance">
   <li><span class="folder">${componentInstance.name}</span>
+  
   <g:each in="${componentInstance.getSessionsList()}" status="k" var="sessionInstance">
           <ul>
                  
