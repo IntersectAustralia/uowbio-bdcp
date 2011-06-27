@@ -39,10 +39,11 @@ Feature: Search User Accounts
      |davidk | David | Kenward  | Select  |
      |johnk  | John  | Kenward  | Select  |
      
-     Then I press "select[0]"
+     Then I press "select[1]"
      Then I should see "Select User Role"
-     Then I press "save"
-     Then I should see "Confirm account creation for"
+     Then I select "Researcher" from "authority"
+     Then I press "select"
+     Then I should see "Confirm account creation"
      Then I press "Cancel"
      Then I should see a 4 column table "searchTable" with contents
      |chrisk | Chris | Kenward  | Select  |

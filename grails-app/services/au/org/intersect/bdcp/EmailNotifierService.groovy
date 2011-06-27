@@ -6,11 +6,11 @@ class EmailNotifierService {
 
 	def mailService
 	
-    def contactUser(username, email) {
+    def contactUser(username, role, email) {
 		mailService.sendMail {
 			to email
 			from "admin@uow.edu.au"
-			subject "New Biomechanics Data Capture System Account for ${username}"
+			subject "New Biomechanics Data Capture System Account for ${username} with role of ${role}."
 			body (view: "/admin/send/mail") 
 		}
     }

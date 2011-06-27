@@ -6,59 +6,60 @@
 <jqui:resources />
 <script type="text/javascript">
         $(function() {
-    		// a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
-    		$( "#dialog:ui-dialog" ).dialog( "destroy" );
-    	
-    		$( "#dialog-confirm" ).dialog({
-    			autoOpen: false,
-    			resizable: false,
-    			height:140,
-    			modal: true,
-    			buttons: {
-    				"Yes": function() {
-    					$( this ).dialog( "close" );
-    					window.location.href = "${createLink(controller:"admin", action:'searchUsers', params:"[surname:session.surname, firstName: session.firstName, userid: session.userid]")}"
-    				},
-    				"No": function() {
-    					$( this ).dialog( "close" );
-    				}
-    			}
-    		});
-
-    		$('#Cancel').click(function() {
-    			$('#dialog-confirm').dialog('open');
-    			// prevent the default action, e.g., following a link
-    			return false;
-    		});
-    	    		
-    	});
-             
-	    </script>
-
+            // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
+            $( "#dialog:ui-dialog" ).dialog( "destroy" );
+     
+            $( "#dialog-confirm" ).dialog({
+                  autoOpen: false,
+                  resizable: false,
+                  height:140,
+                  modal: true,
+                  buttons: {
+                        "Yes": function() {
+                              $( this ).dialog( "close" );
+                              window.location.href = "${createLink(controller:"admin", action:'searchUsers', params:"[surname:session.surname, firstName: session.firstName, userid: session.userid]")}"
+                        },
+                        "No": function() {
+                              $( this ).dialog( "close" );
+                        }
+                  }
+            });
+ 
+            $('#Cancel').click(function() {
+                  $('#dialog-confirm').dialog('open');
+                  // prevent the default action, e.g., following a link
+                  return false;
+            });
+                 
+      });
+            
+          </script>
+ 
 <title>Confirm Account Creation</title>
 </head>
 <body>
-
+ 
 <div id="dialog-confirm" title="Cancel the creation of a user account?">
 <p><span class="ui-icon ui-icon-alert"
-	style="float: left; margin: 0 7px 20px 0;"></span>Are you sure?</p>
+      style="float: left; margin: 0 7px 20px 0;"></span>Are you sure?</p>
 </div>
 <div class="body">
-
-<p>Confirm account creation for ${username} (User will receive an
+ 
+<p>Confirm account creation for ${username} with role: ${role}. (User will receive an
 email notification</p>
 <p>advising of new account.)</p>
 <br />
+
 <div class="rowTop"><g:link controller="admin" class="create"
-	elementId="Confirm" class="button" params="[username: params.username]" action="save"
-	method="post">Confirm</g:link> <g:link controller="admin"
-	class="create" elementId="Cancel" class="button" action="searchUsers"
-	params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
+      elementId="Confirm" class="button" params="[role: role, username: username]" action="save"
+      method="post">Confirm</g:link> <g:link controller="admin"
+      class="create" elementId="Cancel" class="button" action="searchUsers"
+      params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
 </div>
 <div class="rowBottom">
 <div class="buttons"><g:link controller="admin" elementId="Back"
-	class="create" action="searchUsers"
-	params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Back</g:link>
+      class="create" action="addRole"
+      params="[role: role, username: username]">Back</g:link>
 </div>
 </div>
 </div>
