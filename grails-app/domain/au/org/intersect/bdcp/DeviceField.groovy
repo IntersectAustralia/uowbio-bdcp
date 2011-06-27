@@ -23,6 +23,7 @@ class DeviceField
     
     static constraints = 
     {
+        staticContent(maxSize: 10485760) // Maximum size in Postgres, please keep it
         fieldLabel(blank:false, size:1..1000)
         fieldType(nullable:false)
 		staticContent(nullable:true, validator:{val, obj ->
