@@ -36,7 +36,7 @@ After() {
   def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
   sql.execute("delete from participant_form")
   sql.execute("delete from participant")
-  sql.execute("delete from session")
+  sql.execute("delete from study_session")
   sql.execute("delete from component")
   sql.execute("delete from study_device_field")
   sql.execute("delete from study_device")

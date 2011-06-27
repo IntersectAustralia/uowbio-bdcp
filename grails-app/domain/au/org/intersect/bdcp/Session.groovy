@@ -13,4 +13,8 @@ class Session {
 		name(blank:false, size:1..1000, unique:'component',validFilename:true)
 		description(blank:false, size:1..1000)
     }
+    
+    static mapping = {
+        table 'study_session'
+    }
 }

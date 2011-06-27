@@ -30,6 +30,12 @@ class StudyDeviceField {
     static mapping = {
         date type: PersistentLocalDate
         time type: PersistentLocalTimeAsTime
+        
+        table 'study_device_field'
+        columns
+        {
+            date column: "date_field"
+        }
     }
     
     static constraints = {

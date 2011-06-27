@@ -34,11 +34,14 @@ class BootStrap
 		{
 			production
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false)
-				user.save(flush:true)
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user.save(flush:true)
 				
-				user = new UserStore(username:"egully", deactivated: false)
+				user = new UserStore(username:"egully", deactivated: false, authority: "ROLE_LAB_MANAGER")
 				user.save(flush:true)
+                
+                user = new UserStore(username:"kherrman", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user.save(flush:true)
 			}
 			
 			development
@@ -46,10 +49,16 @@ class BootStrap
 			
 			test
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false)
-				user.save(flush:true)
-				user = new UserStore(username:"chrisk", deactivated: false)
-				user.save(flush:true)
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user.save(flush:true)
+                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user.save(flush:true)
+                user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user.save(flush:true)
+                user = new UserStore(username:"sysadm", deactivated: false, authority: "ROLE_SYS_ADMIN")
+                user.save(flush:true)
+                user = new UserStore(username:"researcher", deactivated: false, authority: "ROLE_RESEARCHER")
+                user.save(flush:true)
 			}
 			
 			cucumber

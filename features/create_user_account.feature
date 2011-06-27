@@ -52,8 +52,9 @@ Feature: Create User Account
      |johnk  |John      | Kenward  | Select |
      Then I press "select[0]"
      Then I should see "Select User Role"
-     Then I press "save"
-     Then I should see "Confirm account creation for"
+     Then I select "Researcher" from "authority"
+     Then I press "select"
+     Then I should see "Confirm account creation"
      Then I press "Confirm"
      Then I should see "Account Creation Successful"
      Then I press "accountAdmin"
@@ -73,11 +74,9 @@ Feature: Create User Account
      |johnk |John |Kenward  |Select  |
      Then I press "select[0]"
      Then I should see "Select User Role"
-     Then I press "save"
-     Then I should see "Confirm account creation for"
-     Then I press "Confirm"
-     Then I should see "Account Creation Failed"
-     Then I should see "User ID is not unique"
-     Then I press "searchUsers"
+     Then I select "Researcher" from "authority"
+     Then I press "select"
+     Then I should see "User ID is not unique."
+     Then I press "Back"
      Then I should see a 4 column table "searchTable" with contents
      |johnk |John |Kenward |Select |

@@ -44,32 +44,32 @@ Given(~"I am on the email page") { ->
 
 Given(~"I have created a project with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String project_title, String researcher_name, String student_number, String degree, String start_date, String end_date, String description, String supervisors ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO project (id,version, project_title, researcher_name, student_number, degree, start_date, end_date, description, supervisors) VALUES ('-1','0',${project_title}, ${researcher_name}, ${student_number}, ${degree}, '${start_date}', '${end_date}', ${description}, ${supervisors});")
+	sql.execute("INSERT INTO project (id,version, project_title, researcher_name, student_number, degree, start_date, end_date, description, supervisors) VALUES ('-1000','0',${project_title}, ${researcher_name}, ${student_number}, ${degree}, '${start_date}', '${end_date}', ${description}, ${supervisors});")
 }
 
 Given(~"I have created a study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String study_title, String uow_ethics_number, String has_additional_ethics_requirements, String description, industry_partners, collaborators, String start_date, String end_date, String number_of_participants, String inclusion_exclusion_criteria ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_requirements, description, industry_partners, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria) VALUES ('-2','0', '-1', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria});")
+	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_reqs, description, industry_partners, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria) VALUES ('-2000','0', '-1000', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria});")
 }
 
 Given(~"I have created a component with \"(.*)\", \"(.*)\"") { String name, String description ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO component (id,version, study_id, name, description) VALUES ('-3','0','-2', ${name}, ${description});")
+	sql.execute("INSERT INTO component (id,version, study_id, name, description) VALUES ('-3000','0','-2000', ${name}, ${description});")
 }
 
 Given(~"I have created a session with \"(.*)\", \"(.*)\"") { String name, String description ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO session (id,version, component_id, name, description) VALUES ('-4','0', '-3', ${name}, ${description});")
+	sql.execute("INSERT INTO study_session (id,version, component_id, name, description) VALUES ('-4000','0', '-3000', ${name}, ${description});")
 }
 
 Given(~"I have created a device grouping with \"(.*)\"") { String groupingName ->
     def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-    sql.execute("INSERT INTO device_group(id,version, grouping_name) VALUES ('-5','0',${groupingName});")
+    sql.execute("INSERT INTO device_group(id,version, grouping_name) VALUES ('-5000','0',${groupingName});")
 }
 
 Given(~"I have created a device with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String name, String description, String manufacturer, String locationOfManufacturer, String model, String serialNumber, String uowAssetNumber, String dateOfPurchase, String dateOfDelivery, String purchasePrice, String vendor, String fundingSource, String maintServiceInfo ->
     def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver") 
-    sql.execute("INSERT INTO device(id,version, device_group_id, name, description, manufacturer, location_of_manufacturer, model_name, serial_number, uow_asset_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_source, maint_service_info) VALUES ('-6','0','-5', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, ${uowAssetNumber}, '${dateOfPurchase}', '${dateOfDelivery}', ${purchasePrice}, ${vendor}, ${fundingSource}, ${maintServiceInfo});")
+    sql.execute("INSERT INTO device(id,version, device_group_id, name, description, manufacturer, location_of_manufacturer, model_name, serial_number, uow_asset_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_source, maint_service_info) VALUES ('-6000','0','-5000', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, ${uowAssetNumber}, '${dateOfPurchase}', '${dateOfDelivery}', ${purchasePrice}, ${vendor}, ${fundingSource}, ${maintServiceInfo});")
 }
 
 Given(~"I have created a device field with \"(.*)\", \"(.*)\", \"(.*)\" for \"(.*)\"") { String fieldLabel, String fieldType, String staticContent, String deviceName ->

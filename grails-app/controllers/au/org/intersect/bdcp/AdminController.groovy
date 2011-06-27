@@ -24,24 +24,49 @@ class AdminController
 
 	def allowedMethods = []
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
-	def create =
-	{
-		cache false
-		def username
-		if (params.username == null)
-		{
-			username = ""
-		}
-		else
-		{
-			username = params.username
-		}
-		
-		print "create::controller, username is: ${username} \n"
-		
-		return [username: username]
-	}
+      @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+      def create =
+      {
+            cache false
+            def username
+            def role
+            def accountStatus = "Failed"
+
+            username = setPropertyValue(params.username);
+            role = setPropertyValue(params.authority);
+           
+            def user;
+            user = new UserStore(username: username, authority: role);
+
+            if (user!= null && user.validate())
+            {
+                  accountStatus = "Successful"
+                  render (view: "create", model:[username:username, role:role])
+            }
+            else
+            {
+                  accountStatus = "Failed"
+                  render (view: "addRole", model:[accountStatus: accountStatus, user:user, username:username, authority:role])
+            }
+           
+            return [username: username, role: role]
+      }
+     
+      private String setPropertyValue(parameter)
+      {
+            def propertyValue
+           
+            if (parameter == null)
+            {
+                  propertyValue = ""
+            }
+            else
+            {
+                  propertyValue = parameter
+            }
+           
+            return propertyValue
+      }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
 	def save =
@@ -50,6 +75,7 @@ class AdminController
 		def accountStatus = "Failed"
 		def user
 		def email
+
 		if (params.username != null)
 		{
 			LdapUser match = LdapUser.find(
@@ -57,14 +83,14 @@ class AdminController
 			if (match !=  null)
 			{
 				email = match.mail
-				user= new UserStore(username: params.username)
+				user= new UserStore(username: params.username, authority: params.role)
 			}
 		}
 		if (user!= null && user.save(flush:true))
 		{
 			accountStatus = "Successful"
-			emailNotifierService.contactUser(user.username, email)
-			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,username:params.username])
+			emailNotifierService.contactUser(user.username, user.authority, email)
+			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,username:params.username, role: params.role])
 			session.firstName =  ""
 			session.surname = ""
 			session.userid = ""
@@ -282,18 +308,11 @@ class AdminController
 	{
 		cache false
 		def username
-		if (params.username == null)
-		{
-			username = ""
-		}
-		else
-		{
-			username = params.username
-		}
+		def role
+		username = setPropertyValue(params.username);
+		role = setPropertyValue(params.authority);
 		
-		print "addRole::controller, username is: ${username} \n"
-		
-		return [username: username]
+		return [username: username, role: role]
 	}
 	
 }

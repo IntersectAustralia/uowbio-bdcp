@@ -4,7 +4,7 @@
         	Add Participant</g:link></span>
         	<br />
         	<br />
-           <g:if test="${ participantsInStudy[0] > 0}">
+           <g:if test="${ participantInstanceTotal > 0}">
            <div class="list">
                 <table>
                     <thead>

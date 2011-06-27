@@ -11,6 +11,9 @@
 <p>Account Creation ${accountStatus}
 </p>
 
+<p>Confirm account creation for ${username} with role: ${role}. (User will receive an
+email notification</p>
+
 <g:hasErrors bean="${user}">
 	<div class="errors"><g:renderErrors bean="${user}" as="list" />
 	</div>

@@ -21,7 +21,7 @@ class ParticipantController
 		def studyInstance = Study.get(params.studyId)
 		def participantsInStudy = Participant.executeQuery('select count(p) from Participant p where p.study = :study',[study:studyInstance])
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count(), studyInstance:studyInstance, participantsInStudy: participantsInStudy]
+		[participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.findAllByStudy(studyInstance).size(), studyInstance:studyInstance, participantsInStudy: participantsInStudy]
 	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
