@@ -39,11 +39,11 @@ class StudyDeviceField {
     
     static constraints = {
         
-        text(nullable: true, size:0..255, validator: {val, obj ->
-                return obj.deviceField?.fieldType != FieldType.TEXT || TextUtils.isNotEmpty(val) ? true: ['nullable', obj.deviceField.fieldLabel]
-            })
-        textArea(nullable: true, size:0..1000, validator: {val, obj ->
-                return obj.deviceField?.fieldType != FieldType.TEXTAREA || TextUtils.isNotEmpty(val) ? true: ['nullable', obj.deviceField.fieldLabel]
+        text(nullable: true, validator: {val, obj ->
+                return checkSizeAndIfNull(val, obj, 0, 255) })
+        
+        textArea(nullable: true, validator: {val, obj ->
+                return checkSizeAndIfNull(val, obj, 0, 1000)
             })
         numeric(nullable:true, validator: {val, obj ->
             return obj.deviceField?.fieldType != FieldType.NUMERIC || val != null ? true : ['nullable', obj.deviceField.fieldLabel]
@@ -60,5 +60,30 @@ class StudyDeviceField {
         dropDownOption(nullable: true, size:0..1000, validator: {val, obj ->
             return obj.deviceField?.fieldType != FieldType.DROP_DOWN || TextUtils.isNotEmpty(val) ? true: ['nullable', obj.deviceField.fieldLabel]
         })
+    }
+    
+    static checkSizeAndIfNull(val, obj, minVal, maxVal)
+    {
+        if (obj.deviceField?.fieldType == FieldType.TEXT)
+        {
+            if (TextUtils.isNotEmpty(val))
+            {
+                if (val.size() < minVal)
+                {
+                    return ['size.toosmall', minVal, obj.deviceField.fieldLabel]
+                }
+                else if (val.size() > maxVal)
+                {
+                    return ['size.toobig', maxVal, obj.deviceField.fieldLabel]
+                }
+                
+            }
+            else
+            {
+                return ['nullable', obj.deviceField.fieldLabel]
+            }
+            
+        }
+        return true
     }
 }
