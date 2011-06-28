@@ -11,14 +11,14 @@ class DeviceFieldController {
         redirect(action: "list", params: params)
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def deviceInstance = Device.findById(params.deviceId)
         [deviceFieldInstanceList: DeviceField.findAllByDevice(deviceInstance), deviceFieldInstanceTotal: DeviceField.count(), deviceInstance: deviceInstance]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def create = {
         def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = new DeviceField()
@@ -26,7 +26,7 @@ class DeviceFieldController {
         return [deviceFieldInstance: deviceFieldInstance, deviceInstance: deviceInstance]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def save = {
         def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = new DeviceField(params)
@@ -41,7 +41,7 @@ class DeviceFieldController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def show = {
         def deviceFieldInstance = DeviceField.get(params.id)
         if (!deviceFieldInstance) {
@@ -53,7 +53,7 @@ class DeviceFieldController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def edit = {
         def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = DeviceField.get(params.id)
@@ -66,7 +66,7 @@ class DeviceFieldController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def update = {
         def deviceFieldInstance = DeviceField.get(params.id)
         if (deviceFieldInstance) {
@@ -94,7 +94,7 @@ class DeviceFieldController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def delete = {
         def deviceFieldInstance = DeviceField.get(params.id)
         if (deviceFieldInstance) {

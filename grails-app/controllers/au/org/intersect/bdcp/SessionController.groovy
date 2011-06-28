@@ -14,20 +14,20 @@ class SessionController
         return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"))
     }
     
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def index =
 	{
 		redirect(action: "list", params: params)
 	}
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def list =
 	{
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[sessionInstanceList: Session.list(params), sessionInstanceTotal: Session.count()]
 	}
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def create =
 	{
 		def sessionInstance = new Session()
@@ -35,7 +35,7 @@ class SessionController
 		return [sessionInstance: sessionInstance]
 	}
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def save =
 	{
         def context = createContext(request)
@@ -54,7 +54,7 @@ class SessionController
 		}
 	}
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def show =
 	{
 		def sessionInstance = Session.get(params.id)
@@ -69,7 +69,7 @@ class SessionController
 		}
 	}
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def edit =
 	{
 		def sessionInstance = Session.get(params.id)
@@ -84,7 +84,7 @@ class SessionController
 		}
 	}
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def update =
 	{
 		def sessionInstance = Session.get(params.id)
