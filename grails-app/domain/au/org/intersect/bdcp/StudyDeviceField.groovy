@@ -17,7 +17,6 @@ class StudyDeviceField {
     LocalTime time
     String radioButtonsOption
     String dropDownOption
-    String staticContent
     
     // automatically updated by GORM
     Date dateCreated
@@ -61,8 +60,5 @@ class StudyDeviceField {
         dropDownOption(nullable: true, size:0..1000, validator: {val, obj ->
             return obj.deviceField?.fieldType != FieldType.DROP_DOWN || TextUtils.isNotEmpty(val) ? true: ['nullable', obj.deviceField.fieldLabel]
         })
-        staticContent(nullable: true, size:0..1000, validator: {val, obj ->
-                return obj.deviceField?.fieldType != FieldType.STATIC_TEXT || TextUtils.isNotEmpty(val) ? true: ['nullable', obj.deviceField.fieldLabel]
-            })
     }
 }

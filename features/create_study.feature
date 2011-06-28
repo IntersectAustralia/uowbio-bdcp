@@ -30,7 +30,7 @@ Feature: Create Study
     And I should see table "studyTable" with contents
       | Study Title                    | My Biomechanics Study   |
       | UOW Ethics Number              | 1073A                   |
-      | Additional Ethics Requirements | No                        |
+      | Additional Ethics Requirements | No                      |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
       | Collaborators                  | Collaborator1           |
