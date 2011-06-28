@@ -1,11 +1,9 @@
 package au.org.intersect.bdcp.util;
 
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class TextUtils {
-	
-	private static Pattern htmlMarkup = Pattern.compile("<[^>]+>");
-	private static Pattern whiteSpace = Pattern.compile("(\\s|&nbsp;)+");
 	
 	/**
 	 * Removes html markup (tags) and checks if not empty
@@ -18,8 +16,26 @@ public class TextUtils {
 		{
 			return false;
 		}
-		String noHtml = htmlMarkup.matcher(html).replaceAll("");
-		return whiteSpace.matcher(noHtml).replaceAll("").length() > 0;
+		StringBuffer sb = new StringBuffer();
+		int pos = 0;
+		int pos2 = html.indexOf('<', pos);
+		while (pos2 >= 0)
+		{
+			sb.append(html.substring(pos, pos2));
+			int i = html.indexOf('>', pos2);
+			if (i >= 0)
+			{
+				pos = i + 1;
+				pos2 = html.indexOf('<', i);
+			}
+			else
+			{
+				break;
+			}
+		}
+		sb.append(html.substring(pos));
+		String noHtml = sb.toString();
+		return noHtml.replace("&nbsp;","").trim().length() > 0;
 	}
 
 }

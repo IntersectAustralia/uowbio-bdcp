@@ -7,14 +7,14 @@ class ParticipantController
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def index =
 	{
 		cache false
 		redirect(action: "list", params: params)
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def list =
 	{
 		cache false
@@ -24,7 +24,7 @@ class ParticipantController
 		[participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.findAllByStudy(studyInstance).size(), studyInstance:studyInstance, participantsInStudy: participantsInStudy]
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def create =
 	{
 		cache false
@@ -33,7 +33,7 @@ class ParticipantController
 		return [participantInstance: participantInstance]
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def save =
 	{
 		cache false
@@ -52,7 +52,7 @@ class ParticipantController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def show =
 	{
 		cache false
@@ -68,7 +68,7 @@ class ParticipantController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def edit =
 	{
 		cache false
@@ -84,7 +84,7 @@ class ParticipantController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def update =
 	{
 		cache false
@@ -123,7 +123,7 @@ class ParticipantController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def delete =
 	{
 		cache false

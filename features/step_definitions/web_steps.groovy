@@ -103,6 +103,12 @@ Given(~"I follow \"(.*)\"") { String link->
 	element.click()
 }
 
+Given(~"I have cleared and filled in \"(.*)\" with \"(.*)\"") { String field, String text ->
+	fieldElement = browser.findElement(By.name(field))
+	fieldElement.clear()
+	fieldElement.sendKeys(text)
+}
+
 When(~"I fill in \"(.*)\" with \"(.*)\"") { String field, String text ->
 	fieldElement = browser.findElement(By.name(field))
     fieldElement.sendKeys(text)

@@ -6,12 +6,12 @@ class DeviceController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def index = {
         redirect(action: "list", params: params)
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def deviceGroupInstance = DeviceGroup.findById(params.deviceGroupId)
@@ -19,14 +19,14 @@ class DeviceController {
         [deviceInstanceList: sortedDeviceInstanceList, deviceInstanceTotal: Device.count(), "deviceGroupInstance": deviceGroupInstance]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def create = {
         def deviceInstance = new Device()
         deviceInstance.properties = params
         return [deviceInstance: deviceInstance]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def save = {
         def deviceInstance = new Device(params)
         if (deviceInstance.save(flush: true)) {
@@ -38,7 +38,7 @@ class DeviceController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def show = {
         def deviceInstance = Device.get(params.id)
         if (!deviceInstance) {
@@ -50,7 +50,7 @@ class DeviceController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def edit = {
         def deviceInstance = Device.get(params.id)
         if (!deviceInstance) {
@@ -62,7 +62,7 @@ class DeviceController {
         }
     }
     
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def update = {
         def deviceInstance = Device.get(params.id)
         if (deviceInstance) {
