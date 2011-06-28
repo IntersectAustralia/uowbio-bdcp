@@ -40,7 +40,7 @@ Feature: Create User Account
      |davidk  |David |Kenward|Select |
      |dpollum |David |Pollum |Select |
      
-     Given I am on the home page
+	 Given I am on the home page
      And I press "system-administration"
      And I press "account-administration"
      Then I should see "Account Administration"
@@ -50,6 +50,23 @@ Feature: Create User Account
      Then I press "search"
      Then I should see a 4 column table "searchTable" with contents
      |johnk  |John      | Kenward  | Select |
+     Then I press "select[0]"
+     Then I should see "Select User Role"
+     Then I press "Back"
+     Then I should see "New User Account"
+     
+     Given I am on the home page
+     And I press "system-administration"
+     And I press "account-administration"
+     Then I should see "Account Administration"
+     Then I press "create"
+     Then I should see "New User Account"
+     Given I have cleared and filled in "firstName" with ""
+     Given I have cleared and filled in "surname" with ""
+     Given I have cleared and filled in "userid" with "johnk"
+     Then I press "search"
+     Then I should see a 4 column table "searchTable" with contents
+     | johnk  | John | Kenward | Select |
      Then I press "select[0]"
      Then I should see "Select User Role"
      Then I select "Researcher" from "authority"
