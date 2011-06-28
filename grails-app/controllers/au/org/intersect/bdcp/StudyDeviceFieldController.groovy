@@ -6,19 +6,19 @@ class StudyDeviceFieldController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def index = {
         redirect(action: "list", params: params)
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def studyDeviceFields = []
         [studyDeviceFieldInstanceList: StudyDeviceField.list(params), studyDeviceFieldInstanceTotal: StudyDeviceField.count(), studyDeviceFields: studyDeviceFields]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def create = {
         def studyDeviceFieldInstance = new StudyDeviceField()
         studyDeviceFieldInstance.properties = params
@@ -38,7 +38,7 @@ class StudyDeviceFieldController {
         return true
     }
     
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def validStudyDeviceFields(studyDeviceFields)
     {
         def studyDeviceInstance = StudyDevice.link(Study.findById(params.study.id),Device.findById(params.device.id))
@@ -77,7 +77,7 @@ class StudyDeviceFieldController {
     }
     
     
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def save = {
         
         def studyDeviceInstance = StudyDevice.link(Study.findById(params.study.id),Device.findById(params.device.id))
@@ -128,7 +128,7 @@ class StudyDeviceFieldController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def show = {
        def studyDeviceFields = []
         def studyDeviceFieldInstance = []
@@ -142,7 +142,7 @@ class StudyDeviceFieldController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def edit = {
         def studyDeviceFields = []
         studyDeviceFields.addAll(StudyDevice.findByStudyAndDevice(Study.findById(params.studyId), Device.findById(params.device.id))?.studyDeviceFields)
@@ -157,7 +157,7 @@ class StudyDeviceFieldController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def update = {
         
         def studyDeviceInstance = StudyDevice.findByStudyAndDevice(Study.findById(params.study.id),Device.findById(params.device.id))
@@ -209,7 +209,7 @@ class StudyDeviceFieldController {
         }
     }
     
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def delete = {
         def studyDeviceFieldInstance = StudyDeviceField.get(params.id)
         if (studyDeviceFieldInstance) {

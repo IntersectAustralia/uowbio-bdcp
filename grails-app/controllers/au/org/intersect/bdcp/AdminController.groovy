@@ -13,7 +13,7 @@ class AdminController
 	def sessionRegistry
 	def springSecurityService
 	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def index =
 	{
 		cache false
@@ -24,7 +24,7 @@ class AdminController
 
 	def allowedMethods = []
 
-      @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+      @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
       def create =
       {
             cache false
@@ -68,7 +68,7 @@ class AdminController
             return propertyValue
       }
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def save =
 	{
 		cache false
@@ -102,19 +102,19 @@ class AdminController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def createStatus =
 	{ cache false }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def systemAdmin =
     { cache false }
     
     
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def accountAdmin =
 	{ cache false }
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def search =
 	{
 		cache false
@@ -130,7 +130,7 @@ class AdminController
 	}
 
 
-	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def listUsers =
 	{
 		cache false
@@ -159,7 +159,7 @@ class AdminController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def edit =
 	{
 		cache false
@@ -168,7 +168,7 @@ class AdminController
 		render (view:"edit", model :[matchInstance: match, userInstance: userStore, hideUsers: params.hideUsers])
 	}
 
-	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def update =
 	{
 		cache false
@@ -230,7 +230,7 @@ class AdminController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def searchUsers =
 	{
 		cache false
@@ -303,7 +303,7 @@ class AdminController
 		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedMatches])
 	}
 	
-	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def addRole =
 	{
 		cache false
