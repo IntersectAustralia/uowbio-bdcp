@@ -23,12 +23,12 @@ class DeviceField
     
     static constraints = 
     {
-        staticContent(maxSize: 10485760) // Maximum size in Postgres, please keep it
         fieldLabel(blank:false, size:1..1000)
         fieldType(nullable:false)
-		staticContent(nullable:true, validator:{val, obj ->
-			return obj.fieldType != FieldType.STATIC_TEXT || TextUtils.isNotEmpty(val) ? true : ['nullable'] 
-			})
+	// 10485760 : Maximum size in Postgres, please keep it
+	staticContent(maxSize: 10485760,nullable:true, validator:{val, obj ->
+		return obj.fieldType != FieldType.STATIC_TEXT || TextUtils.isNotEmpty(val) ? true : ['nullable'] 
+		})
         
         fieldOptions(nullable:true, validator: { val, obj ->
 			return [FieldType.DROP_DOWN, FieldType.RADIO_BUTTONS].contains(obj.fieldType) ? validFieldOptions(val) : true;
