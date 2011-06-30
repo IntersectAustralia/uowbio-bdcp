@@ -1,6 +1,7 @@
 package au.org.intersect.bdcp
 
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class ProjectController
 {
@@ -56,6 +57,8 @@ class ProjectController
 //		println "the auth is:" + auth.toString();
 //		println "the credentials is: " + auth.getCredentials();
 //		println "the principal is: " + auth.getPrincipal();
+//		def principal = auth.getPrincipal();
+//		println "The Dn.uid is: ************************: " + principal.username;
 //		println "the principal.grantedAuthorities is: " + auth.getPrincipal().getAuthorities();
 //		def authority1 = auth.getPrincipal().getAuthorities()[0];
 		
@@ -64,8 +67,18 @@ class ProjectController
 //			println "this is my role..."
 //		}
 		
+//		def userStore = UserStore.findByUsername(principal.username)
+//		if (userStore == null)
+//		{
+//println "Its null #############################################"
+//		}
+		
 		def projectInstance = new Project()
 		projectInstance.properties = params
+//		projectInstance.owner = userStore
+		
+//		println "userStore toString() is: " + userStore
+		
 		return [projectInstance: projectInstance]
 	}
 
@@ -74,6 +87,10 @@ class ProjectController
 	{
 		cache false
 		def projectInstance = new Project(params)
+		
+		def userStore = UserStore.findByUsername(principal.username)
+		projectInstance.setOwner(userStore);
+		
 		if (projectInstance.save(flush: true))
 		{
 			flash.message = "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.projectTitle])}"

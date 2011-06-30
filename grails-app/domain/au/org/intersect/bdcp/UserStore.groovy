@@ -5,6 +5,8 @@ class UserStore{
     String username
 	boolean deactivated
     String authority
+
+    // String nlaIndentifier // RIF-CS
 	
     static constraints = {
     	username(blank:false, unique:true, size:1..1000)
