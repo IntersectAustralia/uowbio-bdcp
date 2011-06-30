@@ -5,7 +5,7 @@ Feature: Edit Project
 
   Background:
     Given I have logged in as "dpollum"
-    Given I have created a project with "My Biomechanics Project", "Fred Bloggs", "123456", "Masters of Biomechanics", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "Studying some stuff", "Alice Smith"
+    Given I have created a project with "My Biomechanics Project", "Fred Bloggs", "123456", "Masters of Biomechanics", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "Studying some stuff", "Alice Smith", "dpollum"
 
    Scenario: Edit Project
    Given I am on the home page

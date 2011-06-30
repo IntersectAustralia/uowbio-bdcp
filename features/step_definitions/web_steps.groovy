@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import groovy.sql.Sql
 
+import au.org.intersect.bdcp.UserStore;
 import au.org.intersect.bdcp.Project;
 
 this.metaClass.mixin(cuke4duke.GroovyDsl)
@@ -42,9 +43,19 @@ Given(~"I am on the email page") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/list")
 }
 
-Given(~"I have created a project with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String project_title, String researcher_name, String student_number, String degree, String start_date, String end_date, String description, String supervisors ->
+Given(~"I have created a project with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String project_title, String researcher_name, String student_number, String degree, String start_date, String end_date, String description, String supervisors, String username ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO project (id,version, project_title, researcher_name, student_number, degree, start_date, end_date, description, supervisors) VALUES ('-1000','0',${project_title}, ${researcher_name}, ${student_number}, ${degree}, '${start_date}', '${end_date}', ${description}, ${supervisors});")
+	def userStoreId = (int)(getUserStore("${username}").id)
+	sql.execute("INSERT INTO project (id,version, project_title, researcher_name, student_number, degree, start_date, end_date, description, supervisors, owner_id) VALUES ('-1000','0',${project_title}, ${researcher_name}, ${student_number}, ${degree}, '${start_date}', '${end_date}', ${description}, ${supervisors}, ${userStoreId});")
+}
+
+def getUserStore(String username) {
+	def userStore
+	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+	sql.eachRow("Select * from user_store WHERE username = ?", [username]) {
+		userStore = it.toRowResult()
+	}
+	return userStore
 }
 
 Given(~"I have created a study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String study_title, String uow_ethics_number, String has_additional_ethics_requirements, String description, industry_partners, collaborators, String start_date, String end_date, String number_of_participants, String inclusion_exclusion_criteria ->
