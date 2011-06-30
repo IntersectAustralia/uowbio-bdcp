@@ -3,6 +3,6 @@
                                     <label for="date">${deviceFieldInstance.fieldLabel}</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: studyDeviceFields[i], field: 'date', 'errors')}">
-                                    <joda:datePicker name="studyDeviceFields[${i}].date" precision="day" value="${studyDeviceFields[i]?.date}" default="none" noSelection="['': '']" />
+                                    <g:jqDatePicker name="studyDeviceFields[${i}].date" value="${studyDeviceFields[i]?.date}" />
                                 </td>
                             </tr>
