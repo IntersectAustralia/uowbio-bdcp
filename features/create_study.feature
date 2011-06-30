@@ -4,7 +4,7 @@ Feature: Create Study
   I want to create a study
  
  Background:
-    Given I have logged in as "dpollum"
+    Given I have logged in as "labman"
  	Given I have created a project with "My Biomechanics Project", "Fred Bloggs", "123456", "Masters of Biomechanics", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "Studying some stuff", "Alice Smith"
     
 
@@ -70,4 +70,4 @@ Feature: Create Study
       | End Date                       | 03/2011                             |
       | Number of Participants         | 10                                  |
       | Inclusion Exclusion Criteria   | Test Criteria                       |
-   
+

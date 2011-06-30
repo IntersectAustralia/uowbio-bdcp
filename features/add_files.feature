@@ -4,7 +4,7 @@
   I want to upload files for a particular session and particular study
  
  Background:
-    Given I have logged in
+    Given I have logged in as "labman"
     Given I have created a project with "My Biomechanics Project", "Fred Bloggs", "123456", "Masters of Biomechanics", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "Studying some stuff", "Alice Smith"
     Given I have created a study with "My Biomechanics Study", "1073A", "No", "Test Description", "Partner1", "Collaborator1", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "10", "Test Criteria"
     Given I have created a component with "TestComponent", "Some Description"
@@ -26,4 +26,11 @@
 	Then I press "Cancel"
 	Then I should see "TestComponent"
 	Then I should see "TestSession"
+	
+	 Then I press "Logout"
+	 Given I have logged in as "sysadm"
+	Given I am on the home page
+	And I follow "My Biomechanics Study"
+	Then I follow "Files"
+     Then I should see "Sorry, you're not authorized to view this page."
 	
