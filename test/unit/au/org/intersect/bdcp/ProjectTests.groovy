@@ -41,7 +41,8 @@ class ProjectTests extends GrailsUnitTestCase
 				startDate: new Date(),
 				endDate: new Date(),
 				description: 'Test Description',
-				supervisors: 'test supervisor')
+				supervisors: 'test supervisor',
+				owner: user)
 	
 		project.studies = [study]
 		
@@ -73,7 +74,8 @@ class ProjectTests extends GrailsUnitTestCase
 				startDate: '',
 				endDate: '',
 				description: '',
-				supervisors: '')
+				supervisors: '',
+				owner: user)
 
 		assertFalse "No validation exists for blank field(s)",project.validate()
 
@@ -90,7 +92,8 @@ class ProjectTests extends GrailsUnitTestCase
 				startDate: new Date(),
 				endDate: new Date(),
 				description: 'Test Description',
-				supervisors: 'test supervisor')
+				supervisors: 'test supervisor',
+				owner: user)
 
 		assertTrue project.validate()
 	}
@@ -108,7 +111,8 @@ class ProjectTests extends GrailsUnitTestCase
 				startDate: null,
 				endDate: null,
 				description: 'Test Description',
-				supervisors: 'test supervisor')
+				supervisors: 'test supervisor',
+				owner: user)
 
 		assertFalse "No validation for nullable fields", project.validate()
 
@@ -122,7 +126,8 @@ class ProjectTests extends GrailsUnitTestCase
 				startDate: new Date(),
 				endDate: new Date(),
 				description: 'Test Description',
-				supervisors: 'test supervisor')
+				supervisors: 'test supervisor',
+				owner: user)
                 
 
 		assertTrue project.validate()
@@ -141,7 +146,8 @@ class ProjectTests extends GrailsUnitTestCase
 			   startDate: new Date(),
 			   endDate: new Date(),
 			   description: '012345678910' * 100,
-			   supervisors: '012345678910' * 100)
+			   supervisors: '012345678910' * 100, 
+			   owner: user)
 
 	   assertFalse "No validation for size of fields", project.validate()
 
@@ -159,7 +165,8 @@ class ProjectTests extends GrailsUnitTestCase
 			   startDate: new Date(),
 			   endDate: new Date(),
 			   description: 'Test Description',
-			   supervisors: 'test supervisor')
+			   supervisors: 'test supervisor',
+			   owner: user)
 
 	   assertTrue project.validate()
    }
