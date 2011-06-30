@@ -20,6 +20,7 @@ Feature: Add Device to Study with Metadata
  Given I am on the home page
  And I follow "My Biomechanics Study"
  Then I follow "Devices"
+ Then I enable javascript
  Then I press "Add Device"
  Then I should see "Force Platforms"
  Then I should see "Device1"
@@ -30,13 +31,12 @@ Feature: Add Device to Study with Metadata
  Then I select "Option1" from "studyDeviceFields[3].dropDownOption"
  Then I select "01" from "studyDeviceFields[4].time_hour"
  Then I select "01" from "studyDeviceFields[4].time_minute"
- Then I fill in "studyDeviceFields[5].date_day" with "1"
- Then I fill in "studyDeviceFields[5].date_month" with "3"
- Then I fill in "studyDeviceFields[5].date_year" with "2011"
+ Then I fill in "studyDeviceFields[5].date" with "1/03/2011"
  Then I press "save"
  Then I should see "Devices"
  Then I should see "Force Platforms"
  Then I should see "Device1"
+ Then I disable javascript
  
  Given I am on the home page
  Then I follow "My Biomechanics Study"
