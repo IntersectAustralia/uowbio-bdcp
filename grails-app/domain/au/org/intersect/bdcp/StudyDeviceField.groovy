@@ -1,5 +1,6 @@
 package au.org.intersect.bdcp
 
+import java.text.NumberFormat
 import java.util.Date
 
 import org.joda.time.*
@@ -39,14 +40,14 @@ class StudyDeviceField {
     
     static constraints = {
         
-        text(nullable: true, size:0..255, validator: {val, obj ->
-                return obj.deviceField?.fieldType != FieldType.TEXT || TextUtils.isNotEmpty(val) ? true: ['nullable', obj.deviceField.fieldLabel]
-            })
-        textArea(nullable: true, size:0..1000, validator: {val, obj ->
-                return obj.deviceField?.fieldType != FieldType.TEXTAREA || TextUtils.isNotEmpty(val) ? true: ['nullable', obj.deviceField.fieldLabel]
+        text(nullable: true, validator: {val, obj ->
+                return checkSizeAndIfNull(val, obj, 0, 255, FieldType.TEXT) })
+        
+        textArea(nullable: true, validator: {val, obj ->
+                return checkSizeAndIfNull(val, obj, 0, 1000, FieldType.TEXTAREA)
             })
         numeric(nullable:true, validator: {val, obj ->
-            return obj.deviceField?.fieldType != FieldType.NUMERIC || val != null ? true : ['nullable', obj.deviceField.fieldLabel]
+            return checkRangeOfNumber(val, obj, -0.9E16, 0.9E16, FieldType.NUMERIC)
             })
         date(nullable:true, validator: {val, obj ->
             return obj.deviceField?.fieldType != FieldType.DATE || val != null ? true : ['nullable', obj.deviceField.fieldLabel]
@@ -60,5 +61,55 @@ class StudyDeviceField {
         dropDownOption(nullable: true, size:0..1000, validator: {val, obj ->
             return obj.deviceField?.fieldType != FieldType.DROP_DOWN || TextUtils.isNotEmpty(val) ? true: ['nullable', obj.deviceField.fieldLabel]
         })
+    }
+    
+    static checkRangeOfNumber(val, obj, BigDecimal minVal, BigDecimal maxVal, fieldType)
+    {
+        if (obj.deviceField?.fieldType == fieldType)
+        {
+             if (val!= null)
+             {
+                 if (val < minVal)
+                 {
+                     def nf = NumberFormat.getInstance()
+                     return ['range.toosmall', nf.format(minVal), obj.deviceField.fieldLabel]
+                 }
+                 else if (val > maxVal)
+                 {
+                     def nf = NumberFormat.getInstance()
+                     return ['range.toobig', nf.format(maxVal), obj.deviceField.fieldLabel]
+                 }
+             }
+             else
+             {
+                 return ['nullable', obj.deviceField.fieldLabel]
+             }  
+        }
+        return true
+    }
+    
+    static checkSizeAndIfNull(val, obj, minVal, maxVal, fieldType)
+    {
+        if (obj.deviceField?.fieldType == fieldType)
+        {
+            if (TextUtils.isNotEmpty(val))
+            {
+                if (val.size() < minVal)
+                {
+                    return ['size.toosmall', minVal, obj.deviceField.fieldLabel]
+                }
+                else if (val.size() > maxVal)
+                {
+                    return ['size.toobig', maxVal, obj.deviceField.fieldLabel]
+                }
+                
+            }
+            else
+            {
+                return ['nullable', obj.deviceField.fieldLabel]
+            }
+            
+        }
+        return true
     }
 }

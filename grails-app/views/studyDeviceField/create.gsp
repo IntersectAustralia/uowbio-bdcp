@@ -6,6 +6,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'studyDeviceField.label', default: 'StudyDeviceField')}" />
+        <g:javascript library="jquery" plugin="jquery" />
+        <jqui:resources />
+        <script>
+        function jq(myid) { 
+        	   return '#' + myid.replace(/(:|\.)/g,'\\$1');
+        	 }
+        </script>
         <title>${Device?.findById(params.device.id)} Details Template Form</title>
     </head>
     <body>
