@@ -10,13 +10,16 @@ def jqDatePicker = {attrs, body ->
     def id = attrs.id ?: name
     def value = attrs?.value
     
-    if (value instanceof LocalDate)
+    if (value != null)
     {
-        value = value.getLocalMillis()
-    }
-    else
-    {
-        value = value.getTime()
+        if (value instanceof LocalDate)
+        {
+            value = value.getLocalMillis()
+        }
+        else if (value instanceof Date)
+        {
+            value = value.getTime()
+        }
     }
     
     def jqName = name.replace('.','\\\\.')
