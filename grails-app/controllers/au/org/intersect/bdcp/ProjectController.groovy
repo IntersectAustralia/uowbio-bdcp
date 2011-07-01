@@ -17,67 +17,28 @@ class ProjectController
 	}
 
 	
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def list =
 	{
 		cache false
-		
-		// TODO only a researcher can look at their own project
-//		checkRoleResearcher();
-				
+						
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[projectInstanceList: Project.list(params), projectInstanceTotal: Project.count()]
-	}
+		def projectInstanceList = Project.list(params);
 
-	/**
-	 * Assign username to all projects owned by a researcher...
-	 */
-	private void checkRoleResearcher()
-	{
-		println "Hi there \n"
-		def auth = springSecurityService.authentication;
-		def role = auth.getPrincipal().getAuthorities()[0];
-		if(role.equals('ROLE_RESEARCHER')) {
-			println "Role is researcher!!!! \n"
+		// A researcher can look at their own project
+		if(checkUserRoleIsResearcher()) {
+			projectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username));
 		}
+		
+		[projectInstanceList: projectInstanceList, projectInstanceTotal: Project.count()]
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def create =
 	{
 		cache false
-		
-		// TODO only a researcher can look at their own project
-		/*def myUser = currentUser()*/
-//		print "the userKarlxss is: \n" 
-//		def userDetailsService = springSecurityService.getUserDetailsService();
-//		print "the userDetailsService is: " + userDetailsService.getPrincipal();
-//		print "the userDetailsService.dump() is: " + userDetailsService.dump();
-//		def auth = springSecurityService.authentication;
-//		println "the auth is:" + auth.toString();
-//		println "the credentials is: " + auth.getCredentials();
-//		println "the principal is: " + auth.getPrincipal();
-//		def principal = auth.getPrincipal();
-//		println "The Dn.uid is: ************************: " + principal.username;
-//		println "the principal.grantedAuthorities is: " + auth.getPrincipal().getAuthorities();
-//		def authority1 = auth.getPrincipal().getAuthorities()[0];
-		
-//		println "This is my role: " + authority1
-//		if(authority1.equals('ROLE_LAB_MANAGER')) {
-//			println "this is my role..."
-//		}
-		
-//		def userStore = UserStore.findByUsername(principal.username)
-//		if (userStore == null)
-//		{
-//println "Its null #############################################"
-//		}
-		
 		def projectInstance = new Project()
 		projectInstance.properties = params
-//		projectInstance.owner = userStore
-		
-//		println "userStore toString() is: " + userStore
 		
 		return [projectInstance: projectInstance]
 	}
@@ -107,6 +68,7 @@ class ProjectController
 	{
 		cache false
 		def projectInstance = Project.get(params.id)
+		
 		if (!projectInstance)
 		{
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
@@ -114,9 +76,39 @@ class ProjectController
 		}
 		else
 		{
+			// if researcher role, display research project to researcher who owns project, else redirect to non authorized access page.
+			if(checkUserRoleIsResearcher()) {
+				redirectNonAuthorizedResearcherAccessProject(projectInstance)
+			}
 			[projectInstance: projectInstance]
 		}
 	}
+	
+	/**
+	 * Display project only to research owner
+	 * @param _projectInstance
+	 */
+	private void redirectNonAuthorizedResearcherAccessProject(Project _projectInstance)
+	{
+		if(!_projectInstance.researcherName.equals(principal.username)){
+			redirect controller:'login', action: 'denied'
+		}
+	}
+	
+	/**
+	* Check whether the role of the user is a researcher.
+	*/
+   private boolean checkUserRoleIsResearcher()
+   {
+	   boolean check = false;
+	   def auth = springSecurityService.authentication;
+	   def role = auth.getPrincipal().getAuthorities()[0];
+	   if(role.equals('ROLE_RESEARCHER')) {
+		   check = true;
+	   }
+
+	   return check;
+   }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def edit =

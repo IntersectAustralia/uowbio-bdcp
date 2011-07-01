@@ -24,7 +24,7 @@ Given(~"I am on the home page") { ->
 Given(~"I have logged in") { ->
 	browser.get("http://localhost:8080/BDCP/login/auth")
 	fieldElement = browser.findElement(By.name("j_username"))
-	fieldElement.sendKeys("chrisk")
+	fieldElement.sendKeys("labman")
 	fieldElement = browser.findElement(By.name("j_password"))
 	fieldElement.sendKeys("password")
 	browser.findElementById("Login").click()
