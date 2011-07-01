@@ -8,6 +8,7 @@
         <g:set var="entityName" value="${message(code: 'studyDeviceField.label', default: 'StudyDeviceField')}" />
         <g:javascript library="jquery" plugin="jquery" />
         <jqui:resources />
+        <script type="text/javascript" src="${resource(dir:'jquery-ui-datepicker',file:'jquery.ui.datepicker-en-AU.js')}"></script>
         <title>${Device?.findById(params.device.id)} Details Template Form</title>
     </head>
     <body>

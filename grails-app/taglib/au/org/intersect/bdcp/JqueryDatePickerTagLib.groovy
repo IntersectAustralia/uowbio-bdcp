@@ -38,7 +38,7 @@ def jqDatePicker = {attrs, body ->
     
     //Create date text field and supporting hidden text fields need by grails
 
-    out.println "<input type=\"text\" name=\"${name}\" id=\"${id}\" readonly=readonly/>"
+    out.println "<input type=\"text\" name=\"${name}\" id=\"${id}\" readonly=\"readonly\"/>"
     out.println "<input type=\"hidden\" name=\"${name}_day\" id=\"${id}_day\" value=\"${dayValue}\" />"
     out.println "<input type=\"hidden\" name=\"${name}_month\" id=\"${id}_month\" value=\"${monthValue}\" />"
     out.println "<input type=\"hidden\" name=\"${name}_year\" id=\"${id}_year\" value=\"${yearValue}\" />"
@@ -48,12 +48,13 @@ out.println "<script type=\"text/javascript\"> \$(document).ready(function(){"
 out.println "\$(\"#${jqName}\").datepicker({"
 out.println "changeMonth: true,"
 out.println "changeYear: true,"
-out.println "dateFormat: 'dd/mm/yy',"
 out.println "onClose: function(dateText, inst) {"
 out.println "if (dateText.length != 0){"
-out.println "\$(\"#${jqName}_month\").attr(\"value\",new Date(dateText).getMonth() +1);"
-out.println "\$(\"#${jqName}_day\").attr(\"value\",new Date(dateText).getDate());"
-out.println "\$(\"#${jqName}_year\").attr(\"value\",new Date(dateText).getFullYear());"
+out.println "var dateParts = dateText.split(\"/\");"
+out.println "var dateTextFormatted = new Date(dateParts[2], (dateParts[1] - 1) ,dateParts[0]).toString();"
+out.println "\$(\"#${jqName}_month\").attr(\"value\",new Date(dateTextFormatted).getMonth() +1);"
+out.println "\$(\"#${jqName}_day\").attr(\"value\",new Date(dateTextFormatted).getDate());"
+out.println "\$(\"#${jqName}_year\").attr(\"value\",new Date(dateTextFormatted).getFullYear());"
 out.println "}"
 out.println "else{"
 out.println "\$(\"#${jqName}_month\").attr(\"value\",'');"
@@ -66,6 +67,7 @@ if (dateValue != null)
 {
     out.println "\$(\"#${jqName}\").datepicker(\"setDate\", new Date(${dateValue}) ).trigger('change');"
 }
+out.println "\$(\"#${jqName}\").datepicker( \$.datepicker.regional[ 'en-AU' ] );"
 out.println "})</script>"
 
 
