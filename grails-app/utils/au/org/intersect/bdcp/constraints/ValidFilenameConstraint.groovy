@@ -14,11 +14,17 @@ class ValidFilenameConstraint
 
     static persistent = false
 
-    def pattern = ~"[/\\\\?%*:|\"<>]"
+    def patterns = [ 
+		~"[/\\\\?%*:|\"<>]", // special chars
+		~"(?i)^\\s*(CON|PRN|AUX|CLOCK[\$]|NUL|COM[0123456789]|LPT[0123456789])[:]?\\s*\$", // reserved names windows
+		~"^([.]|[\$])"  // can't start with those (more restrictive, but better)
+		]
 
     def validate = { propertyValue -> 
-	def matcher = propertyValue =~ pattern
-	return !matcher.find()        
+	return patterns.find({pattern ->
+		def matcher = propertyValue =~ pattern
+		matcher.find()
+		}) == null
     }
 
 
