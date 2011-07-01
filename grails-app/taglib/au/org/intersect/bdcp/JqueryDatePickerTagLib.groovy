@@ -38,7 +38,7 @@ def jqDatePicker = {attrs, body ->
     
     //Create date text field and supporting hidden text fields need by grails
 
-    out.println "<input type=\"text\" name=\"${name}\" id=\"${id}\"  readonly=readonly/>"
+    out.println "<input type=\"text\" name=\"${name}\" id=\"${id}\" readonly=readonly/>"
     out.println "<input type=\"hidden\" name=\"${name}_day\" id=\"${id}_day\" value=\"${dayValue}\" />"
     out.println "<input type=\"hidden\" name=\"${name}_month\" id=\"${id}_month\" value=\"${monthValue}\" />"
     out.println "<input type=\"hidden\" name=\"${name}_year\" id=\"${id}_year\" value=\"${yearValue}\" />"

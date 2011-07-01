@@ -10,7 +10,8 @@
 <h1>System Administration</h1>
 <div class="rowTop">
     <g:link elementId="account-administration" class="button" controller="admin" action="accountAdmin">Account Administration</g:link> 
-    <g:link elementId="device-administration" class="button" controller="deviceGroup" action="list">Device Administration</g:link></div>
+    <g:link elementId="device-administration" class="button" controller="deviceGroup" action="list">Device Administration</g:link>
+    <g:link elementId="results-administration" class="button" controller="deviceGroup" action="list">Results Administration</g:link></div>
 <div class="rowBottom">
 <div class="buttons"><span class="menuButton"><g:link
      elementId="Back" controller="project" class="list" action="list">Back</g:link></span>
