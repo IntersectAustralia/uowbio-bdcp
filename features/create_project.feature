@@ -4,10 +4,10 @@ Feature: Create project
   I want to create a project
 
   Scenario: Create project
-    Given I have logged in as "dpollum"
+    Given I have logged in as "researcher"
     Given I am on the create project page
     When I fill in "projectTitle" with "My Biomechanics Project"
-    And I fill in "researcherName" with "Fred Bloggs"
+    And I fill in "researcherName" with "researcher"
     And I fill in "studentNumber" with "123456"
     And I fill in "degree" with "Masters of Biomechanics"
     And I select "March" from "startDate_month"
@@ -22,11 +22,10 @@ Feature: Create project
     Then I should see "My Biomechanics Project"
     And I should see table "projectTable" with contents
       | Project Title   | My Biomechanics Project |
-      | Researcher Name | Fred Bloggs             |
+      | Researcher Name | researcher              |
       | Student Number  | 123456                  |
       | Degree          | Masters of Biomechanics |
       | Start Date      | 03/2011                 |
       | End Date        | 03/2011                 |
       | Description     | Studying some stuff     |
       | Supervisor(s)   | Alice Smith             |
-   

@@ -113,7 +113,7 @@ class BootStrap
         user2.save(flush:true)
         
 		def project = new Project(projectTitle: 'TestProject',
-				researcherName: 'TestStudent' ,
+				researcherName: 'researcher' ,
 				studentNumber: 'StudentNumber' ,
 				degree: 'TestDegree',
 				startDate: new Date(),
@@ -155,14 +155,8 @@ class BootStrap
         
         def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")
         deviceGroup.save()
-        
-		def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
-		user.save(flush:true)
-        
-		user = new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
-		user.save(flush:true)
 		
-		user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
+		def user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
 		user.save(flush:true)
 		
 		user = new UserStore(username:"sysadm", deactivated: false, authority: "ROLE_SYS_ADMIN")
