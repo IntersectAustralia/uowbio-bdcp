@@ -211,5 +211,31 @@ class ResultsDetailsFieldTests extends GrailsUnitTestCase {
         assertTrue "A valid resultsDetailsField did not validate!", resultsDetailsField.validate()
     }
     
+    void testToStringReturnsFieldValue()
+    {
+        assertEquals 'toString() operation functions incorrectly','some label', resultsDetailsField.toString()
+    }
+    
+    void testGetFieldOptionsReturnsAllOptions()
+    {
+        resultsDetailsField = new ResultsDetailsField(fieldLabel:'some label',
+            fieldType: FieldType.DROP_DOWN,
+            staticContent: null,
+            fieldOptions: "option1\noption2",
+            mandatory: false)
+        
+        assertEquals "All options not returned correctly",['option1', 'option2'], resultsDetailsField.getFieldOptionsList()
+    }
+  
+    void testValidFieldOptionsMethodWhenValEmpty()
+    {
+        resultsDetailsField = new ResultsDetailsField(fieldLabel:'some label',
+            fieldType: FieldType.DROP_DOWN,
+            staticContent: null,
+            fieldOptions: "",
+            mandatory: false) 
+        
+        assertEquals "Not returning nullable when fieldOptions empty",['nullable'],resultsDetailsField.validFieldOptions("")
+    }  
     
 }
