@@ -1,24 +1,30 @@
 package au.org.intersect.bdcp
 
+import grails.plugins.springsecurity.Secured
+
 class ResultsDetailsFieldController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def index = {
         redirect(action: "list", params: params)
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [resultsDetailsFieldInstanceList: ResultsDetailsField.list(params), resultsDetailsFieldInstanceTotal: ResultsDetailsField.count()]
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def create = {
         def resultsDetailsFieldInstance = new ResultsDetailsField()
         resultsDetailsFieldInstance.properties = params
         return [resultsDetailsFieldInstance: resultsDetailsFieldInstance]
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def save = {
         def resultsDetailsFieldInstance = new ResultsDetailsField(params)
         if (resultsDetailsFieldInstance.save(flush: true)) {
@@ -30,6 +36,7 @@ class ResultsDetailsFieldController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def show = {
         def resultsDetailsFieldInstance = ResultsDetailsField.get(params.id)
         if (!resultsDetailsFieldInstance) {
@@ -41,6 +48,7 @@ class ResultsDetailsFieldController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def edit = {
         def resultsDetailsFieldInstance = ResultsDetailsField.get(params.id)
         if (!resultsDetailsFieldInstance) {
@@ -52,6 +60,7 @@ class ResultsDetailsFieldController {
         }
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def update = {
         def resultsDetailsFieldInstance = ResultsDetailsField.get(params.id)
         if (resultsDetailsFieldInstance) {
@@ -75,25 +84,6 @@ class ResultsDetailsFieldController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'resultsDetailsField.label', default: 'Results Details Field'), params.id])}"
-            redirect(action: "list")
-        }
-    }
-
-    def delete = {
-        def resultsDetailsFieldInstance = ResultsDetailsField.get(params.id)
-        if (resultsDetailsFieldInstance) {
-            try {
-                resultsDetailsFieldInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField'), params.id])}"
-                redirect(action: "list")
-            }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField'), params.id])}"
-                redirect(action: "show", id: params.id)
-            }
-        }
-        else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField'), params.id])}"
             redirect(action: "list")
         }
     }

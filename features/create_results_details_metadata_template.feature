@@ -50,4 +50,39 @@ Feature: Create Results Details Metadata Template
  | Location of Strap 		    | Text Area          | true  |
  | Select a Radio Button Option | Radio Buttons Show | false |
  | Select a Drop Down Option    | Drop Down Show     | false |
-   
+ 
+ Then I press "Logout"
+ Then I should see "Please enter your userid and password to login"
+ Given I have logged in as "sysadm"
+ Given I am on the home page
+ And I press "system-administration"
+ And I should see "System Administration"
+ Then I press "results-administration"
+ Then I should see "Results Administration"
+ Then I should see "Results Details Template"
+ Then I press "results-details-template"
+ Then I press "Add Field"
+ Then I should see "Add New Results Details Template Field"
+ Then I fill in "fieldLabel" with "Leg Position"
+ Then I select radiobutton "TEXTAREA" from "fieldType"
+ Then I press "mandatory"
+ Then I press "save"
+ Then I should see "Leg Position saved"
+ Then I should see a 3 column table "listTable" with contents 
+ | Location of Strap 		    | Text Area          | true  |
+ | Select a Radio Button Option | Radio Buttons Show | false |
+ | Select a Drop Down Option    | Drop Down Show     | false |
+ | Leg Position		            | Text Area          | true  |
+ 
+ Then I press "Logout"
+ Then I should see "Please enter your userid and password to login"
+ Given I have logged in as "researcher"
+ Given I am on the home page
+ And I press "system-administration"
+ Then I should see "Sorry, you're not authorized to view this page."
+ Then I navigate to "http://localhost:8080/BDCP/admin/resultsAdmin"
+  Then I should see "Sorry, you're not authorized to view this page."
+ Then I navigate to "http://localhost:8080/BDCP/resultsDetailsField/list"
+ Then I should see "Sorry, you're not authorized to view this page."
+ Then I navigate to "http://localhost:8080/BDCP/resultsDetailsField/create"
+ Then I should see "Sorry, you're not authorized to view this page."

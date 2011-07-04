@@ -159,6 +159,10 @@ When(~"I press browser back button"){
 	browser.navigate().back()
 }
 
+Then(~"I navigate to \"(.*)\"") { String text ->
+    browser.get(text)
+}
+
 Then(~"I should see \"(.*)\"") { String text ->
     assertThat(browser.findElementByTagName('body').text, containsString(text))
 }
