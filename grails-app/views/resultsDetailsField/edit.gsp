@@ -6,14 +6,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField')}" />
-        <title><g:message code="default.edit.label" args="[entityName]" /></title>
+        <title>Edit Results Details Field</title>
         <g:javascript library="jquery" plugin="jquery"/>
         <jqui:resources />
         <g:render template="/shared/ckeditor" />
     </head>
     <body>
         <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+            <h1>Edit Results Details Field</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>

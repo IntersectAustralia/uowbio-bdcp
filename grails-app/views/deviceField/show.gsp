@@ -48,7 +48,7 @@
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${deviceFieldInstance?.id}" />
-                    <span class="button"><g:link mapping="deviceFieldDetails" elementId="Back" action="list" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]">Back</g:link></span>
+                    <span class="button"><g:link mapping="deviceFieldDetails" class="list" elementId="Back" action="list" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]">Back</g:link></span>
                 </g:form>
             </div>
         </div>

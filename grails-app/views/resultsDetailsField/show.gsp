@@ -5,11 +5,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField')}" />
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <title>Show Results Details Field</title>
     </head>
     <body>
         <div class="body">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
+            <h1>Show Results Details Field</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -31,7 +31,7 @@
                             
                         </tr>
                         
-                        <g:each in="${resultsDetailsFieldInstance?.fieldOptions.split('\n')}" status="i" var="resultsDetailsFieldOption">
+                        <g:each in="${resultsDetailsFieldInstance?.fieldOptions?.split('\n')}" status="i" var="resultsDetailsFieldOption">
                         <tr class="radiobutton">
                             <g:if test="${i < 1}">
                             <td valign="top" class="name"><g:message code="resultsDetailsField.fieldOptions.label" default="Field Options" /></td>
@@ -48,8 +48,7 @@
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${resultsDetailsFieldInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:link controller="resultsDetailsField" elementId="cancel" action="list">Cancel</g:link></span>
+                    <span class="button"><g:link controller="resultsDetailsField" class="list" elementId="Back" action="list" >Back</g:link></span>
                 </g:form>
             </div>
         </div>

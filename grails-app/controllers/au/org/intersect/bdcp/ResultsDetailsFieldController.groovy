@@ -22,8 +22,8 @@ class ResultsDetailsFieldController {
     def save = {
         def resultsDetailsFieldInstance = new ResultsDetailsField(params)
         if (resultsDetailsFieldInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField'), resultsDetailsFieldInstance.id])}"
-            redirect(action: "show", id: resultsDetailsFieldInstance.id)
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'resultsDetailsField.label', default: 'Results Details Field'), resultsDetailsFieldInstance.fieldLabel])}"
+            redirect(action: "list")
         }
         else {
             render(view: "create", model: [resultsDetailsFieldInstance: resultsDetailsFieldInstance])
@@ -59,22 +59,22 @@ class ResultsDetailsFieldController {
                 def version = params.version.toLong()
                 if (resultsDetailsFieldInstance.version > version) {
                     
-                    resultsDetailsFieldInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField')] as Object[], "Another user has updated this ResultsDetailsField while you were editing")
+                    resultsDetailsFieldInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'resultsDetailsField.label', default: 'Results Details Field')] as Object[], "Another user has updated this Results Details Field while you were editing")
                     render(view: "edit", model: [resultsDetailsFieldInstance: resultsDetailsFieldInstance])
                     return
                 }
             }
             resultsDetailsFieldInstance.properties = params
             if (!resultsDetailsFieldInstance.hasErrors() && resultsDetailsFieldInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField'), resultsDetailsFieldInstance.id])}"
-                redirect(action: "show", id: resultsDetailsFieldInstance.id)
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'resultsDetailsField.label', default: 'Results Details Field'), resultsDetailsFieldInstance.fieldLabel])}"
+                redirect(action: "list")
             }
             else {
                 render(view: "edit", model: [resultsDetailsFieldInstance: resultsDetailsFieldInstance])
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField'), params.id])}"
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'resultsDetailsField.label', default: 'Results Details Field'), params.id])}"
             redirect(action: "list")
         }
     }
