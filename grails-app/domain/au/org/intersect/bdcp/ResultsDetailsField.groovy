@@ -11,7 +11,7 @@ class ResultsDetailsField {
     FieldType fieldType
     String fieldOptions
     String staticContent
-    
+    boolean mandatory
     // automatically updated by GORM
     Date dateCreated
     
@@ -30,6 +30,7 @@ class ResultsDetailsField {
         fieldOptions(nullable:true, validator: { val, obj ->
             return [FieldType.DROP_DOWN, FieldType.RADIO_BUTTONS].contains(obj.fieldType) ? validFieldOptions(val) : true;
           })
+        mandatory(nullable: false)
     }
     
     static validFieldOptions(String val)

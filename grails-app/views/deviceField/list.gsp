@@ -15,10 +15,10 @@
             <g:link elementId="Add Field" mapping="deviceFieldDetails" class="create" class="button" action="create" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]">Add Field</g:link>
             <br />
             <br />
-            <g:if test="${deviceFieldInstanceList?.size() > 0}">
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+            <g:if test="${deviceFieldInstanceList?.size() > 0}">
             <div class="list">
                 <table id="listTable">
                     <thead>

@@ -110,6 +110,10 @@ class AdminController
     def systemAdmin =
     { cache false }
     
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    def resultsAdmin =
+    { cache false }
+    
     
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def accountAdmin =

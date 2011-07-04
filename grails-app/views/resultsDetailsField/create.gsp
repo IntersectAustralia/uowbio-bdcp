@@ -6,15 +6,35 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField')}" />
-        <title><g:message code="default.create.label" args="[entityName]" /></title>
+        <title>Add New Results Details Template Field</title>
+        <g:javascript library="jquery" plugin="jquery"/>
+        <jqui:resources />
+        <g:render template="/shared/ckeditor" />
+        <script type="text/javascript">
+        $(function() {
+            function showOrHideRelationship(options, elementId) {
+                var $checked = $("input[name='fieldType']:checked");
+                if ($checked.size() > 0 && $.inArray($checked.val(),options) > -1) {
+                    $(elementId).show();
+                } else {
+                    $(elementId).hide();
+                }
+            }
+            function showOrHide() {
+                showOrHideRelationship(['STATIC_TEXT'],'#staticFieldRow');
+                showOrHideRelationship(['DROP_DOWN', 'RADIO_BUTTONS'],'#fieldOptionsRow');
+            }
+            $("input[name='fieldType']").change(function() {
+                showOrHide();
+            });
+            showOrHide();
+        })
+        </script>
+    </head>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
+            <h1>Add New Results Details Template Field</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -33,34 +53,56 @@
                                     <label for="fieldLabel"><g:message code="resultsDetailsField.fieldLabel.label" default="Field Label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: resultsDetailsFieldInstance, field: 'fieldLabel', 'errors')}">
-                                    <g:textArea name="fieldLabel" cols="40" rows="5" value="${resultsDetailsFieldInstance?.fieldLabel}" />
+                                    <g:textField name="fieldLabel" value="${resultsDetailsFieldInstance?.fieldLabel}" />
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
+                            <tr class="radiobutton">
                                 <td valign="top" class="name">
                                     <label for="fieldType"><g:message code="resultsDetailsField.fieldType.label" default="Field Type" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: resultsDetailsFieldInstance, field: 'fieldType', 'errors')}">
-                                    <g:select name="fieldType" from="${au.org.intersect.bdcp.enums.FieldType?.values()}" keys="${au.org.intersect.bdcp.enums.FieldType?.values()*.name()}" value="${resultsDetailsFieldInstance?.fieldType?.name()}"  />
+                                <td style="padding:0px 0px;">
+                                <table style="border: 0px; padding:0px;">
+                                <g:each in="${au.org.intersect.bdcp.enums.FieldType?.listValues().partition(3)}" var="row">
+                                <tr>
+                                   <g:each in="${row}" var="fieldTypeOption">
+                                   <g:set var="checked" value="${fieldTypeOption.equals(resultsDetailsFieldInstance?.fieldType)?'checked=checked':''}"/>
+                                   <td><span><input type="radio" value="${fieldTypeOption}" name="fieldType"
+                                     ${checked}
+                                     >&nbsp;<g:message code="resultsDetailsField.fieldType.${fieldTypeOption.name}" /></span></td>
+                                   </g:each>
+                                </tr>
+                                </g:each>
+                                </table>
                                 </td>
                             </tr>
-                        
-                            <tr class="prop">
+                            
+                            <tr class="radiobutton" id="fieldOptionsRow">
                                 <td valign="top" class="name">
-                                    <label for="staticContent"><g:message code="resultsDetailsField.staticContent.label" default="Static Content" /></label>
+                                    <label for="fieldOptions"><g:message code="resultsDetailsField.fieldLabel.label" default="Field Options" /></label>
+                                </td>
+                                
+                                <td valign="top" class="value ${hasErrors(bean: resultsDetailsFieldInstance, field: 'fieldOptions', 'errors')}">
+                                    <p>Enter each option on a new line:</p>
+                                    <g:textArea id="fieldOptions" name="fieldOptions" value="${resultsDetailsFieldInstance?.fieldOptions}" />
+                                </td>
+                            </tr>
+
+                            <tr class="radiobutton" id="staticFieldRow">
+                                <td valign="top" class="name">
+                                    <label for="staticContent"><g:message code="resultsDetailsField.staticContent.label" default="Static content" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: resultsDetailsFieldInstance, field: 'staticContent', 'errors')}">
-                                    <g:textArea name="staticContent" cols="40" rows="5" value="${resultsDetailsFieldInstance?.staticContent}" />
+                                    <ckeditor:editor name="staticContent">${resultsDetailsFieldInstance?.staticContent}</ckeditor:editor>
                                 </td>
                             </tr>
-                        
+                            
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="fieldOptions"><g:message code="resultsDetailsField.fieldOptions.label" default="Field Options" /></label>
+                                    <label for="mandatory"><g:message code="resultsDetailsField.mandatory.label" default="Mandatory" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: resultsDetailsFieldInstance, field: 'fieldOptions', 'errors')}">
-                                    <g:textField name="fieldOptions" value="${resultsDetailsFieldInstance?.fieldOptions}" />
+                                <td valign="top" class="value ${hasErrors(bean: resultsDetailsFieldInstance, field: 'mandatory', 'errors')}">
+                                    <g:checkBox name="mandatory" value="${resultsDetailsFieldInstance?.mandatory}" />
                                 </td>
                             </tr>
                         
@@ -69,6 +111,7 @@
                 </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                     <span class="button"><g:link elementId="cancel" controller="resultsDetailsField" action="list" >Cancel</g:link></span>
                 </div>
             </g:form>
         </div>
