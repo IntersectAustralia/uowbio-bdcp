@@ -21,7 +21,7 @@
             </g:if>
             <g:if test="${resultsDetailsFieldInstanceList?.size() > 0}">
             <div class="list">
-                <table>
+                <table id="listTable">
                     <thead>
                         <tr>
                             <g:sortableColumn property="fieldLabel" title="${message(code: 'resultsDetailsField.fieldLabel.label', default: 'Field Label')}" />
