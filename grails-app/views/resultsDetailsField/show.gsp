@@ -31,17 +31,14 @@
                             
                         </tr>
                         
-                        <g:each in="${resultsDetailsFieldInstance?.fieldOptions?.split('\n')}" status="i" var="resultsDetailsFieldOption">
                         <tr class="radiobutton">
-                            <g:if test="${i < 1}">
                             <td valign="top" class="name"><g:message code="resultsDetailsField.fieldOptions.label" default="Field Options" /></td>
-                            </g:if>
-                            <g:else>
-                            <td valign="top" class="name"></td>
-                            </g:else>
-                            <td valign="top" class="value">${resultsDetailsFieldOption}</td>
+                            <td valign="top" class="value">
+                            <g:each in="${resultsDetailsFieldInstance?.fieldOptions.split('\n')}" status="i" var="resultsDetailsFieldOption">
+                            ${resultsDetailsFieldOption}<br /><br />
+                            </g:each>
+                            </td>
                         </tr>
-                        </g:each>
                     </tbody>
                 </table>
             </div>
