@@ -13,7 +13,7 @@ class StudyDeviceField {
 
     String text
     String textArea
-    BigDecimal numeric
+    String numeric
     LocalDate date
     LocalTime time
     String radioButtonsOption
@@ -93,15 +93,22 @@ class StudyDeviceField {
         {
             if (val!= null)
             {
-                if (BigDecimal(val) < minVal)
+                if (!val.isNumber())
                 {
-                    def nf = NumberFormat.getInstance()
-                    return ['range.toosmall', nf.format(minVal), obj.deviceField.fieldLabel]
+                    return ['not.number', obj.deviceField.fieldLabel]
                 }
-                else if (BigDecimal(val) > maxVal)
+                else
                 {
-                    def nf = NumberFormat.getInstance()
-                    return ['range.toobig', nf.format(maxVal), obj.deviceField.fieldLabel]
+                    if (val.toBigDecimal() < minVal)
+                    {
+                        def nf = NumberFormat.getInstance()
+                        return ['range.toosmall', nf.format(minVal), obj.deviceField.fieldLabel]
+                    }
+                    else if (val.toBigDecimal() > maxVal)
+                    {
+                        def nf = NumberFormat.getInstance()
+                        return ['range.toobig', nf.format(maxVal), obj.deviceField.fieldLabel]
+                    }
                 }
             }
             else if (obj.deviceField.mandatory)

@@ -8,13 +8,7 @@ class StudyDeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def index = {
-        redirect(action: "list", params: params)
-    }
-
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
-    def list = {
-        def studyDeviceFields = []
-        [studyDeviceFieldInstanceList: StudyDeviceField.list(), studyDeviceFieldInstanceTotal: StudyDeviceField.count(), studyDeviceFields: studyDeviceFields]
+        redirect(controller:"studyDevice", action: "create", params: params)
     }
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
