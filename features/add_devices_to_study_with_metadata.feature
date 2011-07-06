@@ -9,12 +9,12 @@ Feature: Add Device to Study with Metadata
  Given I have created a study with "My Biomechanics Study", "1073A", "No", "Test Description", "Partner1", "Collaborator1", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "10", "Test Criteria"
  Given I have created a device grouping with "Force Platforms"
  Given I have created a device with "Device1", "Some Description", "Some Manufacturer", "Some location", "Some model", "Some serial number", "Some UOW Asset number", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "$10.00", "Intersect", "Some funding source", "Maintenance Service Info"
- Given I have created a deviceField with "-101", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "Location of Strap", "TEXT", ""
- Given I have created a deviceField with "-102", "Device1", "2011-03-01 00:01:00", "2011-03-01 00:01:00", "Location of Text Area", "TEXTAREA", ""
- Given I have created a deviceField with "-103", "Device1", "2011-03-01 00:02:00", "2011-03-01 00:02:00", "Select a Radio Button Option", "RADIO_BUTTONS", "Option1"
- Given I have created a deviceField with "-104", "Device1", "2011-03-01 00:03:00", "2011-03-01 00:03:00", "Select a Drop Down Option", "DROP_DOWN", "Option1"
- Given I have created a deviceField with "-105", "Device1", "2011-03-01 00:04:00", "2011-03-01 00:04:00", "Select a time", "TIME", ""
- Given I have created a deviceField with "-106", "Device1", "2011-03-01 00:05:00", "2011-03-01 00:05:00", "Select a date", "DATE", ""
+ Given I have created a deviceField with "-101", "Device1", "2011-03-01 00:00:00", "2011-03-01 00:00:00", "true", "Location of Strap", "TEXT", ""
+ Given I have created a deviceField with "-102", "Device1", "2011-03-01 00:01:00", "2011-03-01 00:01:00", "true", "Location of Text Area", "TEXTAREA", ""
+ Given I have created a deviceField with "-103", "Device1", "2011-03-01 00:02:00", "2011-03-01 00:02:00", "true", "Select a Radio Button Option", "RADIO_BUTTONS", "Option1"
+ Given I have created a deviceField with "-104", "Device1", "2011-03-01 00:03:00", "2011-03-01 00:03:00", "true", "Select a Drop Down Option", "DROP_DOWN", "Option1"
+ Given I have created a deviceField with "-105", "Device1", "2011-03-01 00:04:00", "2011-03-01 00:04:00", "true", "Select a time", "TIME", ""
+ Given I have created a deviceField with "-106", "Device1", "2011-03-01 00:05:00", "2011-03-01 00:05:00", "true", "Select a date", "DATE", ""
  
  Scenario: Add Device to Study with Metadata
  Given I am on the home page
