@@ -93,12 +93,12 @@ class StudyDeviceField {
         {
             if (val!= null)
             {
-                if (val < minVal)
+                if (BigDecimal(val) < minVal)
                 {
                     def nf = NumberFormat.getInstance()
                     return ['range.toosmall', nf.format(minVal), obj.deviceField.fieldLabel]
                 }
-                else if (val > maxVal)
+                else if (BigDecimal(val) > maxVal)
                 {
                     def nf = NumberFormat.getInstance()
                     return ['range.toobig', nf.format(maxVal), obj.deviceField.fieldLabel]

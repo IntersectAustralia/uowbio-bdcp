@@ -13,8 +13,7 @@ class ResultsDetailsFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [resultsDetailsFieldInstanceList: ResultsDetailsField.list(params), resultsDetailsFieldInstanceTotal: ResultsDetailsField.count()]
+        [resultsDetailsFieldInstanceList: ResultsDetailsField.list(), resultsDetailsFieldInstanceTotal: ResultsDetailsField.count()]
     }
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
