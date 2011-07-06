@@ -15,7 +15,6 @@ import au.org.intersect.bdcp.UserStore
 import au.org.intersect.bdcp.enums.FieldType
 
 
-
 class BootStrap
 {
 	def springSecurityService
@@ -100,6 +99,9 @@ class BootStrap
 			!rslt.last() ? rslt[0..-2] : rslt
 		}
 		
+        String.metaClass.capitalise = { delegate[0].toUpperCase()+delegate[1..-1] }
+        
+        
 	}
 
 	def createTestData =

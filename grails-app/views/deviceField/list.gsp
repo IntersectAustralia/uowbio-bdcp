@@ -47,7 +47,7 @@
                              params="[deviceGroupId: deviceFieldInstance.device.deviceGroup.id, deviceId: deviceFieldInstance.device.id]">Show</g:link
                              ></g:if>
                              </td>
-                             <td>${fieldValue(bean: deviceFieldInstance, field: "mandatory")}</td>
+                             <td>${deviceFieldInstance?.mandatory?.toString().capitalise()}</td>
                         </tr>
                     </g:each>
                     </tbody>

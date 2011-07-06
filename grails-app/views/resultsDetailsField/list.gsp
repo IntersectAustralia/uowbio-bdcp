@@ -48,7 +48,7 @@
                              ></g:if>
                              </td>
                             
-                            <td>${fieldValue(bean: resultsDetailsFieldInstance, field: "mandatory")}</td>
+                            <td>${resultsDetailsFieldInstance?.mandatory?.toString().capitalise()}</td>
                         
                         </tr>
                     </g:each>
