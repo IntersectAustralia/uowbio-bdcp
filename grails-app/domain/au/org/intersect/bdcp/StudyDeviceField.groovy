@@ -50,41 +50,66 @@ class StudyDeviceField {
             return checkRangeOfNumber(val, obj, -0.9E16, 0.9E16, FieldType.NUMERIC)
             })
         date(nullable:true, validator: {val, obj ->
-            return obj.deviceField?.fieldType != FieldType.DATE || val != null ? true : ['nullable', obj.deviceField.fieldLabel]
+            return checkIfNull(val, obj, FieldType.DATE)
             })
         time(nullable:true, validator: {val, obj ->
-            return obj.deviceField?.fieldType != FieldType.TIME || val != null ? true : ['nullable', obj.deviceField.fieldLabel]
+            return checkIfNull(val, obj, FieldType.TIME)
             })
         radioButtonsOption(nullable: true, size:0..1000, validator: {val, obj ->
-                return obj.deviceField?.fieldType != FieldType.RADIO_BUTTONS || TextUtils.isNotEmpty(val) ? true: ['nullable', obj.deviceField.fieldLabel]
+                return checkIfNotEmpty(val, obj, FieldType.RADIO_BUTTONS)
             })
         dropDownOption(nullable: true, size:0..1000, validator: {val, obj ->
-            return obj.deviceField?.fieldType != FieldType.DROP_DOWN || TextUtils.isNotEmpty(val) ? true: ['nullable', obj.deviceField.fieldLabel]
+            return checkIfNotEmpty(val, obj, FieldType.DROP_DOWN)
         })
+    }
+    
+    static checkIfNull(val, obj, fieldType)
+    {
+        if (obj.deviceField?.fieldType == fieldType)
+        {
+            if (!val && obj.deviceField.mandatory)
+            {
+                return ['nullable', obj.deviceField.fieldLabel] 
+            }
+        }
+        return true
+    }
+    
+    static checkIfNotEmpty(val, obj, fieldType)
+    {
+        if (obj.deviceField?.fieldType == fieldType)
+        {
+            if (!TextUtils.isNotEmpty(val) && obj.deviceField.mandatory)
+            {
+                return ['nullable', obj.deviceField.fieldLabel]
+            }
+        }
+        return true
     }
     
     static checkRangeOfNumber(val, obj, BigDecimal minVal, BigDecimal maxVal, fieldType)
     {
         if (obj.deviceField?.fieldType == fieldType)
         {
-             if (val!= null)
-             {
-                 if (val < minVal)
-                 {
-                     def nf = NumberFormat.getInstance()
-                     return ['range.toosmall', nf.format(minVal), obj.deviceField.fieldLabel]
-                 }
-                 else if (val > maxVal)
-                 {
-                     def nf = NumberFormat.getInstance()
-                     return ['range.toobig', nf.format(maxVal), obj.deviceField.fieldLabel]
-                 }
-             }
-             else
-             {
-                 return ['nullable', obj.deviceField.fieldLabel]
-             }  
+            if (val!= null)
+            {
+                if (val < minVal)
+                {
+                    def nf = NumberFormat.getInstance()
+                    return ['range.toosmall', nf.format(minVal), obj.deviceField.fieldLabel]
+                }
+                else if (val > maxVal)
+                {
+                    def nf = NumberFormat.getInstance()
+                    return ['range.toobig', nf.format(maxVal), obj.deviceField.fieldLabel]
+                }
+            }
+            else if (obj.deviceField.mandatory)
+            {
+                return ['nullable', obj.deviceField.fieldLabel]
+            }
         }
+        
         return true
     }
     
@@ -104,12 +129,13 @@ class StudyDeviceField {
                 }
                 
             }
-            else
+            else if (obj.deviceField.mandatory)
             {
                 return ['nullable', obj.deviceField.fieldLabel]
             }
             
         }
+        
         return true
     }
 }

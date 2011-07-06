@@ -28,6 +28,7 @@
                         
                             <th>${message(code: 'deviceField.fieldType.label', default: 'Field Type')}</th>
                         
+                            <th>${message(code: 'deviceField.mandatory.label', default: 'Mandatory')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,8 +46,8 @@
                             ><g:link elementId="show[${i}]" mapping="deviceFieldDetails" action="show" class="button" id="${deviceFieldInstance?.id}"
                              params="[deviceGroupId: deviceFieldInstance.device.deviceGroup.id, deviceId: deviceFieldInstance.device.id]">Show</g:link
                              ></g:if>
-                             
                              </td>
+                             <td>${fieldValue(bean: deviceFieldInstance, field: "mandatory")}</td>
                         </tr>
                     </g:each>
                     </tbody>

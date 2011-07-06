@@ -95,6 +95,15 @@
                                     <ckeditor:editor name="staticContent">${deviceFieldInstance?.staticContent}</ckeditor:editor>
                                 </td>
                             </tr>
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="mandatory"><g:message code="deviceField.mandatory.label" default="Mandatory" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: deviceFieldInstance, field: 'mandatory', 'errors')}">
+                                    <g:checkBox name="mandatory" value="${deviceFieldInstance?.mandatory}" />
+                                </td>
+                            </tr>
                            
                             <g:hiddenField name="device.id" value="${params.deviceId}" />
                         </tbody>

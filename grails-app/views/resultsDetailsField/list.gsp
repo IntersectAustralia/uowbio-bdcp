@@ -24,11 +24,11 @@
                 <table id="listTable">
                     <thead>
                         <tr>
-                            <g:sortableColumn property="fieldLabel" title="${message(code: 'resultsDetailsField.fieldLabel.label', default: 'Field Label')}" />
+                            <th>${message(code: 'resultsDetailsField.fieldLabel.label', default: 'Field Label')}</th>
                         
-                            <g:sortableColumn property="fieldType" title="${message(code: 'resultsDetailsField.fieldType.label', default: 'Field Type')}" />
+                            <th>${message(code: 'resultsDetailsField.fieldType.label', default: 'Field Type')}</th>
                         
-                            <g:sortableColumn property="mandatory" title="${message(code: 'resultsDetailsField.mandatory.label', default: 'Mandatory')}" />
+                            <th>${message(code: 'resultsDetailsField.mandatory.label', default: 'Mandatory')}</th>
                         </tr>
                     </thead>
                     <tbody>
