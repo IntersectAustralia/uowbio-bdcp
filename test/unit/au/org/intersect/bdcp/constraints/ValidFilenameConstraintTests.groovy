@@ -15,7 +15,7 @@ class ValidFilenameConstraintTests extends GrailsUnitTestCase {
 	*/
 	protected void setUp() {
         super.setUp()
-	validator = new ValidFilenameConstraint()
+        validator = new ValidFilenameConstraint()
     }
 
 	/**

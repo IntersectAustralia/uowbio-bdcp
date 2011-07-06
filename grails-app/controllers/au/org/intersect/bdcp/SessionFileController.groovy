@@ -144,21 +144,23 @@ class SessionFileController
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def downloadFiles =
-	{
+	{   
 		cache false
 		def context = createContext(request)
 		def study = Study.findById(params.studyId)
-		def files = params.files;
+		def files = params.list('files')
 		def zipName = study.studyTitle + ".zip"
 		
 		response.setContentType "application/zip"
 		response.setHeader "Content-Disposition", "attachment; filename=\"" + zipName + "\""
 		response.setHeader "Content-Description", "File download for BDCP"
 		response.setHeader "Content-Transfer-Encoding", "binary"
-		
+
 		def zipOs = new ZipOutputStream(response.outputStream)
+		def added = new HashSet()
+		zipOs.setComment "Created with BDCP web application"
 		files.each { String file ->
-				addFileToZip(study, context, zipOs, file)
+				addFileToZip(study, context, zipOs, file, added)
 			}
 		zipOs.close()
 		response.flushBuffer()
@@ -167,13 +169,13 @@ class SessionFileController
 
 	}
 
-	private void addFileToZip(Study study, Object context, ZipOutputStream zipOs, String file)
+	private void addFileToZip(Study study, Object context, ZipOutputStream zipOs, String file, Set added)
 	{
 		def matcher = file =~ pattern
 		if (!matcher.matches())
 		{
 			// this shouldn't happen
-			throw new RuntimeException("Incorrect request")
+			throw new RuntimeException("Incorrect request [req:" + file + "]")
 		}
 		def isDirectory = "D".equals(matcher[0][1])
 		def session = Session.findById(matcher[0][2].toLong())
@@ -181,19 +183,34 @@ class SessionFileController
 		def thePath = matcher[0][3]
 		File theFile = fileService.getFileReference(context, study.id + "/"
 			+ component.id + "/" + session.id + "/" + thePath)
+		def lastMod = theFile.lastModified()
 		if (isDirectory != theFile.isDirectory())
 		{
 			throw new RuntimeException("Incorrect file store state")
 		}
-		long fileSize = !isDirectory ? theFile.length() : 0L
-		def zipEntry = new ZipEntry(component.name + "/" + session.name + "/" + thePath + (isDirectory ? "/" : ""))
-		zipEntry.setSize(fileSize)
-		zipOs.putNextEntry(zipEntry)
 		if (!isDirectory)
 		{
+			def zipEntry = new ZipEntry(component.name + "/" + session.name + "/" + thePath)
+			long fileSize = theFile.length()
+			zipEntry.setTime(lastMod)
+			zipEntry.setSize(fileSize)
+			zipOs.putNextEntry(zipEntry)
 			zipOs << new FileInputStream(theFile)
+			zipOs.closeEntry()
 		}
-		zipOs.closeEntry()
+		else
+		{
+			addDirectoryToZip(zipOs, component.name + "/" + session.name + "/" + thePath, added, lastMod)
+		}
+	}
+	
+	private void addDirectoryToZip(ZipOutputStream zipOs, String directory, Set added, long lastMod)
+	{
+		def zipEntry = new ZipEntry(directory + "/")		
+		zipEntry.setComment directory
+		zipEntry.setTime(lastMod)
+		zipOs.putNextEntry(zipEntry)
+		added.add(directory)
 	}
 	
 
