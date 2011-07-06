@@ -1,7 +1,7 @@
 package au.org.intersect.bdcp.enums
 
 
-public enum UserRoles
+public enum UserRole
 {
     ROLE_LAB_MANAGER('Lab Manager'),
     ROLE_SYS_ADMIN('System Administrator'),
@@ -9,7 +9,7 @@ public enum UserRoles
     
     String name
     
-    UserRoles(String name)
+    UserRole(String name)
     {
         this.name = name
     }

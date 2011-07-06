@@ -75,7 +75,7 @@ class ProjectTests extends GrailsUnitTestCase
 				endDate: '',
 				description: '',
 				supervisors: '',
-				owner: user)
+				owner: '')
 
 		assertFalse "No validation exists for blank field(s)",project.validate()
 
@@ -84,6 +84,7 @@ class ProjectTests extends GrailsUnitTestCase
 		assertEquals 'Degree is blank.','blank', project.errors['degree']
 		assertEquals 'Description is blank.','blank', project.errors['description']
 		assertEquals 'Supervisors is blank.','blank', project.errors['supervisors']
+		assertEquals 'Owner is nullable.','nullable', project.errors['owner']
 
 		project = new Project(projectTitle: 'Testing Project',
 				researcherName: 'TestStudent' ,

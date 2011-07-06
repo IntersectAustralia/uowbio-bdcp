@@ -1,5 +1,5 @@
 <%@ page import="au.org.intersect.bdcp.UserStore"%>
-<%@ page import="au.org.intersect.bdcp.enums.UserRoles"%>
+<%@ page import="au.org.intersect.bdcp.enums.UserRole"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -24,7 +24,7 @@
       <g:hiddenField name="username" value="${username}" />
  
       <div class="dialog">
-            <g:select id="selectRole" noSelection="['':'']" from="${UserRoles.list()}" name="authority" value="${userInstance?.authority}"></g:select>
+            <g:select id="selectRole" noSelection="['':'']" from="${UserRole.list()}" name="authority" value="${userInstance?.authority}"></g:select>
       </div>
  
       <div class="rowBottom">

@@ -32,13 +32,13 @@ class AdminController
             def role
             def accountStatus = "Failed"
 
-            username = setPropertyValue(params.username);
-            role = setPropertyValue(params.authority);
+			username = params.username != null ? params.username : "";
+			role = params.authority != null ? params.authority: "";
            
             def user;
             user = new UserStore(username: username, authority: role);
 
-            if (user!= null && user.validate())
+            if (user?.validate())
             {
                   accountStatus = "Successful"
                   render (view: "create", model:[username:username, role:role])
@@ -50,22 +50,6 @@ class AdminController
             }
            
             return [username: username, role: role]
-      }
-     
-      private String setPropertyValue(parameter)
-      {
-            def propertyValue
-           
-            if (parameter == null)
-            {
-                  propertyValue = ""
-            }
-            else
-            {
-                  propertyValue = parameter
-            }
-           
-            return propertyValue
       }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -313,8 +297,9 @@ class AdminController
 		cache false
 		def username
 		def role
-		username = setPropertyValue(params.username);
-		role = setPropertyValue(params.authority);
+
+		username = params.username != null ? params.username : "";
+		role = params.authority != null ? params.authority: "";
 		
 		return [username: username, role: role]
 	}
