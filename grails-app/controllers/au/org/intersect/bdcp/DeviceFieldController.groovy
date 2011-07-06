@@ -13,7 +13,6 @@ class DeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def deviceInstance = Device.findById(params.deviceId)
         [deviceFieldInstanceList: deviceInstance?.deviceFields, deviceFieldInstanceTotal: DeviceField.count(), deviceInstance: deviceInstance]
     }
