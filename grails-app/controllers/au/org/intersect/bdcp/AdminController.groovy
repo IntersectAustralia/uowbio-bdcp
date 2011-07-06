@@ -38,7 +38,7 @@ class AdminController
             def user;
             user = new UserStore(username: username, authority: role);
 
-            if (user!= null && user.validate())
+            if (user?.validate())
             {
                   accountStatus = "Successful"
                   render (view: "create", model:[username:username, role:role])
