@@ -34,9 +34,10 @@ class UserTests extends GrailsUnitTestCase {
 	*/
     void testBlank() {
 
-		userStore = new UserStore(username: '', authority:"ROLE_USER")
+		userStore = new UserStore(username: '', authority:'')
 		assertFalse 'No validation for blank field(s)' ,userStore.validate()
 		assertEquals 'Username is blank.','blank', userStore.errors['username']
+		assertEquals 'Authority is blank.','blank', userStore.errors['authority']
 		userStore = new UserStore(username: "test", authority:"ROLE_USER")
 		assertTrue "A valid user did not validate!", userStore.validate()
     }
@@ -69,4 +70,14 @@ class UserTests extends GrailsUnitTestCase {
  
 	   assertTrue userStore.validate()
    }
+   
+   /**
+   * Test the range validation of fields in the domain class {@link UserStore} are
+   * correctly validated
+   */
+  void testToString()
+  {
+	  assertEquals "The toString() method returned incorrectly.", "dpollum", userStore.toString()
+  }
+   
 }

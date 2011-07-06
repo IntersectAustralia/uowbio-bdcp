@@ -15,7 +15,7 @@ class UserStore{
 	}
 	
 	String toString() {
-		return "Userstore toString()-> username is: ${username}, deactivated is: ${deactivated}, authority is: ${authority}.}"
+		return "${username}"
 	}
 	
 }

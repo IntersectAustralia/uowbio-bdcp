@@ -118,6 +118,17 @@ Given(~"I follow \"(.*)\"") { String link->
 	element.click()
 }
 
+Then(~"I cannot follow \"(.*)\"") { String link ->
+	try {
+		WebElement element = browser.findElement(By.linkText(link))
+		fail()
+	} catch (org.openqa.selenium.NoSuchElementException nse) {
+		assertNotNull(nse)
+	} catch (Exception e) {
+		fail()
+	}
+}
+
 Given(~"I have cleared and filled in \"(.*)\" with \"(.*)\"") { String field, String text ->
 	fieldElement = browser.findElement(By.name(field))
 	fieldElement.clear()
