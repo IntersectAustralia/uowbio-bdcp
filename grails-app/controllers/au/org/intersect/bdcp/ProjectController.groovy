@@ -7,6 +7,8 @@ class ProjectController
 {
 	def springSecurityService
 	
+	def roleCheckService
+	
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
@@ -26,7 +28,7 @@ class ProjectController
 		def projectInstanceList = Project.list(params);
 
 		// A researcher can look at their own project
-		if(checkUserRoleIsResearcher()) {
+		if(roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
 			projectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username));
 		}
 		
@@ -77,7 +79,7 @@ class ProjectController
 		else
 		{
 			// if researcher role, display research project to researcher who owns project, else redirect to non authorized access page.
-			if(checkUserRoleIsResearcher()) {
+			if(roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
 				redirectNonAuthorizedResearcherAccessProject(projectInstance)
 			}
 			[projectInstance: projectInstance]
@@ -94,21 +96,6 @@ class ProjectController
 			redirect controller:'login', action: 'denied'
 		}
 	}
-	
-	/**
-	* Check whether the role of the user is a researcher.
-	*/
-   private boolean checkUserRoleIsResearcher()
-   {
-	   boolean check = false;
-	   def auth = springSecurityService.authentication;
-	   def role = auth.getPrincipal().getAuthorities()[0];
-	   if(role.equals('ROLE_RESEARCHER')) {
-		   check = true;
-	   }
-
-	   return check;
-   }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def edit =

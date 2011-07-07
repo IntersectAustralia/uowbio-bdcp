@@ -25,7 +25,7 @@ class StudyDeviceController {
         [deviceGroupsMapping: deviceGroupsMapping, studyInstance: studyInstance]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def create = {
         def studyDeviceInstance = new StudyDevice()
         def studyInstance = Study.findById(params.studyId)
@@ -35,7 +35,7 @@ class StudyDeviceController {
         return [studyDeviceInstance: studyDeviceInstance, studyInstance: studyInstance, deviceGroupList: sortedDeviceGroupList]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def save = {
         def studyDeviceInstance = new StudyDevice(params)
         if (studyDeviceInstance.save(flush: true)) {
@@ -47,7 +47,7 @@ class StudyDeviceController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def show = {
         def studyDeviceInstance = StudyDevice.get(params.id)
         if (!studyDeviceInstance) {
@@ -59,7 +59,7 @@ class StudyDeviceController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def edit = {
         def studyDeviceInstance = StudyDevice.get(params.id)
         if (!studyDeviceInstance) {
@@ -71,7 +71,7 @@ class StudyDeviceController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def update = {
         def studyDeviceInstance = StudyDevice.get(params.id)
         if (studyDeviceInstance) {
@@ -99,7 +99,7 @@ class StudyDeviceController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def delete = {
         def studyDeviceInstance = StudyDevice.get(params.id)
         if (studyDeviceInstance) {
