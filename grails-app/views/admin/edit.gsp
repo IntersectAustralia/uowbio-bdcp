@@ -1,5 +1,6 @@
-
 <%@ page import="au.org.intersect.bdcp.UserStore"%>
+<%@ page import="au.org.intersect.bdcp.enums.UserRole"%>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -53,6 +54,16 @@
 
 				<td valign="top" class="value">
 				${matchInstance.username.toArray()[1]}
+				</td>
+
+			</tr>
+			
+			<tr class="prop">
+				<td valign="top" class="name"><g:message
+					code="admin.role.label" default="Role" /></td>
+
+				<td valign="top" class="value">
+					<g:select id="authority" from="${UserRole.list()}" keys="${UserRole.listValues()}" name="authority" value="${userInstance.authority}"></g:select>
 				</td>
 
 			</tr>

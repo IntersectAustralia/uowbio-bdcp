@@ -47,9 +47,9 @@ Feature: Create Results Details Metadata Template
  Then I should see "Select a Drop Down Option saved"
  
  Then I should see a 3 column table "listTable" with contents 
- | Location of Strap 		    | Text Area          | true  |
- | Select a Radio Button Option | Radio Buttons Show | false |
- | Select a Drop Down Option    | Drop Down Show     | false |
+ | Location of Strap 		    | Text Area          | True  |
+ | Select a Radio Button Option | Radio Buttons Show | False |
+ | Select a Drop Down Option    | Drop Down Show     | False |
  
  Then I press "Logout"
  Then I should see "Please enter your userid and password to login"
@@ -69,10 +69,10 @@ Feature: Create Results Details Metadata Template
  Then I press "save"
  Then I should see "Leg Position saved"
  Then I should see a 3 column table "listTable" with contents 
- | Location of Strap 		    | Text Area          | true  |
- | Select a Radio Button Option | Radio Buttons Show | false |
- | Select a Drop Down Option    | Drop Down Show     | false |
- | Leg Position		            | Text Area          | true  |
+ | Location of Strap 		    | Text Area          | True  |
+ | Select a Radio Button Option | Radio Buttons Show | False |
+ | Select a Drop Down Option    | Drop Down Show     | False |
+ | Leg Position		            | Text Area          | True  |
  
  Then I press "Logout"
  Then I should see "Please enter your userid and password to login"
