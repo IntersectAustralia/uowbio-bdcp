@@ -65,7 +65,7 @@ class SessionFileController
         redirect(action: "fileList", params: params)
 	}
 	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER'])
 	def fileList =
 	{
 		cache false

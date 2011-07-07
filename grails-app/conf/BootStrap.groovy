@@ -50,7 +50,7 @@ class BootStrap
 			{
 				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
                 user.save(flush:true)
-                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
                 user.save(flush:true)
                 user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
                 user.save(flush:true)
@@ -78,7 +78,7 @@ class BootStrap
 			{
 				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
 				user.save(flush:true)				
-                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
                 user.save(flush:true)
 				user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
 				user.save(flush:true)
