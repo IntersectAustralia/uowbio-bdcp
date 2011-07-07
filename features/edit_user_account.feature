@@ -24,6 +24,7 @@
      |User ID                 | dpollum										|
      |Role                    | Lab Manager System Administrator Researcher	|
      |Deactivate User Account |         									|
+     And I select "Lab Manager" from "authority"
      Then I press "deactivated"
      Then I press "save"
      Then I should see "dpollum deactivated successfully"
@@ -48,6 +49,7 @@
      |Pollum		|David			|dpollum	|Edit |
      |Researcher	|The	 		|researcher	|Edit |
      Then I press "edit[3]"
+     And I select "Researcher" from "authority"
      Then I press "deactivated"
      Then I press "save"
      Then I should see "dpollum activated successfully"
@@ -56,4 +58,7 @@
    	 Then I fill in "j_password" with "password"
      Then I press "Login"
      Then I should see "Welcome Researcher"
-     
+	 Given I am on the home page
+   	 And I press "system-administration" 
+   	 Then I should see "Sorry, you're not authorized to view this page."
+   	 
