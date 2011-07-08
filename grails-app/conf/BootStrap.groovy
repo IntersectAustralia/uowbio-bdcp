@@ -200,23 +200,27 @@ class BootStrap
         device2.save(flush: true)
         
         def deviceField = new DeviceField(fieldLabel: "Is the device currently being used?",
-            fieldType: FieldType.TEXT)
+            fieldType: FieldType.TEXT,
+            mandatory: true)
         device.addToDeviceFields(deviceField)
         deviceField.save(flush: true)
         
         def deviceField2 = new DeviceField(fieldLabel: "Radio buttons?",
             fieldType: FieldType.RADIO_BUTTONS,
-            fieldOptions: "test1\ntest2\n")
+            fieldOptions: "test1\ntest2\n",
+            mandatory: true)
         device.addToDeviceFields(deviceField2)
         deviceField2.save(flush:true)
         
         def deviceField3 = new DeviceField(fieldLabel: "Device 2 questions?",
-            fieldType: FieldType.TEXT)
+            fieldType: FieldType.TEXT,
+            mandatory: true)
         device2.addToDeviceFields(deviceField3)
         deviceField3.save(flush: true)
         
         def deviceField4 = new DeviceField(fieldLabel: "Device 2 questions 2?",
-            fieldType: FieldType.TEXT)
+            fieldType: FieldType.TEXT,
+            mandatory: true)
         device2.addToDeviceFields(deviceField4)
         deviceField4.save(flush: true)
         def studyDevice = StudyDevice.link(study, device);
