@@ -80,7 +80,7 @@ Given(~"I have created a device grouping with \"(.*)\"") { String groupingName -
 
 Given(~"I have created a device with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String name, String description, String manufacturer, String locationOfManufacturer, String model, String serialNumber, String uowAssetNumber, String dateOfPurchase, String dateOfDelivery, String purchasePrice, String vendor, String fundingSource, String maintServiceInfo ->
     def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver") 
-    sql.execute("INSERT INTO device(id,version, device_group_id, name, description, manufacturer, location_of_manufacturer, model_name, serial_number, uow_asset_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_source, maint_service_info) VALUES ('-6000','0','-5000', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, ${uowAssetNumber}, '${dateOfPurchase}', '${dateOfDelivery}', ${purchasePrice}, ${vendor}, ${fundingSource}, ${maintServiceInfo});")
+    sql.execute("INSERT INTO device(id,version, device_group_id, name, description, manufacturer, location_of_manufacturer, model_name, serial_number, uow_asset_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_source, maint_service_info) VALUES (nextval('hibernate_sequence'),'0','-5000', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, ${uowAssetNumber}, '${dateOfPurchase}', '${dateOfDelivery}', ${purchasePrice}, ${vendor}, ${fundingSource}, ${maintServiceInfo});")
 }
 
 Given(~"I have created a device field with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\" for \"(.*)\"") { String fieldLabel, String fieldType, String staticContent, String mandatory, String deviceName ->
@@ -92,12 +92,12 @@ Given(~"I have created a device field with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\
     sql.execute("INSERT INTO device_field(id,device_id,device_fields_idx,field_label,field_type,static_content,mandatory,date_created,last_updated,version) VALUES (nextval('hibernate_sequence'),${deviceId},${fieldIndex},${fieldLabel},${fieldType},${staticContent},'${mandatory}', '2011-03-01 00:00:00', '2011-03-01 00:00:00',0);")
 }
 
-Given(~"I have created a deviceField with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String id, String deviceName, String dateCreated, String lastUpdated, String mandatory, String fieldLabel, String fieldType, String fieldOptions ->
+Given(~"I have created a deviceField with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String deviceName, String dateCreated, String lastUpdated, String mandatory, String fieldLabel, String fieldType, String fieldOptions ->
     def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
     def deviceId = (int)(getDevice("${deviceName}").id)
     def row = sql.firstRow("SELECT count(id) as num FROM device_field WHERE device_id=${deviceId}")
     def fieldIndex = row.num
-    sql.execute("INSERT INTO device_field(id, version,device_id, device_fields_idx,date_created, last_updated, mandatory, field_label, field_type, field_options) VALUES ('${id}', '0','${deviceId}', ${fieldIndex}, '${dateCreated}', '${lastUpdated}', '${mandatory}', ${fieldLabel}, ${fieldType}, ${fieldOptions});")
+    sql.execute("INSERT INTO device_field(id, version,device_id, device_fields_idx,date_created, last_updated, mandatory, field_label, field_type, field_options) VALUES (nextval('hibernate_sequence'), '0','${deviceId}', ${fieldIndex}, '${dateCreated}', '${lastUpdated}', '${mandatory}', ${fieldLabel}, ${fieldType}, ${fieldOptions});")
 }
 
 def getDevice(String name) {

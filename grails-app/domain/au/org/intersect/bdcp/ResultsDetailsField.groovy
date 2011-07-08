@@ -65,6 +65,15 @@ class ResultsDetailsField {
         fieldLabel
     }
     
+    String mandatoryStatus()
+    {
+        if (fieldType == FieldType.STATIC_TEXT)
+        {
+            return "N/A"
+        }
+        return mandatory.toString().capitalize()
+    }
+    
     def getFieldOptionsList()
     {
         def options = fieldOptions?.tokenize("\n")

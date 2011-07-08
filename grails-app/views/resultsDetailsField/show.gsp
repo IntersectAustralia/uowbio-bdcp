@@ -31,6 +31,13 @@
                             
                         </tr>
                         
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="resultsDetailsField.mandatory.label" default="Mandatory" /></td>
+                            
+                            <td valign="top" class="value">${resultsDetailsFieldInstance?.mandatoryStatus()}</td>
+                            
+                        </tr>
+                        
                         <tr class="radiobutton">
                             <td valign="top" class="name"><g:message code="resultsDetailsField.fieldOptions.label" default="Field Options" /></td>
                             <td valign="top" class="value">
@@ -39,6 +46,9 @@
                             </g:each>
                             </td>
                         </tr>
+                        
+                        
+                        
                     </tbody>
                 </table>
             </div>

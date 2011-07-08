@@ -48,7 +48,7 @@
                              ></g:if>
                              </td>
                             
-                            <td>${resultsDetailsFieldInstance?.mandatory?.toString().capitalise()}</td>
+                            <td>${resultsDetailsFieldInstance?.mandatoryStatus()}</td>
                         
                         </tr>
                     </g:each>

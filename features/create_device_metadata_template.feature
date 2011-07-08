@@ -51,4 +51,52 @@ Feature: Create Device Metadata Template
  Then I press "save"
  Then I should see "Select a Drop Down Option saved"
   
+ Then I should see "Device1 Details Template"
+ Then I press "Add Field"
+ Then I should see "Add New Device1 Details Template Field"
+ Then I fill in "fieldLabel" with "Select a numeric field"
+ Then I select radiobutton "NUMERIC" from "fieldType"
+ Then I press "mandatory"
+ Then I press "save"
+ Then I should see "Select a numeric field saved"
+ 
+ Then I should see "Device1 Details Template"
+ Then I press "Add Field"
+ Then I should see "Add New Device1 Details Template Field"
+ Then I fill in "fieldLabel" with "Select a date field"
+ Then I select radiobutton "DATE" from "fieldType"
+ Then I press "save"
+ Then I should see "Select a date field saved"
    
+ Then I should see "Device1 Details Template"
+ Then I press "Add Field"
+ Then I should see "Add New Device1 Details Template Field"
+ Then I fill in "fieldLabel" with "Select a time field"
+ Then I select radiobutton "TIME" from "fieldType"
+ Then I press "save"
+ Then I should see "Select a time field saved"
+ 
+ Then I should see "Device1 Details Template"
+ Then I press "Add Field"
+ Then I should see "Add New Device1 Details Template Field"
+ Then I fill in "fieldLabel" with "Select a text field"
+ Then I select radiobutton "TEXT" from "fieldType"
+ Then I press "save"
+ Then I should see "Select a text field saved"
+ 
+ Then I should see a 3 column table "listTable" with contents 
+ | Location of Strap 		    | Text Area          | False  |
+ | Select a Radio Button Option | Radio Buttons Show | False |
+ | Select a Drop Down Option    | Drop Down Show     | False |
+ | Select a numeric field       | Numeric            | True  |
+ | Select a date field          | Date               | False |
+ | Select a time field          | Time               | False |
+ | Select a text field          | Text Field         | False |
+ 
+ Then I press "Logout"
+ Then I should see "Please enter your userid and password to login"
+ Given I have logged in as "researcher"
+ Given I am on the home page
+ And I press "system-administration"
+ Then I should see "Sorry, you're not authorized to view this page."
+ 
