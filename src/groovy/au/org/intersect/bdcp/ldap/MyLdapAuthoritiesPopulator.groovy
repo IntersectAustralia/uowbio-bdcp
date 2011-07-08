@@ -30,7 +30,7 @@ class MyLdapAuthoritiesPopulator implements LdapAuthoritiesPopulator
         if (userStore?.authority != null)
         {
             authorities
-            .add(new GrantedAuthorityImpl(userStore.authority));
+            .add(new GrantedAuthorityImpl(userStore.authority.toString()));
         }
         
        return authorities;
