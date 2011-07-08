@@ -27,6 +27,7 @@ Feature: View Device Metadata Template
  Then I should see table "fieldDetailsTable" with contents
       | Field Label   | Select a Radio Button Option |
       | Field Type    | Radio Buttons                |
+      | Mandatory     | True                         |
       | Field Options | Option1                      |
  
  Then I press "Back"
@@ -35,5 +36,6 @@ Feature: View Device Metadata Template
  Then I should see table "fieldDetailsTable" with contents
       | Field Label   | Select a Drop Down Option    |
       | Field Type    | Drop Down                    |
+      | Mandatory     | True                         |
       | Field Options | Option1                      | 
    
