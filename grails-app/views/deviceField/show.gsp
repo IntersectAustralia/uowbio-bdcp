@@ -31,6 +31,12 @@
                             
                         </tr>
                         
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="deviceField.mandatory.label" default="Mandatory" /></td>
+                            
+                            <td valign="top" class="value">${deviceFieldInstance.mandatoryStatus()}</td>
+                            
+                        </tr>
                         
                         <tr class="radiobutton">
                             <td valign="top" class="name"><g:message code="deviceField.fieldOptions.label" default="Field Options" /></td>
@@ -40,6 +46,7 @@
                             </g:each>
                             </td>
                         </tr>
+                        
                     </tbody>
                 </table>
             </div>
