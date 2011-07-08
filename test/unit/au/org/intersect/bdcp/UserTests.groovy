@@ -1,6 +1,7 @@
 package au.org.intersect.bdcp
 
 import grails.test.*
+import au.org.intersect.bdcp.enums.UserRole
 
 
 /**
@@ -16,7 +17,7 @@ class UserTests extends GrailsUnitTestCase {
 	protected void setUp() {
         super.setUp()
 		
-		userStore = new UserStore(username:"dpollum", authority:"ROLE_USER")
+		userStore = new UserStore(username:"dpollum", authority: UserRole.ROLE_LAB_MANAGER)
 		
 		mockForConstraintsTests UserStore, [ userStore ]
     }
@@ -37,8 +38,8 @@ class UserTests extends GrailsUnitTestCase {
 		userStore = new UserStore(username: '', authority:'')
 		assertFalse 'No validation for blank field(s)' ,userStore.validate()
 		assertEquals 'Username is blank.','blank', userStore.errors['username']
-		assertEquals 'Authority is blank.','blank', userStore.errors['authority']
-		userStore = new UserStore(username: "test", authority:"ROLE_USER")
+		assertEquals 'Authority is nullable.','nullable', userStore.errors['authority']
+		userStore = new UserStore(username: "test", authority: UserRole.ROLE_LAB_MANAGER)
 		assertTrue "A valid user did not validate!", userStore.validate()
     }
 	
@@ -48,10 +49,10 @@ class UserTests extends GrailsUnitTestCase {
 	*/
 	void testUnique() {
 		
-				userStore = new UserStore(username: "dpollum", authority:"ROLE_USER")
+				userStore = new UserStore(username: "dpollum", authority: UserRole.ROLE_LAB_MANAGER)
 				assertFalse 'No validation for unique field(s)' ,userStore.validate()
 				assertEquals 'Username is not unique.','unique', userStore.errors['username']
-				userStore = new UserStore(username: "test", authority:"ROLE_USER")
+				userStore = new UserStore(username: "test", authority: UserRole.ROLE_LAB_MANAGER)
 				assertTrue "A valid user did not validate!", userStore.validate()
 			}
 	/**
@@ -60,13 +61,13 @@ class UserTests extends GrailsUnitTestCase {
 	*/
    void testRange()
    {
-		userStore = new UserStore(username: "012345678910" * 100, authority:"ROLE_USER")
+		userStore = new UserStore(username: "012345678910" * 100, authority: UserRole.ROLE_LAB_MANAGER)
  
 	   assertFalse "No validation for size of fields", userStore.validate()
  
 	   assertEquals 'Username does not validate size.','size', userStore.errors['username']
 	   
-	  userStore = new UserStore(username: "test", authority:"ROLE_USER")
+	  userStore = new UserStore(username: "test", authority: UserRole.ROLE_LAB_MANAGER)
  
 	   assertTrue userStore.validate()
    }

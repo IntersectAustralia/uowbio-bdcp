@@ -1,7 +1,7 @@
 package au.org.intersect.bdcp
 
 import grails.plugins.springsecurity.Secured
-
+import au.org.intersect.bdcp.enums.UserRole
 import au.org.intersect.bdcp.ldap.LdapUser
 
 
@@ -41,7 +41,9 @@ class AdminController
             if (user?.validate())
             {
                   accountStatus = "Successful"
-                  render (view: "create", model:[username:username, role:role])
+				  def roleString = (UserRole)role.toString()
+				  def rolename = roleString.getName();
+                  render (view: "create", model:[username:username, role:role, rolename:rolename])
             }
             else
             {
@@ -73,7 +75,7 @@ class AdminController
 		if (user!= null && user.save(flush:true))
 		{
 			accountStatus = "Successful"
-			emailNotifierService.contactUser(user.username, user.authority, email)
+			emailNotifierService.contactUser(user.username, user.authority.getName(), email)
 			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,username:params.username, role: params.role])
 			session.firstName =  ""
 			session.surname = ""
