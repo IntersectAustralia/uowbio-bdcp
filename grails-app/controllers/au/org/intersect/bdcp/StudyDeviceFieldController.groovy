@@ -6,6 +6,8 @@ class StudyDeviceFieldController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def studyDeviceFieldService
+    
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def index = {
         redirect(controller:"studyDevice", action: "create", params: params)
@@ -31,7 +33,6 @@ class StudyDeviceFieldController {
         return true
     }
     
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def validStudyDeviceFields(studyDeviceFields)
     {
         def studyDeviceInstance = StudyDevice.link(Study.findById(params.study.id),Device.findById(params.device.id))
@@ -73,52 +74,18 @@ class StudyDeviceFieldController {
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def save = {
         
-        def studyDeviceInstance = StudyDevice.link(Study.findById(params.study.id),Device.findById(params.device.id))
-        def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
-        def allValid = true
-        def studyDeviceFieldInstance = []
-        for (int i=0; i < deviceFields.size(); i++)
+        def result = studyDeviceFieldService.save(params)
+        
+        if (result.successful)
         {
-            studyDeviceFieldInstance[i] = new StudyDeviceField(params["studyDeviceFields["+i+"]"])
-            studyDeviceInstance?.addToStudyDeviceFields(studyDeviceFieldInstance[i])
-            deviceFields[i]?.addToStudyDeviceFields(studyDeviceFieldInstance[i])
-            if (!studyDeviceFieldInstance[i].validate())
-            {
-                allValid = false
-            }
-    
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDevice.label', default: 'Device'), result.studyDeviceInstance.device])}"
+            redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":params.studyId, "device.id": params.device.id, "study.id": params.study.id] )
         }
-                
-        if (allValid)
+        else
         {
-            if (saveAllStudyDeviceFields(studyDeviceFieldInstance)) 
-            {
-                flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDevice.label', default: 'Device'), studyDeviceInstance.device])}"
-                redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":params.studyId, "device.id": params.device.id, "study.id": params.study.id] )
-            }
-            else
-            {
-                
-                for (int i=0; i < deviceFields.size(); i++)
-                {
-                    studyDeviceInstance?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
-                    deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
-                }
-                StudyDevice?.unlink(Study.findById(params.study.id),Device.findById(params.device.id))
-                def studyDeviceFields = studyDeviceFieldInstance
-                render(view: "create", model: [studyDeviceFields: studyDeviceFields,studyDeviceFieldInstance: studyDeviceFieldInstance])
-             }
+            render(view: "create", model: [studyDeviceFields: result.studyDeviceFields, studyDeviceFieldInstance: result.studyDeviceFields, 'study.id': params.study.id])
         }
-        else {
-            for (int i=0; i < deviceFields.size(); i++)
-            {
-                studyDeviceInstance?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
-                deviceFields[i]?.removeFromStudyDeviceFields(studyDeviceFieldInstance[i])
-            }
-            StudyDevice?.unlink(Study.findById(params.study.id),Device.findById(params.device.id))
-            def studyDeviceFields = studyDeviceFieldInstance
-            render(view: "create", model: [studyDeviceFields: studyDeviceFields, studyDeviceFieldInstance: studyDeviceFieldInstance, 'study.id': params.study.id])
-        }
+
     }
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -153,53 +120,18 @@ class StudyDeviceFieldController {
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def update = {
         
-        def studyDeviceInstance = StudyDevice.findByStudyAndDevice(Study.findById(params.study.id),Device.findById(params.device.id))
-        def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
-        def allValid = true
-        def studyDeviceFields = []
+        def result = studyDeviceFieldService.update(params)
         
-        
-        for (int i=0; i < deviceFields.size(); i++)
+        if (result.successful)
         {
-            
-            if (params["studyDeviceFields["+i+"]"] != null)
-            {
-                studyDeviceFields[i] = StudyDeviceField.get(params["studyDeviceFields["+i+"]"]?.id)
-                if (studyDeviceFields[i])
-                {
-                    studyDeviceFields[i].properties = params["studyDeviceFields["+i+"]"]
-                }
-                else
-                {
-                    studyDeviceFields[i] = new StudyDeviceField(params["studyDeviceFields["+i+"]"])
-                    studyDeviceInstance?.addToStudyDeviceFields(studyDeviceFields[i])
-                    deviceFields[i]?.addToStudyDeviceFields(studyDeviceFields[i])
-                }
-                
-            }
+            flash.message = "${message(code: 'default.updated.message', args: [message(code: 'studyDevice.label', default: 'Device'), result.studyDeviceInstance.device])}"
+            redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":params.studyId, "device.id": params.device.id, "study.id": params.study.id] )
         }
-        
-         if (validStudyDeviceFields(studyDeviceFields)) {
-            if (laterVersion(studyDeviceFields))
-            {
-                        studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}
-                        render(view: "edit", model: [studyDeviceFields: studyDeviceFields, deviceFields: deviceFields])
-                        return
-             }
-            
-            if (saveAllStudyDeviceFields(studyDeviceFields)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'studyDevice.label', default: 'Device'), studyDeviceInstance.device])}"
-                 redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":params.studyId, "device.id": params.device.id, "study.id": params.study.id] )
-             }
-            else {
-                studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}
-                render(view: "edit", model: [studyDeviceFields: studyDeviceFields, deviceFields: deviceFields])
-            }
+        else
+        {
+            render(view: "edit", model: [studyDeviceFields: result.studyDeviceFields, deviceFields: result.deviceFields])
         }
-        else {
-                studyDeviceFields.sort {x,y -> x?.deviceField?.dateCreated <=> y?.deviceField?.dateCreated}
-                render(view: "edit", model: [studyDeviceFields: studyDeviceFields,deviceFields: deviceFields])
-        }
+         
     }
     
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])

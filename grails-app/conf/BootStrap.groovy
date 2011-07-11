@@ -13,6 +13,7 @@ import au.org.intersect.bdcp.Study
 import au.org.intersect.bdcp.StudyDevice
 import au.org.intersect.bdcp.UserStore
 import au.org.intersect.bdcp.enums.FieldType
+import au.org.intersect.bdcp.enums.UserRole
 
 
 class BootStrap
@@ -33,13 +34,13 @@ class BootStrap
 		{
 			production
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
                 user.save(flush:true)
 				
-				user = new UserStore(username:"egully", deactivated: false, authority: "ROLE_LAB_MANAGER")
+				user = new UserStore(username:"egully", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
 				user.save(flush:true)
                 
-                user = new UserStore(username:"kherrman", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
                 user.save(flush:true)
 			}
 			
@@ -48,43 +49,43 @@ class BootStrap
 			
 			test
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
                 user.save(flush:true)
-                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
+                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
                 user.save(flush:true)
-                user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
+                user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
                 user.save(flush:true)
-                user = new UserStore(username:"sysadm", deactivated: false, authority: "ROLE_SYS_ADMIN")
+                user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
                 user.save(flush:true)
-                user = new UserStore(username:"researcher", deactivated: false, authority: "ROLE_RESEARCHER")
+                user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
                 user.save(flush:true)
 			}
 			
 			cucumber
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
                 user.save(flush:true)
-				user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
+				user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
 				user.save(flush:true)
-				user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
+				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
 				user.save(flush:true)
-				user = new UserStore(username:"sysadm", deactivated: false, authority: "ROLE_SYS_ADMIN")
+				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
 				user.save(flush:true)
-				user = new UserStore(username:"researcher", deactivated: false, authority: "ROLE_RESEARCHER")
+				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
 				user.save(flush:true)
 			}
 			
 			intersect_test
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
 				user.save(flush:true)				
-                user =new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
+                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
                 user.save(flush:true)
-				user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
+				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
 				user.save(flush:true)
-				user = new UserStore(username:"sysadm", deactivated: false, authority: "ROLE_SYS_ADMIN")
+				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
 				user.save(flush:true)
-				user = new UserStore(username:"researcher", deactivated: false, authority: "ROLE_RESEARCHER")
+				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
 				user.save(flush:true)
 			}
 		}
@@ -106,12 +107,10 @@ class BootStrap
 
 	def createTestData =
 	{
-		println "creating test data"
-
-        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: "ROLE_LAB_MANAGER")
+        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
         user1.save(flush:true)
         
-        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: "ROLE_RESEARCHER")
+        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
         user2.save(flush:true)
         
 		def project = new Project(projectTitle: 'TestProject',
@@ -158,13 +157,13 @@ class BootStrap
         def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")
         deviceGroup.save()
 		
-		def user = new UserStore(username:"labman", deactivated: false, authority: "ROLE_LAB_MANAGER")
+		def user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
 		user.save(flush:true)
 		
-		user = new UserStore(username:"sysadm", deactivated: false, authority: "ROLE_SYS_ADMIN")
+		user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
 		user.save(flush:true)
 		
-		user = new UserStore(username:"researcher", deactivated: false, authority: "ROLE_RESEARCHER")
+		user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
 		user.save(flush:true)
         
         def device = new Device(name: "Device1",
@@ -200,23 +199,27 @@ class BootStrap
         device2.save(flush: true)
         
         def deviceField = new DeviceField(fieldLabel: "Is the device currently being used?",
-            fieldType: FieldType.TEXT)
+            fieldType: FieldType.TEXT,
+            mandatory: true)
         device.addToDeviceFields(deviceField)
         deviceField.save(flush: true)
         
         def deviceField2 = new DeviceField(fieldLabel: "Radio buttons?",
             fieldType: FieldType.RADIO_BUTTONS,
-            fieldOptions: "test1\ntest2\n")
+            fieldOptions: "test1\ntest2\n",
+            mandatory: true)
         device.addToDeviceFields(deviceField2)
         deviceField2.save(flush:true)
         
         def deviceField3 = new DeviceField(fieldLabel: "Device 2 questions?",
-            fieldType: FieldType.TEXT)
+            fieldType: FieldType.TEXT,
+            mandatory: true)
         device2.addToDeviceFields(deviceField3)
         deviceField3.save(flush: true)
         
         def deviceField4 = new DeviceField(fieldLabel: "Device 2 questions 2?",
-            fieldType: FieldType.TEXT)
+            fieldType: FieldType.TEXT,
+            mandatory: true)
         device2.addToDeviceFields(deviceField4)
         deviceField4.save(flush: true)
         def studyDevice = StudyDevice.link(study, device);

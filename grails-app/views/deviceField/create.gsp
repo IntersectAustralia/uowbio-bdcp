@@ -1,6 +1,7 @@
 
 
 <%@ page import="au.org.intersect.bdcp.DeviceField" %>
+<%@ page import="au.org.intersect.bdcp.enums.FieldType" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -21,6 +22,7 @@
         		}
             }
             function showOrHide() {
+                showOrHideRelationship(['TEXT','TEXTAREA','NUMERIC','DATE','TIME','DROP_DOWN','RADIO_BUTTONS'],'#mandatoryFieldRow');
             	showOrHideRelationship(['STATIC_TEXT'],'#staticFieldRow');
             	showOrHideRelationship(['DROP_DOWN', 'RADIO_BUTTONS'],'#fieldOptionsRow');
             }
@@ -96,7 +98,7 @@
                                 </td>
                             </tr>
                             
-                            <tr class="prop">
+                            <tr class="radiobutton" id="mandatoryFieldRow">
                                 <td valign="top" class="name">
                                     <label for="mandatory"><g:message code="deviceField.mandatory.label" default="Mandatory" /></label>
                                 </td>

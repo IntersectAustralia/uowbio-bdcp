@@ -24,7 +24,7 @@
       <g:hiddenField name="username" value="${username}" />
  
       <div class="dialog">
-            <g:select id="selectRole" noSelection="['':'']" from="${UserRole.list()}" name="authority" value="${userInstance?.authority}"></g:select>
+            <g:select id="selectRole" noSelection="['':'']" from="${UserRole.list()}" keys="${UserRole.listValues()}" name="authority" value="${userInstance?.authority}"></g:select>
       </div>
  
       <div class="rowBottom">

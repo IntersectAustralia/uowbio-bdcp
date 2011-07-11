@@ -21,6 +21,7 @@
                 }
             }
             function showOrHide() {
+            	showOrHideRelationship(['TEXT','TEXTAREA','NUMERIC','DATE','TIME','DROP_DOWN','RADIO_BUTTONS'],'#mandatoryFieldRow');
                 showOrHideRelationship(['STATIC_TEXT'],'#staticFieldRow');
                 showOrHideRelationship(['DROP_DOWN', 'RADIO_BUTTONS'],'#fieldOptionsRow');
             }
@@ -97,7 +98,7 @@
                                 </td>
                             </tr>
                             
-                            <tr class="prop">
+                            <tr class="radiobutton" id="mandatoryFieldRow">
                                 <td valign="top" class="name">
                                     <label for="mandatory"><g:message code="resultsDetailsField.mandatory.label" default="Mandatory" /></label>
                                 </td>

@@ -1,10 +1,12 @@
  package au.org.intersect.bdcp
 
+import au.org.intersect.bdcp.enums.UserRole
+
 class UserStore{
 
     String username
 	boolean deactivated
-    String authority
+    UserRole authority
 
     String nlaIdentifier // RIF-CS
 	

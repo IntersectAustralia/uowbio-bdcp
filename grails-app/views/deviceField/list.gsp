@@ -47,7 +47,7 @@
                              params="[deviceGroupId: deviceFieldInstance.device.deviceGroup.id, deviceId: deviceFieldInstance.device.id]">Show</g:link
                              ></g:if>
                              </td>
-                             <td>${deviceFieldInstance?.mandatory?.toString().capitalise()}</td>
+                             <td>${deviceFieldInstance?.mandatoryStatus()}</td>
                         </tr>
                     </g:each>
                     </tbody>
