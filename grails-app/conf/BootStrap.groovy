@@ -9,6 +9,7 @@ import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
 import au.org.intersect.bdcp.Session
+import au.org.intersect.bdcp.StaticMetadataObject
 import au.org.intersect.bdcp.Study
 import au.org.intersect.bdcp.StudyDevice
 import au.org.intersect.bdcp.UserStore
@@ -101,8 +102,8 @@ class BootStrap
 		}
 		
         String.metaClass.capitalise = { delegate[0].toUpperCase()+delegate[1..-1] }
-        
-        
+		
+        StaticMetadataObject.checkRows(fileService, servletContext.getRealPath("/"))
 	}
 
 	def createTestData =

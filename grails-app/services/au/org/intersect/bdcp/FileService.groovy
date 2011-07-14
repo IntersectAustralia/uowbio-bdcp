@@ -11,10 +11,10 @@ class FileService
 
     def grailsApplication
 
-    def createContext(def webAppContextPath)
+    def createContext(def webAppContextPath, String property)
     {
         def tmpPath = new File(webAppContextPath,grailsApplication.config.tmp.location.toString())
-        def rootPath = new File(webAppContextPath,grailsApplication.config.files.location.toString())
+        def rootPath = new File(webAppContextPath,grailsApplication.config.files."${property}".location.toString())
         if (!tmpPath.exists())
         {
             tmpPath.mkdirs()
