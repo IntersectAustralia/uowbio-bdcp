@@ -1,3 +1,5 @@
+import grails.util.Environment
+
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
@@ -27,6 +29,7 @@ class BootStrap
 	def init =
 	{ servletContext ->
 
+		println "*** STARTING ENVIRONMENT : ${Environment.current} ***"
 		securityContextPersistenceFilter.forceEagerSessionCreation = true
 		SpringSecurityUtils.clientRegisterFilter('concurrentSessionFilter',
 		SecurityFilterPosition.CONCURRENT_SESSION_FILTER)
