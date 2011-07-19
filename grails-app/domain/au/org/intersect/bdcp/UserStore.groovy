@@ -7,7 +7,6 @@ class UserStore{
     String username
 	boolean deactivated
     UserRole authority
-
     String nlaIdentifier // RIF-CS
 	
     static constraints = {

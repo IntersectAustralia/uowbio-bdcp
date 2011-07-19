@@ -1,11 +1,20 @@
 package au.org.intersect.bdcp
 
 import grails.plugins.springsecurity.Secured
+import au.org.intersect.bdcp.rifcs.Rifcs
 
 class StudyController
 {
-
+	
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+	
+	def rifcsService
+	
+	def getContextRootPath(def servletRequest)
+	{
+		return servletRequest.getSession().getServletContext().getRealPath("/")
+	}
+	
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
 	def index =
@@ -75,6 +84,54 @@ class StudyController
 	}
 
 
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
+	def showRifcs = 
+	{
+		cache false
+		def studyInstance = Study.get(params.id)
+		if (!studyInstance)
+		{
+			response.contentType = "text/plain"
+			render "ERROR"
+			return
+		}
+		else
+		{
+			render(template:'rifcsPreview',model:buildRifcs(studyInstance))
+		}
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
+	def publishRifcs = 
+	{
+		cache false
+		def studyInstance = Study.get(params.id)
+		if (!studyInstance)
+		{
+			response.contentType = "text/plain"
+			render "ERROR"
+			return
+		}
+		else
+		{
+			def rifcs = buildRifcs(studyInstance)
+			rifcsService.scheduleStudyPublishing(getContextRootPath(request), rifcs, studyInstance.id)
+			response.contentType = "text/plain"
+			render "OK"
+			return
+		}
+	}
+	
+	def buildRifcs =
+	{ studyInstance ->
+		def rifcs = new Rifcs()
+		def specials = [
+			'collection.identifier.local' :  createLink(mapping:'studyDetails', action:'show', params:[id:studyInstance.id, projectId:studyInstance.project.id])
+			]
+		def rifcsModel = rifcs.fromStudy(studyInstance, specials)
+		return [rifcs:rifcsModel]
+	}
+	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
 	def edit =
 	{
