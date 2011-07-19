@@ -101,7 +101,8 @@ log4j = {
 }
 images.location = "web-app/images/"
 forms.location = "uowbio/forms/"
-files.location = "sessions/files/"
+files.session.location = "sessions/files/"
+files.rifcs.location = "rifcs/"
 tmp.location = "tmp"
 
 ldapServers {

@@ -20,7 +20,7 @@ class SessionFileController
     
     def createContext(def servletRequest)
     {
-        return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"))
+        return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"), "session")
     }
     
 	def upload =

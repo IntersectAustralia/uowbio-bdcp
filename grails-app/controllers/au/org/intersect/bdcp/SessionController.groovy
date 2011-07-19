@@ -11,7 +11,7 @@ class SessionController
     
     def createContext(def servletRequest)
     {
-        return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"))
+        return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"), "session")
     }
     
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])

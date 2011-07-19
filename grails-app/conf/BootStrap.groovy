@@ -1,3 +1,5 @@
+import grails.util.Environment
+
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
@@ -9,6 +11,7 @@ import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
 import au.org.intersect.bdcp.Session
+import au.org.intersect.bdcp.StaticMetadataObject
 import au.org.intersect.bdcp.Study
 import au.org.intersect.bdcp.StudyCollaborator
 import au.org.intersect.bdcp.StudyDevice
@@ -27,6 +30,7 @@ class BootStrap
 	def init =
 	{ servletContext ->
 
+		println "*** STARTING ENVIRONMENT : ${Environment.current} ***"
 		securityContextPersistenceFilter.forceEagerSessionCreation = true
 		SpringSecurityUtils.clientRegisterFilter('concurrentSessionFilter',
 		SecurityFilterPosition.CONCURRENT_SESSION_FILTER)
@@ -103,8 +107,8 @@ class BootStrap
 		}
 		
         String.metaClass.capitalise = { delegate[0].toUpperCase()+delegate[1..-1] }
-        
-        
+		
+        StaticMetadataObject.checkRows(fileService, servletContext.getRealPath("/"))
 	}
 
 	def createTestData =
