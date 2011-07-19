@@ -179,6 +179,7 @@ class AdminController
 					return
 				}
 			}
+			def active = userInstance.deactivated
 			userInstance.properties = params
 			if (userInstance.deactivated && springSecurityService.principal.getUsername() == params.username)
 			{
@@ -189,11 +190,17 @@ class AdminController
 			}
 			if (!userInstance.hasErrors() && userInstance.save(flush: true))
 			{
-				if (!userInstance?.deactivated)
+				def message = "${userInstance.username} updated"
+				if (userInstance?.deactivated != active)
 				{
-					flash.message ="${userInstance.username} activated successfully"
+					message += " and ${userInstance.deactivated?'deactivated':'activated'} successfully"
 				}
 				else
+				{
+					message += " sucessfully"
+				}
+				flash.message = message
+				if (userInstance?.deactivated)
 				{
 					
 					sessionRegistry.getAllPrincipals().each {
@@ -204,12 +211,12 @@ class AdminController
 							}
 						}
 					}
-					flash.message="${userInstance.username} deactivated successfully"
 				}
 				redirect(action: "listUsers", params:["hideUsers":params.hideUsers])
 			}
 			else
 			{
+				println userInstance.errors
 				render(view: "edit", model: [matchInstance:match, userInstance: userInstance])
 			}
 		}
