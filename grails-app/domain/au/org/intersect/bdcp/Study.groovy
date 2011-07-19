@@ -18,7 +18,7 @@ class Study
 	String numberOfParticipants
 	String inclusionExclusionCriteria
 
-	static hasMany = [participants:Participant, components:Component, studyDevices:StudyDevice]
+	static hasMany = [participants:Participant, components:Component, studyDevices:StudyDevice, studyCollaborators:StudyCollaborator]
 	
 	static belongsTo = [project:Project]
 	
@@ -54,7 +54,7 @@ class Study
 		startDate(nullable: false)
 		endDate(nullable:false)
 		numberOfParticipants(size:1..1000)
-		inclusionExclusionCriteria(size:1..1000) 
+		inclusionExclusionCriteria(size:1..1000)
 	}
 	
 	void setUowEthicsNumber(String setUowEthicsNumber)

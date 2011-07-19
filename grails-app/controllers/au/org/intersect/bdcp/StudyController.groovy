@@ -1,6 +1,7 @@
 package au.org.intersect.bdcp
 
 import grails.plugins.springsecurity.Secured
+import au.org.intersect.bdcp.ldap.LdapUser
 
 class StudyController
 {
@@ -38,6 +39,101 @@ class StudyController
 		studyInstance.properties = params
 		return [studyInstance: studyInstance, projectid: params.projectid]
 	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
+	def listCollaborators =
+	{
+		cache false
+		def studyInstance = Study.get(params.studyId)
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+
+		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
+
+		[studyInstance: studyInstance, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size()]
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def searchCollaborators =
+	{
+		cache false
+		def studyInstance = Study.get(params.studyId)
+		def matches = []
+
+		[matches:matches, studyInstance: studyInstance]
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def addCollaborator = 
+	{
+		cache false
+		def studyInstance = Study.get(params.studyId)
+	
+		def userStore = UserStore.findByUsername(params.username)
+
+		def studyCollaborator = new StudyCollaborator(studyInstance,userStore)
+		studyCollaborator.save(flush: true)
+
+		
+		[studyInstance: studyInstance, username: params.username]
+	}
+	
+	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def listUsers =
+	{
+		cache false
+		def studyInstance = Study.get(params.studyId)
+		
+		if (params.firstName != null)
+		{
+			session.firstName = params.firstName
+		}
+		else
+		{
+			session.firstName = ""
+		}
+		if (params.surname != null)
+		{
+			session.surname = params.surname
+		}
+		else
+		{
+			session.surname=""
+		}
+		if (params.userid != null)
+		{
+			session.userid = params.userid
+		}
+		else
+		{
+			session.userid = ""
+		}
+		
+		def activatedMatches = []
+		UserStore.list().each
+		{
+			// if not deactivated user and user not the owner of the study
+			if ((!it?.deactivated) && (it?.username != studyInstance.project.owner.username))
+			{
+				activatedMatches << LdapUser.find(filter: "(uid=${it?.username})")
+			}
+		}
+
+		activatedMatches = removeExistingCollaboratorsFromMatches(studyInstance, activatedMatches)
+
+		def sortedActivatedMatches = activatedMatches.sort
+		{x,y -> x.sn <=> y.sn}
+		
+		render (view: "searchCollaborators", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedActivatedMatches, studyInstance: studyInstance])
+
+	}
+	
+	private Object removeExistingCollaboratorsFromMatches(studyInstance, activatedMatches)
+	{
+		for (collaborator in studyInstance.studyCollaborators.collaborator.username) {
+			activatedMatches = activatedMatches.findAll { !(it?.username.toArray()[1] == collaborator)}
+		}
+		return activatedMatches;
+	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
 	def save =
@@ -60,9 +156,7 @@ class StudyController
 	{
 		cache false
 		def studyInstance = Study.get(params.id)
-		//		def participantsInStudy = Participant.executeQuery('select count(p) from Participant p where p.study = :study',[study:studyInstance])
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		//		[participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count(), studyInstance:studyInstance, participantsInStudy: participantsInStudy]
 		if (!studyInstance)
 		{
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'study.label', default: 'Study'), params.id])}"

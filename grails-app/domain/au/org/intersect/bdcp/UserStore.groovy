@@ -7,8 +7,9 @@ class UserStore{
     String username
 	boolean deactivated
     UserRole authority
-
     String nlaIdentifier // RIF-CS
+	
+	static hasMany = [studyCollaborators: StudyCollaborator]
 	
     static constraints = {
     	username(blank:false, unique:true, size:1..1000)
