@@ -1,6 +1,6 @@
             
             <br />
-            <span class="menuButton"><g:link controller="study" class="create" action="searchCollaborators" params="[studyId: studyInstance.id]">
+            <span class="menuButton"><g:link elementId="Add Collaborator" controller="study" class="create" action="searchCollaborators" params="[studyId: studyInstance.id]">
         	Add Collaborator</g:link></span>
         	<br />
         	<br />
