@@ -18,7 +18,7 @@
         <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-        <div id="participant">
+        <div id="study">
         <ul id="tabnav">
 	
 		<li class="tab1"><a href="${createLink(controller:'study', action:'show', params:['id': studyInstance.id]) }" id="${studyInstance.id}" name="details">Details</a></li>
