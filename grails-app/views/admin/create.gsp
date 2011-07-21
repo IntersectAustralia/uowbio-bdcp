@@ -51,7 +51,7 @@ email notification</p>
 <br />
 
 <div class="rowTop"><g:link controller="admin" class="create"
-      elementId="Confirm" class="button" params="[role: role, username: username]" action="save"
+      elementId="Confirm" class="button" params="[role: role, username: username, nlaIdentifier: nlaIdentifier]" action="save"
       method="post">Confirm</g:link> <g:link controller="admin"
       class="create" elementId="Cancel" class="button" action="searchUsers"
       params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>

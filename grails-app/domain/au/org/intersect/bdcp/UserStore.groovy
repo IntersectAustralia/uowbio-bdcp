@@ -9,6 +9,8 @@ class UserStore{
     UserRole authority
     String nlaIdentifier // RIF-CS
 	
+	static hasMany = [studyCollaborators: StudyCollaborator]
+	
     static constraints = {
     	username(blank:false, unique:true, size:1..1000)
 		authority(nullable:false, blank:false)

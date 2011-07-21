@@ -51,7 +51,8 @@ Feature: Create User Account
      Then I should see a 4 column table "searchTable" with contents
      |johnk  |John      | Kenward  | Select |
      Then I press "select[0]"
-     Then I should see "Select User Role"
+     Then I should see "nlaIdentifier" with value ""
+     Then I should see "authority" selected with value ""
      Then I press "Back"
      Then I should see "New User Account"
      
@@ -68,7 +69,8 @@ Feature: Create User Account
      Then I should see a 4 column table "searchTable" with contents
      | johnk  | John | Kenward | Select |
      Then I press "select[0]"
-     Then I should see "Select User Role"
+     Then I should see "nlaIdentifier" with value ""
+     Then I should see "authority" selected with value ""
      Then I select "Researcher" from "authority"
      Then I press "select"
      Then I should see "Confirm account creation"
@@ -90,7 +92,8 @@ Feature: Create User Account
      Then I should see a 4 column table "searchTable" with contents
      |johnk |John |Kenward  |Select  |
      Then I press "select[0]"
-     Then I should see "Select User Role"
+     Then I should see "nlaIdentifier" with value ""
+     Then I should see "authority" selected with value ""
      Then I select "Researcher" from "authority"
      Then I press "select"
      Then I should see "User ID is not unique."

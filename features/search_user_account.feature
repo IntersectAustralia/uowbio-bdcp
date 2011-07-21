@@ -40,8 +40,9 @@ Feature: Search User Accounts
      |johnk  | John  | Kenward  | Select  |
      
      Then I press "select[1]"
-     Then I should see "Select User Role"
+     Then I should see "User role and identifier"
      Then I select "Researcher" from "authority"
+     Then I fill in "nlaIdentifier" with "http://ands.org.au/abc"
      Then I press "select"
      Then I should see "Confirm account creation"
      Then I press "Cancel"

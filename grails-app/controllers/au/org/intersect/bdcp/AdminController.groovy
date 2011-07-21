@@ -28,27 +28,26 @@ class AdminController
       def create =
       {
             cache false
-            def username
-            def role
             def accountStatus = "Failed"
 
-			username = params.username != null ? params.username : "";
-			role = params.authority != null ? params.authority: "";
+			def username = params.username != null ? params.username : ""
+			def role = params.authority != null ? params.authority : ""
+			def nlaIdentifier = params.nlaIdentifier != null ? params.nlaIdentifier : ""
            
             def user;
-            user = new UserStore(username: username, authority: role);
+            user = new UserStore(username: username, authority: role, nlaIdentifier:nlaIdentifier);
 
             if (user?.validate())
             {
                   accountStatus = "Successful"
 				  def roleString = (UserRole)role.toString()
 				  def rolename = roleString.getName();
-                  render (view: "create", model:[username:username, role:role, rolename:rolename])
+                  render (view: "create", model:[username:username, role:role, rolename:rolename, nlaIdentifier:nlaIdentifier])
             }
             else
             {
                   accountStatus = "Failed"
-                  render (view: "addRole", model:[accountStatus: accountStatus, user:user, username:username, authority:role])
+                  render (view: "addRole", model:[accountStatus: accountStatus, user:user, username:username, authority:role, nlaIdentifier:nlaIdentifier])
             }
            
             return [username: username, role: role]
@@ -69,7 +68,7 @@ class AdminController
 			if (match !=  null)
 			{
 				email = match.mail
-				user= new UserStore(username: params.username, authority: params.role)
+				user= new UserStore(username: params.username, authority: params.role, nlaIdentifier:params.nlaIdentifier)
 			}
 		}
 		if (user!= null && user.save(flush:true))
@@ -104,6 +103,7 @@ class AdminController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def accountAdmin =
 	{ cache false }
+	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def search =
 	{
@@ -197,7 +197,7 @@ class AdminController
 				}
 				else
 				{
-					message += " sucessfully"
+					message += " successfully"
 				}
 				flash.message = message
 				if (userInstance?.deactivated)
@@ -304,13 +304,12 @@ class AdminController
 	def addRole =
 	{
 		cache false
-		def username
-		def role
 
-		username = params.username != null ? params.username : "";
-		role = params.authority != null ? params.authority: "";
+		def username = params.username != null ? params.username : ""
+		def role = params.authority != null ? params.authority: ""
+		def nlaIdentifier = params.nlaIdentifier != null ? params.nlaIdentifier : null
 		
-		return [username: username, role: role]
+		return [username: username, role: role, nlaIdentifier:nlaIdentifier]
 	}
 	
 }

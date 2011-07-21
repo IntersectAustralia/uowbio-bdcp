@@ -9,7 +9,7 @@
 <body>
 <div class="body">
  
-<h1>Select User Role</h1>
+<h1>User role and identifier (optional)</h1>
 
 <g:form>
  
@@ -24,7 +24,11 @@
       <g:hiddenField name="username" value="${username}" />
  
       <div class="dialog">
+          <h3>User role</h3>
             <g:select id="selectRole" noSelection="['':'']" from="${UserRole.list()}" keys="${UserRole.listValues()}" name="authority" value="${userInstance?.authority}"></g:select>
+            <h3><g:message
+					code="admin.nlaIdentifier.label" default="NLA Persistence Identifier" /></h3>
+					<g:textField name="nlaIdentifier" value="${nlaIdentifier}" />
       </div>
  
       <div class="rowBottom">
