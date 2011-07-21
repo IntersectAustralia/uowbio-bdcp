@@ -15,26 +15,6 @@ class StudyCollaborator{
 		study = _study
 		collaborator = _collaborator
 	}
-	
-    static StudyCollaborator link(Study study, UserStore collaborator) {
-        StudyCollaborator studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(study,collaborator)
-        if (!studyCollaborator) {
-            studyCollaborator = new StudyCollaborator()
-            study?.addToStudyCollaborators(studyCollaborator)
-            collaborator?.addToStudyCollaborators(studyCollaborator)
-            studyCollaborator.save()
-
-        }
-        return studyCollaborator
-    }
-    static void unlink(Study study, UserStore collaborator) {
-        StudyCollaborator studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(study,collaborator)
-        if (studyCollaborator) {
-            study?.removeFromStudyCollaborators(studyCollaborator)
-            collaborator?.removeFromStudyCollaborators(studyCollaborator)
-            studyCollaborator.delete()
-        }
-    }
 
     static mapping = {
         studyCollaboratorFields cascade:'all-delete-orphan'
