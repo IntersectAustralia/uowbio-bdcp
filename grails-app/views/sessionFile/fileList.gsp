@@ -133,8 +133,11 @@
   </g:each>
 		</ul>
 
-
-			<button id="downloadButton">Download</button>
+<div class="buttons">
+  <span class="menuButton">
+    <button id="downloadButton">Download</button>
+  </span>
+</div>
 
             </div>
             </g:if>
