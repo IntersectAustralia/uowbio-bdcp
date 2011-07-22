@@ -40,9 +40,9 @@ class FileServiceTests extends GrailsUnitTestCase
      */
     void testCreateContext()
     {
-        def contextMock = fileService.createContext("/")
+        def contextMock = fileService.createContext("/", "session")
         def tmpPath = new File("/" + fileService.grailsApplication.config.tmp.location.toString())
-        def rootPath= new File("/" + fileService.grailsApplication.config.files.location.toString())
+        def rootPath= new File("/" + fileService.grailsApplication.config.files.session.location.toString())
         assertEquals 'Context not created properly.','[tmpPath:' + tmpPath + ', rootPath:' + rootPath + ']', contextMock.toString()
         
     }

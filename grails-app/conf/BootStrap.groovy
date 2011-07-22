@@ -1,3 +1,5 @@
+import grails.util.Environment
+
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
@@ -9,7 +11,9 @@ import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
 import au.org.intersect.bdcp.Session
+import au.org.intersect.bdcp.StaticMetadataObject
 import au.org.intersect.bdcp.Study
+import au.org.intersect.bdcp.StudyCollaborator
 import au.org.intersect.bdcp.StudyDevice
 import au.org.intersect.bdcp.UserStore
 import au.org.intersect.bdcp.enums.FieldType
@@ -26,6 +30,7 @@ class BootStrap
 	def init =
 	{ servletContext ->
 
+		println "*** STARTING ENVIRONMENT : ${Environment.current} ***"
 		securityContextPersistenceFilter.forceEagerSessionCreation = true
 		SpringSecurityUtils.clientRegisterFilter('concurrentSessionFilter',
 		SecurityFilterPosition.CONCURRENT_SESSION_FILTER)
@@ -63,15 +68,16 @@ class BootStrap
 			
 			cucumber
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				// SEE features/support/env.groovy for initialization values as used in cuke4duke
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/1234")
                 user.save(flush:true)
-				user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+				user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null)
 				user.save(flush:true)
-				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/5678")
 				user.save(flush:true)
-				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
+				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, nlaIdentifier:null)
 				user.save(flush:true)
-				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null)
 				user.save(flush:true)
 			}
 			
@@ -101,17 +107,20 @@ class BootStrap
 		}
 		
         String.metaClass.capitalise = { delegate[0].toUpperCase()+delegate[1..-1] }
-        
-        
+		
+        StaticMetadataObject.checkRows(fileService, servletContext.getRealPath("/"))
 	}
 
 	def createTestData =
 	{
-        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://nla.ands.org.au/1234")
         user1.save(flush:true)
         
-        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:"http://nla.ands.org.au/2345")
         user2.save(flush:true)
+		
+		def user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+		user.save(flush:true)
         
 		def project = new Project(projectTitle: 'TestProject',
 				researcherName: 'researcher' ,
@@ -136,6 +145,9 @@ class BootStrap
 				numberOfParticipants:"10",
 				inclusionExclusionCriteria:"test Criteria")
 		study.save(flush: true)
+		
+		def studyCollaborator = new StudyCollaborator(study, user)
+		studyCollaborator.save(flush: true)
 
 		def participant = new Participant(identifier:"10",
 				study: study)
@@ -157,13 +169,10 @@ class BootStrap
         def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")
         deviceGroup.save()
 		
-		def user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+		user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
 		user.save(flush:true)
 		
 		user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
-		user.save(flush:true)
-		
-		user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
 		user.save(flush:true)
         
         def device = new Device(name: "Device1",

@@ -63,6 +63,13 @@ Given(~"I have created a study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.
 	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_reqs, description, industry_partners, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria) VALUES ('-2000','0', '-1000', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria});")
 }
 
+Given(~"I have created a collaborator study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String study_title, String uow_ethics_number, String has_additional_ethics_requirements, String description, industry_partners, collaborators, String start_date, String end_date, String number_of_participants, String inclusion_exclusion_criteria, String collaborator_name ->
+	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+	def collaboratorId = (int)(getUserStore("${collaborator_name}").id)
+	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_reqs, description, industry_partners, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria) VALUES ('-2000','0', '-1000', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria});")
+	sql.execute("INSERT INTO study_collaborator (id, version, collaborator_id, study_id) VALUES ('-6000', '0', ${collaboratorId}, '-2000')")
+}
+
 Given(~"I have created a component with \"(.*)\", \"(.*)\"") { String name, String description ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
 	sql.execute("INSERT INTO component (id,version, study_id, name, description) VALUES ('-3000','0','-2000', ${name}, ${description});")
@@ -178,6 +185,13 @@ Then(~"I should see \"(.*)\"") { String text ->
     assertThat(browser.findElementByTagName('body').text, containsString(text))
 }
 
+Then(~"I should see words \"(.*)\"") { String text ->
+	bodyText = browser.findElementByTagName('body').text
+	text.split().each { word ->
+		assertThat(bodyText, containsString(word))
+	}
+}
+
 Then(~"I should have \"(.*)\" in text field named \"(.*)\"") { String text, String fieldname ->
 	fieldElement = browser.findElement(By.name(fieldname))
     assertThat(fieldElement.value, containsString(text))
@@ -241,4 +255,9 @@ Then(~"I should see a 4 column table \"(.*)\" with contents") { String tableId, 
 		[cols[0].text, cols[1].text, cols[2].text, cols[3].text]
 	}
 	table.diffLists(webTable)
+}
+
+Then(~"I print the page") {
+	page = response.body
+	println page
 }

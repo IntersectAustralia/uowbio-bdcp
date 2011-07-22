@@ -11,6 +11,7 @@ class Project
 	Date endDate
 	String description
 	String supervisors
+	UserStore publishingUser
 	
 	static hasMany = [studies: Study]
 	
@@ -37,5 +38,6 @@ class Project
 		description(blank:false, size:1..1000)
 		supervisors(blank:false, size:1..1000)
 		owner(nullable:false)
+		publishingUser(nullable:true)
 	}
 }
