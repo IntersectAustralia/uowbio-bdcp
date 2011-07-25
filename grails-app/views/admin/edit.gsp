@@ -16,9 +16,14 @@
 	${flash.message}
 	</div>
 </g:if> 
+<g:hasErrors bean="${userInstance}">
+   <div class="errors">
+      <g:renderErrors bean="${userInstance}" />
+   </div>
+</g:hasErrors>
 <g:if test="${flash.error}">
-            <div class="errors"><ul><li>${flash.error}</li></ul></div>
-            </g:if>
+    <div class="errors"><ul><li>${flash.error}</li></ul></div>
+</g:if>
 <g:form method="post" action="update"
 	params="[hideUsers: params.hideUsers]">
 	<g:hiddenField name="id" value="${userInstance?.id}" />
@@ -70,9 +75,19 @@
 
 			<tr class="prop">
 				<td valign="top" class="name"><g:message
+					code="admin.nlaIdentifier.label" default="NLA Persistence Identifier" /></td>
+
+				<td valign="top" class="value"  ${hasErrors(bean:userInstance,field:'nlaIdentifier','errors')}>
+				<g:textField name="nlaIdentifier" value="${userInstance.nlaIdentifier}" />
+				</td>
+
+			</tr>
+			
+			<tr class="prop">
+				<td valign="top" class="name"><g:message
 					code="admin.enabled.label" default="Deactivate User Account" /></td>
 
-				<td valign="top" class="value" ${hasErrors(bean:userInstance,field:'deactivated','errors')}">
+				<td valign="top" class="value" ${hasErrors(bean:userInstance,field:'deactivated','errors')}>
                     <g:checkBox
 					elementId="deactivated" name="deactivated"
 					value="${userInstance?.deactivated}" /></td>
@@ -84,7 +99,7 @@
 	</div>
 
 
-	<div class="buttons"><span class="button"><g:actionSubmit
+	<div class="buttons"><span class="menubutton"><g:actionSubmit
 		name="save" id="save" class="save" controller="admin"
 		params="[hideUsers: params.hideUsers]" action="update"
 		value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>

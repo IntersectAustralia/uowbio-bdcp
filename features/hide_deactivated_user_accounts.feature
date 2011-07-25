@@ -19,14 +19,15 @@ Feature: Hide User Accounts
      |Researcher	|The	 		|researcher	|
      Then I press "edit[3]"
      Then I should see table "userDetailsTable" with contents
-     |Firstname               | David   									|
-     |Surname                 | Pollum  									|
-     |User ID                 | dpollum 									|
-     |Role                    | Lab Manager System Administrator Researcher	|
-     |Deactivate User Account |         									|
+     |Firstname                  | David   									    |
+     |Surname                    | Pollum  									    |
+     |User ID                    | dpollum 									    |
+     |Role                       | Lab Manager System Administrator Researcher	|
+     |NLA Persistence Identifier |                                              |
+     |Deactivate User Account    |         									    |
      Then I press "deactivated"
      Then I press "save"
-     Then I should see "dpollum deactivated successfully"
+     Then I should see words "dpollum deactivated successfully"
      
      Scenario: Hide User Accounts
      Given I am on the home page

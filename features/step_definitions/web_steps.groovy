@@ -185,6 +185,13 @@ Then(~"I should see \"(.*)\"") { String text ->
     assertThat(browser.findElementByTagName('body').text, containsString(text))
 }
 
+Then(~"I should see words \"(.*)\"") { String text ->
+	bodyText = browser.findElementByTagName('body').text
+	text.split().each { word ->
+		assertThat(bodyText, containsString(word))
+	}
+}
+
 Then(~"I should have \"(.*)\" in text field named \"(.*)\"") { String text, String fieldname ->
 	fieldElement = browser.findElement(By.name(fieldname))
     assertThat(fieldElement.value, containsString(text))
@@ -248,4 +255,9 @@ Then(~"I should see a 4 column table \"(.*)\" with contents") { String tableId, 
 		[cols[0].text, cols[1].text, cols[2].text, cols[3].text]
 	}
 	table.diffLists(webTable)
+}
+
+Then(~"I print the page") {
+	page = response.body
+	println page
 }

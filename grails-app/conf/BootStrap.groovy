@@ -68,17 +68,17 @@ class BootStrap
 			
 			cucumber
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				// SEE features/support/env.groovy for initialization values as used in cuke4duke
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/1234")
                 user.save(flush:true)
-				user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+				user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null)
 				user.save(flush:true)
-				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/5678")
 				user.save(flush:true)
-				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
+				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, nlaIdentifier:null)
 				user.save(flush:true)
-				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null)
 				user.save(flush:true)
-//				createTestData()
 			}
 			
 			intersect_test
@@ -113,10 +113,10 @@ class BootStrap
 
 	def createTestData =
 	{
-        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://nla.ands.org.au/1234")
         user1.save(flush:true)
         
-        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:"http://nla.ands.org.au/2345")
         user2.save(flush:true)
 		
 		def user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)

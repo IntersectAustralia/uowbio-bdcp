@@ -5,20 +5,78 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
+        <g:set var="publishLink" value="${createLink(mapping:'studyDetails', action:'showRifcs', params:[id:studyInstance.id, projectId:studyInstance.project.id])}" />
+        <g:set var="confirmLink" value="${createLink(mapping:'studyDetails', action:'publishRifcs', params:[id:studyInstance.id, projectId:studyInstance.project.id])}" />
         <g:javascript library="jquery" plugin="jquery"/>
    		<jqui:resources />
+   		<script type="text/javascript">
+   		$(function(){
+   	   		function publishStudy(){
+   	   	   		$.ajax({
+   	   	   	   		url:"${confirmLink}",
+   	   	   	   		type:'GET',
+   	   	   	   		dataType:'html',
+   	   	   	   		success: function(data) {
+   	   	   	   	   		if (data.match(/ERROR/)) {
+   	   	   	   	   	   		$('#errorDialog').dialog('open')
+   	   	   	   	   		} else {
+   	   	   	   	   	   		alert("${message(code: 'study.publish.scheduled.message', default: 'Publish scheduled')}")
+   	   	   	   	   	   	}
+   	   	   	   		},
+   	   	   	   		error: function() {
+	   	   	   	   	   		$('#errorDialog').dialog('open')
+   	   	   	   	   		}
+   	   	   	   		});
+   	   	   		});
+   	   	   		}
+   	   		var $publishButton = $('#publishButton');
+   	   		var $publishDialog = $('#publishDialog');
+   	   		$publishButton.button({disabled:false});
+   	   		$publishButton.click(function(){
+   	   	   		$.ajax({
+   	   	   	   		url:"${publishLink}",
+   	   	   	   		type:'GET',
+   	   	   	   		dataType:'html',
+   	   	   	   		success: function(data) {
+   	   	   	   	   		if (data.match(/ERROR/)) {
+   	   	   	   	   	   		$('#errorDialog').dialog('open')
+   	   	   	   	   		} else {
+   	   	   	   	   	   		$publishDialog.html(data).dialog('open');
+   	   	   	   	   	   	}
+   	   	   	   		},
+   	   	   	   		error: function() {
+	   	   	   	   	   		$('#errorDialog').dialog('open')
+   	   	   	   	   		}
+   	   	   	   		});
+   	   	   		});
+   	   	   	$publishDialog.dialog({autoOpen:false,
+   	   	   	   	width:600,
+   	   	   	   	height:400,
+   	   	   	   	modal:true,
+   	   	   	   	buttons:{
+   	   	   	   	   	"${message(code:'study.publish.confirm.button')}":
+   	   	   	   	   	   	function(){
+   	   	   	   	   	   	$(this).empty().dialog('close');
+   	   	   	   	   	   	publishStudy();
+   	   	   	   	   	   	},
+   	   	   	   	   	"${message(code:'study.publish.cancel.button')}":
+   	   	   	   	   	   	function(){
+   	   	   	   	   	   	$(this).empty().dialog('close');
+   	   	   	   	   	   	}
+  	   	   	   	   	}});
+   	   		});
+        </script>
         <title><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></title>
         
     </head>
     <body>
            <div class="body" id="tab1"> 
-            <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
+            <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /><button id="publishButton"><g:message code="study.publish.button" /></button></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
     
-	<ul id="tabnav">
-	
+	<ul id="tabnav">	
 		<li class="tab1"><a href="#tabs-details">Details</a></li>
 		<li class="tab2"><a href="${createLink(mapping:'participantDetails', controller:'participant', action:'list', params:['studyId': studyInstance.id]) }" id="tabs-participants" name="#tabs-participants"><span>Participants</span></a></li>
 		<li class="tab3"><a href="${createLink(mapping: 'componentDetails', controller:'component', action:'list', params:['studyId': studyInstance.id]) }" id="tabs-components" name="#tabs-components"><span>Components</span></a></li>
@@ -120,5 +178,9 @@
             </div>
 	</div>
 	</div> 
+	<div id="publishDialog"><!-- FF3 --></div>
+	<div id="errorDialog" style="display:none">
+	<g:message code="study.publish.rifcs.error" default="Cannot generate metadata for this study" />
+	</div>
     </body>
 </html>

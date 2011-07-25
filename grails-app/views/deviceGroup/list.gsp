@@ -9,37 +9,47 @@
     </head>
     <body>
         <div class="body">
+        
             <h1>Device Administration</h1>
+            
             <br />
+            
             <g:link elementId="createGrouping" class="button" action="create">Create Grouping</g:link>
+            
             <br />
             <br />
+            
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <g:if test ="${deviceGroupInstanceList.size() > 0}" >
+            
             <h2>Existing Device Groupings</h2>
+            
             <div class="list">
                 <table>
                     <thead>
                         <tr>
-                            <th>${message(code: 'deviceGroup.groupingName.label', default: 'Grouping Name')}</th>
-                            <th></th>
+                            <th class="tablename">${message(code: 'deviceGroup.groupingName.label', default: 'Grouping Name')}</th>
+                            <th class="tablebuttons"></th>
                         </tr>
                     </thead>
+                    
                     <tbody>
-                    <g:each in="${deviceGroupInstanceList}" status="i" var="deviceGroupInstance">
+	                    <g:each in="${deviceGroupInstanceList}" status="i" var="deviceGroupInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td><g:link elementId="${deviceGroupInstance.groupingName}" mapping="deviceDetails" controller="device" action="list" params="[deviceGroupId: deviceGroupInstance.id]">${fieldValue(bean: deviceGroupInstance, field: "groupingName")}</g:link></td>
-                            <td><g:link elementId="edit-name[${i}]" class="button" action="edit" id="${deviceGroupInstance.id}">Edit name</g:link></td>
+                            <td class="tablename"><g:link elementId="${deviceGroupInstance.groupingName}" mapping="deviceDetails" controller="device" action="list" params="[deviceGroupId: deviceGroupInstance.id]">${fieldValue(bean: deviceGroupInstance, field: "groupingName")}</g:link></td>
+                            <td class="tablebuttons"><g:link elementId="edit-name[${i}]" class="button" action="edit" id="${deviceGroupInstance.id}">Edit name</g:link></td>
                         </tr>
-                    </g:each>
+	                    </g:each>
                     </tbody>
-                </table>
+               </table>
+               
             </div>
             </g:if>
+            
             <div class="buttons">
-                <span class="button"><g:link elementId="Back" controller="admin" class="list" action="systemAdmin">Back</g:link></span>
+                <span class="menuButton"><g:link elementId="Back" controller="admin" class="list" action="systemAdmin">Back</g:link></span>
             </div>
         </div>
     </body>

@@ -1,4 +1,4 @@
- package au.org.intersect.bdcp
+package au.org.intersect.bdcp
 
 import au.org.intersect.bdcp.enums.UserRole
 
