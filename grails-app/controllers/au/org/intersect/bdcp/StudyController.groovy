@@ -66,6 +66,7 @@ class StudyController
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
+		collaborators = collaborators.sort {x,y -> x.username <=> y.username}
 
 		[studyInstance: studyInstance, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size()]
 	}
@@ -93,6 +94,12 @@ class StudyController
 
 		
 		[studyInstance: studyInstance, username: params.username]
+	}
+	
+	private String normalizeValue(value)
+	{
+		value = value.replaceAll(/[^A-Za-z0-9-]/, '')
+		return value
 	}
 	
 	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -126,6 +133,44 @@ class StudyController
 			session.userid = ""
 		}
 		
+		def ldapUsers = []
+		ldapUsers = LdapUser.findAll()
+		{
+			and
+			{
+				if (!session.userid?.isEmpty())
+				{
+					like "uid", "*" + normalizeValue(session.userid) + "*"
+				}
+				else
+				{
+					like "uid", "*"
+				}
+			}
+			and
+			{
+				if (!session.surname?.isEmpty())
+				{
+					like "sn", "*" + normalizeValue(session.surname) + "*"
+				}
+				else
+				{
+					like "sn", "*"
+				}
+			}
+			and
+			{
+				if (!session.firstName?.isEmpty())
+				{
+					like "givenName", "*" + normalizeValue(session.firstName) +"*"
+				}
+				else
+				{
+					like "givenName", "*"
+				}
+			}
+		}
+		
 		def activatedMatches = []
 		UserStore.list().each
 		{
@@ -135,10 +180,12 @@ class StudyController
 				activatedMatches << LdapUser.find(filter: "(uid=${it?.username})")
 			}
 		}
-
+		
 		activatedMatches = removeExistingCollaboratorsFromMatches(studyInstance, activatedMatches)
-
-		def sortedActivatedMatches = activatedMatches.sort
+		
+		ldapUsers.retainAll(activatedMatches)
+		
+		def sortedActivatedMatches = ldapUsers.sort
 		{x,y -> x.sn <=> y.sn}
 		
 		render (view: "searchCollaborators", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedActivatedMatches, studyInstance: studyInstance])
@@ -147,8 +194,16 @@ class StudyController
 	
 	private Object removeExistingCollaboratorsFromMatches(studyInstance, activatedMatches)
 	{
-		for (collaborator in studyInstance.studyCollaborators.collaborator.username) {
-			activatedMatches = activatedMatches.findAll { !(it?.username.toArray()[1] == collaborator)}
+		for (collaboratorName in studyInstance.studyCollaborators.collaborator.username) {
+			activatedMatches = activatedMatches.findAll { !(it?.uid == collaboratorName)}
+		}
+		return activatedMatches;
+	}
+	
+	private Object matchWithSearchParameters(activatedMatches, matches)
+	{
+		for (match in matches) {
+			println "the match was..." + match
 		}
 		return activatedMatches;
 	}

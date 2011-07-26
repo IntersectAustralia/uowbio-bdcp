@@ -23,16 +23,16 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="participant.identifier.label" default="Identifier" /></td>
+                            <td valign="top" class="name tablename"><g:message code="participant.identifier.label" default="Identifier" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "identifier")}</td>
+                            <td valign="top tablebuttons" class="value">${fieldValue(bean: participantInstance, field: "identifier")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="participant.participantForms.label" default="Participant Forms" /></td>
+                            <td valign="top" class="name tablename"><g:message code="participant.participantForms.label" default="Participant Forms" /></td>
                             
-                            <td valign="top" style="text-align: left;" class="value">
+                            <td valign="top" style="text-align: left;" class="value tablebuttons">
                                 <ul>
                                 <g:each in="${participantInstance.participantForms}" var="p">
                                     <li><g:link controller="participantForm" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>

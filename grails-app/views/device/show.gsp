@@ -112,7 +112,7 @@
                 </table>
             </div>
             <div class="buttons">
-                <span class="button"><g:link class="list" mapping="deviceDetails" controller="device" elementId="Back" action="list" params="[deviceGroupId: params.deviceGroupId]">Back</g:link></span>
+                <span class="menuButton"><g:link class="list" mapping="deviceDetails" controller="device" elementId="Back" action="list" params="[deviceGroupId: params.deviceGroupId]">Back</g:link></span>
             </div>
         </div>
     </body>

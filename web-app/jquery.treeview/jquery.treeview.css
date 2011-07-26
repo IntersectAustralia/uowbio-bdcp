@@ -2,11 +2,18 @@
 	padding: 0;
 	margin: 0;
 	list-style: none;
+	
+}
+
+li.collapsable, li.expandable {
+  line-height: 16px;
+  border: 0px solid #F7F7F7;
 }
 
 .treeview ul {
 	background-color: white;
-	margin-top: 4px;
+	margin-top: 0px;
+	display: block;
 }
 
 .treeview .hitarea {
@@ -23,9 +30,23 @@
 	float:none;
 }
 
+
+.file input.fileSelect, .file input.directorySelect {
+  width: 250px;
+}
+
+.projects li .file {
+  line-height: 16px;
+}
+
+.projects .treeview li {
+  border: 0px;
+}
+
 .treeview li { 
 	margin: 0;
-	padding: 3px 0pt 3px 16px;
+	height: 100%;
+/* 	padding: 3px 0pt 3px 26px; */
 }
 
 .treeview a.selected {
@@ -34,7 +55,7 @@
 
 #treecontrol { margin: 1em 0; display: none; }
 
-.treeview .hover { color: red; cursor: pointer; }
+.treeview .hover { color: #ff7a2a; cursor: pointer; }
 
 .treeview li { background: url(images/treeview-default-line.gif) 0 0 no-repeat; }
 .treeview li.collapsable, .treeview li.expandable { background-position: 0 -176px; }
@@ -68,7 +89,9 @@
 }
 
 .filetree li { padding: 3px 0 2px 16px; }
-.filetree span.folder, .filetree span.file { padding: 1px 0 1px 16px; display: block; }
+.filetree span.folder, .filetree span.file { padding: 1px 0 1px 26px; display: block; }
 .filetree span.folder { background: url(images/folder.gif) 0 0 no-repeat; }
 .filetree li.expandable span.folder { background: url(images/folder-closed.gif) 0 0 no-repeat; }
 .filetree span.file { background: url(images/file.gif) 0 0 no-repeat; }
+
+.filetree span.folder a {    display:-moz-inline-stack; display:inline-block; zoom:1; *display:inline; vertical-align:top; /* Cross-browser Inline-block */}
