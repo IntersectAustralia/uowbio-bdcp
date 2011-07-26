@@ -2,6 +2,7 @@
 	padding: 0;
 	margin: 0;
 	list-style: none;
+	
 }
 
 li.collapsable, li.expandable {
@@ -11,7 +12,7 @@ li.collapsable, li.expandable {
 
 .treeview ul {
 	background-color: white;
-	margin-top: 4px;
+	margin-top: 0px;
 	display: block;
 }
 
@@ -29,9 +30,23 @@ li.collapsable, li.expandable {
 	float:none;
 }
 
+
+.file input.fileSelect, .file input.directorySelect {
+  width: 250px;
+}
+
+.projects li .file {
+  line-height: 16px;
+}
+
+.projects .treeview li {
+  border: 0px;
+}
+
 .treeview li { 
 	margin: 0;
-	padding: 3px 0pt 3px 26px;
+	height: 100%;
+/* 	padding: 3px 0pt 3px 26px; */
 }
 
 .treeview a.selected {
@@ -78,3 +93,5 @@ li.collapsable, li.expandable {
 .filetree span.folder { background: url(images/folder.gif) 0 0 no-repeat; }
 .filetree li.expandable span.folder { background: url(images/folder-closed.gif) 0 0 no-repeat; }
 .filetree span.file { background: url(images/file.gif) 0 0 no-repeat; }
+
+.filetree span.folder a {    display:-moz-inline-stack; display:inline-block; zoom:1; *display:inline; vertical-align:top; /* Cross-browser Inline-block */}
