@@ -1,5 +1,7 @@
 package au.org.intersect.bdcp
 
+import java.util.Date;
+
 import org.apache.commons.collections.FactoryUtils
 import org.apache.commons.collections.list.LazyList
 
@@ -17,6 +19,11 @@ class Study
 	Date endDate
 	String numberOfParticipants
 	String inclusionExclusionCriteria
+	Boolean published
+    Date dateCreated
+    Date lastUpdated
+   
+
 
 	static hasMany = [participants:Participant, components:Component, studyDevices:StudyDevice, studyCollaborators:StudyCollaborator]
 	
@@ -55,6 +62,7 @@ class Study
 		endDate(nullable:false)
 		numberOfParticipants(size:1..1000)
 		inclusionExclusionCriteria(size:1..1000)
+		published(nullable:true)
 	}
 	
 	void setUowEthicsNumber(String setUowEthicsNumber)

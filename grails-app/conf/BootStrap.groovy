@@ -108,7 +108,6 @@ class BootStrap
 		
         String.metaClass.capitalise = { delegate[0].toUpperCase()+delegate[1..-1] }
 		
-        StaticMetadataObject.checkRows(fileService, servletContext.getRealPath("/"))
 	}
 
 	def createTestData =

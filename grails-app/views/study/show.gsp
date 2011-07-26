@@ -27,10 +27,11 @@
 	   	   	   	   	   		$('#errorDialog').dialog('open')
    	   	   	   	   		}
    	   	   	   		});
-   	   	   		});
-   	   	   		}
+   	   	   	}
+   	   	    
    	   		var $publishButton = $('#publishButton');
    	   		var $publishDialog = $('#publishDialog');
+   	   		var $publishRightsDialog = $('#publishRightsDialog');
    	   		$publishButton.button({disabled:false});
    	   		$publishButton.click(function(){
    	   	   		$.ajax({
@@ -49,6 +50,7 @@
    	   	   	   	   		}
    	   	   	   		});
    	   	   		});
+	   	   		
    	   	   	$publishDialog.dialog({autoOpen:false,
    	   	   	   	width:600,
    	   	   	   	height:400,
@@ -57,14 +59,31 @@
    	   	   	   	   	"${message(code:'study.publish.confirm.button')}":
    	   	   	   	   	   	function(){
    	   	   	   	   	   	$(this).empty().dialog('close');
-   	   	   	   	   	   	publishStudy();
+   	   	   	   	   	   	$publishRightsDialog.dialog('open');
    	   	   	   	   	   	},
    	   	   	   	   	"${message(code:'study.publish.cancel.button')}":
    	   	   	   	   	   	function(){
    	   	   	   	   	   	$(this).empty().dialog('close');
    	   	   	   	   	   	}
   	   	   	   	   	}});
-   	   		});
+ 	   	   	   	
+	   		$publishRightsDialog.dialog({autoOpen:false,
+   	   	   	   	width:600,
+   	   	   	   	height:200,
+   	   	   	   	modal:true,
+   	   	   	   	buttons:{
+   	   	   	   	   	"${message(code:'study.publish.rights.confirm.button')}":
+   	   	   	   	   	   	function(){
+   	   	   	   	   	   	$(this).dialog('close');
+   	   	   	   	   	   	publishStudy();
+   	   	   	   	   	   	},
+   	   	   	   	   	"${message(code:'study.publish.rights.cancel.button')}":
+   	   	   	   	   	   	function(){
+   	   	   	   	   	   	$(this).dialog('close');
+   	   	   	   	   	   	}
+  	   	   	   	   	}});
+ 	   	   	   	
+		   	})
         </script>
         <title><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></title>
         
@@ -179,6 +198,9 @@
 	</div>
 	</div> 
 	<div id="publishDialog"><!-- FF3 --></div>
+	<div id="publishRightsDialog">
+	<h2>By clicking Confirm you are verifying that you have the appropriate rights to publish a description of this data to Research Data Australia and that the description is accurate to your knowledge.</h2>
+	</div>
 	<div id="errorDialog" style="display:none">
 	<g:message code="study.publish.rifcs.error" default="Cannot generate metadata for this study" />
 	</div>

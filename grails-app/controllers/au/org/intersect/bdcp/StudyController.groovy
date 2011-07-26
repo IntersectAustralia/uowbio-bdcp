@@ -1,6 +1,13 @@
 package au.org.intersect.bdcp
 
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.stream.StreamResult
+import javax.xml.transform.stream.StreamSource
+
 import grails.plugins.springsecurity.Secured
+
 import au.org.intersect.bdcp.rifcs.Rifcs
 import au.org.intersect.bdcp.ldap.LdapUser
 
@@ -10,6 +17,8 @@ class StudyController
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	
 	def rifcsService
+	
+	def factory = TransformerFactory.newInstance()
 	
 	def getContextRootPath(def servletRequest)
 	{
@@ -187,11 +196,28 @@ class StudyController
 		{
 			response.contentType = "text/plain"
 			render "ERROR"
-			return
+			return null
 		}
 		else
 		{
-			render(template:'rifcsPreview',model:buildRifcs(studyInstance))
+			def rifcsXslt = this.getClass().getResourceAsStream('rifcs2preview.xslt')
+			if (rifcsXslt == null)
+			{
+				response.contentType = "text/plain"
+				render "XSLT ERROR"
+				return null
+			}
+			def xmlStream = rifcsService.streamXml(rifcsService.createStudyXml(studyInstance))
+			def os = new ByteArrayOutputStream()
+			os << xmlStream
+			os.close()
+			println(new String(os.toByteArray()))
+			def transformer = factory.newTransformer(new StreamSource(rifcsXslt))
+			response.contentType = "text/plain"
+			transformer.transform(new StreamSource(new ByteArrayInputStream(os.toByteArray())), new StreamResult(response.outputStream))
+			response.outputStream.flush()
+			response.outputStream.close()
+			return null
 		}
 	}
 	
@@ -208,8 +234,11 @@ class StudyController
 		}
 		else
 		{
-			def rifcs = buildRifcs(studyInstance)
-			rifcsService.scheduleStudyPublishing(getContextRootPath(request), rifcs, studyInstance.id)
+			studyInstance.published = true
+			studyInstance.project.owner.published = true
+			studyInstance.project.owner.save(flush:true)
+			studyInstance.save(flush:true)
+			rifcsService.schedulePublishing(getContextRootPath(request))
 			response.contentType = "text/plain"
 			render "OK"
 			return
@@ -223,7 +252,7 @@ class StudyController
 			'collection.identifier.local' :  createLink(mapping:'studyDetails', action:'show', params:[id:studyInstance.id, projectId:studyInstance.project.id])
 			]
 		def rifcsModel = rifcs.fromStudy(studyInstance, specials)
-		return [rifcs:rifcsModel]
+		return rifcsModel
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
