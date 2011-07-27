@@ -5,6 +5,7 @@ import java.util.concurrent.Executors
 
 import au.org.intersect.bdcp.ldap.LdapUser
 import groovy.xml.StreamingMarkupBuilder
+import org.hibernate.FetchMode as FM
 
 class RifcsService
 {
@@ -106,11 +107,18 @@ Wollongong N.S.W. 2522"""
 				!f.exists() || f.lastModified() < it.lastUpdated.getTime()
 			}
 		}
-		users.each {
-			def related = Study.findAll("from Study as study where study.published and study.project.owner.id=" + it.id).collect {
+		users.each { user ->
+			def criteria = Study.createCriteria()
+			def rows = criteria.list {
+				join 'project'
+				project {
+					eq 'owner', user
+				}
+			}
+			def related = rows.collect {
 				makeRelation(it,"isManagerOf")
 			}
-			objectToXml(staticCtx, createUserXml, it, related)
+			objectToXml(staticCtx, createUserXml, user, related)
 		}
 	}
 	
@@ -223,7 +231,7 @@ Wollongong N.S.W. 2522"""
 		UserStore user, related ->
 		def builder = new StreamingMarkupBuilder()
 		builder.encoding = "UTF-8"
-		def ldapUser = LdapUser.find({ like "id:" + user.username })
+		def ldapUser = LdapUser.find(filter: "(uid=${user.username})")
 		def root = {
 			mkp.xmlDeclaration()
 			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects')

@@ -123,7 +123,7 @@ class BootStrap
 		files.each { props ->
 				def shortDescription = props['short']
 				def fname = props['fname']
-				def content = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("WEB-INF/classes/$fname")).text
+				def content = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("WEB-INF/$fname")).text
 				def staticObj = new StaticMetadataObject(shortDescription:shortDescription, description:shortDescription, xmlContent:content)
 				staticObj.save(flush:true)
 			}
