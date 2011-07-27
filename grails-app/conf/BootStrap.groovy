@@ -1,5 +1,9 @@
 import grails.util.Environment
 
+import groovy.sql.Sql
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.codehaus.groovy.grails.commons.ApplicationHolder
+
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
@@ -50,7 +54,10 @@ class BootStrap
 			}
 			
 			development
-			{ createTestData() }
+			{ 
+				createTestData()
+				createStaticData() 
+			}
 			
 			test
 			{
@@ -108,6 +115,18 @@ class BootStrap
 		
         String.metaClass.capitalise = { delegate[0].toUpperCase()+delegate[1..-1] }
 		
+	}
+	
+	def createStaticData =
+	{
+		def files = [['short':'uow','fname':'static~1.xml'],['short':'bml','fname':'static~2.xml']]
+		files.each { props ->
+				def shortDescription = props['short']
+				def fname = props['fname']
+				def content = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("WEB-INF/classes/$fname")).text
+				def staticObj = new StaticMetadataObject(shortDescription:shortDescription, description:shortDescription, xmlContent:content)
+				staticObj.save(flush:true)
+			}
 	}
 
 	def createTestData =

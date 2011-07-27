@@ -262,11 +262,11 @@ class StudyController
 				render "XSLT ERROR"
 				return null
 			}
-			def xmlStream = rifcsService.streamXml(rifcsService.createStudyXml(studyInstance))
+			def xmlStream = rifcsService.streamXml(rifcsService.createStudyXml(studyInstance,
+				[['key':'(from project owner)','type':'isManagedBy'],['key':'(from BRL)','type':'isOwnedBy']]))
 			def os = new ByteArrayOutputStream()
 			os << xmlStream
 			os.close()
-			println(new String(os.toByteArray()))
 			def transformer = factory.newTransformer(new StreamSource(rifcsXslt))
 			response.contentType = "text/plain"
 			transformer.transform(new StreamSource(new ByteArrayInputStream(os.toByteArray())), new StreamResult(response.outputStream))

@@ -1,5 +1,7 @@
  package au.org.intersect.bdcp
 
+import java.util.Date;
+
 import au.org.intersect.bdcp.enums.UserRole
 
 class UserStore{
@@ -9,6 +11,9 @@ class UserStore{
     UserRole authority
     String nlaIdentifier // RIF-CS
 	Boolean published // RIF-CS
+	// Date dateCreated
+	// Date lastUpdated
+
 	
 	static hasMany = [studyCollaborators: StudyCollaborator]
 	

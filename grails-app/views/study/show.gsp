@@ -52,7 +52,7 @@
    	   	   		});
 	   	   		
    	   	   	$publishDialog.dialog({autoOpen:false,
-   	   	   	   	width:600,
+   	   	   	   	width:777,
    	   	   	   	height:400,
    	   	   	   	modal:true,
    	   	   	   	buttons:{
