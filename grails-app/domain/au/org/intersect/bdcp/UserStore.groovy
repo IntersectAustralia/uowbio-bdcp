@@ -11,8 +11,8 @@ class UserStore{
     UserRole authority
     String nlaIdentifier // RIF-CS
 	Boolean published // RIF-CS
-	// Date dateCreated
-	// Date lastUpdated
+	Date dateCreated
+	Date lastUpdated
 
 	
 	static hasMany = [studyCollaborators: StudyCollaborator]
