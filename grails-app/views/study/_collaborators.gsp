@@ -1,9 +1,7 @@
-            <g:if test="${show}">
-            	<br />
-            	<span class="menuButton">
-            		<g:link elementId="Add Collaborator" controller="study" class="create" action="searchCollaborators" params="[studyId: studyInstance.id]">Add Collaborator</g:link>
-            	</span>
-            </g:if>
+            
+            <br />
+            <span class="menuButton"><g:link elementId="Add Collaborator" controller="study" class="create" action="searchCollaborators" params="[studyId: studyInstance.id]">
+        	Add Collaborator</g:link></span>
         	<br />
         	<br />
            <g:if test="${ collaboratorInstanceTotal > 0}">
