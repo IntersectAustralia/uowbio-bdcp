@@ -20,8 +20,6 @@
             
             <g:if test="${ projectInstanceList?.size() > 0}">
 	        
-	            <br />
-	            <br />
 	        
 	            <div class="projects">
 	            	<g:each in="${projectInstanceList}" status="i" var="projectInstance">

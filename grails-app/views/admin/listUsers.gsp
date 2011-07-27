@@ -56,7 +56,7 @@
 
 <g:form name="myform" controller="admin" action="listUsers">
 	<input type="hidden" name="visited" value="" />
-	<table>
+	<table class="noborder">
 		<tbody>
 			<tr class="prop">
 				<td valign="top" class="name"><g:message
