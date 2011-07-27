@@ -58,8 +58,9 @@ class StudyController
 
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
 		collaborators = collaborators.sort {x,y -> x.username <=> y.username}
+		def show = false
 
-		[studyInstance: studyInstance, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size()]
+		[studyInstance: studyInstance, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size(), show: show]
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])

@@ -26,13 +26,15 @@ class ProjectController
 						
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		def projectInstanceList = Project.list(params);
-
+		def user = UserStore.findByUsername(principal.username);
+		def collaboratorProjectInstanceList = user.studyCollaborators.collect { it.study.project }
+		
 		// A researcher can look at their own project
 		if(roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
 			projectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username));
 		}
 		
-		[projectInstanceList: projectInstanceList, projectInstanceTotal: Project.count()]
+		[projectInstanceList: projectInstanceList, projectInstanceTotal: Project.count(), collaboratorProjectInstanceList: collaboratorProjectInstanceList]
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])

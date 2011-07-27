@@ -41,6 +41,31 @@
 	            </div>
             </g:if>
             <g:link class="create" controller="project" action="create">+ Add Project</g:link>
+
+			<br />
+			<br />
+			
+			<h3>Collaborating Projects</h3>
+			<br />
+			
+			<g:if test="${ collaboratorProjectInstanceList?.size() > 0}">
+				<div class="projects">
+	            	<g:each in="${collaboratorProjectInstanceList}" status="i" var="projectCollInstance">
+	            	
+						 <p class="project_title">${fieldValue(bean: projectCollInstance, field: "projectTitle")} owned by ${fieldValue(bean: projectCollInstance, field: "owner")}</p>
+	            		
+	            		<ul>
+	            		    <g:each in="${projectCollInstance.studies}" status="n" var="studyInstance">
+	                       		<li><g:link mapping="studyDetails" controller="study" action="show" id="${studyInstance.id}" class="project_study" params="[projectId: projectCollInstance.id]">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link></li>
+	            		    </g:each>
+	            		</ul>
+	            		
+	            		<br />
+	            		
+	            	</g:each>
+				</div>
+			</g:if>
+                        
         </div>
     </body>
 </html>
