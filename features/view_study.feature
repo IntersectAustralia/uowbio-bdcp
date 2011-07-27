@@ -90,5 +90,8 @@ Feature: View Study
     And I follow "My Biomechanics Study"
     Then I follow "Components"
     Then I should see "Add Component"
-     
-  
+    
+	Given I am on the home page
+    And I follow "My Biomechanics Study"
+    Then I follow "Collaborators"
+    Then I should see "Add Collaborator"

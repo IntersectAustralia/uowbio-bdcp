@@ -36,3 +36,8 @@ Feature: Add Collaborators to Study
  Then I follow "Collaborators"
  Then I press "Add Collaborator"
  Then I should see "Sorry, you're not authorized to view this page."
+ Then I press "Logout"
+ 
+ Given I have logged in as "sysadm"
+ Given I am on the home page
+ Then I follow "My Biomechanics Study"

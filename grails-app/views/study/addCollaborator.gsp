@@ -28,7 +28,7 @@
 		<li class="tab5"><a href="${createLink(mapping: 'studyDeviceDetails', controller:'studyDevice', action:'list', params:['studyId': studyInstance.id])}" id="tabs-files" name="tabs-files"><span>Devices</span></a></li>
 		<li class="tab6"><a href="${createLink(mapping: 'studyCollaborators', controller:'study', action:'listCollaborators', params:['studyId': studyInstance.id])}" id="tabs-collaborators" name="tabs-collaborators"><span>Collaborators</span></a></li>
     </ul>
-	
+	<br/><br/>
 	<p>Collaborator <u>${username}</u> added to study <u>${studyInstance.studyTitle}</u></p>
 
         </div>
