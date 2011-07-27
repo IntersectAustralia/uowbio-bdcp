@@ -63,9 +63,9 @@ environments {
 			url = "jdbc:oracle:thin:@sirona.its.uow.edu.au:1521:nuitdev"
 			driverClassName = "oracle.jdbc.driver.OracleDriver"
 			username = "INTERSECT_DATA"
-			password = "wahkcg1p"
+			password = "c00l5tart"
 			dialect='org.hibernate.dialect.Oracle10gDialect'
-			
+			// INTERSECT_APP -> zn79zt91
 			}
 	}
 	intersect_test
