@@ -10,6 +10,7 @@
                     <thead>
                         <tr>
                             <th>${message(code: 'collaborator.identifier.label', default: 'Collaborator ID')}</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -17,6 +18,9 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                             <td>
                               <div class="columnLeft">${fieldValue(bean: collaboratorInstance, field: "username")}</div>
+                            </td>
+							<td>
+                              <g:link elementId="delete[${i}]" mapping='deleteCollaborator' controller="study" action="deleteCollaborator" params="[collaboratorId: collaboratorInstance.id, studyId: studyInstance.id]">Delete</g:link>
                             </td>
                         </tr>
                     </g:each>

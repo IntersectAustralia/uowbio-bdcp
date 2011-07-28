@@ -27,6 +27,10 @@ class UrlMappings
 			controller = 'study'
 		}
 		
+		name deleteCollaborator: "/study/$studyId/$action?/$id?" {
+			controller = 'study'
+		}
+		
 		name collaboratorDetails: "/study/$studyId/$action?/$id?" {
 			controller = 'study'
 		 }
