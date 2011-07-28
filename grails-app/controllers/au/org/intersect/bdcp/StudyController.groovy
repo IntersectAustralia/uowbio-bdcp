@@ -96,6 +96,22 @@ class StudyController
 		[studyInstance: studyInstance, username: params.username]
 	}
 	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def deleteCollaborator =
+	{
+		cache false
+		def studyInstance = Study.get(params.studyId)
+		def userStore = UserStore.get(params.collaboratorId)
+
+		def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(studyInstance,userStore)
+		studyCollaborator.delete(flush: true)
+
+		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
+		collaborators = collaborators.sort {x,y -> x.username <=> y.username}
+		
+		render(view: "listCollaborators", model: [studyInstance: studyInstance, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size()])
+	}
+	
 	private String normalizeValue(value)
 	{
 		value = value.replaceAll(/[^A-Za-z0-9-]/, '')
