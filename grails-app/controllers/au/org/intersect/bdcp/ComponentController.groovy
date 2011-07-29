@@ -8,6 +8,8 @@ class ComponentController
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def fileService
+	
+	def roleCheckService
     
     def createContext(def servletRequest)
     {
@@ -24,12 +26,32 @@ class ComponentController
 	def list =
 	{
 		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
         
         def sortedComponentInstanceList = Component.findAllByStudy(studyInstance).sort {x,y -> x.name <=> y.name }
         
 		[componentInstanceList: sortedComponentInstanceList, componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance]
 	}
+	
+	/**
+	* Display project only to research owner
+	* @param _projectInstance
+	*/
+   private void redirectNonAuthorizedResearcherAccessStudy(Study _studyInstance)
+   {
+	   def userStore = UserStore.findByUsername(principal.username)
+	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(_studyInstance,userStore)
+
+	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
+		   redirect controller:'login', action: 'denied'
+	   }
+   }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def create =

@@ -14,6 +14,8 @@ class SessionFileController
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST", downloadFiles: "POST"]
 
 	def fileService
+	
+	def roleCheckService
 
 	def pattern = ~/^([DF])\/(\d+)\/(.*)$/
 
@@ -70,6 +72,10 @@ class SessionFileController
 	{
 		cache false
         def studyInstance = Study.get(params.studyId)
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		
         def context = createContext(request)
@@ -90,6 +96,20 @@ class SessionFileController
         
 		[componentInstanceList: sortedComponentInstanceList, componentInstanceTotal: Component.countByStudy(studyInstance), studyInstance: studyInstance, sessionFiles: sessionFiles]
 	}
+	
+	/**
+	* Display project only to research owner
+	* @param _projectInstance
+	*/
+   private void redirectNonAuthorizedResearcherAccessStudy(Study _studyInstance)
+   {
+	   def userStore = UserStore.findByUsername(principal.username)
+	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(_studyInstance,userStore)
+
+	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
+		   redirect controller:'login', action: 'denied'
+	   }
+   }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def createDirectory =

@@ -5,6 +5,8 @@ import grails.plugins.springsecurity.Secured
 class StudyDeviceController {
 
     static allowedMethods = [update: "POST", delete: "POST"]
+	
+	def roleCheckService
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def index = {
@@ -14,6 +16,10 @@ class StudyDeviceController {
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def list = {
         def studyInstance = Study.get(params.studyId)
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
         def deviceGroupList = DeviceGroup.list()
         def sortedDeviceGroupList = deviceGroupList.sort {x,y -> y.groupingName <=> x.groupingName}
         def deviceGroupsMapping = sortedDeviceGroupList.collect {deviceGroup ->
@@ -24,11 +30,29 @@ class StudyDeviceController {
         deviceGroupsMapping = deviceGroupsMapping.findAll { it.devices.size() > 0 }
         [deviceGroupsMapping: deviceGroupsMapping, studyInstance: studyInstance]
     }
+	
+	/**
+	* Display project only to research owner
+	* @param _projectInstance
+	*/
+   private void redirectNonAuthorizedResearcherAccessStudy(Study _studyInstance)
+   {
+	   def userStore = UserStore.findByUsername(principal.username)
+	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(_studyInstance,userStore)
+
+	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
+		   redirect controller:'login', action: 'denied'
+	   }
+   }
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def create = {
         def studyDeviceInstance = new StudyDevice()
         def studyInstance = Study.findById(params.studyId)
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
         studyDeviceInstance.properties = params
         def deviceGroupList = DeviceGroup.list()
         def sortedDeviceGroupList = deviceGroupList.sort {x,y -> y.groupingName <=> x.groupingName}

@@ -18,6 +18,8 @@ class StudyController
 	
 	def rifcsService
 	
+	def roleCheckService
+	
 	def factory = TransformerFactory.newInstance()
 	
 	def getContextRootPath(def servletRequest)
@@ -106,7 +108,9 @@ class StudyController
 		def userStore = UserStore.get(params.collaboratorId)
 
 		def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(studyInstance,userStore)
-		studyCollaborator.delete(flush: true)
+		if(studyCollaborator) {
+			studyCollaborator.delete(flush: true)
+		}
 
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
 		collaborators = collaborators.sort {x,y -> x.username <=> y.username}
@@ -247,6 +251,12 @@ class StudyController
 	{
 		cache false
 		def studyInstance = Study.get(params.id)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		if (!studyInstance)
 		{
@@ -257,8 +267,22 @@ class StudyController
 		{
 			[studyInstance: studyInstance, participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance),projectid: params.projectid]
 		}
+		
 	}
 
+	/**
+	* Display project only to research owner
+	* @param _projectInstance
+	*/
+   private void redirectNonAuthorizedResearcherAccessStudy(Study _studyInstance)
+   {
+	   def userStore = UserStore.findByUsername(principal.username)
+	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(_studyInstance,userStore)
+
+	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
+		   redirect controller:'login', action: 'denied'
+	   }
+   }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
 	def showRifcs = 

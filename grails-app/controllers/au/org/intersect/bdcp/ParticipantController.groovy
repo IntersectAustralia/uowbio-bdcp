@@ -7,6 +7,8 @@ class ParticipantController
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	def roleCheckService
+	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def index =
 	{
@@ -19,15 +21,38 @@ class ParticipantController
 	{
 		cache false
 		def studyInstance = Study.get(params.studyId)
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
 		def participantsInStudy = Participant.executeQuery('select count(p) from Participant p where p.study = :study',[study:studyInstance])
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.findAllByStudy(studyInstance).size(), studyInstance:studyInstance, participantsInStudy: participantsInStudy]
 	}
+	
+	/**
+	* Display project only to research owner
+	* @param _projectInstance
+	*/
+   private void redirectNonAuthorizedResearcherAccessStudy(Study _studyInstance)
+   {
+	   def userStore = UserStore.findByUsername(principal.username)
+	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(_studyInstance,userStore)
+
+	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
+		   redirect controller:'login', action: 'denied'
+	   }
+   }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def create =
 	{
 		cache false
+		def studyInstance = Study.get(params.studyId)
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
 		def participantInstance = new Participant()
 		participantInstance.properties = params
 		return [participantInstance: participantInstance]
@@ -37,6 +62,11 @@ class ParticipantController
 	def save =
 	{
 		cache false
+		def studyInstance = Study.get(params.studyId)
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
 		def participantInstance = new Participant(params)
 		participantInstance.identifier = participantInstance.identifier?.trim()
 		if (participantInstance.save(flush: true))
