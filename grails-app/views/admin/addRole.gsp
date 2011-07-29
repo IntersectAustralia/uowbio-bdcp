@@ -33,19 +33,19 @@
 					<g:textField name="nlaIdentifier" value="${nlaIdentifier}" />
       </div>
  
-      <div class="rowBottom">
+      <div class="rowBottom"></div>
  
       <div class="buttons">
             <span class="button">
                   <g:actionSubmit name="save" id="select" class="save" controller="admin" action="create" value="${message(code: 'default.button.select.label', default: 'Select')}" />
             </span>
             <span class="menuButton">
-                  <g:link controller="admin" elementId="Back" class="create" action="searchUsers" params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Back</g:link>
+                  <g:link controller="admin" elementId="Back" class="list" action="searchUsers" params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Back</g:link>
             </span>
       </div>
  
 </g:form></div>
-</div>
+
  
 </body>
 </html>
