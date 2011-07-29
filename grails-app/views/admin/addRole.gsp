@@ -22,6 +22,8 @@
 </g:if>
  
       <g:hiddenField name="username" value="${username}" />
+      <g:hiddenField name="givenName" value="${givenName}" />
+      <g:hiddenField name="sn" value="${sn}" />
  
       <div class="dialog">
           <h3>User role</h3>

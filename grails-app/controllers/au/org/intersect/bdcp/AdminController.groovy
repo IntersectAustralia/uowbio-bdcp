@@ -31,6 +31,8 @@ class AdminController
             def accountStatus = "Failed"
 
 			def username = params.username != null ? params.username : ""
+			def givenName = params.givenName != null ? params.givenName : ""
+			def sn = params.sn != null ? params.sn : ""
 			def role = params.authority != null ? params.authority : ""
 			def nlaIdentifier = params.nlaIdentifier != null ? params.nlaIdentifier : ""
            
@@ -42,15 +44,15 @@ class AdminController
                   accountStatus = "Successful"
 				  def roleString = (UserRole)role.toString()
 				  def rolename = roleString.getName();
-                  render (view: "create", model:[username:username, role:role, rolename:rolename, nlaIdentifier:nlaIdentifier])
+                  render (view: "create", model:[username:username, givenName: givenName, sn: sn, role:role, rolename:rolename, nlaIdentifier:nlaIdentifier])
             }
             else
             {
                   accountStatus = "Failed"
-                  render (view: "addRole", model:[accountStatus: accountStatus, user:user, username:username, authority:role, nlaIdentifier:nlaIdentifier])
+                  render (view: "addRole", model:[accountStatus: accountStatus, user:user, username:username, givenName: givenName, sn: sn, authority:role, nlaIdentifier:nlaIdentifier])
             }
            
-            return [username: username, role: role]
+            return [username: username, givenName: givenName, sn: sn, role: role]
       }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -306,10 +308,12 @@ class AdminController
 		cache false
 
 		def username = params.username != null ? params.username : ""
+		def givenName = params.givenName != null ? params.givenName : ""
+		def sn = params.sn != null ? params.sn : ""
 		def role = params.authority != null ? params.authority: ""
 		def nlaIdentifier = params.nlaIdentifier != null ? params.nlaIdentifier : null
 		
-		return [username: username, role: role, nlaIdentifier:nlaIdentifier]
+		return [username: username, givenName: givenName, sn: sn, role: role, nlaIdentifier:nlaIdentifier]
 	}
 	
 }

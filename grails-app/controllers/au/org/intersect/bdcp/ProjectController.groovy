@@ -94,7 +94,7 @@ class ProjectController
 	 */
 	private void redirectNonAuthorizedResearcherAccessProject(Project _projectInstance)
 	{
-		if(!_projectInstance.researcherName.equals(principal.username)){
+		if(!_projectInstance.owner.username.equals(principal.username)){
 			redirect controller:'login', action: 'denied'
 		}
 	}

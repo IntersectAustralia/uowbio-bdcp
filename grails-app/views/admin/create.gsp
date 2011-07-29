@@ -45,7 +45,7 @@
 </div>
 <div class="body">
  
-<p>Confirm account creation for ${username} with role: ${rolename}. (User will receive an
+<p>Confirm account creation for ${givenName} ${sn}, with userid: ${username} with role: ${rolename}. (User will receive an
 email notification</p>
 <p>advising of new account.)</p>
 <br />

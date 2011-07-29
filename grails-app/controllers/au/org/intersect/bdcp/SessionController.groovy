@@ -27,7 +27,7 @@ class SessionController
 		[sessionInstanceList: Session.list(params), sessionInstanceTotal: Session.count()]
 	}
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def create =
 	{
 		def sessionInstance = new Session()
