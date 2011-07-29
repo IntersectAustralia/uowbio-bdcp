@@ -133,7 +133,7 @@ Wollongong N.S.W. 2522"""
 	{
 		staticCtx, staticData ->
 		def bml = StaticMetadataObject.findByShortDescription('bml')
-		def related = [makeRelation(makeKey(bml), "hasPart")]
+		def related = [makeRelation(bml, "hasPart")]
 		objectToXml(staticCtx, createStaticXml, staticData, related)
 	}
 
@@ -141,9 +141,9 @@ Wollongong N.S.W. 2522"""
 	{
 		staticCtx, staticData ->
 		def uow = StaticMetadataObject.findByShortDescription('uow')
-		def related = [makeRelation(makeKey(uow), "hasPart")]
+		def related = [makeRelation(uow, "hasPart")]
 		related.plus(Study.findAllByPublished(true).collect {
-			makeRelation(makeKey(it),"isOwnerOf")
+			makeRelation(it,"isOwnerOf")
 			})
 		objectToXml(staticCtx, createStaticXml, staticData, related)
 	}
@@ -161,15 +161,20 @@ Wollongong N.S.W. 2522"""
 	{
 		obj, related ->
 		def root = new XmlSlurper().parseText(obj.xmlContent)
-		related.each { 
-			root.registryObjects.registryObject.appendNode {
-					relatedObject {
-						key(it['key'])
-						relation(type:it['type'])
-					}
+		related.each { relatedAssoc ->
+			root.registryObject.appendNode {
+				relatedObject {
+					key(relatedAssoc['key'])
+					relation('type':relatedAssoc['type'])
+				}
 			}
 		}
-		return root
+		// this closure bridges XmlSlurper to StreamMarkupBilder used for domain objects
+		return { binder ->
+			mkp.xmlDeclaration()
+			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects')
+			mkp.yield root
+		}
 	}
 	
 	public def streamXml =
@@ -241,8 +246,8 @@ Wollongong N.S.W. 2522"""
 					originatingSource(type:"authoritative") { mkp.yield(common['originatingSource'])}
 					party(type:"person") {
 						name(type:"primary") {
-							namePart(type:"first") { mkp.yield(ldapUser.firstName)}
-							namePart(type:"last") { mkp.yield(ldapUser.lastName)}
+							namePart(type:"first") { mkp.yield(ldapUser.cn)}
+							namePart(type:"last") { mkp.yield(ldapUser.sn)}
 						}
 						identifier(type:"local") { mkp.yield(user.username) }
 						location {
@@ -253,7 +258,7 @@ Wollongong N.S.W. 2522"""
 							}
 							address {
 								electronic(type:"email") {
-									addressPart(type:"text") { mkp.yield(ldapUser.email) }
+									addressPart(type:"text") { mkp.yield(ldapUser.mail) }
 								}
 							}
 						}
