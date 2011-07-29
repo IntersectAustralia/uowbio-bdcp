@@ -86,12 +86,14 @@ class StudyController
 	{
 		cache false
 		def studyInstance = Study.get(params.studyId)
-	
 		def userStore = UserStore.findByUsername(params.username)
 
-		def studyCollaborator = new StudyCollaborator(studyInstance,userStore)
-		studyCollaborator.save(flush: true)
-
+		def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(studyInstance, userStore)
+		
+		if (!studyCollaborator) { // if collaborator doesn't already exist
+			studyCollaborator = new StudyCollaborator(studyInstance,userStore)
+			studyCollaborator.save(flush: true)
+		}
 		
 		[studyInstance: studyInstance, username: params.username]
 	}
