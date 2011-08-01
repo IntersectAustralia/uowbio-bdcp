@@ -54,9 +54,8 @@
           <g:layoutBody />
           
           <div id="footer">
-              Developed by Intersect Australia Ltd
+              Developed by Intersect Australia Ltd <div style="float:right;"><g:render template="/version"/></div>
           </div>
-          
         </div>
     </body>
     <head>
