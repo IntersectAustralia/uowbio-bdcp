@@ -8,7 +8,7 @@
         <g:javascript library="application" />
         <g:javascript library="jquery" plugin="jquery"/>
    		<jqui:resources />
-        <g:set var="entityName" value="${message(code: 'participant.label', default: 'Participant')}" />
+        <g:set var="entityName" value="${message(code: 'collaborator.label', default: 'Collaborator')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     
     </head>

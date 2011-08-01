@@ -23,6 +23,7 @@ Feature: Search User Accounts
      |johnma    	| John  		| Michael Anderson 	| Select  |
      |labman    	| Lab Manager  	| Manager   		| Select  |
      |researcher	| The		  	| Researcher		| Select  |
+     |researcher1	| The		  	| Researcher1		| Select  |
      |sysadm		| System	  	| Administrator		| Select  |
      
      
