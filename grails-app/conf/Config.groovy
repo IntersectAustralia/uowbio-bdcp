@@ -70,6 +70,8 @@ environments {
 	{ grails.serverURL = "http://localhost:8080/${appName}" }
 	intersect_test
 	{ grails.serverURL = "http://www.changeme.com" }
+	intersect_demo
+	{ grails.serverURL = "http://www.changeme.com" }
 	cucumber
 	{ grails.serverURL = "http://localhost:8080/${appName}" }
 }
@@ -140,6 +142,11 @@ environments {
 	intersect_test {
 		grails.mail.host = "localhost"
 	}
+
+	intersect_demo {
+		grails.mail.host = "localhost"
+	}
+
 }
 
 // Spring security LDAP settings
@@ -212,6 +219,22 @@ environments {
 		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
 		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
+
+	intersect_demo {
+		
+		// Spring security LDAP settings
+		grails.plugins.springsecurity.ldap.context.server = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
+		grails.plugins.springsecurity.ldap.context.managerDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.context.managerPassword = "password"
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ="ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
+		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
+		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+	}
+
 }
 
 
@@ -242,7 +265,35 @@ environments
 			
 		}
 	}
+
 	intersect_test
+	{
+		ldap
+		{
+
+			directories
+			{
+				user
+				{
+					defaultDirectory = true
+					url = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
+					base = "ou=people,dc=biomechanics, dc=local"
+					userDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
+					password = "password"
+					searchControls
+					{
+						searchScope = "subtree"
+					}
+				}
+			}
+
+			schemas = [
+				au.org.intersect.bdcp.ldap.LdapUser
+			]
+		}
+	}
+	
+	intersect_demo
 	{
 		ldap
 		{

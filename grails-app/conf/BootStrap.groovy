@@ -101,6 +101,21 @@ class BootStrap
 				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
 				user.save(flush:true)
 			}
+
+			intersect_demo
+			{
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				user.save(flush:true)				
+                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+                user.save(flush:true)
+				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				user.save(flush:true)
+				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
+				user.save(flush:true)
+				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+				user.save(flush:true)
+				createStaticData() 
+			}
 		}
 
 		List.metaClass.partition = {size ->

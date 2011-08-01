@@ -46,6 +46,7 @@ environments {
 			password = "grails"
 		}
 	}
+
 	production
 	{
 //		dataSource
@@ -68,11 +69,24 @@ environments {
 			// INTERSECT_APP -> zn79zt91
 			}
 	}
+
 	intersect_test
 	{
 		dataSource
 		{
 			dbCreate = "create-drop"
+			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
+			driverClassName = "org.postgresql.Driver"
+			username = "bdcp"
+			password = "bdcp"
+		}
+	}
+
+	intersect_demo
+	{
+		dataSource
+		{
+			dbCreate = "update"
 			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
 			driverClassName = "org.postgresql.Driver"
 			username = "bdcp"
