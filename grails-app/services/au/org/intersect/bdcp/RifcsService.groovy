@@ -54,7 +54,7 @@ Wollongong N.S.W. 2522"""
 	private def makeKey =
 	{
 		obj ->
-		return "oai:au.edu.uow:biomechanics:" + makeName(obj)
+		return "oai:au.edu.uow.biomechanics:" + makeName(obj)
 	}
 	
 	private def makeName =
@@ -74,7 +74,7 @@ Wollongong N.S.W. 2522"""
 	private def makeRelation =
 	{
 		obj, type ->
-		[key:makeKey(obj), type:type]
+		return obj == null ? null : [key:makeKey(obj), type:type]
 	}
 	
 	private def studiesToXml =
@@ -162,10 +162,12 @@ Wollongong N.S.W. 2522"""
 		obj, related ->
 		def root = new XmlSlurper().parseText(obj.xmlContent)
 		related.each { relatedAssoc ->
-			root.registryObject.appendNode {
-				relatedObject {
-					key(relatedAssoc['key'])
-					relation('type':relatedAssoc['type'])
+			if (relatedAssoc != null) {
+				root.registryObject.appendNode {
+					relatedObject {
+						key(relatedAssoc['key'])
+						relation('type':relatedAssoc['type'])
+					}
 				}
 			}
 		}
@@ -215,19 +217,17 @@ Wollongong N.S.W. 2522"""
 						description(type:"rights") { mkp.yield(common['collection.accessRights']) }
 					}
 					related.each { relatedAssoc ->
-						relatedObject {
-							key(relatedAssoc['key'])
-							relation('type':relatedAssoc['type'])
+						if (relatedAssoc != null) {
+							relatedObject {
+								key(relatedAssoc['key'])
+								relation('type':relatedAssoc['type'])
+							}
 						}
 					}
 				}
 	
 			}
 		}
-		println '>>------------ ' + (new Date()) + ' -------------->>'
-		System.out << streamXml(root)
-		println '....................................................'
-
 		return root
 	}
 	
@@ -260,6 +260,14 @@ Wollongong N.S.W. 2522"""
 								electronic(type:"email") {
 									addressPart(type:"text") { mkp.yield(ldapUser.mail) }
 								}
+							}
+						}
+					}
+					related.each { relatedAssoc ->
+						if (relatedAssoc != null) {
+							relatedObject {
+								key(relatedAssoc['key'])
+								relation('type':relatedAssoc['type'])
 							}
 						}
 					}
