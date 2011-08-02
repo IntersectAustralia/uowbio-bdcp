@@ -154,6 +154,9 @@ class BootStrap
 		
 		def user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
 		user.save(flush:true)
+		
+		def user3 = new UserStore(username:"researcher1", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+		user3.save(flush:true)
         
 		def project = new Project(projectTitle: 'TestProject',
 				researcherName: 'researcher' ,

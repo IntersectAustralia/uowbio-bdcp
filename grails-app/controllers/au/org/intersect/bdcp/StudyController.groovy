@@ -55,9 +55,16 @@ class StudyController
 	def create =
 	{
 		cache false
+		def projectid = params.projectId
 		def studyInstance = new Study()
 		studyInstance.properties = params
-		return [studyInstance: studyInstance, projectid: params.projectid]
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudyProject(projectid)
+		}
+		
+		return [studyInstance: studyInstance, projectid: projectid]
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
@@ -66,6 +73,11 @@ class StudyController
 		cache false
 		def studyInstance = Study.get(params.studyId)
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
 
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
 		collaborators = collaborators.sort {x,y -> x.username <=> y.username}
@@ -234,7 +246,14 @@ class StudyController
 	def save =
 	{
 		cache false
+		def projectid = params.projectId
 		def studyInstance = new Study(params)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudyProject(projectid)
+		}
+		
 		if (studyInstance.save(flush: true))
 		{
 			flash.message = "${message(code: 'default.created.message', args: [message(code: 'study.label', default: 'Study'), studyInstance.studyTitle])}"
@@ -242,7 +261,7 @@ class StudyController
 		}
 		else
 		{
-			render(view: "create", model: [studyInstance: studyInstance, projectid: params.projectid])
+			render(view: "create", model: [studyInstance: studyInstance, projectid: projectid])
 		}
 	}
 
@@ -271,8 +290,8 @@ class StudyController
 	}
 
 	/**
-	* Display project only to research owner
-	* @param _projectInstance
+	* Display Study only to research owner or research collaborator
+	* @param _studyInstance
 	*/
    private void redirectNonAuthorizedResearcherAccessStudy(Study _studyInstance)
    {
@@ -281,6 +300,34 @@ class StudyController
 
 	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
 		   redirect controller:'login', action: 'denied'
+	   }
+   }
+   
+   /**
+   * Display Study only to research owner or research collaborator
+   * @param _projectid
+   */
+   private void redirectNonAuthorizedResearcherAccessStudyProject(_projectid)
+   {
+	   def userStore = UserStore.findByUsername(principal.username)
+	   def project = Project.get(_projectid)
+	   def projectStudies = project.studies
+	
+	   if(projectStudies.size() > 0) { // if there are studies belonging to the project check that the user is a collaborator of any study for the project
+		   def studyCollaborator = false
+		   for (study in projectStudies) {
+			   if(StudyCollaborator.findByStudyAndCollaborator(study,userStore)) {
+				   studyCollaborator = true
+			   }
+		   }
+		   if(!studyCollaborator) { // there are no collaborators of studies with username belonging to this project
+			   redirect controller:'login', action: 'denied'
+		   }
+	   }
+	   else { // if not the project owner then not authorised for a researcher
+		   if(!project.owner.username.equals(principal.username)){
+			   redirect controller:'login', action: 'denied'
+		   }
 	   }
    }
 
