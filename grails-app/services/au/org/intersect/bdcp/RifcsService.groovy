@@ -84,7 +84,6 @@ Wollongong N.S.W. 2522"""
 		Study.withTransaction {
 			studies = Study.findAllByPublished(true).findAll {
 				File f = fileService.getFileReference(staticCtx, makeFilename(it));
-				println it.project.owner
 				!f.exists() || f.lastModified() < it.lastUpdated.getTime()
 			}
 		}
@@ -188,7 +187,6 @@ Wollongong N.S.W. 2522"""
 	public def createStudyXml =
 	{
 		Study study, related ->
-		println related
 		def root = { builder ->
 			mkp.xmlDeclaration()
 			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects')
