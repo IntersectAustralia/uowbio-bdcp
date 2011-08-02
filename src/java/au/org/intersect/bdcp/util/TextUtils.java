@@ -1,8 +1,5 @@
 package au.org.intersect.bdcp.util;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
 public class TextUtils {
 	
 	/**
