@@ -58,7 +58,7 @@ class StudyController
 		def projectid = params.projectId
 		def studyInstance = new Study()
 		studyInstance.properties = params
-		
+
 		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
 		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
 			redirectNonAuthorizedResearcherAccessStudyProject(projectid)
@@ -312,7 +312,11 @@ class StudyController
 	   def userStore = UserStore.findByUsername(principal.username)
 	   def project = Project.get(_projectid)
 	   def projectStudies = project.studies
-	
+
+	   // if ur the project owner then dont redirect
+	   if(project.owner.username.equals(principal.username))
+			return;
+
 	   if(projectStudies.size() > 0) { // if there are studies belonging to the project check that the user is a collaborator of any study for the project
 		   def studyCollaborator = false
 		   for (study in projectStudies) {
@@ -324,7 +328,7 @@ class StudyController
 			   redirect controller:'login', action: 'denied'
 		   }
 	   }
-	   else { // if not the project owner then not authorised for a researcher
+	   else { // if not collaborator then not authorised for a researcher
 		   if(!project.owner.username.equals(principal.username)){
 			   redirect controller:'login', action: 'denied'
 		   }

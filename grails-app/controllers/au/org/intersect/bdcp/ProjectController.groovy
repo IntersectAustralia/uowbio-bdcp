@@ -24,15 +24,28 @@ class ProjectController
 	{
 		cache false
 						
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		def projectInstanceList = Project.list(params);
-		def user = UserStore.findByUsername(principal.username);
-		def collaboratorProjectInstanceList = user.studyCollaborators.collect { it.study.project }
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        def projectInstanceList = Project.list(params);
+        def collaborator = UserStore.findByUsername(principal.username);
+        def collaboratorProjectInstanceList = collaborator.studyCollaborators.collect { it.study.project }
+        collaboratorProjectInstanceList = collaboratorProjectInstanceList.unique()
+        def collaboratorProjectStudies = [];
+
+        collaboratorProjectInstanceList.each
+        {
+            // look at each project in the collaborator list and remove studies that aren't collaborative studies
+            collaboratorProjectStudies = it?.studies.findAll { it?.studyCollaborators.collaborator.each { it?.username.equals(principal.username) } }
+            it.studies = collaboratorProjectStudies
+        }
 		
-		// A researcher can look at their own project
+		// A researcher can look at the projects that they own
 		if(roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
 			projectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username));
 		}
+		
+		// sort projects by project titles
+		collaboratorProjectInstanceList = collaboratorProjectInstanceList.sort {x,y -> x.projectTitle <=> y.projectTitle}
+		projectInstanceList = projectInstanceList.sort {x,y -> x.projectTitle <=> y.projectTitle}
 		
 		[projectInstanceList: projectInstanceList, projectInstanceTotal: Project.count(), collaboratorProjectInstanceList: collaboratorProjectInstanceList]
 	}
