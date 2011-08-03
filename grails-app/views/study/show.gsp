@@ -19,9 +19,9 @@
    	   	   	   		success: function(data) {
    	   	   	   	   		if (data.match(/ERROR/)) {
    	   	   	   	   	   		$('#errorDialog').dialog('open')
-   	   	   	   	   		} else {
-   	   	   	   	   	   		alert("${message(code: 'study.publish.scheduled.message', default: 'Publish scheduled')}")
-   	   	   	   	   	   	}
+   	   	   	   	   	   		return
+   	   	   	   	   		}
+   	   	   	   	   	   	alert("${message(code: 'study.publish.scheduled.message', default: 'Publish scheduled')}")
    	   	   	   		},
    	   	   	   		error: function() {
 	   	   	   	   	   		$('#errorDialog').dialog('open')
@@ -39,11 +39,15 @@
    	   	   	   		type:'GET',
    	   	   	   		dataType:'html',
    	   	   	   		success: function(data) {
+   	   	   	   	   		if (data.match(/OWNER ERROR/)) {
+   	   	   	   	   	   		alert("${message(code: 'study.publish.noNlaIdentifier.error', default: 'NLA Identifier missing')}")
+   	   	   	   	   	   		return
+   	   	   	   	   		}
    	   	   	   	   		if (data.match(/ERROR/)) {
    	   	   	   	   	   		$('#errorDialog').dialog('open')
-   	   	   	   	   		} else {
-   	   	   	   	   	   		$publishDialog.html(data).dialog('open');
-   	   	   	   	   	   	}
+   	   	   	   	   	   		return
+   	   	   	   	   		}
+   	   	   	   	   	   	$publishDialog.html(data).dialog('open');   	   	   	   	   	   	
    	   	   	   		},
    	   	   	   		error: function() {
 	   	   	   	   	   		$('#errorDialog').dialog('open')
