@@ -109,7 +109,15 @@ class StudyController
 			studyCollaborator.save(flush: true)
 		}
 		
-		[studyInstance: studyInstance, username: params.username]
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+
+		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
+		collaborators = collaborators.sort {x,y -> x.username <=> y.username}
+		
+		[studyInstance: studyInstance, username: params.username, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size()]
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])

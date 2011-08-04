@@ -30,7 +30,7 @@
     </ul>
 	<br/><br/>
 	<p>Collaborator <u>${username}</u> added to study <u>${studyInstance.studyTitle}</u></p>
-
+	<g:render template="collaborators" />
         </div>
 	</div>
     </body>
