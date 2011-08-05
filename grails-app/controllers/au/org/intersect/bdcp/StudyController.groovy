@@ -117,7 +117,7 @@ class StudyController
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
 		collaborators = collaborators.sort {x,y -> x.username <=> y.username}
 		
-		[studyInstance: studyInstance, username: params.username, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size()]
+		render(view: "listCollaborators", model: [studyInstance: studyInstance, username: params.username, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size()])
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])

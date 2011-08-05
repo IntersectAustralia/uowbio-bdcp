@@ -10,9 +10,47 @@
    		<jqui:resources />
         <g:set var="entityName" value="${message(code: 'collaborator.label', default: 'Collaborator')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
+
+		<script type="text/javascript">
+		        $(function() {
+		            // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
+		            $( "#dialog:ui-dialog" ).dialog( "destroy" );
+		     
+		            $( "#dialog-confirm" ).dialog({
+		                  autoOpen: false,
+		                  resizable: false,
+		                  height:140,
+		                  modal: true,
+		                  buttons: {
+		                        "Yes": function() {
+		                              $( this ).dialog( "close" );
+		                              window.location.href = $(this).data("url");
+		                              
+		                        },
+		                        "No": function() {
+		                              $( this ).dialog( "close" );
+		                        }
+		                  }
+		            });
+
+		            $('.myDelete').click(function() {
+			  			  $("#dialog-confirm").data("url", $(this).attr("href"));
+		                  $('#dialog-confirm').dialog('open');
+		                  // prevent the default action, e.g., following a link
+		                  return false;
+			        });
+			        
+		      });
+            
+		</script>
     
     </head>
     <body>
+    
+	    <div id="dialog-confirm" title="Cancel the deletion of Collaborator?">
+			<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>Are you sure?</p>
+		</div>
+		
        <div class="body" id="tab6">
             <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
         <g:if test="${flash.message}">
@@ -28,7 +66,10 @@
 		<li class="tab5"><a href="${createLink(mapping: 'studyDeviceDetails', controller:'studyDevice', action:'list', params:['studyId': studyInstance.id])}" id="tabs-files" name="tabs-files"><span>Devices</span></a></li>
 		<li class="tab6"><a href="${createLink(mapping: 'studyCollaborators', controller:'study', action:'listCollaborators', params:['studyId': studyInstance.id])}" id="tabs-collaborators" name="tabs-collaborators"><span>Collaborators</span></a></li>
     </ul>
-	
+		<g:if test="${username}">
+			<br/><br/>
+			<p>Collaborator <u>${username}</u> added to study <u>${studyInstance.studyTitle}</u></p>
+		</g:if>	
         <g:render template="collaborators" />
         </div>
 	</div>
