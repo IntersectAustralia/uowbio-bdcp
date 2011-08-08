@@ -17,6 +17,7 @@
      |Manager		|Lab Manager	|labman		|Edit |        
      |Pollum		|David			|dpollum	|Edit |
      |Researcher	|The	 		|researcher	|Edit |
+     |Researcher1	|The	 		|researcher1|Edit |
      Then I press "edit[3]"
      Then I should see table "userDetailsTable" with contents
      |Firstname                 | David   									    |
@@ -50,6 +51,7 @@
      |Manager		|Lab Manager	|labman		|Edit |        
      |Pollum		|David			|dpollum	|Edit |
      |Researcher	|The	 		|researcher	|Edit |
+	 |Researcher1	|The	 		|researcher1|Edit |
      Then I press "edit[3]"
      And I select "Researcher" from "authority"
      Then I press "deactivated"
@@ -78,6 +80,7 @@
      |Manager		|Lab Manager	|labman		|Edit |        
      |Pollum		|David			|dpollum	|Edit |
      |Researcher	|The	 		|researcher	|Edit |
+	 |Researcher1	|The	 		|researcher1|Edit |
      Then I press "edit[3]"
      Then I should see table "userDetailsTable" with contents
      |Firstname                 | David   									    |

@@ -33,6 +33,7 @@ Before() {
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-3','0','labman', 'false', 'ROLE_LAB_MANAGER', 'http://ands.org.au/5678', now(), now());")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-4','0','sysadm', 'false', 'ROLE_SYS_ADMIN', null, now(), now());")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-5','0','researcher', 'false', 'ROLE_RESEARCHER', null, now(), now());")
+  sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-6','0','researcher1', 'false', 'ROLE_RESEARCHER', null, now(), now());")
   browser = new HtmlUnitDriver(BrowserVersion.FIREFOX_3_6)
   JavascriptExecutor jsExecutor = (JavascriptExecutor) browser;
   //browser.setJavascriptEnabled(true)
@@ -66,6 +67,7 @@ After() {
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-3','0','labman', 'false', 'ROLE_LAB_MANAGER', 'http://ands.org.au/5678', now(), now());")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-4','0','sysadm', 'false', 'ROLE_SYS_ADMIN', null, now(), now());")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-5','0','researcher', 'false', 'ROLE_RESEARCHER', null, now(), now());")
+  sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-6','0','researcher1', 'false', 'ROLE_RESEARCHER', null, now(), now());")
   
   File tmpDir = new File(getTmpPath())
   File realDir = new File(getRealPath())

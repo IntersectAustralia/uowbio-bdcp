@@ -15,17 +15,17 @@ Feature: Add Collaborators to Study
  Then I press "Add Collaborator"
  Then I should see "Add Collaborator to study My Biomechanics Study"
  Then I fill in "firstName" with ""
- Then I fill in "surname" with "Poll"
+ Then I fill in "surname" with "Researcher1"
  Then I fill in "userid" with ""
  Then I press "search"
  Then I should see a 4 column table "searchTable" with contents
- | dpollum | David  		| Pollum 		| Select |
+ | researcher1 | The | Researcher1 | Select |
  Then I press "select[0]"
- Then I should see "Collaborator dpollum added to study My Biomechanics Study"
+ Then I should see "Collaborator researcher1 added to study My Biomechanics Study"
  Then I follow "Collaborators"
  Then I should see "Add Collaborator"
- Then I should see "dpollum"
  Then I should see "researcher"
+ Then I should see "researcher1"
  Then I press "Logout"
    	 
  Given I have logged in as "chrisk"
@@ -36,6 +36,6 @@ Feature: Add Collaborators to Study
  Then I should see "Sorry, you're not authorized to view this page."
  Then I press "Logout"
  
- Given I have logged in as "dpollum"
+ Given I have logged in as "researcher1"
  Given I am on the home page
  Then I follow "My Biomechanics Study"
