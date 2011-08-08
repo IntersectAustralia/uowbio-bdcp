@@ -17,6 +17,7 @@ Feature: Hide User Accounts
      |Manager		|Lab Manager	|labman		|        
      |Pollum		|David			|dpollum	|
      |Researcher	|The	 		|researcher	|
+     |Researcher1	|The	 		|researcher1|
      Then I press "edit[3]"
      Then I should see table "userDetailsTable" with contents
      |Firstname                  | David   									    |
@@ -43,6 +44,7 @@ Feature: Hide User Accounts
      |Kenward		|Chris			|chrisk 	|
      |Manager		|Lab Manager	|labman		|        
      |Researcher	|The	 		|researcher	|
+     |Researcher1	|The	 		|researcher1|
      Then I disable javascript
      
       

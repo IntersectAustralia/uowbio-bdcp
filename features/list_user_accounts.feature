@@ -17,6 +17,7 @@ Feature: List User Accounts
      |Manager		|Lab Manager	|labman		|        
      |Pollum		|David			|dpollum	|
      |Researcher	|The	 		|researcher	|
+     |Researcher1	|The	 		|researcher1|
      
      Then I press "Back"
      Then I should see "Account Administration"
@@ -39,6 +40,7 @@ Feature: List User Accounts
      |Manager		|Lab Manager	|labman		|        
      |Pollum		|David			|dpollum	|
      |Researcher	|The	 		|researcher	|
+     |Researcher1	|The	 		|researcher1|
      Then I disable javascript
      
      

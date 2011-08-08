@@ -80,9 +80,16 @@ class StudyController
 		}
 
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
-		collaborators = collaborators.sort {x,y -> x.username <=> y.username}
+		
+		def matches = []
+		collaborators.each
+		{
+			matches << LdapUser.find(filter: "(uid=${it?.username})")
+		}
+		def sortedCollaboratorMatches = matches.sort
+		{x,y -> x.sn <=> y.sn}
 
-		[studyInstance: studyInstance, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size()]
+		[studyInstance: studyInstance, collaboratorInstanceList: sortedCollaboratorMatches, collaboratorInstanceTotal: sortedCollaboratorMatches.size()]
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -115,9 +122,16 @@ class StudyController
 		}
 
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
-		collaborators = collaborators.sort {x,y -> x.username <=> y.username}
 		
-		render(view: "listCollaborators", model: [studyInstance: studyInstance, username: params.username, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size()])
+		def matches = []
+		collaborators.each
+		{
+			matches << LdapUser.find(filter: "(uid=${it?.username})")
+		}
+		def sortedCollaboratorMatches = matches.sort
+		{x,y -> x.sn <=> y.sn}
+		
+		render(view: "listCollaborators", model: [studyInstance: studyInstance, username: params.username, collaboratorInstanceList: sortedCollaboratorMatches, collaboratorInstanceTotal: sortedCollaboratorMatches.size()])
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -125,7 +139,7 @@ class StudyController
 	{
 		cache false
 		def studyInstance = Study.get(params.studyId)
-		def userStore = UserStore.get(params.collaboratorId)
+		def userStore = UserStore.findByUsername(params.collaboratorUid)
 
 		def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(studyInstance,userStore)
 		if(studyCollaborator) {
@@ -133,9 +147,16 @@ class StudyController
 		}
 
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
-		collaborators = collaborators.sort {x,y -> x.username <=> y.username}
 		
-		render(view: "listCollaborators", model: [studyInstance: studyInstance, collaboratorInstanceList: collaborators, collaboratorInstanceTotal: collaborators.size()])
+		def matches = []
+		collaborators.each
+		{
+			matches << LdapUser.find(filter: "(uid=${it?.username})")
+		}
+		def sortedCollaboratorMatches = matches.sort
+		{x,y -> x.sn <=> y.sn}
+		
+		render(view: "listCollaborators", model: [studyInstance: studyInstance, collaboratorInstanceList: sortedCollaboratorMatches, collaboratorInstanceTotal: sortedCollaboratorMatches.size()])
 	}
 	
 	private String normalizeValue(value)
