@@ -76,4 +76,5 @@ Feature: Edit Study
       | End Date                       | 04/2011                       |
       | Number of Participants         | 10                            |
       | Inclusion Exclusion Criteria   | Test Criteria                 |
-     
+      
+      

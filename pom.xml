@@ -36,7 +36,7 @@
 	<properties>
 		<cuke4duke.version>0.4.3</cuke4duke.version>
 		<groovy.version>1.7.6</groovy.version>
-		<selenium.version>2.0a7</selenium.version>
+		<selenium.version>2.0.0</selenium.version>
 		<gherkin.version>2.3.5</gherkin.version>
 		<cucumber.version>0.10.2</cucumber.version>
 	</properties>

@@ -51,6 +51,7 @@ class BootStrap
                 
                 user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
                 user.save(flush:true)
+				createStaticData() 
 			}
 			
 			development
@@ -86,6 +87,7 @@ class BootStrap
 				user.save(flush:true)
 				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null)
 				user.save(flush:true)
+				createStaticData() 
 			}
 			
 			intersect_test
@@ -100,6 +102,7 @@ class BootStrap
 				user.save(flush:true)
 				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
 				user.save(flush:true)
+				createStaticData() 
 			}
 
 			intersect_demo
@@ -137,9 +140,13 @@ class BootStrap
 		def files = [['short':'uow','fname':'static~1.xml'],['short':'bml','fname':'static~2.xml']]
 		files.each { props ->
 				def shortDescription = props['short']
+				def staticObj = StaticMetadataObject.findByShortDescription(shortDescription)
+				if (staticObj != null) {
+					return
+				}
 				def fname = props['fname']
 				def content = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("WEB-INF/$fname")).text
-				def staticObj = new StaticMetadataObject(shortDescription:shortDescription, description:shortDescription, xmlContent:content)
+				staticObj = new StaticMetadataObject(shortDescription:shortDescription, description:shortDescription, xmlContent:content)
 				staticObj.save(flush:true)
 			}
 	}

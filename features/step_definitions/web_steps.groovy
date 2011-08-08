@@ -157,8 +157,8 @@ When(~"I fill in \"(.*)\" with enter") { String field ->
 
 When(~"I select \"(.*)\" from \"(.*)\"") { String value, String field ->
     fieldElement = browser.findElement(By.name(field))
-	Select select = new Select(fieldElement)
-	select.selectByVisibleText(value);
+	elements = fieldElement.findElements(By.tagName('option')).findAll { it -> it.getText().equals(value) }
+	elements[0].click()
 }
 
 When(~"I select radiobutton \"(.*)\" from \"(.*)\"") { String value, String field ->
@@ -188,6 +188,13 @@ Then(~"I should see \"(.*)\"") { String text ->
     assertThat(browser.findElementByTagName('body').text, containsString(text))
 }
 
+Then(~"I should see in \"(.*)\" phrase \"(.*)\"") { String elementId, String phrase ->
+	element = browser.findElementById(elementId)
+	assertNotNull(element)
+	assertTrue(element.isDisplayed())
+    assertThat(element.text, containsString(phrase))
+}
+
 Then(~"I should see words \"(.*)\"") { String text ->
 	bodyText = browser.findElementByTagName('body').text
 	text.split().each { word ->
@@ -197,7 +204,13 @@ Then(~"I should see words \"(.*)\"") { String text ->
 
 Then(~"I should have \"(.*)\" in text field named \"(.*)\"") { String text, String fieldname ->
 	fieldElement = browser.findElement(By.name(fieldname))
-    assertThat(fieldElement.value, containsString(text))
+    assertThat(fieldElement.getAttribute('value'), containsString(text))
+}
+
+Then(~"There must be an ID \"(.*)\" which is (visible|hidden)") { String elementId, String shown ->
+	element = browser.findElementById(elementId)
+    assertNotNull(element)
+	assertEquals(shown,(element.isDisplayed() ? 'visible' : 'hidden'))
 }
 
 Then(~"There must be an ID \"(.*)\"") { String elementId ->
@@ -221,13 +234,16 @@ Then(~"I disable javascript")
 
 Then(~"I should see \"(.*)\" with value \"(.*)\"") { String field, String text ->
 	fieldElement = browser.findElement(By.name(field))
-	assertThat(fieldElement.getValue(), containsString(text))
+	assertThat(fieldElement.getAttribute('value'), containsString(text))
 }
 
 Then(~"I should see \"(.*)\" selected with value \"(.*)\"") { String field, String text ->
 	fieldElement = browser.findElement(By.name(field))
-	Select select = new Select(fieldElement)
-	assertThat(select.getFirstSelectedOption().getValue(), containsString(text))
+	selectedOptions = fieldElement.findElements(By.tagName('option')).findAll{ it -> it.getAttribute('selected') != null && it.getAttribute('selected') }
+	if (selectedOptions.size() == 0) {
+		selectedOptions = [fieldElement.findElement(By.tagName('option'))]
+	}
+	assertEquals(text,selectedOptions[0].getAttribute('value'))
 }
 
 Then(~"I select file \"(.*)\" from \"(.*)\"") { String filePath, String field ->
@@ -264,3 +280,8 @@ Then(~"I print the page") {
 	page = response.body
 	println page
 }
+
+Then(~"I wait for ajax") {
+	Thread.sleep(5000)
+}
+

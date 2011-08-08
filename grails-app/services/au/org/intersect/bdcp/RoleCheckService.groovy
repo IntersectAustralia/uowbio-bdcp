@@ -11,13 +11,19 @@ class RoleCheckService {
 	*/
    def boolean checkUserRole(roleType)
    {
-	   boolean check = false;
 	   def auth = springSecurityService.authentication;
 	   def role = auth.getPrincipal().getAuthorities()[0];
-	   if(role.equals(roleType)) {
-		   check = true;
-	   }
-
-	   return check;
+	   return role.equals(roleType)
    }
+   
+   /**
+   * Check the role of the logged in user.
+   */
+  def boolean checkSameUser(username)
+  {
+	  def auth = springSecurityService.authentication;
+	  def ppal = auth.getPrincipal()
+	  return ppal.getUsername().equals(username)
+  }
+
 }

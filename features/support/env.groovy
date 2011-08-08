@@ -33,8 +33,9 @@ Before() {
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-3','0','labman', 'false', 'ROLE_LAB_MANAGER', 'http://ands.org.au/5678', now(), now());")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-4','0','sysadm', 'false', 'ROLE_SYS_ADMIN', null, now(), now());")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, date_created, last_updated) VALUES ('-5','0','researcher', 'false', 'ROLE_RESEARCHER', null, now(), now());")
+  // browser = new FirefoxDriver()
   browser = new HtmlUnitDriver(BrowserVersion.FIREFOX_3_6)
-  JavascriptExecutor jsExecutor = (JavascriptExecutor) browser;
+  jsExecutor = (JavascriptExecutor) browser;
   //browser.setJavascriptEnabled(true)
   //browser = new HtmlUnitDriver()
   testFile = createTmpFile(FILE_HTML);

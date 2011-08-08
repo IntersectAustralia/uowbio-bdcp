@@ -292,7 +292,8 @@ class StudyController
 		}
 		else
 		{
-			[studyInstance: studyInstance, participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance),projectid: params.projectid]
+			[studyInstance: studyInstance, canPublish: roleCheckService.checkSameUser(studyInstance.project.owner.username),
+				participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance),projectid: params.projectid]
 		}
 		
 	}
@@ -397,6 +398,11 @@ class StudyController
 		}
 		else
 		{
+			if (!roleCheckService.checkSameUser(studyInstance.project.owner.username)) {
+				response.contentType = "text/plain"
+				render "ERROR"
+				return
+			}
 			studyInstance.published = true
 			studyInstance.project.owner.published = true
 			studyInstance.project.owner.save(flush:true)
