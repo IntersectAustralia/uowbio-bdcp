@@ -30,4 +30,10 @@ Feature: Delete Collaborator of Study
    	 
  Given I have logged in as "researcher"
  Given I am on the home page
+ Then I cannot follow "My Biomechanics Study"
+ Then I press "Logout"
+ 
+ Given I have logged in as "researcher1"
+ Given I am on the home page
+ Then I cannot follow "My Biomechanics Study"
  Then I press "Logout"
