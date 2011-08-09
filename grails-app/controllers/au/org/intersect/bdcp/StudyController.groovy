@@ -313,7 +313,7 @@ class StudyController
 		}
 		else
 		{
-			[studyInstance: studyInstance, canPublish: roleCheckService.checkSameUser(studyInstance.project.owner.username),
+			[studyInstance: studyInstance, canPublish: roleCheckService.checkSameUser(studyInstance.project.owner.username) || roleCheckService.checkUserRole('ROLE_LAB_MANAGER'),
 				participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance),projectid: params.projectid]
 		}
 		
@@ -419,7 +419,7 @@ class StudyController
 		}
 		else
 		{
-			if (!roleCheckService.checkSameUser(studyInstance.project.owner.username)) {
+			if (!roleCheckService.checkSameUser(studyInstance.project.owner.username) && !roleCheckService.checkUserRole('ROLE_LAB_MANAGER')) {
 				response.contentType = "text/plain"
 				render "ERROR"
 				return

@@ -60,7 +60,7 @@
 		</xsl:if>
 		<xsl:if test="ro:location/ro:address/ro:physical">
 		<tr>
-			<td>Email:</td>
+			<td>Contact Details:</td>
 			<td colspan="2">
 				<pre><xsl:value-of select="ro:location/ro:address/ro:physical/ro:value/text()"/></pre>
 			</td>
