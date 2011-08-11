@@ -21,6 +21,10 @@ Given(~"I am on the home page") { ->
     browser.get("http://localhost:8080/BDCP")
 }
 
+Given(~"I am on the show study page with \"(.*)\", \"(.*)\"") { String study_id, String project_id ->
+	browser.get("http://localhost:8080/BDCP/project/${project_id}/study/show/${study_id}")
+}
+
 Given(~"I have logged in") { ->
 	browser.get("http://localhost:8080/BDCP/login/auth")
 	fieldElement = browser.findElement(By.name("j_username"))
