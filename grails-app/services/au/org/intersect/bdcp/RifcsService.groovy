@@ -80,44 +80,42 @@ Wollongong N.S.W. 2522"""
 	private def studiesToXml =
 	{
 		staticCtx ->
-		def studies = null
 		Study.withTransaction {
-			studies = Study.findAllByPublished(true).findAll {
+			def studies = Study.findAllByPublished(true).findAll {
 				File f = fileService.getFileReference(staticCtx, makeFilename(it));
 				!f.exists() || f.lastModified() < it.lastUpdated.getTime()
 			}
-		}
-		studies.each {
-			def related = [
-				makeRelation(it.project.owner, "isManagedBy"),
-				makeRelation(StaticMetadataObject.findByShortDescription('bml'), "isOwnedBy")
-				]
-			objectToXml(staticCtx, createStudyXml, it, related)
+			studies.each {
+				def related = [
+					makeRelation(it.project.owner, "isManagedBy"),
+					makeRelation(StaticMetadataObject.findByShortDescription('bml'), "isOwnedBy")
+					]
+				objectToXml(staticCtx, createStudyXml, it, related)
+			}
 		}
 	}
 	
 	private def usersToXml =
 	{
 		staticCtx ->
-		def users = null
 		UserStore.withTransaction() {
-			users = UserStore.findAllByPublished(true).findAll {
+			def users = UserStore.findAllPublished().findAll {
 				File f = fileService.getFileReference(staticCtx, makeFilename(it));
 				!f.exists() || f.lastModified() < it.lastUpdated.getTime()
 			}
-		}
-		users.each { user ->
-			def criteria = Study.createCriteria()
-			def rows = criteria.list {
-				join 'project'
-				project {
-					eq 'owner', user
+			users.each { user ->
+				def criteria = Study.createCriteria()
+				def rows = criteria.list {
+					join 'project'
+					project {
+						eq 'owner', user
+					}
 				}
+				def related = rows.collect {
+					makeRelation(it,"isManagerOf")
+				}
+				objectToXml(staticCtx, createUserXml, user, related)
 			}
-			def related = rows.collect {
-				makeRelation(it,"isManagerOf")
-			}
-			objectToXml(staticCtx, createUserXml, user, related)
 		}
 	}
 	
@@ -140,11 +138,14 @@ Wollongong N.S.W. 2522"""
 	{
 		staticCtx, staticData ->
 		def uow = StaticMetadataObject.findByShortDescription('uow')
-		def related = [makeRelation(uow, "hasPart")]
-		related.plus(Study.findAllByPublished(true).collect {
-			makeRelation(it,"isOwnerOf")
-			})
-		objectToXml(staticCtx, createStaticXml, staticData, related)
+		Study.withTransaction() {
+			def related = [makeRelation(uow, "isPartOf")]
+			def relatedStudies = Study.findAllPublished().collect { study ->
+				makeRelation(study,"isOwnerOf")
+				}
+			related.addAll(relatedStudies)
+			objectToXml(staticCtx, createStaticXml, staticData, related)
+		}
 	}
 	
 	private def objectToXml =

@@ -29,45 +29,6 @@ Wollongong N.S.W. 2522</addressPart>
 				<spatial type="text">Wollongong, N.S.W.</spatial>
 			</location>
 
-		<relatedObject>
-			<key>uow.edu.au/COL/68</key>
-			<relation type="hasAssociationWith"/>
-		</relatedObject>
-
-		<relatedObject>
-			<key>uow.edu.au/COL/69</key>
-			<relation type="hasAssociationWith"/>
-		</relatedObject>
-
-		<relatedObject>
-			<key>uow.edu.au/PTY/44</key>
-			<relation type="hasAssociationWith"/>
-		</relatedObject>
-
-		<relatedObject>
-			<key>uow.edu.au/PTY/45</key>
-			<relation type="hasAssociationWith"/>
-		</relatedObject>
-
-		<relatedObject>
-			<key>uow.edu.au/PTY/46</key>
-			<relation type="hasAssociationWith"/>
-		</relatedObject>
-
-		<relatedObject>
-			<key>uow.edu.au/PTY/47</key>
-			<relation type="hasAssociationWith"/>
-		</relatedObject>
-
-		<relatedObject>
-			<key>uow.edu.au/SER/70</key>
-			<relation type="hasPart"/>
-		</relatedObject>
-
-		<relatedObject>
-			<key>uow.edu.au/SER/71</key>
-			<relation type="hasPart"/>
-		</relatedObject>
 		<subject type="anzsrc-for" xml:lang="en">1106</subject>
 
 		<subject type="anzsrc-for" xml:lang="en">1103</subject>
