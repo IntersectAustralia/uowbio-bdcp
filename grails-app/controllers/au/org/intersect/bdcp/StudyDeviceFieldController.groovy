@@ -7,6 +7,8 @@ class StudyDeviceFieldController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def studyDeviceFieldService
+	
+	def roleCheckService
     
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def index = {
@@ -102,9 +104,16 @@ class StudyDeviceFieldController {
         }
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def edit = {
         def studyDeviceFields = []
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
         studyDeviceFields.addAll(StudyDevice.findByStudyAndDevice(Study.findById(params.studyId), Device.findById(params.device.id))?.studyDeviceFields)
         studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}
         def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
@@ -116,11 +125,32 @@ class StudyDeviceFieldController {
             return [studyDeviceFields: studyDeviceFields, deviceFields: deviceFields]
         }
     }
+	
+	/**
+	* Display Study only to research owner or research collaborator
+	* @param _studyInstance
+	*/
+   private void redirectNonAuthorizedResearcherAccessStudy(Study _studyInstance)
+   {
+	   def userStore = UserStore.findByUsername(principal.username)
+	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(_studyInstance,userStore)
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
+		   redirect controller:'login', action: 'denied'
+	   }
+   }
+
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def update = {
         
         def result = studyDeviceFieldService.update(params)
+		
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
         
         if (result.successful)
         {
