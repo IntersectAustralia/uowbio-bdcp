@@ -57,6 +57,12 @@ class ComponentController
 	def create =
 	{
 		def componentInstance = new Component()
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
 		componentInstance.properties = params
 		return [componentInstance: componentInstance]
 	}
@@ -67,6 +73,13 @@ class ComponentController
 		def componentInstance = new Component(params)
         def context = createContext(request)
         def path = params.studyId +"/"
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
         if (componentInstance.save(flush: true))
         {
             fileService.createDirectory(context,params.studyId.toString(),"")
@@ -100,6 +113,13 @@ class ComponentController
 	def edit =
 	{
 		def componentInstance = Component.get(params.id)
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
 		if (!componentInstance)
 		{
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'component.label', default: 'Component'), params.name])}"
@@ -111,10 +131,17 @@ class ComponentController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def update =
 	{
 		def componentInstance = Component.get(params.id)
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
 		if (componentInstance)
 		{
 			if (params.version)
