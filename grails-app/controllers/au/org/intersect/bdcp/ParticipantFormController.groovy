@@ -260,11 +260,17 @@ class ParticipantFormController
 	   }
    }
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def downloadFile =
 	{
 		cache false
 		def participantFormInstance = ParticipantForm.get(params.id)
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
 
 		def fileDoc = new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.fileName)
 
@@ -308,7 +314,16 @@ class ParticipantFormController
 		def participantInstance = Participant.get(params.participantId)
 		def participantFormInstanceList = []
 		def participantForms = []
+		
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
 		def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
+		
 		if( f.exists() )
 		{
 			f.eachFile()

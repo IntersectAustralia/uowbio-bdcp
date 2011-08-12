@@ -87,6 +87,12 @@ class ParticipantController
 	{
 		cache false
 		def participantInstance = Participant.get(params.id)
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
 		if (!participantInstance)
 		{
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participant.label', default: 'Participant'), params.id])}"
@@ -103,6 +109,13 @@ class ParticipantController
 	{
 		cache false
 		def participantInstance = Participant.get(params.id)
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
 		if (!participantInstance)
 		{
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'participant.label', default: 'Participant'), params.id])}"
@@ -119,6 +132,12 @@ class ParticipantController
 	{
 		cache false
 		def participantInstance = Participant.get(params.id)
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
 		if (participantInstance)
 		{
 			if (params.version)
@@ -158,6 +177,13 @@ class ParticipantController
 	{
 		cache false
 		def participantInstance = Participant.get(params.id)
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
 		if (participantInstance)
 		{
 			try
