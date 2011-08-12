@@ -422,11 +422,18 @@ class ParticipantFormController
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def delete =
 	{
 		cache false
 		def participantFormInstance = ParticipantForm.get(params.id)
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
 		if (participantFormInstance)
 		{
 			try
