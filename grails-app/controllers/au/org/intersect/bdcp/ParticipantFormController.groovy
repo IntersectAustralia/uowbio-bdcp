@@ -10,8 +10,9 @@ import grails.plugins.springsecurity.Secured
 
 class ParticipantFormController
 {
-
 	static allowedMethods = [save: "POST", update: "POST", delete: ["POST", "GET"]]
+	
+	def roleCheckService
 
 	private ParticipantForm extractParticipantForm(i)
 	{
@@ -165,13 +166,19 @@ class ParticipantFormController
         render(view: "list", model: [participantForms: participantForms,participantFormInstanceList: participantFormInstanceList, participantFormInstanceTotal: participantFormInstanceList.size(), participantInstance: Participant.get(params.participantId), forms:participantForms, fileName: params.fileName, participantId: params.participantId ])
     }
     
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def upload =
 	{
 		cache false
 		def participantForms = []
 		def participantFormInstanceList = []
 		def allValid = true
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
         
         for (i in participantFormsToLoad())
 		{
@@ -238,6 +245,20 @@ class ParticipantFormController
 			mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
 		}
 	}
+	
+	/**
+	* Display Study only to research owner or research collaborator
+	* @param _studyInstance
+	*/
+   private void redirectNonAuthorizedResearcherAccessStudy(Study _studyInstance)
+   {
+	   def userStore = UserStore.findByUsername(principal.username)
+	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(_studyInstance,userStore)
+
+	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
+		   redirect controller:'login', action: 'denied'
+	   }
+   }
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def downloadFile =
