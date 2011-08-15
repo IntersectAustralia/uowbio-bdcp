@@ -15,8 +15,15 @@ class StudyDeviceFieldController {
         redirect(controller:"studyDevice", action: "create", params: params)
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def create = {
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
         def studyDeviceFieldInstance = new StudyDeviceField()
         studyDeviceFieldInstance.properties = params
         def studyDeviceFields = []
@@ -73,9 +80,16 @@ class StudyDeviceFieldController {
     }
     
     
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def save = {
         
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
         def result = studyDeviceFieldService.save(params)
         
         if (result.successful)

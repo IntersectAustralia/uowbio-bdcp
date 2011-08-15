@@ -53,7 +53,7 @@
 						 <p class="project_title">${fieldValue(bean: projectCollInstance, field: "projectTitle")} owned by ${fieldValue(bean: projectCollInstance, field: "owner")}</p>
 	            		
 	            		<ul>
-	            		    <g:each in="${projectCollInstance.studies}" status="n" var="studyInstance">
+	            		    <g:each in="${projectCollInstance.collaboratorStudies}" status="n" var="studyInstance">
 	                       		<li><g:link mapping="studyDetails" controller="study" action="show" id="${studyInstance.id}" class="project_study" params="[projectId: projectCollInstance.id]">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link></li>
 	            		    </g:each>
 	            		</ul>

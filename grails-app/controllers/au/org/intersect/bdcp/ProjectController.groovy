@@ -23,8 +23,8 @@ class ProjectController
 	{
 		cache false
 					   
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		def projectInstanceList = Project.list(params);
+//		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		def projectInstanceList = Project.list(sort:"projectTitle",  order:"asc");
 		def collaborator = UserStore.findByUsername(principal.username);
 		def collaboratorProjectInstanceList = [];
 		collaboratorProjectInstanceList = collaborator.studyCollaborators.collect { it.study.project }
@@ -41,7 +41,7 @@ class ProjectController
 					it.equals(principal.username)
 				}
 			}
-			it.studies = collaboratorProjectStudies
+			it.collaboratorStudies = collaboratorProjectStudies
 		}
 	   
 		// A researcher can look at the projects that they own
@@ -51,7 +51,7 @@ class ProjectController
 	   
 		// sort projects by project titles
 		collaboratorProjectInstanceList = collaboratorProjectInstanceList.sort {x,y -> x.projectTitle <=> y.projectTitle}
-		projectInstanceList = projectInstanceList.sort {x,y -> x.projectTitle <=> y.projectTitle}
+//		projectInstanceList = projectInstanceList.sort {x,y -> x.projectTitle <=> y.projectTitle}
 	   
 		[projectInstanceList: projectInstanceList, projectInstanceTotal: Project.count(), collaboratorProjectInstanceList: collaboratorProjectInstanceList]
 	}

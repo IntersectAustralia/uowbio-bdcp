@@ -35,6 +35,9 @@
 	                <g:link controller="project" class="list" action="list">Project List</g:link>
 	            </li>
 	            <li>
+	                <g:link controller="project" class="list" action="list">All Projects</g:link>
+	            </li>
+	            <li>
 	                <g:link elementId="system-administration" class="admin" controller="admin" action="systemAdmin"><g:message code="default.system.admin.label"/></g:link>
 	            </li>
 	          </ul>
