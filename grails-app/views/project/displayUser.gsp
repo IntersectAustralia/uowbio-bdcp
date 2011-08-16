@@ -22,7 +22,9 @@
 			<g:if test="${ projectInstance }">
 				<div class="projects">
 
-					<p class="project_title">${projectInstance.projectTitle} owned by ${firstName} ${surname}</p>
+					<p class="project_title">
+						<g:link action="show" id="${projectInstance.id}" class="project_title"> ${fieldValue(bean: projectInstance, field: "projectTitle")} owned by ${firstName} ${surname}</g:link>
+					</p>
 	            		
             		<ul>
             		    <g:each in="${projectInstance.studies}" status="n" var="studyInstance">
