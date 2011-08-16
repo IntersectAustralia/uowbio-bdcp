@@ -18,11 +18,11 @@
                 <div class="message">${flash.message}</div>
             </g:if>
             
-            <g:if test="${ projectInstanceList?.size() > 0}">
+            <g:if test="${ myProjectInstanceList?.size() > 0}">
 	        
 	        
 	            <div class="projects">
-	            	<g:each in="${projectInstanceList}" status="i" var="projectInstance">
+	            	<g:each in="${myProjectInstanceList}" status="i" var="projectInstance">
 	            	
 	            		<g:link action="show" id="${projectInstance.id}" class="project_title"> ${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link>
 	            		

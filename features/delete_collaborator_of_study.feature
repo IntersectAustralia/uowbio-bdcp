@@ -10,6 +10,8 @@ Feature: Delete Collaborator of Study
  
  Scenario: Delete Collaborator from Study
  Given I am on the home page
+ And I press "all-projects"
+ Then I follow "My Biomechanics Project"
  Then I follow "My Biomechanics Study"
  Then I follow "Collaborators"
  Then I press "Add Collaborator"

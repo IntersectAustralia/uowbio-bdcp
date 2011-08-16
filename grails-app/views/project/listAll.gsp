@@ -1,0 +1,47 @@
+
+<%@ page import="au.org.intersect.bdcp.Project" %>
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="layout" content="main" />
+        <g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
+        <title>All Projects</title>
+    </head>
+    
+    <body>
+    
+        <div class="body">
+            <h1>All Projects</h1>
+            
+            <g:if test="${flash.message}">
+                <div class="message">${flash.message}</div>
+            </g:if>
+            
+            <g:if test="${ allProjectInstanceList?.size() > 0}">
+	        <br/>
+				<div class="list">
+	                <table id="searchTable">
+	                    <thead>
+	                        <tr>                        
+	                            <th>Researcher Name</th>
+	                        	<th>Project Name</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+						<g:each in="${allProjectInstanceList}" status="i" var="projectInstance">
+	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+								<td>${userDetails[i].givenName} ${userDetails[i].sn}</td>
+								<td><g:link id="${projectInstance.id}" url="${createLink(controller:'project', action:'displayUser', params:['id': projectInstance.id, firstName: userDetails[i].givenName, surname: userDetails[i].sn])}"> ${projectInstance.projectTitle}</g:link></td>
+	                        </tr>
+	                    </g:each>
+	                    </tbody>
+	                </table>
+	            </div>
+	            
+            </g:if>
+                        
+        </div>
+    </body>
+</html>
+

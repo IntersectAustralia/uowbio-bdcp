@@ -36,6 +36,8 @@ Feature: View Files
     Then I should see "TestSession"  
     
 	Given I am on the home page
+	And I press "all-projects"
+	Then I follow "My Other Biomechanics Project"
     And I follow "My Other Biomechanics Study"
 	Then I follow "Components"
     Then I should see "Add Component"
@@ -72,11 +74,15 @@ Feature: View Files
 	Then I should see "TestSession1"
 	
 	Given I am on the home page
+	And I press "all-projects"
+	Then I follow "My Biomechanics Project"
 	Then I follow "My Biomechanics Study"
 	Then I follow "Files"
 	Then I should see "Sorry, you're not authorized to view this page."
 	
 	Given I am on the home page
+	And I press "all-projects"
+	Then I follow "My Biomechanics Project"
 	Then I follow "My Biomechanics Study"
 	Then I follow "Collaborators"
 	Then I press "Add Collaborator"
@@ -91,6 +97,8 @@ Feature: View Files
 	Then I should see "Collaborator sysadm added to study My Biomechanics Study"
 	
 	Given I am on the home page
+	And I press "all-projects"
+	Then I follow "My Biomechanics Project"
 	Then I follow "My Biomechanics Study"
 	Then I follow "Files"
 	Then I should see "TestComponent"

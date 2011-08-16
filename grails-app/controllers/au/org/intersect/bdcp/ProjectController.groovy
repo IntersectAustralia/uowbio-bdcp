@@ -1,7 +1,7 @@
 package au.org.intersect.bdcp
 
 import grails.plugins.springsecurity.Secured
-import org.codehaus.groovy.grails.commons.ApplicationHolder
+import au.org.intersect.bdcp.ldap.LdapUser
 
 class ProjectController
 {
@@ -22,9 +22,7 @@ class ProjectController
 	def list =
 	{
 		cache false
-					   
-//		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		def projectInstanceList = Project.list(sort:"projectTitle",  order:"asc");
+
 		def collaborator = UserStore.findByUsername(principal.username);
 		def collaboratorProjectInstanceList = [];
 		collaboratorProjectInstanceList = collaborator.studyCollaborators.collect { it.study.project }
@@ -44,18 +42,27 @@ class ProjectController
 			it.collaboratorStudies = collaboratorProjectStudies
 		}
 	   
-		// A researcher can look at the projects that they own
-		if(roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
-			projectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username));
-		}
+		def myProjectInstanceList = [];
+		myProjectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username));
 	   
-		// sort projects by project titles
-		collaboratorProjectInstanceList = collaboratorProjectInstanceList.sort {x,y -> x.projectTitle <=> y.projectTitle}
-//		projectInstanceList = projectInstanceList.sort {x,y -> x.projectTitle <=> y.projectTitle}
-	   
-		[projectInstanceList: projectInstanceList, projectInstanceTotal: Project.count(), collaboratorProjectInstanceList: collaboratorProjectInstanceList]
+		[myProjectInstanceList: myProjectInstanceList, collaboratorProjectInstanceList: collaboratorProjectInstanceList]
 	}
-
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def listAll =
+	{
+		cache false
+		
+		def allProjectInstanceList = Project.list(sort:"projectTitle",  order:"asc");
+		
+		def userDetails = []
+		allProjectInstanceList.each
+		{
+			userDetails << LdapUser.find(filter: "(uid=${it?.owner?.username})")
+		}
+		
+		[allProjectInstanceList: allProjectInstanceList, userDetails: userDetails]
+	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def create =
@@ -105,6 +112,23 @@ class ProjectController
 				redirectNonAuthorizedResearcherAccessProject(projectInstance)
 			}
 			[projectInstance: projectInstance]
+		}
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def displayUser =
+	{
+		cache false
+		def projectInstance = Project.get(params.id)
+		
+		if (!projectInstance)
+		{
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
+			redirect(action: "list")
+		}
+		else
+		{
+			[projectInstance: projectInstance, firstName: params.firstName, surname: params.surname]
 		}
 	}
 	
