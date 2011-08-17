@@ -62,7 +62,7 @@ Feature: View Study
       | End Date                       | 03/2011                 |
       | Number of Participants         | 10                      |
       | Inclusion Exclusion Criteria   | Test Criteria           |
-   Then I follow "Project List"
+   Then I follow "My Projects"
    Then I should see "Researcher Biomechanics Project"
    
    Given I am on the home page

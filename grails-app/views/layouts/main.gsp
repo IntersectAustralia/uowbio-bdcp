@@ -32,7 +32,7 @@
                     <a class="home" id="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a>
 	            </li>
 	            <li>
-	                <g:link controller="project" class="list" action="list">Project List</g:link>
+	                <g:link controller="project" class="list" action="list">My Projects</g:link>
 	            </li>
 	            <li>
 	                <g:link elementId="all-projects" controller="project" class="list" action="listAll">All Projects</g:link>
