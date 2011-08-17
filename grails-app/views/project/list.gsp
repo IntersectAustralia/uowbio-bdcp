@@ -63,7 +63,9 @@
 	            	</g:each>
 				</div>
 			</g:if>
-                        
+            
+			<div class="rowBottom"></div>
+            
         </div>
     </body>
 </html>
