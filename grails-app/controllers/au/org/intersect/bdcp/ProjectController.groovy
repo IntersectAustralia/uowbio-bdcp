@@ -78,6 +78,117 @@ class ProjectController
 		
 		return [projectInstance: projectInstance]
 	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def createForResearcher =
+	{
+		cache false
+		def projectInstance = new Project()
+		projectInstance.properties = params
+		
+		return [projectInstance: projectInstance, nameCreateProjFor: params.nameCreateProjFor]
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def searchUsers =
+	{
+		cache false
+		def matches = []
+		
+		[matches:matches]
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def listUsers = 
+	{
+		cache false
+		
+		if (params.firstName != null)
+		{
+			session.firstName = params.firstName
+		}
+		else
+		{
+			session.firstName = ""
+		}
+		if (params.surname != null)
+		{
+			session.surname = params.surname
+		}
+		else
+		{
+			session.surname=""
+		}
+		if (params.userid != null)
+		{
+			session.userid = params.userid
+		}
+		else
+		{
+			session.userid = ""
+		}
+		
+		def ldapUsers = []
+		ldapUsers = LdapUser.findAll()
+		{
+			and
+			{
+				if (!session.userid?.isEmpty())
+				{
+					like "uid", "*" + normalizeValue(session.userid) + "*"
+				}
+				else
+				{
+					like "uid", "*"
+				}
+			}
+			and
+			{
+				if (!session.surname?.isEmpty())
+				{
+					like "sn", "*" + normalizeValue(session.surname) + "*"
+				}
+				else
+				{
+					like "sn", "*"
+				}
+			}
+			and
+			{
+				if (!session.firstName?.isEmpty())
+				{
+					like "givenName", "*" + normalizeValue(session.firstName) +"*"
+				}
+				else
+				{
+					like "givenName", "*"
+				}
+			}
+		}
+		
+		def activatedMatches = []
+		UserStore.list().each
+		{
+			// if not deactivated user and user not the owner of the study
+			if (!it?.deactivated)
+			{
+				activatedMatches << LdapUser.find(filter: "(uid=${it?.username})")
+			}
+		}
+		
+		ldapUsers.retainAll(activatedMatches)
+		
+		def sortedActivatedMatches = ldapUsers.sort
+		{x,y -> x.sn <=> y.sn}
+		
+		render (view: "searchUsers", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedActivatedMatches])
+	}
+	
+	private String normalizeValue(value)
+	{
+		value = value.replaceAll(/[^A-Za-z0-9-]/, '')
+		return value
+	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def save =
@@ -86,6 +197,26 @@ class ProjectController
 		def projectInstance = new Project(params)
 		
 		def userStore = UserStore.findByUsername(principal.username)
+		projectInstance.setOwner(userStore);
+		
+		if (projectInstance.save(flush: true))
+		{
+			flash.message = "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.projectTitle])}"
+			redirect(action: "list", id: projectInstance.id)
+		}
+		else
+		{
+			render(view: "create", model: [projectInstance: projectInstance])
+		}
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def saveUserProject =
+	{
+		cache false
+		def projectInstance = new Project(params)
+		
+		def userStore = UserStore.findByUsername(params.projectOwnerName)
 		projectInstance.setOwner(userStore);
 		
 		if (projectInstance.save(flush: true))
