@@ -31,8 +31,8 @@
 	                    <tbody>
 						<g:each in="${allProjectInstanceList}" status="i" var="projectInstance">
 	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-								<td>${userDetails[i].givenName} ${userDetails[i].sn}</td>
-								<td><g:link id="${projectInstance.id}" url="${createLink(controller:'project', action:'displayUser', params:['id': projectInstance.id, firstName: userDetails[i].givenName, surname: userDetails[i].sn])}"> ${projectInstance.projectTitle}</g:link></td>
+								<td>${projectInstance.owner.firstName} ${projectInstance.owner.surname}</td>
+								<td><g:link id="${projectInstance.id}" url="${createLink(controller:'project', action:'displayUser', params:['id': projectInstance.id, firstName: projectInstance.owner.firstName, surname: projectInstance.owner.surname])}"> ${projectInstance.projectTitle}</g:link></td>
 	                        </tr>
 	                    </g:each>
 	                    </tbody>

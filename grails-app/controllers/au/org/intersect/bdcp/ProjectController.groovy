@@ -53,15 +53,20 @@ class ProjectController
 	{
 		cache false
 		
-		def allProjectInstanceList = Project.list(sort:"projectTitle",  order:"asc");
+		def allProjectInstanceList = Project.list();
 		
-		def userDetails = []
+		// assign firstname and surname to an owner, so I can sort projects by first name
+		def ldapUserDetail
 		allProjectInstanceList.each
 		{
-			userDetails << LdapUser.find(filter: "(uid=${it?.owner?.username})")
+			ldapUserDetail = LdapUser.find(filter: "(uid=${it?.owner?.username})")
+			it?.owner?.firstName = ldapUserDetail?.givenName
+			it?.owner?.surname = ldapUserDetail?.sn
 		}
 		
-		[allProjectInstanceList: allProjectInstanceList, userDetails: userDetails]
+		allProjectInstanceList.sort{it.owner.firstName}
+		
+		[allProjectInstanceList: allProjectInstanceList]
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
