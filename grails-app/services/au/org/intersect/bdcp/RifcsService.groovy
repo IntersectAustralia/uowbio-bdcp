@@ -245,7 +245,7 @@ Wollongong N.S.W. 2522"""
 					originatingSource(type:"authoritative") { mkp.yield(common['originatingSource'])}
 					party(type:"person") {
 						name(type:"primary") {
-							namePart(type:"first") { mkp.yield(ldapUser.cn)}
+							namePart(type:"first") { mkp.yield(ldapUser.givenName)}
 							namePart(type:"last") { mkp.yield(ldapUser.sn)}
 						}
 						identifier(type:"local") { mkp.yield(user.username) }
