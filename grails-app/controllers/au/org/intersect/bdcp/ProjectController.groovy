@@ -222,7 +222,7 @@ class ProjectController
 		if (projectInstance.save(flush: true))
 		{
 			flash.message = "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.projectTitle])}"
-			redirect(action: "list", id: projectInstance.id)
+			redirect(action: "listAll", id: projectInstance.id)
 		}
 		else
 		{
