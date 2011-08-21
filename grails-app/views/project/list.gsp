@@ -30,7 +30,7 @@
 	            		    <g:each in="${projectInstance.studies}" status="n" var="studyInstance">
                         		<li><g:link mapping="studyDetails" controller="study" action="show" id="${studyInstance.id}" class="project_study" params="[projectId: projectInstance.id]">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link></li>
 	            		    </g:each>
-                    		<li><g:link id="addStudy" mapping="studyDetails" class="create" controller="study" action="create" params="[projectId: projectInstance.id]">+ Add Study</g:link></li>
+                    		<li><g:link id="addStudy" mapping="studyDetails" class="create button" controller="study" action="create" params="[projectId: projectInstance.id]">+ Add Study</g:link></li>
 	            		</ul>
 	            		
 	            		<br />
@@ -38,7 +38,7 @@
 	            	</g:each>
 	            </div>
             </g:if>
-            <g:link class="create" controller="project" action="create">+ Add Project</g:link>
+            <g:link class="create button" controller="project" action="create">+ Add Project</g:link>
 
 			<br />
 			<br />

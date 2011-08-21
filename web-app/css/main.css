@@ -25,7 +25,7 @@ body {
 #bg_gradient {
 	margin: 0 auto;
 	width: 960px;
-	height: 568px;
+/* 	height: 568px; */
 	background: url("../images/bg_gradient.jpg") no-repeat center;
 }
 
@@ -39,11 +39,13 @@ body {
 	margin: 20px auto;
 }
 
-a:link,a:visited,a:hover {
+a:link,a:visited {
 	color: #666;
 	font-weight: bold;
 	text-decoration: none;
 }
+
+a:hover { color: #000; text-decoration: underline; }
 
 h1 {
 	color: #1b1b1b;
@@ -124,7 +126,47 @@ input:focus,select:focus,textarea:focus {
 	width: 920px;
 	margin: 0 auto;
 	background: #fff;
-	padding: 20px
+	padding: 20px 20px 40px 20px;
+	border-top:1px dashed #ff7a2a;
+	border-bottom:1px dashed #CCC;
+}
+
+/* BUTTON STYLES /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+a#create, a.button, input.button {
+	width: auto;
+	margin-top: 10px;
+	padding: 4px 9px;
+	display: inline;
+	background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Opera11.10+ */
+background: -ms-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* IE10+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+background: linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* W3C */
+	border: 1px solid #ccc;
+	color: #333;
+	overflow: hidden;
+	height: auto;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 10px;
+	margin-bottom: 10px;
+}
+
+a.button:hover {
+color: #2989D8; text-decoration: none;
+border-color: #BBB;
+}
+
+a.button:active {
+box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* NAVIGATION MENU */
@@ -164,11 +206,16 @@ input:focus,select:focus,textarea:focus {
 }
 
 .menuButton a.create {
+	height: 20px;
+	line-height: 20px;
+	display: block;
+}
+
+.menuButton a.create span {
 	background: url(../images/skin/database_add.png) center left no-repeat;
-	color: #FF7400;
 	padding-left: 25px;
-	height: 29px;
-	line-height: 29px;
+	height: 20px;
+	line-height: 20px;
 	display: block;
 }
 
@@ -398,6 +445,54 @@ input.edit {
 	padding-left: 28px;
 }
 
+/* LOGIN /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+#login {
+	margin: 0; padding:0px; width: 960px;
+	background-color: #FFF;
+	border-top:1px dashed #ff7a2a;
+	border-bottom:1px dashed #CCC;
+	text-align:center;
+}
+
+#login .inner {
+	width:400px;
+	margin:0px auto;
+	text-align:left;
+	padding:10px;
+	background-color:#FFF;
+}
+#login .inner .fheader {
+	padding:4px;margin:3px 0px 3px 0;color:#2e3741;font-size:14px;font-weight:bold;
+}
+#login .inner .cssform p {
+	clear: left;
+	margin: 0;
+	padding: 5px 0 8px 0;
+	padding-left: 105px;
+	border-top: 1px dashed gray;
+	margin-bottom: 10px;
+	height: 1%;
+}
+#login .inner .cssform input[type='text'] {
+	width: 285px;
+}
+#login .inner .cssform label {
+	font-weight: bold;
+	float: left;
+	margin-left: -105px;
+	width: 100px;
+}
+#login .inner .login_message {color:red;}
+#login .inner .text_ {width:285px;}
+#login .inner .chk {height:12px;}
+
+#login input#Login, #login input#Clear { width: 400px; cursor: pointer; }
+
 /* PROJECTS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -416,7 +511,7 @@ input.edit {
 }
 
 a.project_title:hover, a.project_study:hover {
-	color: #FF7B0D;
+/* 	color: #FF7B0D; */
 }
 
 .projects {
@@ -607,28 +702,7 @@ a#forms:active {
 		no-repeat;
 }
 
-a#create,a#account-administration,a.button, input.button {
-	width: auto;
-	margin-top: 10px;
-	padding: 4px 9px;
-	display: inline;
-	background: #ffffff; /* Old browsers */
-background: -moz-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Opera11.10+ */
-background: -ms-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* IE10+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
-background: linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* W3C */
-	border: 1px solid #ccc;
-	color: #333;
-	overflow: hidden;
-	height: auto;
-	cursor: pointer;
-	font-weight: bold;
-	font-size: 10px;
-	margin-bottom: 10px;
-}
+
 
 a#return,input.upload {
 	margin-top: 10px;
@@ -733,6 +807,8 @@ a#return:active,input.upload:active {
 /* STUDYS - DETAILS 
 /////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+#publishButton { float: right; }
+
 /* STUDYS - PARTICIPANTS 
 /////////////////////////////////////////////////////////////////////////////////////////////////*/
 
@@ -754,12 +830,14 @@ table#studyTable {
 	display: block;
 }
 
-.project_study, a.project_study, a.project_study:link, a.project_study:visited {
-	font-weight: normal; color: #000;
+.projects a.button {
+	margin: 0; height: 20px; right: 10px;
+	line-height: 20px;
+display: inline; float: right;
 }
 
-a.project_title:hover, a.project_study:hover {
-	color: #FF7B0D;
+.project_study, a.project_study, a.project_study:link, a.project_study:visited {
+	font-weight: normal; color: #000;
 }
 
 .right {
@@ -830,10 +908,8 @@ background: #fff; /* set desired hover color */
 
 /* Primary Navigation and Profile Options */
 #access {
-	height: 15px;
-	margin: 0 auto;
-	padding: 20px 0;
-	width: 960px;
+	margin: 0 0 5px 0; auto; padding: 20px; width: 920px; height: 15px;
+	background: #E5E5E5;
 }
 
 #primary_navigation li {
@@ -845,24 +921,30 @@ background: #fff; /* set desired hover color */
 #primary_navigation li a {
 	padding: 10px;
 	font-size: 12px;
-	text-transform: uppercase;
-	color: #1b1b1b;
-	font-weight: bold;
-	background: url(../images/bg_primnav.png) repeat-x bottom;
+	text-transform: uppercase; font-weight: bold;
 }
 
 #primary_navigation li a:hover {
+color: #2989D8;
+border-color: #BBB;
+/*
 	color: #fff;
 	background: url(../images/bg_primnav.png) repeat-x top;
+*/
+}
+
+#primary_navigation li a:active {
+box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 #profile_options {
 	float: right;
-	color: #fff;
+	color: #000;
 }
 
 #profile_options ul {
-	float: right;
+/* 	float: right; */
+  display: -moz-inline-stack; display: inline-block; zoom: 1; *display: inline; vertical-align: top; /* Cross-browser Inline-block */
 }
 
 #profile_options li {
@@ -872,13 +954,11 @@ background: #fff; /* set desired hover color */
 }
 
 #profile_options li a {
-	font-weight: normal;
-	text-decoration: underline;
-	color: #fff;
+color: #000;
 }
 
 #profile_options li a:hover {
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 /* University of Wollongong Logo in the Header */
@@ -899,4 +979,5 @@ background: #fff; /* set desired hover color */
 	margin: 0 auto;
 	background: #ccc;
 	padding: 10px;
+	clear: both;
 }

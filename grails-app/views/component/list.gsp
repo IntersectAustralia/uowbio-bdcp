@@ -29,10 +29,8 @@
 	    <li class="tab5"><a href="${createLink(mapping: 'studyDeviceDetails', controller:'studyDevice', action:'list', params:['studyId': studyInstance.id])}" id="tabs-files" name="tabs-files"><span>Devices</span></a></li>
 	    <li class="tab6"><a href="${createLink(mapping: 'studyCollaborators', controller:'study', action:'listCollaborators', params:['studyId': studyInstance.id])}" id="tabs-collaborators" name="tabs-collaborators"><span>Collaborators</span></a></li>
     </ul>
-        <br />
-        <span class="menuButton"><g:link elementId="createComponent" mapping="componentDetails" controller="component" class="create" action="create" params="[studyId: studyInstance.id]">Add Component</g:link></span>
-            <br />
-            <br />
+
+        <span class="menuButton"><g:link elementId="createComponent" mapping="componentDetails" controller="component" class="create button" action="create" params="[studyId: studyInstance.id]"><span>Add Component</span></g:link></span>
             <g:if test="${ componentInstanceTotal > 0}">
             
             
@@ -62,7 +60,7 @@
                     	
                     	<li>
                     		<span class="menuButton">
-                    			<g:link elementId="createSession[${i}]" mapping="sessionDetails" controller="session" class="create" action="create" params="[studyId: studyInstance.id, componentId: componentInstance.id]">Add Session</g:link>
+                    			<g:link elementId="createSession[${i}]" mapping="sessionDetails" controller="session" class="create button" action="create" params="[studyId: studyInstance.id, componentId: componentInstance.id]"><span>Add Session</span></g:link>
                     		</span>
                     	</li>
                     </ul>
