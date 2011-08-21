@@ -18,11 +18,11 @@
                 <div class="message">${flash.message}</div>
             </g:if>
             
-            <g:if test="${ projectInstanceList?.size() > 0}">
+            <g:if test="${ myProjectInstanceList?.size() > 0}">
 	        
 	        
 	            <div class="projects">
-	            	<g:each in="${projectInstanceList}" status="i" var="projectInstance">
+	            	<g:each in="${myProjectInstanceList}" status="i" var="projectInstance">
 	            	
 	            		<g:link action="show" id="${projectInstance.id}" class="project_title"> ${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link>
 	            		
@@ -53,7 +53,7 @@
 						 <p class="project_title">${fieldValue(bean: projectCollInstance, field: "projectTitle")} owned by ${fieldValue(bean: projectCollInstance, field: "owner")}</p>
 	            		
 	            		<ul>
-	            		    <g:each in="${projectCollInstance.studies}" status="n" var="studyInstance">
+	            		    <g:each in="${projectCollInstance.collaboratorStudies}" status="n" var="studyInstance">
 	                       		<li><g:link mapping="studyDetails" controller="study" action="show" id="${studyInstance.id}" class="project_study" params="[projectId: projectCollInstance.id]">${fieldValue(bean: studyInstance, field: "studyTitle")}</g:link></li>
 	            		    </g:each>
 	            		</ul>
@@ -63,7 +63,9 @@
 	            	</g:each>
 				</div>
 			</g:if>
-                        
+            
+			<div class="rowBottom"></div>
+            
         </div>
     </body>
 </html>

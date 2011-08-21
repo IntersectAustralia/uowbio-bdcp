@@ -115,6 +115,13 @@ class SessionFileController
 	def createDirectory =
 	{ 
         cache false
+		
+		def studyInstance = Study.get(params.studyId)
+		// if ur a researcher or system administrator and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER') || roleCheckService.checkUserRole('ROLE_SYS_ADMIN')) {
+			redirectNonAuthorizedAccessStudy(studyInstance)
+		}
+		
         def sessionObj = Session.findById(params.sessionId);
 	    [directory: params.directory, sessionObj: sessionObj, component: sessionObj?.component]
     }
@@ -125,6 +132,13 @@ class SessionFileController
         
         directoryCommand dirCmd ->
         cache false
+		
+		def studyInstance = Study.get(params.studyId)
+		// if ur a researcher or system administrator and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER') || roleCheckService.checkUserRole('ROLE_SYS_ADMIN')) {
+			redirectNonAuthorizedAccessStudy(studyInstance)
+		}
+		
         def context = createContext(request)
         def sessionObj = Session.findById(params.sessionId)
         def path = params.studyId +"/" + sessionObj.component.id + "/" + sessionObj.id +"/" + dirCmd?.path
@@ -156,6 +170,13 @@ class SessionFileController
 	def browseFiles =
 	{
         cache false
+		
+		def studyInstance = Study.get(params.studyId)
+		// if ur a researcher or system administrator and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER') || roleCheckService.checkUserRole('ROLE_SYS_ADMIN')) {
+			redirectNonAuthorizedAccessStudy(studyInstance)
+		}
+		
         def sessionObj = Session.findById(params.sessionId)
         def path = sessionObj.component.name + "/" + sessionObj.name +"/" + params.directory
         
@@ -166,6 +187,13 @@ class SessionFileController
 	def downloadFiles =
 	{   
 		cache false
+
+		def studyInstance = Study.get(params.studyId)
+		// if ur a researcher or system administrator and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER') || roleCheckService.checkUserRole('ROLE_SYS_ADMIN')) {
+			redirectNonAuthorizedAccessStudy(studyInstance)
+		}
+		
 		def context = createContext(request)
 		def study = Study.findById(params.studyId)
 		def files = params.list('files')

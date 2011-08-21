@@ -1,7 +1,7 @@
 package au.org.intersect.bdcp
 
 import grails.plugins.springsecurity.Secured
-import org.codehaus.groovy.grails.commons.ApplicationHolder
+import au.org.intersect.bdcp.ldap.LdapUser
 
 class ProjectController
 {
@@ -22,9 +22,7 @@ class ProjectController
 	def list =
 	{
 		cache false
-					   
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		def projectInstanceList = Project.list(params);
+
 		def collaborator = UserStore.findByUsername(principal.username);
 		def collaboratorProjectInstanceList = [];
 		collaboratorProjectInstanceList = collaborator.studyCollaborators.collect { it.study.project }
@@ -41,21 +39,35 @@ class ProjectController
 					it.equals(principal.username)
 				}
 			}
-			it.studies = collaboratorProjectStudies
+			it.collaboratorStudies = collaboratorProjectStudies
 		}
 	   
-		// A researcher can look at the projects that they own
-		if(roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
-			projectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username));
-		}
+		def myProjectInstanceList = [];
+		myProjectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username));
 	   
-		// sort projects by project titles
-		collaboratorProjectInstanceList = collaboratorProjectInstanceList.sort {x,y -> x.projectTitle <=> y.projectTitle}
-		projectInstanceList = projectInstanceList.sort {x,y -> x.projectTitle <=> y.projectTitle}
-	   
-		[projectInstanceList: projectInstanceList, projectInstanceTotal: Project.count(), collaboratorProjectInstanceList: collaboratorProjectInstanceList]
+		[myProjectInstanceList: myProjectInstanceList, collaboratorProjectInstanceList: collaboratorProjectInstanceList]
 	}
-
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def listAll =
+	{
+		cache false
+		
+		def allProjectInstanceList = Project.list();
+		
+		// assign firstname and surname to an owner, so I can sort projects by first name
+		def ldapUserDetail
+		allProjectInstanceList.each
+		{
+			ldapUserDetail = LdapUser.find(filter: "(uid=${it?.owner?.username})")
+			it?.owner?.firstName = ldapUserDetail?.givenName
+			it?.owner?.surname = ldapUserDetail?.sn
+		}
+		
+		allProjectInstanceList.sort{it.owner.firstName}
+		
+		[allProjectInstanceList: allProjectInstanceList]
+	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def create =
@@ -65,6 +77,117 @@ class ProjectController
 		projectInstance.properties = params
 		
 		return [projectInstance: projectInstance]
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def createForResearcher =
+	{
+		cache false
+		def projectInstance = new Project()
+		projectInstance.properties = params
+		
+		return [projectInstance: projectInstance, nameCreateProjFor: params.nameCreateProjFor]
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def searchUsers =
+	{
+		cache false
+		def matches = []
+		
+		[matches:matches]
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def listUsers = 
+	{
+		cache false
+		
+		if (params.firstName != null)
+		{
+			session.firstName = params.firstName
+		}
+		else
+		{
+			session.firstName = ""
+		}
+		if (params.surname != null)
+		{
+			session.surname = params.surname
+		}
+		else
+		{
+			session.surname=""
+		}
+		if (params.userid != null)
+		{
+			session.userid = params.userid
+		}
+		else
+		{
+			session.userid = ""
+		}
+		
+		def ldapUsers = []
+		ldapUsers = LdapUser.findAll()
+		{
+			and
+			{
+				if (!session.userid?.isEmpty())
+				{
+					like "uid", "*" + normalizeValue(session.userid) + "*"
+				}
+				else
+				{
+					like "uid", "*"
+				}
+			}
+			and
+			{
+				if (!session.surname?.isEmpty())
+				{
+					like "sn", "*" + normalizeValue(session.surname) + "*"
+				}
+				else
+				{
+					like "sn", "*"
+				}
+			}
+			and
+			{
+				if (!session.firstName?.isEmpty())
+				{
+					like "givenName", "*" + normalizeValue(session.firstName) +"*"
+				}
+				else
+				{
+					like "givenName", "*"
+				}
+			}
+		}
+		
+		def activatedMatches = []
+		UserStore.list().each
+		{
+			// if not deactivated user and user not the owner of the study
+			if (!it?.deactivated)
+			{
+				activatedMatches << LdapUser.find(filter: "(uid=${it?.username})")
+			}
+		}
+		
+		ldapUsers.retainAll(activatedMatches)
+		
+		def sortedActivatedMatches = ldapUsers.sort
+		{x,y -> x.sn <=> y.sn}
+		
+		render (view: "searchUsers", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedActivatedMatches])
+	}
+	
+	private String normalizeValue(value)
+	{
+		value = value.replaceAll(/[^A-Za-z0-9-]/, '')
+		return value
 	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
@@ -80,6 +203,26 @@ class ProjectController
 		{
 			flash.message = "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.projectTitle])}"
 			redirect(action: "list", id: projectInstance.id)
+		}
+		else
+		{
+			render(view: "create", model: [projectInstance: projectInstance])
+		}
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def saveUserProject =
+	{
+		cache false
+		def projectInstance = new Project(params)
+		
+		def userStore = UserStore.findByUsername(params.projectOwnerName)
+		projectInstance.setOwner(userStore);
+		
+		if (projectInstance.save(flush: true))
+		{
+			flash.message = "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.projectTitle])}"
+			redirect(action: "listAll", id: projectInstance.id)
 		}
 		else
 		{
@@ -105,6 +248,23 @@ class ProjectController
 				redirectNonAuthorizedResearcherAccessProject(projectInstance)
 			}
 			[projectInstance: projectInstance]
+		}
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def displayUser =
+	{
+		cache false
+		def projectInstance = Project.get(params.id)
+		
+		if (!projectInstance)
+		{
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
+			redirect(action: "list")
+		}
+		else
+		{
+			[projectInstance: projectInstance, firstName: params.firstName, surname: params.surname]
 		}
 	}
 	

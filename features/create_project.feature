@@ -113,8 +113,12 @@ Feature: Create project
 
 	Then I press "Logout"
 	Given I have logged in as "sysadm"
+	Given I am on the home page
+	And I press "all-projects"
+	Then I should see "My Biomechanics Project"
     Then I follow "My Biomechanics Project"
-    Then I should see "My Biomechanics Project"
+    Then I should see "My Biomechanics Project owned by The Researcher"
+    Then I follow "My Biomechanics Project owned by The Researcher"
     And I should see table "projectTable" with contents
       | Project Title   | My Biomechanics Project |
       | Researcher Name | researcher              |
@@ -127,45 +131,58 @@ Feature: Create project
       
 	Then I press "Logout"
 	Given I have logged in as "sysadm"
-    Then I follow "labman Biomechanics Project"
+	Given I am on the home page
+	And I press "all-projects"
     Then I should see "labman Biomechanics Project"
+	Then I follow "labman Biomechanics Project"
+    Then I should see "labman Biomechanics Project owned by Lab Manager Manager"
+    Then I follow "labman Biomechanics Project owned by Lab Manager Manager"
     And I should see table "projectTable" with contents
-      | Project Title   | labman Biomechanics Project	|
-      | Researcher Name | labman						|
-      | Student Number  | 1234567890                |
-      | Degree          | Masters of Biomechanics 		|
-      | Start Date      | 03/2011                 		|
-      | End Date        | 03/2011                 		|
-      | Description     | Studying some stuff     		|
-      | Supervisor(s)   | Alice Smith             		|
+      | Project Title   | labman Biomechanics Project  			|
+      | Researcher Name | labman                               	|
+      | Student Number  | 1234567890                			|
+      | Degree          | Masters of Biomechanics              	|
+      | Start Date      | 03/2011                              	|
+      | End Date        | 03/2011                              	|
+      | Description     | Studying some stuff                  	|
+      | Supervisor(s)   | Alice Smith                          	|
       
 	Then I press "Logout"
 	Given I have logged in as "labman"
-    Then I follow "My Biomechanics Project"
-    Then I should see "My Biomechanics Project"
+	Given I am on the home page
+	And I press "all-projects"
+	Then I should see "My Biomechanics Project"
+	Then I follow "My Biomechanics Project"
+    Then I should see "My Biomechanics Project owned by The Researcher"
+    Then I follow "My Biomechanics Project owned by The Researcher"
     And I should see table "projectTable" with contents
-      | Project Title   | My Biomechanics Project |
-      | Researcher Name | researcher              |
-      | Student Number  | 123456                  |
-      | Degree          | Masters of Biomechanics |
-      | Start Date      | 03/2011                 |
-      | End Date        | 03/2011                 |
-      | Description     | Studying some stuff     |
-      | Supervisor(s)   | Alice Smith             |
+		| Project Title   | My Biomechanics Project |
+		| Researcher Name | researcher              |
+		| Student Number  | 123456                  |
+		| Degree          | Masters of Biomechanics |
+		| Start Date      | 03/2011                 |
+		| End Date        | 03/2011                 |
+		| Description     | Studying some stuff     |
+		| Supervisor(s)   | Alice Smith             |
+
       
 	Then I press "Logout"
 	Given I have logged in as "labman"
-    Then I follow "Sysadm Biomechanics Project"
-    Then I should see "Sysadm Biomechanics Project"
-    And I should see table "projectTable" with contents
-      | Project Title   | Sysadm Biomechanics Project	|
-      | Researcher Name | sysadm             			|
-      | Student Number  | 123456789                  	|
-      | Degree          | Masters of Biomechanics 		|
-      | Start Date      | 03/2011                 		|
-      | End Date        | 03/2011                 		|
-      | Description     | Studying some stuff     		|
-      | Supervisor(s)   | Alice Smith             		|
+	Given I am on the home page
+	And I press "all-projects"
+	Then I should see "Sysadm Biomechanics Project"
+	Then I follow "Sysadm Biomechanics Project"
+    Then I should see "Sysadm Biomechanics Project owned by System Administrator"
+    Then I follow "Sysadm Biomechanics Project owned by System Administrator"
+	And I should see table "projectTable" with contents
+		| Project Title   | Sysadm Biomechanics Project  		 |
+		| Researcher Name | sysadm                               |
+		| Student Number  | 123456789                    		 |
+		| Degree          | Masters of Biomechanics              |
+		| Start Date      | 03/2011                              |
+		| End Date        | 03/2011                              |
+		| Description     | Studying some stuff                  |
+		| Supervisor(s)   | Alice Smith                          |
       
 	Then I press "Logout"
 	Given I have logged in as "researcher"

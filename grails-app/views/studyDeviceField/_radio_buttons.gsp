@@ -1,10 +1,10 @@
 
-                            <tr class="radiobutton">
+                            <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="radioButtonsOption">${deviceFieldInstance.fieldLabel}</label>
                                 </td>
-                                <td style="padding:0px 0px;">
-                                <table style="border: 0px; padding:0px;">
+                                <td style="padding:0px 0px;" class="value ${hasErrors(bean: studyDeviceFields[i], field: 'radioButtonsOption', 'errors')}">
+                                <table style="padding:0px;" class="radioGroup">
                                 <g:each in="${deviceFieldInstance.getFieldOptionsList().partition(3)}" var="optionsRow">
                                 <tr>
                                    <g:each in="${optionsRow}" var="fieldOptionInstance">

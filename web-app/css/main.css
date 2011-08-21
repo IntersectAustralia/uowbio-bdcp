@@ -272,6 +272,14 @@ td.errors textarea {
 	border: 1px solid red;
 }
 
+td.errors table.radioGroup {
+	border: 1px solid red;
+}
+
+table.radioGroup {
+	border: 0px;
+}
+
 /* TABLES */
 table {
 	border: 1px solid #E5E5E5;

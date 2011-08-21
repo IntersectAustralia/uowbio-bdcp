@@ -7,6 +7,8 @@ import au.org.intersect.bdcp.enums.UserRole
 class UserStore{
 
     String username
+	String firstName
+	String surname
 	boolean deactivated
     UserRole authority
     String nlaIdentifier // RIF-CS
@@ -19,6 +21,8 @@ class UserStore{
 	
     static constraints = {
     	username(blank:false, unique:true, size:1..1000)
+		firstName(nullable:true, size:1..1000)
+		surname(nullable:true, size:1..1000)
 		authority(nullable:false, blank:false)
 		nlaIdentifier(nullable:true, blank:false, maxSize:255)
 		published(nullable:true)

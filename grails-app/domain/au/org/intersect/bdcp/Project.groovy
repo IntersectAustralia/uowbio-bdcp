@@ -13,7 +13,7 @@ class Project
 	String supervisors
 	UserStore publishingUser
 	
-	static hasMany = [studies: Study]
+	static hasMany = [studies: Study, collaboratorStudies: Study]
 	
 	static belongsTo = [owner:UserStore]
 	

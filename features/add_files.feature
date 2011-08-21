@@ -12,6 +12,8 @@
     
 	Scenario: Add Files
 	Given I am on the home page
+	And I press "all-projects"
+	Then I follow "My Biomechanics Project"
 	And I follow "My Biomechanics Study"
 	Then I follow "Files"
 	Then I should see "TestComponent"
@@ -27,10 +29,12 @@
 	Then I should see "TestComponent"
 	Then I should see "TestSession"
 	
-	 Then I press "Logout"
-	 Given I have logged in as "sysadm"
+	Then I press "Logout"
+	Given I have logged in as "sysadm"
 	Given I am on the home page
+	And I press "all-projects"
+	Then I follow "My Biomechanics Project"
 	And I follow "My Biomechanics Study"
 	Then I follow "Files"
-     Then I should see "Sorry, you're not authorized to view this page."
+    Then I should see "Sorry, you're not authorized to view this page."
 	
