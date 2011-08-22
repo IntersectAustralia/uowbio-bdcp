@@ -4,7 +4,6 @@
                 <table id="searchTable">
                     <thead>
                         <tr>
-                        
                             <th>User ID</th>
                         	<th>Given Name</th>
                         	<th>Surname</th>
@@ -14,10 +13,10 @@
                     <tbody>
                     <g:each in="${matches}" status="i" var="matchInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td>${matchInstance.username.toArray()[1]}</td>
+                            <td>${matchInstance.uid}</td>
                              <td> ${matchInstance.givenName }</td>
                              <td> ${matchInstance.sn }</td>
-                             <td><g:link elementId="select[${i}]" url="${createLink(mapping: 'createForResearcher', controller:'project', action:'createForResearcher', params:['nameCreateProjFor': matchInstance.username.toArray()[1]])}">Select</g:link></td>
+                             <td><g:link elementId="select[${i}]" url="${createLink(mapping: 'createForResearcher', controller:'project', action:'createForResearcher', params:['nameCreateProjFor': matchInstance.uid])}">Select</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>
