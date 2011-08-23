@@ -16,8 +16,8 @@ class RifcsService
 	private Map common = [
 			'originatingSource' : 'http://www.uow.edu.au',
 			'@group' : 'University of Wollongong',
-			'collection.email.address' : 'email-TBA@uow.edu.au',
-			'collection.accessRights' : 'Access rights to be announced',
+			'collection.email.address' : 'brl@uow.edu.au',
+			'collection.accessRights' : 'Access on request only',
 			'collection.physical.address' : """Biomechanics Research Laboratory
 School of Health Sciences
 University of Wollongong
