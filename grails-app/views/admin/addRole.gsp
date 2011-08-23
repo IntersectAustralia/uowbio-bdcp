@@ -31,6 +31,9 @@
             <h3><g:message
 					code="admin.nlaIdentifier.label" default="NLA Persistence Identifier" /></h3>
 					<g:textField name="nlaIdentifier" value="${nlaIdentifier}" />
+            <h3><g:message
+					code="admin.title.label" default="Title" /></h3>
+					<g:textField name="title" value="${title}" />
       </div>
  
       <div class="rowBottom"></div>

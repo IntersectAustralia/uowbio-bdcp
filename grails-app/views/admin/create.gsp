@@ -45,13 +45,13 @@
 </div>
 <div class="body">
  
-<p>Confirm account creation for ${givenName} ${sn}, with userid: ${username} with role: ${rolename}. (User will receive an
+<p>Confirm account creation for ${title} ${givenName} ${sn}, with userid: ${username} with role: ${rolename}. (User will receive an
 email notification</p>
 <p>advising of new account.)</p>
 <br />
 
 <div class="rowTop"><g:link controller="admin" class="create"
-      elementId="Confirm" class="button" params="[role: role, username: username, nlaIdentifier: nlaIdentifier]" action="save"
+      elementId="Confirm" class="button" params="[role: role, username: username, nlaIdentifier: nlaIdentifier, title: title]" action="save"
       method="post">Confirm</g:link> <g:link controller="admin"
       class="create" elementId="Cancel" class="button" action="searchUsers"
       params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>

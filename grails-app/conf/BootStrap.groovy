@@ -43,13 +43,13 @@ class BootStrap
 		{
 			production
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
 				
-				user = new UserStore(username:"egully", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				user = new UserStore(username:"egully", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mrs')
 				user.save(flush:true)
                 
-                user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+                user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
 				createStaticData() 
 			}
@@ -62,60 +62,60 @@ class BootStrap
 			
 			test
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
-                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
                 user.save(flush:true)
-                user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+                user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
-                user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
+                user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, title:'Mr')
                 user.save(flush:true)
-                user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+                user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
                 user.save(flush:true)
 			}
 			
 			cucumber
 			{
 				// SEE features/support/env.groovy for initialization values as used in cuke4duke
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/1234")
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/1234", title:'Mr')
                 user.save(flush:true)
-				user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null)
+				user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null, title:'Mr')
 				user.save(flush:true)
-				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/5678")
+				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/5678", title:'Mr')
 				user.save(flush:true)
-				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, nlaIdentifier:null)
+				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, nlaIdentifier:null, title:'Mr')
 				user.save(flush:true)
-				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null)
+				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null, title:'Mr')
 				user.save(flush:true)
 				createStaticData() 
 			}
 			
 			intersect_test
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
 				user.save(flush:true)				
-                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
                 user.save(flush:true)
-				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
 				user.save(flush:true)
-				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
+				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, title:'Mr')
 				user.save(flush:true)
-				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
 				user.save(flush:true)
 				createStaticData() 
 			}
 
 			intersect_demo
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
 				user.save(flush:true)				
-                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
                 user.save(flush:true)
-				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
 				user.save(flush:true)
-				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
+				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, title:'Mr')
 				user.save(flush:true)
-				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
 				user.save(flush:true)
 				createStaticData() 
 			}
@@ -153,16 +153,16 @@ class BootStrap
 
 	def createTestData =
 	{
-        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://nla.ands.org.au/1234")
+        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://nla.ands.org.au/1234", title:'Mr')
         user1.save(flush:true)
         
-        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:"http://nla.ands.org.au/2345")
+        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:"http://nla.ands.org.au/2345", title:'Mr')
         user2.save(flush:true)
 		
-		def user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+		def user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
 		user.save(flush:true)
 		
-		def user3 = new UserStore(username:"researcher1", deactivated: false, authority: UserRole.ROLE_RESEARCHER)
+		def user3 = new UserStore(username:"researcher1", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
 		user3.save(flush:true)
         
 		def project = new Project(projectTitle: 'TestProject',
@@ -212,10 +212,10 @@ class BootStrap
         def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")
         deviceGroup.save()
 		
-		user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER)
+		user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
 		user.save(flush:true)
 		
-		user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN)
+		user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, title:'Mr')
 		user.save(flush:true)
         
         def device = new Device(name: "Device1",
