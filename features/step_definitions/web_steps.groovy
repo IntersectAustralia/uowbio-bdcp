@@ -25,23 +25,23 @@ Given(~"I am on the show study page with \"(.*)\", \"(.*)\"") { String study_id,
 	browser.get("http://localhost:8080/BDCP/project/${project_id}/study/show/${study_id}")
 }
 
-Given(~"I am on the list participants page for study \"(.*)\"") { String study_id, String project_id ->
+Given(~"I am on the list participants page for study \"(.*)\"") { String study_id ->
 	browser.get("http://localhost:8080/BDCP/study/${study_id}/participant/list")
 }
 
-Given(~"I am on the list components page for study \"(.*)\"") { String study_id, String project_id ->
+Given(~"I am on the list components page for study \"(.*)\"") { String study_id ->
 	browser.get("http://localhost:8080/BDCP/study/${study_id}/component/list")
 }
 
-Given(~"I am on the list files page for study \"(.*)\"") { String study_id, String project_id ->
+Given(~"I am on the list files page for study \"(.*)\"") { String study_id ->
 	browser.get("http://localhost:8080/BDCP/study/${study_id}/sessionFile/fileList")
 }
 
-Given(~"I am on the list devices page for study \"(.*)\"") { String study_id, String project_id ->
+Given(~"I am on the list devices page for study \"(.*)\"") { String study_id ->
 	browser.get("http://localhost:8080/BDCP/study/${study_id}/studyDevice/list")
 }
 
-Given(~"I am on the list collaborators page for study \"(.*)\"") { String study_id, String project_id ->
+Given(~"I am on the list collaborators page for study \"(.*)\"") { String study_id ->
 	browser.get("http://localhost:8080/BDCP/study/${study_id}/listCollaborators")
 }
 
