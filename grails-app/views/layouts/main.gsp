@@ -35,10 +35,10 @@
 	                <g:link controller="project" class="list button" action="list">Project List</g:link>
 	            </li>
 	            <li>
-	                <g:link elementId="all-projects" controller="project" class="list" action="listAll">All Projects</g:link>
+	                <g:link elementId="all-projects" controller="project" class="list button" action="listAll">All Projects</g:link>
 	            </li>
 	            <li>
-	                <g:link elementId="system-administration" class="admin" controller="admin" action="systemAdmin"><g:message code="default.system.admin.label"/></g:link>
+	                <g:link elementId="system-administration" class="admin button" controller="admin" action="systemAdmin"><g:message code="default.system.admin.label"/></g:link>
 	            </li>
 	          </ul>
 	        </sec:ifLoggedIn>

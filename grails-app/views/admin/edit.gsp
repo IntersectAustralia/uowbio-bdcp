@@ -99,10 +99,8 @@
 	</div>
 
 
-	<div class="buttons"><span class="menubutton"><g:actionSubmit
-		name="save" id="save" class="save" controller="admin"
-		params="[hideUsers: params.hideUsers]" action="update"
-		value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
+	<div class="buttons">
+  	<g:actionSubmit name="save" id="save" class="save right list" controller="admin" params="[hideUsers: params.hideUsers]" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" />
 	<span class="menuButton"><g:link elementId="Back"
 		controller="admin" class="list" action="listUsers"
 		params="[hideUsers: params.hideUsers]">Back</g:link></span></div>

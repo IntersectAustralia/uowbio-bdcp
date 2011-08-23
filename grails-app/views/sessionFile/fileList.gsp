@@ -8,18 +8,7 @@
         <g:javascript library="application" />
         <g:javascript library="jquery" plugin="jquery"/>
         <link rel="stylesheet" href="${resource(dir:'jquery.treeview',file:'jquery.treeview.css')}".css" type="text/css" />
-        <style type="text/css">
-        <!--
-        input.fileSelect, input.directorySelect {
-	    width : 1em;
-	    height :1em;
-	    padding: 0px;
-	    margin: 0px;
-	}
-        -->
-        </style>
-
-  <script type="text/javascript" src="${resource(dir:'jquery.treeview',file:'jquery.treeview.js')}"></script>
+        <script type="text/javascript" src="${resource(dir:'jquery.treeview',file:'jquery.treeview.js')}"></script>
     
         <jqui:resources />
         <g:set var="entityName" value="${message(code: 'sessionFile.label', default: 'File')}" />
@@ -103,7 +92,6 @@
 	    <li class="tab5"><a href="${createLink(mapping: 'studyDeviceDetails', controller:'studyDevice', action:'list', params:['studyId': studyInstance.id])}" id="tabs-files" name="tabs-files"><span>Devices</span></a></li>
 	    <li class="tab6"><a href="${createLink(mapping: 'studyCollaborators', controller:'study', action:'listCollaborators', params:['studyId': studyInstance.id])}" id="tabs-collaborators" name="tabs-collaborators"><span>Collaborators</span></a></li>
     </ul>
-        <br />
             <g:if test="${ componentInstanceTotal > 0}">
             <div class="projects">
                     <ul id="example" class="filetree">
@@ -134,11 +122,7 @@
   </g:each>
 		</ul>
 
-<div class="buttons">
-  <span class="menuButton">
-    <button id="downloadButton">Download</button>
-  </span>
-</div>
+<button id="downloadButton" class="button">Download</button>
 
             </div>
             </g:if>

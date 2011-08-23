@@ -50,8 +50,8 @@
                     <g:hiddenField name="study.id" value="${params.studyId}" />
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit id="save" class="save" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
-                    <span class="button"><g:link elementId="cancel" mapping="componentDetails" controller="component" action="list" id="${params.studyId}" params="[studyId: params.studyId]">Cancel</g:link></span>
+                    <span class="button"><g:actionSubmit id="save" class="save right list" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
+                    <span class="button"><g:link elementId="cancel" class="list" mapping="componentDetails" controller="component" action="list" id="${params.studyId}" params="[studyId: params.studyId]">Cancel</g:link></span>
                 </div>
             </g:form>
         </div>

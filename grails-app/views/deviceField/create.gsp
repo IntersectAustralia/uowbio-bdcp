@@ -112,8 +112,8 @@
                     </table>
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:submitButton name="save" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
-                    <span class="button"><g:link mapping="deviceFieldDetails" elementId="cancel" action="list" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]">Cancel</g:link></span>
+                    <span class="button"><g:submitButton name="save" class="save right list" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                    <span class="button"><g:link mapping="deviceFieldDetails" class="list" elementId="cancel" action="list" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]">Cancel</g:link></span>
                 </div>
             </g:form>
         </div>

@@ -41,8 +41,7 @@
 	            
             </g:if>
             
-            <br/>
-            <g:link class="create" controller="project" action="searchUsers">+ Add Project</g:link>
+            <g:link class="create button" controller="project" action="searchUsers">+ Add Project</g:link>
             
             <div class="rowBottom">
 				<div class="buttons"><span class="menuButton"><g:link elementId="Back" controller="project" class="list" action="list">Back</g:link></span></div>

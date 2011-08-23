@@ -44,15 +44,14 @@
 		</tbody>
 	</table>
 	</div>
-	<div class="buttons"><span class="button"><g:submitButton
-		name="create" id="search" class="save" value="Search" /></span></div>
+	<span class="button"><g:submitButton name="create" id="search" class="save button" value="Search" /></span>
 </g:form> 
 
 <g:render template="collList" />
 
 <div class="buttons">
 	<span class="menuButton"><g:link elementId="Back" controller="study" class="list" action="listCollaborators" params="[studyId: studyInstance.id]">Back</g:link></span>
-	<span class="button"><g:link elementId="cancel" controller="study" class="button" action="searchCollaborators" params="[studyId: studyInstance.id]">Cancel</g:link></span>	
+	<span class="button"><g:link elementId="cancel" controller="study" class="list" action="searchCollaborators" params="[studyId: studyInstance.id]">Cancel</g:link></span>	
 </div>
 </div>
         

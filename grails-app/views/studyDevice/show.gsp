@@ -24,23 +24,17 @@
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="studyDevice.id.label" default="Id" /></td>
-                            
                             <td valign="top" class="value">${fieldValue(bean: studyDeviceInstance, field: "id")}</td>
-                            
                         </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="studyDevice.device.label" default="Device" /></td>
-                            
                             <td valign="top" class="value"><g:link controller="device" action="show" id="${studyDeviceInstance?.device?.id}">${studyDeviceInstance?.device?.encodeAsHTML()}</g:link></td>
-                            
                         </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="studyDevice.study.label" default="Study" /></td>
-                            
                             <td valign="top" class="value"><g:link controller="study" action="show" id="${studyDeviceInstance?.study?.id}">${studyDeviceInstance?.study?.encodeAsHTML()}</g:link></td>
-                            
                         </tr>
                     
                     </tbody>
