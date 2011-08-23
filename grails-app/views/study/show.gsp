@@ -1,4 +1,3 @@
-<
 <%@ page import="au.org.intersect.bdcp.Study" %>
 <html>
     <head>
@@ -99,14 +98,7 @@
             <div class="message">${flash.message}</div>
             </g:if>
     
-	<ul id="tabnav">	
-		<li class="tab1"><a href="#tabs-details">Details</a></li>
-		<li class="tab2"><a href="${createLink(mapping:'participantDetails', controller:'participant', action:'list', params:['studyId': studyInstance.id]) }" id="tabs-participants" name="#tabs-participants"><span>Participants</span></a></li>
-		<li class="tab3"><a href="${createLink(mapping: 'componentDetails', controller:'component', action:'list', params:['studyId': studyInstance.id]) }" id="tabs-components" name="#tabs-components"><span>Components</span></a></li>
-		<li class="tab4"><a href="${createLink(mapping: 'sessionFileList', controller:'sessionFile', action:'fileList', params:['studyId': studyInstance.id])}" id="tabs-files" name="tabs-files"><span>Files</span></a></li>
-	    <li class="tab5"><a href="${createLink(mapping: 'studyDeviceDetails', controller:'studyDevice', action:'list', params:['studyId': studyInstance.id])}" id="tabs-files" name="tabs-files"><span>Devices</span></a></li>
-	    <li class="tab6"><a href="${createLink(mapping: 'studyCollaborators', controller:'study', action:'listCollaborators', params:['studyId': studyInstance.id])}" id="tabs-collaborators" name="tabs-collaborators"><span>Collaborators</span></a></li>
-    </ul>
+    <g:render template="tabs" model="${[studyInstance:studyInstance, tab:'tab1']}" />
 
 	<div id="tabs-details">
 	   <div class="dialog">
