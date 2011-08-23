@@ -25,6 +25,7 @@ Feature: View Study
     And I fill in "uowEthicsNumber" with "1073A"
     And I fill in "description" with "Test Description"
     And I fill in "industryPartners" with "Partner1"
+    And I fill in "keywords" with "some wonderful keywords"
     And I fill in "collaborators" with "Collaborator1"
     And I select "March" from "startDate_month"
     And I select "2011" from "startDate_year"
@@ -42,6 +43,7 @@ Feature: View Study
       | Additional Ethics Requirements | No                      |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
+      | Keywords                       | some wonderful keywords |
       | Collaborators                  | Collaborator1           |
       | Start Date                     | 03/2011                 |
       | End Date                       | 03/2011                 |
@@ -57,6 +59,7 @@ Feature: View Study
       | Additional Ethics Requirements | No                      |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
+      | Keywords                       | some wonderful keywords |
       | Collaborators                  | Collaborator1           |
       | Start Date                     | 03/2011                 |
       | End Date                       | 03/2011                 |
@@ -73,6 +76,7 @@ Feature: View Study
     Then I should see "uowEthicsNumber" with value "1073A"
     Then I should see "description" with value "Test Description"
     Then I should see "industryPartners" with value "Partner1"
+    Then I should see "keywords" with value "some wonderful keywords"
     Then I should see "collaborators" with value "Collaborator1"
     Then I should see "startDate_month" selected with value "3"
     Then I should see "startDate_year" selected with value "2011"

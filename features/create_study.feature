@@ -16,6 +16,7 @@ Feature: Create Study
     And I fill in "uowEthicsNumber" with "1073A"
     And I fill in "description" with "Test Description"
     And I fill in "industryPartners" with "Partner1"
+    And I fill in "keywords" with "keyword something"
     And I fill in "collaborators" with "Collaborator1"
     And I select "March" from "startDate_month"
     And I select "2011" from "startDate_year"
@@ -33,6 +34,7 @@ Feature: Create Study
       | Additional Ethics Requirements | No                      |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
+      | Keywords                       | keyword something       |
       | Collaborators                  | Collaborator1           |
       | Start Date                     | 03/2011                 |
       | End Date                       | 03/2011                 |
@@ -65,6 +67,7 @@ Feature: Create Study
       | Additional Ethics Details      | Some Additional Requirements        |
       | Description                    | Test Description                    |
       | Industry Partners              | Partner1                            |
+      | Keywords                       |                                     |
       | Collaborators                  | Collaborator1                       |
       | Start Date                     | 03/2011                             |
       | End Date                       | 03/2011                             |

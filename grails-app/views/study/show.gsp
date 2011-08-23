@@ -148,6 +148,13 @@
                         </tr>
                     
                         <tr class="prop">
+                            <td valign="top" class="name"><g:message code="study.keywords.label" default="Keywords" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "keywords")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="study.collaborators.label" default="Collaborators" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "collaborators")}</td>

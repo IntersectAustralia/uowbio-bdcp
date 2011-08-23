@@ -15,6 +15,7 @@ class Study
 	String description
 	String industryPartners
 	String collaborators
+	String keywords
 	Date startDate
 	Date endDate
 	String numberOfParticipants
@@ -57,6 +58,7 @@ class Study
 		additionalEthicsRequirements(nullable:true, size:1..1000)
 		description(blank:false, size:1..1000)
 		industryPartners(size:1..1000)
+		keywords(nullable:true, blank:true, maxSize:1000)
 		collaborators(size:1..1000)
 		startDate(nullable: false)
 		endDate(nullable:false)
