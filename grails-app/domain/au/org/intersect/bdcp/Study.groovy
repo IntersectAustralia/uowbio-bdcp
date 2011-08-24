@@ -58,7 +58,7 @@ class Study
 		additionalEthicsRequirements(nullable:true, size:1..1000)
 		description(blank:false, size:1..1000)
 		industryPartners(size:1..1000)
-		keywords(nullable:true, blank:true, maxSize:1000)
+		keywords(nullable:false, blank:false, size:1..1000)
 		collaborators(size:1..1000)
 		startDate(nullable: false)
 		endDate(nullable:false)

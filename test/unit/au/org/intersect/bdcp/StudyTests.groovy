@@ -32,6 +32,7 @@ class StudyTests extends GrailsUnitTestCase
 				uowEthicsNumber: '110678' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
+				keywords: 'keyword',
 				collaborators: 'some collaborator',
 				startDate: new Date(),
 				endDate: new Date(),
@@ -43,7 +44,7 @@ class StudyTests extends GrailsUnitTestCase
 	}
 
 	/**
-	 * Tear down operations after each testì
+	 * Tear down operations after each testï¿½
 	 */
 	protected void tearDown()
 	{
@@ -60,6 +61,7 @@ class StudyTests extends GrailsUnitTestCase
 				uowEthicsNumber: '' ,
 				description: '',
 				industryPartners: '',
+				keywords: '',
 				collaborators: '',
 				startDate: '',
 				endDate: '')
@@ -68,11 +70,13 @@ class StudyTests extends GrailsUnitTestCase
 
 		assertEquals 'Study Title is blank.','blank', study.errors['studyTitle']
 		assertEquals 'Description is blank.','blank', study.errors['description']
-				
+		assertEquals 'Keywords field is blank.','blank', study.errors['keywords']
+		
 		study = new Study(studyTitle: 'Testing Study',
 				uowEthicsNumber: '110680' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
+				keywords: 'keyword',
 				collaborators: 'some collaborator',
 				startDate: new Date(),
 				endDate: new Date(),
@@ -93,6 +97,7 @@ class StudyTests extends GrailsUnitTestCase
 				uowEthicsNumber: '110678' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
+				keywords: 'keyword',
 				collaborators: 'some collaborator',
 				startDate: new Date(),
 				endDate: new Date(),
@@ -108,6 +113,7 @@ class StudyTests extends GrailsUnitTestCase
 			   uowEthicsNumber: '110680' ,
 			   description: 'Test Description',
 			   industryPartners: 'Partner1',
+			   keywords: 'keyword',
 			   collaborators: 'some collaborator',
 			   startDate: new Date(),
 			   endDate: new Date(),
@@ -128,6 +134,7 @@ class StudyTests extends GrailsUnitTestCase
 			   uowEthicsNumber: '012345678910' * 100,
 			   description: '012345678910' * 100,
 			   industryPartners: '012345678910' * 100,
+			   keywords: '01234567890' * 100,
 			   collaborators: '012345678910' * 100,
 			   startDate: new Date(),
 			   endDate: new Date(),
@@ -141,6 +148,7 @@ class StudyTests extends GrailsUnitTestCase
 	  assertEquals 'UOW Ethics Number does not validate size.','size', study.errors['uowEthicsNumber']
 	  assertEquals 'Description does not validate size.','size', study.errors['description']
 	  assertEquals 'Industry Partners  does not validate size.','size', study.errors['industryPartners']
+	  assertEquals 'Keywords field  does not validate size.','size', study.errors['keywords']
 	  assertEquals 'Collaborators  does not validate size.','size', study.errors['collaborators']
 	  assertEquals 'Number of Participants  does not validate size.','size', study.errors['numberOfParticipants']
 	  assertEquals 'Inclusion Exclusion Criteria  does not validate size.','size', study.errors['inclusionExclusionCriteria']
@@ -149,6 +157,7 @@ class StudyTests extends GrailsUnitTestCase
 			   uowEthicsNumber: '110680' ,
 			   description: 'Test Description',
 			   industryPartners: 'Partner1',
+			   keywords: 'keyword',
 			   collaborators: 'some collaborator',
 			   startDate: new Date(),
 			   endDate: new Date(),

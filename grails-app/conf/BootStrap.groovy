@@ -181,6 +181,7 @@ class BootStrap
 				additionalEthicRequirements:"Some requirements",
 				description: 'Test Description',
 				industryPartners: 'Partner1',
+				keywords: 'keyword',
 				collaborators: 'some collaborator',
 				startDate: new Date(),
 				endDate: new Date(),
