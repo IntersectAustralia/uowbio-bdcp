@@ -214,13 +214,16 @@ Wollongong N.S.W. 2522"""
 						}
 						description(type:"full") { mkp.yield(study.description) }
 						description(type:"rights") { mkp.yield(common['collection.accessRights']) }
-					}
-					related.each { relatedAssoc ->
-						if (relatedAssoc != null) {
-							relatedObject {
-								key(relatedAssoc['key'])
-								relation('type':relatedAssoc['type'])
+						related.each { relatedAssoc ->
+							if (relatedAssoc != null) {
+								relatedObject {
+									key(relatedAssoc['key'])
+									relation('type':relatedAssoc['type'])
+								}
 							}
+						}
+						study.keywords.split(';').each { keyword ->
+							  subject(type:'local', 'xml:lang':'en') { mkp.yield(keyword) }
 						}
 					}
 				}
@@ -261,12 +264,12 @@ Wollongong N.S.W. 2522"""
 								}
 							}
 						}
-					}
-					related.each { relatedAssoc ->
-						if (relatedAssoc != null) {
-							relatedObject {
-								key(relatedAssoc['key'])
-								relation('type':relatedAssoc['type'])
+						related.each { relatedAssoc ->
+							if (relatedAssoc != null) {
+								relatedObject {
+									key(relatedAssoc['key'])
+									relation('type':relatedAssoc['type'])
+								}
 							}
 						}
 					}

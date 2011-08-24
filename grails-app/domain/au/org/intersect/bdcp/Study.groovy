@@ -89,4 +89,9 @@ class Study
 			  participants,
 			  FactoryUtils.instantiateFactory(Participant.class))
 	}
+	
+	def beforeValidate() {
+		keywords = keywords == null ? null : keywords.split(';').collect({it.trim().toLowerCase()}).findAll({ it.length() > 0 }).join(';')
+	}
+	
 }

@@ -61,11 +61,14 @@ class StudyTests extends GrailsUnitTestCase
 				uowEthicsNumber: '' ,
 				description: '',
 				industryPartners: '',
-				keywords: '',
+				keywords: ';;',
 				collaborators: '',
 				startDate: '',
 				endDate: '')
 
+		study.beforeValidate() // Grails 1.3.7 BUG in Unit Test
+		                       // http://jira.grails.org/browse/GRAILS-7432
+		
 		assertFalse 'No validation for blank field(s)' ,study.validate()
 
 		assertEquals 'Study Title is blank.','blank', study.errors['studyTitle']
@@ -76,7 +79,7 @@ class StudyTests extends GrailsUnitTestCase
 				uowEthicsNumber: '110680' ,
 				description: 'Test Description',
 				industryPartners: 'Partner1',
-				keywords: 'keyword',
+				keywords: 'keyword;',
 				collaborators: 'some collaborator',
 				startDate: new Date(),
 				endDate: new Date(),
@@ -105,6 +108,7 @@ class StudyTests extends GrailsUnitTestCase
 				numberOfParticipants:"10",
 				inclusionExclusionCriteria: "No Criteria")
 
+	   study.beforeValidate() // BUG http://jira.grails.org/browse/GRAILS-7432
 	   assertFalse 'No validation for unique field(s)' ,study.validate()
 
 	   assertEquals 'UOW Ethics Number is not unique.','unique', study.errors['uowEthicsNumber']
@@ -121,6 +125,7 @@ class StudyTests extends GrailsUnitTestCase
 			   numberOfParticipants:"10",
 			   inclusionExclusionCriteria: "No Criteria")
 	   
+	   study.beforeValidate() // BUG http://jira.grails.org/browse/GRAILS-7432
 	   assertTrue "A valid study did not validate!", study.validate()
    }
 	
@@ -134,7 +139,7 @@ class StudyTests extends GrailsUnitTestCase
 			   uowEthicsNumber: '012345678910' * 100,
 			   description: '012345678910' * 100,
 			   industryPartners: '012345678910' * 100,
-			   keywords: '01234567890' * 100,
+			   keywords: '0123456789;' * 100,
 			   collaborators: '012345678910' * 100,
 			   startDate: new Date(),
 			   endDate: new Date(),
@@ -142,6 +147,7 @@ class StudyTests extends GrailsUnitTestCase
 			   numberOfParticipants:'012345678910' * 100,
 			   inclusionExclusionCriteria: '012345678910' * 100)
 
+	  study.beforeValidate() // BUG http://jira.grails.org/browse/GRAILS-7432
 	  assertFalse "No validation for size of fields", study.validate()
 
 	  assertEquals 'Study Title does not validate size.','size', study.errors['studyTitle']
@@ -164,7 +170,8 @@ class StudyTests extends GrailsUnitTestCase
 			   project: project,
 			   numberOfParticipants:"10",
 			   inclusionExclusionCriteria: "No Criteria")
-
+	  
+	  study.beforeValidate() // BUG http://jira.grails.org/browse/GRAILS-7432
 	  assertTrue study.validate()
   }
    

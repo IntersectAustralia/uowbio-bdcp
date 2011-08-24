@@ -41,7 +41,13 @@
 		<tr>
 			<td>Description:</td>
 			<td colspan="1">
-			<span><xsl:value-of select="ro:description[@type='full']/text()"/></span>
+			<ul><xsl:value-of select="ro:description[@type='full']/text()"/></ul>
+			</td>
+		</tr>
+		<tr>
+			<td>Subjects:</td>
+			<td colspan="1">
+			<ul><xsl:apply-templates select="ro:subject"/></ul>
 			</td>
 		</tr>
 		<tr>
@@ -67,6 +73,10 @@
 		</tr>
 		</xsl:if>
 
+	</xsl:template>
+
+	<xsl:template match="ro:subject">
+	<li><xsl:value-of select="text()" /></li>
 	</xsl:template>
 
 </xsl:stylesheet>

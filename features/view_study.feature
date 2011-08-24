@@ -43,7 +43,7 @@ Feature: View Study
       | Additional Ethics Requirements | No                      |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
-      | Keywords                       | some wonderful keywords |
+      | Subjects                       | some wonderful keywords |
       | Collaborators                  | Collaborator1           |
       | Start Date                     | 03/2011                 |
       | End Date                       | 03/2011                 |
@@ -59,7 +59,7 @@ Feature: View Study
       | Additional Ethics Requirements | No                      |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
-      | Keywords                       | some wonderful keywords |
+      | Subjects                       | some wonderful keywords |
       | Collaborators                  | Collaborator1           |
       | Start Date                     | 03/2011                 |
       | End Date                       | 03/2011                 |
