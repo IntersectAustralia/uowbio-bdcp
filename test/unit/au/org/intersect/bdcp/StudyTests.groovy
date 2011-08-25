@@ -61,7 +61,7 @@ class StudyTests extends GrailsUnitTestCase
 				uowEthicsNumber: '' ,
 				description: '',
 				industryPartners: '',
-				keywords: ';;',
+				keywords: ',,',
 				collaborators: '',
 				startDate: '',
 				endDate: '')

@@ -91,7 +91,7 @@ class Study
 	}
 	
 	def beforeValidate() {
-		keywords = keywords == null ? null : keywords.split(';').collect({it.trim().toLowerCase()}).findAll({ it.length() > 0 }).join(';')
+		keywords = keywords == null ? null : keywords.split(',').collect({it.trim()}).findAll({ it.length() > 0 }).join(', ')
 	}
 	
 }

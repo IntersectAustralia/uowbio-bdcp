@@ -65,7 +65,7 @@ Feature: Edit Study
     Then I should see "Edit Study"
     And I select "Yes" from "hasAdditionalEthicsRequirements"
     And I fill in "additionalEthicsRequirements" with "Some Additional Requirements"
-    And I delete and fill in "keywords" with "some ; keywords ;;"
+    And I delete and fill in "keywords" with "some , keywords ,,"
     Then I press "save"
     Then I should see "My Biomechanics Study 1"
     And I should see table "studyTable" with contents
@@ -75,7 +75,7 @@ Feature: Edit Study
       | Additional Ethics Details      | Some Additional Requirements  |
       | Description                    | Test Description              |
       | Industry Partners              | Partner1                      |
-      | Subjects                       | some;keywords                 |
+      | Subjects                       | some, keywords                |
       | Collaborators                  | Collaborator1                 |
       | Start Date                     | 04/2011                       |
       | End Date                       | 04/2011                       |

@@ -222,8 +222,8 @@ Wollongong N.S.W. 2522"""
 								}
 							}
 						}
-						study.keywords.split(';').each { keyword ->
-							  subject(type:'local', 'xml:lang':'en') { mkp.yield(keyword) }
+						study.keywords.split(',').each { keyword ->
+							  subject(type:'local', 'xml:lang':'en') { mkp.yield(keyword.trim()) }
 						}
 					}
 				}
