@@ -382,6 +382,13 @@ word-wrap: break-word; /* Internet Explorer 5.5+ */
 overflow: hidden;	
 }
 
+.prop .name .explanation {
+	font-weight: normal;
+	/*font-style: italic;*/
+	width: 80%;	
+	padding: 5px;
+}
+
 .radiobutton .name{
 	text-align: left;
 	width: 15%;
