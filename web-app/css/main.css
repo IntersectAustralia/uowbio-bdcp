@@ -404,6 +404,13 @@ word-wrap: break-word; /* Internet Explorer 5.5+ */
 overflow: hidden;	
 }
 
+.prop .name .explanation {
+	font-weight: normal;
+	/*font-style: italic;*/
+	width: 80%;	
+	padding: 5px;
+}
+
 .radiobutton .name{
 	text-align: left;
 	width: 15%;
@@ -868,12 +875,12 @@ ul#tabnav li { /* do not change */
 display: inline;
 }
 
-#tab1 li.tab1, #tab2 li.tab2, #tab3 li.tab3, #tab4 li.tab4, #tab5 li.tab5, #tab6 li.tab6 { /* settings for selected tab */
+#tab1 li.tab1, #tab2 li.tab2, #tab3 li.tab3, #tab4 li.tab4, #tab5 li.tab5, #tab6 li.tab6, #tab7 li.tab7 { /* settings for selected tab */
 border-bottom: 1px solid #fff; /* set border color to page background color */
 background-color: #fff; /* set background color to match above border color */
 }
 
-#tab1 li.tab1 a, #tab2 li.tab2 a, #tab3 li.tab3 a, #tab4 li.tab4 a, #tab5 li.tab5 a, #tab6 li.tab6 a { /* settings for selected tab link */
+#tab1 li.tab1 a, #tab2 li.tab2 a, #tab3 li.tab3 a, #tab4 li.tab4 a, #tab5 li.tab5 a, #tab6 li.tab6 a, #tab7 li.tab7 a { /* settings for selected tab link */
 background-color: #fff; /* set selected tab background color as desired */
 color: #000; /* set selected tab link color as desired */
 position: relative;

@@ -19,6 +19,10 @@ class UrlMappings
             controller = 'device'
         }
 		
+		name studyAnalysedData: "/studyAnalysedData/$studyId/$action?" {
+			controller = 'studyAnalysedData'
+	    }
+		
 		name studyCollaborators: "/study/$studyId/$action?/$id?" {
 			controller = 'study'
 	    }

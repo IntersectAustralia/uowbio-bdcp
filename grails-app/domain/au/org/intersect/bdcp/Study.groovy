@@ -15,6 +15,7 @@ class Study
 	String description
 	String industryPartners
 	String collaborators
+	String keywords
 	Date startDate
 	Date endDate
 	String numberOfParticipants
@@ -57,6 +58,7 @@ class Study
 		additionalEthicsRequirements(nullable:true, size:1..1000)
 		description(blank:false, size:1..1000)
 		industryPartners(size:1..1000)
+		keywords(nullable:false, blank:false, size:1..1000)
 		collaborators(size:1..1000)
 		startDate(nullable: false)
 		endDate(nullable:false)
@@ -87,4 +89,9 @@ class Study
 			  participants,
 			  FactoryUtils.instantiateFactory(Participant.class))
 	}
+	
+	def beforeValidate() {
+		keywords = keywords == null ? null : keywords.split(',').collect({it.trim()}).findAll({ it.length() > 0 }).join(', ')
+	}
+	
 }

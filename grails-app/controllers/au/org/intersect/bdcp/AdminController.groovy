@@ -35,21 +35,22 @@ class AdminController
 			def sn = params.sn != null ? params.sn : ""
 			def role = params.authority != null ? params.authority : ""
 			def nlaIdentifier = params.nlaIdentifier != null ? params.nlaIdentifier : ""
-           
+			def title = params.title != null ? params.title : null
+			
             def user;
-            user = new UserStore(username: username, authority: role, nlaIdentifier:nlaIdentifier);
+            user = new UserStore(username: username, authority: role, nlaIdentifier:nlaIdentifier, title:title);
 
             if (user?.validate())
             {
                   accountStatus = "Successful"
 				  def roleString = (UserRole)role.toString()
 				  def rolename = roleString.getName();
-                  render (view: "create", model:[username:username, givenName: givenName, sn: sn, role:role, rolename:rolename, nlaIdentifier:nlaIdentifier])
+                  render (view: "create", model:[username:username, givenName: givenName, sn: sn, role:role, rolename:rolename, nlaIdentifier:nlaIdentifier, title:title])
             }
             else
             {
                   accountStatus = "Failed"
-                  render (view: "addRole", model:[accountStatus: accountStatus, user:user, username:username, givenName: givenName, sn: sn, authority:role, nlaIdentifier:nlaIdentifier])
+                  render (view: "addRole", model:[accountStatus: accountStatus, user:user, username:username, givenName: givenName, sn: sn, authority:role, nlaIdentifier:nlaIdentifier, title:title])
             }
            
             return [username: username, givenName: givenName, sn: sn, role: role]
@@ -70,7 +71,7 @@ class AdminController
 			if (match !=  null)
 			{
 				email = match.mail
-				user= new UserStore(username: params.username, authority: params.role, nlaIdentifier:params.nlaIdentifier)
+				user= new UserStore(username: params.username, authority: params.role, nlaIdentifier:params.nlaIdentifier, title:params.title)
 			}
 		}
 		if (user!= null && user.save(flush:true))
@@ -166,6 +167,7 @@ class AdminController
 		cache false
 		def match = LdapUser.find(filter: "(uid=${params.username})")
 		def userInstance = UserStore.get(params.id)
+		params.title = params.title == null ? null : params.title
 		if (userInstance)
 		{
 			if (params.version)

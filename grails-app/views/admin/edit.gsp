@@ -85,6 +85,16 @@
 			
 			<tr class="prop">
 				<td valign="top" class="name"><g:message
+					code="admin.title.label" default="Title" /></td>
+
+				<td valign="top" class="value"  ${hasErrors(bean:userInstance,field:'title','errors')}>
+				<g:textField name="title" value="${userInstance.title}" />
+				</td>
+
+			</tr>
+			
+			<tr class="prop">
+				<td valign="top" class="name"><g:message
 					code="admin.enabled.label" default="Deactivate User Account" /></td>
 
 				<td valign="top" class="value" ${hasErrors(bean:userInstance,field:'deactivated','errors')}>

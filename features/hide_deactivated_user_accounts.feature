@@ -25,6 +25,7 @@ Feature: Hide User Accounts
      |User ID                    | dpollum 									    |
      |Role                       | Lab Manager System Administrator Researcher	|
      |NLA Persistence Identifier |                                              |
+     |Title                      |                                              |
      |Deactivate User Account    |         									    |
      Then I press "deactivated"
      Then I press "save"

@@ -82,15 +82,15 @@ def getUserStore(String username) {
 	return userStore
 }
 
-Given(~"I have created a study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String study_id, String project_id, String study_title, String uow_ethics_number, String has_additional_ethics_requirements, String description, industry_partners, collaborators, String start_date, String end_date, String number_of_participants, String inclusion_exclusion_criteria ->
+Given(~"I have created a study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String study_id, String project_id, String study_title, String uow_ethics_number, String has_additional_ethics_requirements, String description, industry_partners, keywords, collaborators, String start_date, String end_date, String number_of_participants, String inclusion_exclusion_criteria ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_reqs, description, industry_partners, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria, date_created, last_updated) VALUES ('${study_id}','0', '${project_id}', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria}, now(), now());")
+	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_reqs, description, industry_partners, keywords, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria, date_created, last_updated) VALUES ('${study_id}','0', '${project_id}', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${keywords}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria}, now(), now());")
 }
 
-Given(~"I have created a collaborator study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String project_id, String study_id, String study_collaborator_id, String study_title, String uow_ethics_number, String has_additional_ethics_requirements, String description, industry_partners, collaborators, String start_date, String end_date, String number_of_participants, String inclusion_exclusion_criteria, String collaborator_name ->
+Given(~"I have created a collaborator study with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String project_id, String study_id, String study_collaborator_id, String study_title, String uow_ethics_number, String has_additional_ethics_requirements, String description, industry_partners, String keywords, collaborators, String start_date, String end_date, String number_of_participants, String inclusion_exclusion_criteria, String collaborator_name ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
 	def collaboratorId = (int)(getUserStore("${collaborator_name}").id)
-	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_reqs, description, industry_partners, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria, date_created, last_updated) VALUES ('${study_id}','0', '${project_id}', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria}, now(), now());")
+	sql.execute("INSERT INTO study (id,version, project_id, study_title, uow_ethics_number, has_additional_ethics_reqs, description, industry_partners, keywords, collaborators, start_date, end_date, number_of_participants, inclusion_exclusion_criteria, date_created, last_updated) VALUES ('${study_id}','0', '${project_id}', ${study_title}, ${uow_ethics_number}, ${has_additional_ethics_requirements}, ${description}, ${industry_partners}, ${keywords}, ${collaborators}, '${start_date}', '${end_date}', ${number_of_participants}, ${inclusion_exclusion_criteria}, now(), now());")
 	sql.execute("INSERT INTO study_collaborator (id, version, collaborator_id, study_id) VALUES ('${study_collaborator_id}', '0', ${collaboratorId}, '${study_id}')")
 }
 
@@ -171,6 +171,12 @@ Given(~"I have cleared and filled in \"(.*)\" with \"(.*)\"") { String field, St
 
 When(~"I fill in \"(.*)\" with \"(.*)\"") { String field, String text ->
 	fieldElement = browser.findElement(By.name(field))
+    fieldElement.sendKeys(text)
+}
+
+When(~"I delete and fill in \"(.*)\" with \"(.*)\"") { String field, String text ->
+	fieldElement = browser.findElement(By.name(field))
+	fieldElement.clear()
     fieldElement.sendKeys(text)
 }
 

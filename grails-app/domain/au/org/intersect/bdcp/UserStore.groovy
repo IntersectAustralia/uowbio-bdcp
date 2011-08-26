@@ -9,6 +9,7 @@ class UserStore{
     String username
 	String firstName
 	String surname
+	String title
 	boolean deactivated
     UserRole authority
     String nlaIdentifier // RIF-CS
@@ -23,6 +24,7 @@ class UserStore{
     	username(blank:false, unique:true, size:1..1000)
 		firstName(nullable:true, size:1..1000)
 		surname(nullable:true, size:1..1000)
+		title(nullable:false, blank:false, size:2..20)
 		authority(nullable:false, blank:false)
 		nlaIdentifier(nullable:true, blank:false, maxSize:255)
 		published(nullable:true)

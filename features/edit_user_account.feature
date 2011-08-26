@@ -25,8 +25,10 @@
      |User ID                   | dpollum										|
      |Role                      | Lab Manager System Administrator Researcher	|
      |NLA Persistence Identifier|                                               |
+     |Title                     |                                               |
      |Deactivate User Account   |         									    |
      And I should have "http://ands.org.au/1234" in text field named "nlaIdentifier"  
+     And I should have "Mr" in text field named "title"  
      And I select "Lab Manager" from "authority"
      Then I press "deactivated"
      Then I press "save"
@@ -88,9 +90,12 @@
      |User ID                   | dpollum										|
      |Role                      | Lab Manager System Administrator Researcher	|
      |NLA Persistence Identifier|                                               |
+     |Title                     |                                               |
      |Deactivate User Account   |         									    |
      And I should have "http://ands.org.au/1234" in text field named "nlaIdentifier"  
+     And I should have "Mr" in text field named "title"  
      Then I fill in "nlaIdentifier" with "NEW_IDENTIFIER"
+     Then I fill in "title" with "New Title"
      Then I press "save"
      Then I should see words "dpollum updated successfully"
      Then I press "edit[3]"
@@ -100,8 +105,10 @@
      |User ID                   | dpollum										|
      |Role                      | Lab Manager System Administrator Researcher	|
      |NLA Persistence Identifier|                                               |
+     |Title                     |                                               |
      |Deactivate User Account   |         									    |
      And I should have "NEW_IDENTIFIER" in text field named "nlaIdentifier"  
+     And I should have "New Title" in text field named "title"  
      Then I fill in "nlaIdentifier" with "http://ands.org.au/1234"
      Then I press "save"
      Then I should see words "dpollum updated successfully"

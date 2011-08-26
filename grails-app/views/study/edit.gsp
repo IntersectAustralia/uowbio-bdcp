@@ -111,6 +111,16 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
+                                  <label for="description"><g:message code="study.keywords.label" default="Keywords" /></label>
+                                  <div class="explanation"><g:message code="study.keywords.explanation" default="Separated by comma (,)" /></div>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'keywords', 'errors')}">
+                                    <g:textArea name="keywords" value="${studyInstance?.keywords}" rows="5" cols="40"/>
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
                                   <label for="collaborators"><g:message code="study.collaborators.label" default="Collaborators" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'collaborators', 'errors')}">

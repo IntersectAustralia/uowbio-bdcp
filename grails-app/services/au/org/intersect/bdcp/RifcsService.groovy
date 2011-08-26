@@ -16,8 +16,8 @@ class RifcsService
 	private Map common = [
 			'originatingSource' : 'http://www.uow.edu.au',
 			'@group' : 'University of Wollongong',
-			'collection.email.address' : 'email-TBA@uow.edu.au',
-			'collection.accessRights' : 'Access rights to be announced',
+			'collection.email.address' : 'brl@uow.edu.au',
+			'collection.accessRights' : 'Access on request only',
 			'collection.physical.address' : """Biomechanics Research Laboratory
 School of Health Sciences
 University of Wollongong
@@ -214,13 +214,16 @@ Wollongong N.S.W. 2522"""
 						}
 						description(type:"full") { mkp.yield(study.description) }
 						description(type:"rights") { mkp.yield(common['collection.accessRights']) }
-					}
-					related.each { relatedAssoc ->
-						if (relatedAssoc != null) {
-							relatedObject {
-								key(relatedAssoc['key'])
-								relation('type':relatedAssoc['type'])
+						related.each { relatedAssoc ->
+							if (relatedAssoc != null) {
+								relatedObject {
+									key(relatedAssoc['key'])
+									relation('type':relatedAssoc['type'])
+								}
 							}
+						}
+						study.keywords.split(',').each { keyword ->
+							  subject(type:'local', 'xml:lang':'en') { mkp.yield(keyword.trim()) }
 						}
 					}
 				}
@@ -245,6 +248,7 @@ Wollongong N.S.W. 2522"""
 					originatingSource(type:"authoritative") { mkp.yield(common['originatingSource'])}
 					party(type:"person") {
 						name(type:"primary") {
+							namePart(type:"title") { mkp.yield(user.title)}
 							namePart(type:"first") { mkp.yield(ldapUser.givenName)}
 							namePart(type:"last") { mkp.yield(ldapUser.sn)}
 						}
@@ -261,12 +265,12 @@ Wollongong N.S.W. 2522"""
 								}
 							}
 						}
-					}
-					related.each { relatedAssoc ->
-						if (relatedAssoc != null) {
-							relatedObject {
-								key(relatedAssoc['key'])
-								relation('type':relatedAssoc['type'])
+						related.each { relatedAssoc ->
+							if (relatedAssoc != null) {
+								relatedObject {
+									key(relatedAssoc['key'])
+									relation('type':relatedAssoc['type'])
+								}
 							}
 						}
 					}
