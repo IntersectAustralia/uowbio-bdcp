@@ -14,12 +14,13 @@
         <div class="body">
             <h1>All Projects</h1>
             
+            <g:link class="create button" controller="project" action="searchUsers">+ Add Project</g:link>
+            
             <g:if test="${flash.message}">
                 <div class="message">${flash.message}</div>
             </g:if>
             
             <g:if test="${ allProjectInstanceList?.size() > 0}">
-	        <br/>
 				<div class="list">
 	                <table id="searchTable">
 	                    <thead>
@@ -41,11 +42,7 @@
 	            
             </g:if>
             
-            <g:link class="create button" controller="project" action="searchUsers">+ Add Project</g:link>
-            
-            <div class="rowBottom">
 				<div class="buttons"><span class="menuButton"><g:link elementId="Back" controller="project" class="list" action="list">Back</g:link></span></div>
-			</div>
             
         </div>
     </body>

@@ -13,6 +13,8 @@
     
         <div class="body">
           <h1>Welcome Researcher</h1>
+          
+          <div class="container_project"><g:link class="create button" controller="project" action="create">+ Add Project</g:link></div>
             
           <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
@@ -33,7 +35,6 @@
           	</g:each>
           </div>
         </g:if>
-        <div class="container_project"><g:link class="create button" controller="project" action="create">+ Add Project</g:link></div>
 			
 			<h2>Collaborating Projects</h2>
 			
@@ -52,8 +53,6 @@
 	            	</g:each>
 				</div>
 			</g:if>
-            
-			<div class="rowBottom"></div>
             
         </div>
     </body>
