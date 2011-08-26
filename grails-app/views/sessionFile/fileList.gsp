@@ -85,8 +85,6 @@
         <div id="component">
         
         <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab4']}" />
-        
-        <br />
             <g:if test="${ componentInstanceTotal > 0}">
             <div class="projects">
               <ul id="example" class="filetree">

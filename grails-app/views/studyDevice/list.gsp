@@ -17,10 +17,8 @@
     
             <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab5']}" />
             
-            <br />
-            <span class="menuButton"><g:link elementId="Add Device" mapping="studyDeviceDetails" class="create" action="create" params="[studyId: studyInstance.id]">Add Device</g:link></span>
-            <br />
-            <br />
+            <g:link elementId="Add Device" mapping="studyDeviceDetails" class="create button" action="create" params="[studyId: studyInstance.id]">Add Device</g:link>
+
             <div class="projects">
                 <g:each in="${deviceGroupsMapping}" status="i" var="deviceGroupMap">
                 <h2>${deviceGroupMap?.deviceGroup.groupingName}</h2>
