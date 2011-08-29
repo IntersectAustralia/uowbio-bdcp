@@ -3,17 +3,17 @@
 <html>
 
   <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
-      <meta name="layout" content="main" />
-      <g:javascript library="application" />
-      <g:javascript library="jquery" plugin="jquery"/>
-  		<jqui:resources />
-      <g:set var="entityName" value="${message(code: 'component.label', default: 'Component')}" />
-      <title><g:message code="default.list.label" args="[entityName]" /></title>  
-    </head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
+    <meta name="layout" content="main" />
+    <g:javascript library="application" />
+    <g:javascript library="jquery" plugin="jquery"/>
+		<jqui:resources />
+    <g:set var="entityName" value="${message(code: 'component.label', default: 'Component')}" />
+    <title><g:message code="default.list.label" args="[entityName]" /></title>  
+  </head>
     
-    <body>
+  <body>
       <div class="body" id="tab3">
 
         <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
@@ -24,7 +24,7 @@
         
         <div id="component">
           <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab3']}" />
-          <g:link elementId="createComponent" mapping="componentDetails" controller="component" class="create button" action="create" params="[studyId: studyInstance.id]">Add Component</g:link>
+          <g:link elementId="createComponent" mapping="componentDetails" controller="component" class="create button" action="create" params="[studyId: studyInstance.id]">+ Add Component</g:link>
           <g:if test="${ componentInstanceTotal > 0}">  
           	<g:each in="${componentInstanceList}" status="i" var="componentInstance">
             	<div class="projects">
@@ -46,7 +46,7 @@
                 	</g:each>
               	
                 	<li>
-              			<g:link elementId="createSession[${i}]" mapping="sessionDetails" controller="session" class="create button" action="create" params="[studyId: studyInstance.id, componentId: componentInstance.id]"><span>Add Session</span></g:link>
+              			<g:link elementId="createSession[${i}]" mapping="sessionDetails" controller="session" class="create button" action="create" params="[studyId: studyInstance.id, componentId: componentInstance.id]"><span>+ Add Session</span></g:link>
                 	</li>
                 </ul>
               </div>

@@ -1,5 +1,5 @@
 
-<g:link mapping="participantDetails" controller="participant" class="create button" action="create" params="[studyId: studyInstance.id]">Add Participant</g:link>
+<g:link mapping="participantDetails" controller="participant" class="create button" action="create" params="[studyId: studyInstance.id]">+ Add Participant</g:link>
 
 <g:if test="${ participantInstanceTotal > 0}">
   <div class="list">

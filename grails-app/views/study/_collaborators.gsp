@@ -1,5 +1,5 @@
             
-<g:link elementId="Add Collaborator" controller="study" class="create button" action="searchCollaborators" params="[studyId: studyInstance.id]">Add Collaborator</g:link>
+<g:link elementId="Add Collaborator" controller="study" class="create button" action="searchCollaborators" params="[studyId: studyInstance.id]">+ Add Collaborator</g:link>
 
 <g:if test="${ collaboratorInstanceTotal > 0}">
   <div class="list">

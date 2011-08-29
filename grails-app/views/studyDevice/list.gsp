@@ -10,14 +10,14 @@
     <body>
         
         <div class="body" id="tab5"> 
-           <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
-            <g:if test="${flash.message}">
+          <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
+          <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
-            </g:if>
+          </g:if>
     
             <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab5']}" />
             
-            <g:link elementId="Add Device" mapping="studyDeviceDetails" class="create button" action="create" params="[studyId: studyInstance.id]">Add Device</g:link>
+            <g:link elementId="Add Device" mapping="studyDeviceDetails" class="create button" action="create" params="[studyId: studyInstance.id]">+ Add Device</g:link>
 
             <div class="projects">
                 <g:each in="${deviceGroupsMapping}" status="i" var="deviceGroupMap">

@@ -13,28 +13,9 @@ html * {
 
 html, body { margin: 0; padding: 0; height: 100%; }
 
-body {
-	background: #ff7a2a;
-	font: 11px verdana, arial, helvetica, sans-serif; color: #333;
-}
+body { background: #ff7a2a; font: 11px verdana, arial, helvetica, sans-serif; color: #333; } /* Orange page background */
 
-#bg_gradient {
-	margin: 0 auto -54px auto; min-height: 100%; height: auto !important; height: 100%; width: 960px; background: #FFF;
-}
-
-#grailsLogo {
-	padding: 20px;
-}
-
-#header { margin: 0; padding: 20px 0; height: 110px; background: #000; float: left; width: 100%; }
-
-/* Footer */
-#footer {
-	margin: 0 auto; width: 940px; padding: 10px;
-	background: #ccc; clear: both;
-	border-top: 1px dashed #FFF;
-	border-bottom: 20px solid #FF7A2A;
-}
+#grailsLogo { padding: 20px; }
 
 #biomechsLogo { margin: 0 auto; height: 110px; width: 960px; }
 
@@ -48,38 +29,25 @@ h1 { font: normal normal bold 16px/40px verdana, arial, helvetica sans-serif; } 
 h2 { font: normal normal bold 14px/40px verdana, arial, helvetica sans-serif; } /* Modal heading */
 h3 { font: normal normal bold 1em/35px Helvetica, Arial, sans-serif; color: #000; } /* Content section heading */
 
-h2#warning {
-	color: #cc0000;
-	font-weight: normal;
-	font-size: 14px;
-	margin: .8em 0 .3em 0;
-}
+h2#warning { color: #cc0000; font-weight: normal; font-size: 14px; margin: .8em 0 .3em 0; }
 
-h3 {
-	color: #48802c;
-	font-weight: normal;
-	font-size: 12px;
-	margin: .8em 0 .3em 0;
-}
+h3 { color: #48802c; font-weight: normal; font-size: 12px; margin: .8em 0 .3em 0; }
 
-h4 {
-	color: #48802c;
-	font-weight: normal;
-	font-size: 10px;
-	margin: .8em 0 .3em 0;
-}
+h4 { color: #48802c; font-weight: normal; font-size: 10px; margin: .8em 0 .3em 0; }
 
 ul { margin: 0; padding: 0;	}
 
 label { font-weight: bold; cursor: pointer; }
 
-input,select,textarea {
-	background-color: #fcfcfc;
-	border: 1px solid #ccc;
+input, select, textarea {
+  margin: 2px 0; padding: 2px 4px;
+	background-color: #fcfcfc; border: 1px solid #ccc; outline: none;
 	font: 11px verdana, arial, helvetica, sans-serif;
-	margin: 2px 0;
-	padding: 2px 4px;
 }
+
+input:hover, select:hover, textarea:hover { border: 1px solid #BBB; }
+
+input:focus, select:focus, textarea:focus { border: 1px solid #2989D8; }
 
 select { padding: 2px 2px 2px 0; }
 
@@ -90,8 +58,6 @@ textarea#supervisors { width: 250px; height: 30px; }
 textarea#additionalEthicsRequirements { width: 250px; height: 45px; }
 
 textarea { width: 250px; height: 150px; vertical-align: top; }
-
-input:focus,select:focus,textarea:focus { border: 1px solid #b2d1ff; }
 
 .body {
   margin: 0 auto; padding: 20px 20px 100px 20px; width: 920px; height: 100%;
@@ -120,6 +86,19 @@ input:focus,select:focus,textarea:focus { border: 1px solid #b2d1ff; }
 }
 
 .list { margin: 20px 0; }
+
+/* BASE STYLES - LAYOUT 
+/////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+#header { margin: 0; padding: 20px 0; height: 110px; background: #000; float: left; width: 100%; }
+
+#bg_gradient { margin: 0 auto -54px auto; min-height: 100%; height: auto !important; height: 100%; width: 960px; background: #FFF; }
+
+#footer {
+	margin: 0 auto; width: 940px; padding: 10px;
+	background: #ccc; clear: both; border-top: 1px dashed #FFF; border-bottom: 20px solid #FF7A2A;
+}
+
 
 /* BUTTON STYLES /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -218,7 +197,7 @@ box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); -moz-box-shadow: inset 0px 1px
 	background: #f3f8fc url(../images/skin/information.png) 8px 50%
 		no-repeat;
 	border: 1px solid #b2d1ff;
-	color: #006dba;
+	color: #006699;
 	margin: 10px 0 5px 0;
 	padding: 5px 5px 5px 30px
 }

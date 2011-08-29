@@ -132,9 +132,7 @@
                 </g:if>
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="study.description.label" default="Description" /></td>
-                    
                     <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "description")}</td>
-                    
                 </tr>
             
                 <tr class="prop">
@@ -142,25 +140,19 @@
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="study.keywords.label" default="Keywords" /></td>
-                            
                             <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "keywords")}</td>
-                            
                         </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="study.collaborators.label" default="Collaborators" /></td>
-                            
                             <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "collaborators")}</td>
-                            
                         </tr>
                     
                 </tr>
             
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="study.collaborators.label" default="Collaborators" /></td>
-                    
                     <td valign="top" class="value">${fieldValue(bean: studyInstance, field: "collaborators")}</td>
-                    
                 </tr>
             
                 <tr class="prop">

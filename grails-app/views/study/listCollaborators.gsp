@@ -61,7 +61,6 @@
         <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab6']}" />
         
 		<g:if test="${username}">
-			<br/><br/>
 			<p>Collaborator <u>${username}</u> added to study <u>${studyInstance.studyTitle}</u></p>
 		</g:if>	
         <g:render template="collaborators" />
