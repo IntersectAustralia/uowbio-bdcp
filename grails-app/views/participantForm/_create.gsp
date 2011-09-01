@@ -33,8 +33,8 @@
                     </table>
                 </div>
                     <div class="buttons">
-                    <span class="button"><g:submitButton name="create" id="upload" class="save" value="Upload" /></span>
+                    <span class="button"><g:submitButton name="create" id="upload" class="save list right" value="Upload" /></span>
+                    <span class="button"><g:link elementId="back" class="list" mapping="participantDetails" controller="participant" action="list" id="${params.studyId}" params="[studyId: params.studyId]">Back</g:link></span>
                     </div>
-                    <div class="rowTop"><g:link elementId="return" class="forms" mapping="participantDetails" controller="participant" action="list" id="${params.studyId}" params="[studyId: params.studyId]">Return to Participants</g:link></div>
             </g:uploadForm>
         </div>

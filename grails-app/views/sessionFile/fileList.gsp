@@ -8,18 +8,7 @@
         <g:javascript library="application" />
         <g:javascript library="jquery" plugin="jquery"/>
         <link rel="stylesheet" href="${resource(dir:'jquery.treeview',file:'jquery.treeview.css')}".css" type="text/css" />
-        <style type="text/css">
-        <!--
-        input.fileSelect, input.directorySelect {
-	    width : 1em;
-	    height :1em;
-	    padding: 0px;
-	    margin: 0px;
-	}
-        -->
-        </style>
-
-  <script type="text/javascript" src="${resource(dir:'jquery.treeview',file:'jquery.treeview.js')}"></script>
+        <script type="text/javascript" src="${resource(dir:'jquery.treeview',file:'jquery.treeview.js')}"></script>
     
         <jqui:resources />
         <g:set var="entityName" value="${message(code: 'sessionFile.label', default: 'File')}" />
@@ -85,36 +74,29 @@
   
   </script>
     
-    </head>
-    <body>
-       <div class="body" id="tab4">
-            <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
-        <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
+</head>
+  <body>
+    <div class="body" id="tab4">
+      <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
+      <g:if test="${flash.message}">
+        <div class="message">${flash.message}</div>
+      </g:if>
         
         <div id="component">
         
         <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab4']}" />
-        
-        <br />
             <g:if test="${ componentInstanceTotal > 0}">
             <div class="projects">
-                    <ul id="example" class="filetree">
-  <p>To download file/s, please check box/es next to files or directories and click "Download”</p>
-  <g:each in="${componentInstanceList}" status="i" var="componentInstance">
-  <li><span class="folder">${componentInstance.name}</span>
-  
-  <g:each in="${componentInstance.getSessionsList()}" status="k" var="sessionInstance">
-          <ul>
-                 
-                 <li><span class="folder">${sessionInstance.name} 
-                 <g:link elementId="upload[${i}-${0}]" mapping="sessionFileDetails" controller="sessionFile" action="browseFiles" 
-                 params="['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':'']" ><img src="${resource(dir:'images/icons',file:'upload.png')}"  alt="Upload Files" title="Upload Files"
-                 /></g:link>
-                 <g:link elementId="createDirectory[${i}-${0}]" mapping="sessionFileDetails" controller="sessionFile" action="createDirectory" 
-                 params="['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':'']"><img src="${resource(dir:'images/icons',file:'plus.gif')}"  alt="Add Directory" title="Add Directory"
-                 /></g:link></span>
+              <ul id="example" class="filetree">
+                <p>To download file(s), please check the corresponding box(es) on the left, and click 'Download' when you are satisfied with your selection.</p>
+                <g:each in="${componentInstanceList}" status="i" var="componentInstance">
+                  <li><span class="folder">${componentInstance.name}</span>
+                  <g:each in="${componentInstance.getSessionsList()}" status="k" var="sessionInstance">
+                    <ul>
+                      <li>
+                        <span class="folder">${sessionInstance.name} 
+                       <g:link elementId="upload[${i}-${0}]" mapping="sessionFileDetails" controller="sessionFile" action="browseFiles" params="['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':'']" ><img src="${resource(dir:'images/icons',file:'attach.png')}"  alt="Upload Files" title="Upload Files"/></g:link>
+                       <g:link elementId="createDirectory[${i}-${0}]" mapping="sessionFileDetails" controller="sessionFile" action="createDirectory" params="['studyId': params.studyId,'sessionId': sessionInstance.id, 'directory':'']"><img src="${resource(dir:'images/icons',file:'folder_add.png')}"  alt="Add Directory" title="Add Directory"/></g:link></span>
                  <ul>
                  <g:def var="sessionRoot" value="${sessionFiles.getAt(sessionInstance.id.toString()).getAt('sessionRoot')}" />
                  <g:each in="${sessionFiles.getAt(sessionInstance.id.toString()).getAt('files')}" status="l" var="fileInstance">
@@ -128,11 +110,7 @@
   </g:each>
 		</ul>
 
-<div class="buttons">
-  <span class="menuButton">
-    <button id="downloadButton">Download</button>
-  </span>
-</div>
+<button id="downloadButton" class="button">Download</button>
 
             </div>
             </g:if>

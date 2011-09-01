@@ -9,15 +9,8 @@
     </head>
     <body>
         <div class="body">
-        
             <h1>Device Administration</h1>
-            
-            <br />
-            
-            <g:link elementId="createGrouping" class="button" action="create">Create Grouping</g:link>
-            
-            <br />
-            <br />
+            <g:link elementId="createGrouping" class="button" action="create">+ Create Grouping</g:link>
             
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>

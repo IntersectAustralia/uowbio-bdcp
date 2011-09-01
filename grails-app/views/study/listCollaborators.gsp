@@ -1,15 +1,15 @@
 
 <%@ page import="au.org.intersect.bdcp.Participant" %>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
-        <meta name="layout" content="main" />
-        <g:javascript library="application" />
-        <g:javascript library="jquery" plugin="jquery"/>
-   		<jqui:resources />
-        <g:set var="entityName" value="${message(code: 'collaborator.label', default: 'Collaborator')}" />
-        <title><g:message code="default.list.label" args="[entityName]" /></title>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
+    <meta name="layout" content="main" />
+    <g:javascript library="application" />
+    <g:javascript library="jquery" plugin="jquery"/>
+ 		<jqui:resources />
+    <g:set var="entityName" value="${message(code: 'collaborator.label', default: 'Collaborator')}" />
+    <title><g:message code="default.list.label" args="[entityName]" /></title>
 
 		<script type="text/javascript">
 		        $(function() {
@@ -43,29 +43,28 @@
 		      });
             
 		</script>
+  
+  </head>
+  <body>
     
-    </head>
-    <body>
-    
-	    <div id="dialog-confirm" title="Cancel the deletion of Collaborator?">
+    <div id="dialog-confirm" title="Cancel the deletion of Collaborator?">
 			<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>Are you sure?</p>
 		</div>
 		
-       <div class="body" id="tab6">
-            <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
+      <div class="body" id="tab6">
+        <h1><g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /></h1>
         <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
+          <div class="message">${flash.message}</div>
+        </g:if>
         <div id="study">
         
         <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab6']}" />
         
 		<g:if test="${username}">
-			<br/><br/>
 			<p>Collaborator <u>${username}</u> added to study <u>${studyInstance.studyTitle}</u></p>
 		</g:if>	
         <g:render template="collaborators" />
         </div>
-	</div>
-    </body>
+    	</div>
+  </body>
 </html>

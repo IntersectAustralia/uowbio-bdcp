@@ -22,8 +22,8 @@
             <g:form action="save" >
                 <g:render template="modifyDialog" model= ['body': body()]] />
                 <div class="buttons">
-                    <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
-                    <span class="button"><g:link elementId="cancel" action="list">Cancel</g:link></span>
+                  <g:submitButton name="create" class="save right list" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                  <span class="button"><g:link elementId="cancel" class="list" action="list">Cancel</g:link></span>
                 </div>
             </g:form>
         </div>

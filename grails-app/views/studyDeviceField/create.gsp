@@ -39,8 +39,8 @@
             </div>
             </g:if>
                 <div class="buttons">
-                    <span class="button"><g:submitButton name="save" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
-                    <span class="button"><g:link elementId="cancel" mapping="studyDeviceDetails" controller="studyDevice" action="create" params="[studyId: params.studyId]">Cancel</g:link></span>
+                    <span class="button"><g:submitButton name="save" class="save right list" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                    <span class="button"><g:link elementId="cancel" class="list" mapping="studyDeviceDetails" controller="studyDevice" action="create" params="[studyId: params.studyId]">Cancel</g:link></span>
                 </div>
             </g:form>
         </div>

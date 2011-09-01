@@ -14,13 +14,13 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <h1>Browse For Files</h1>
-            <h2><B>Path:</B> ${path}</h2>
+            <span><B>Path:</B> ${path}</span>
             <h2 id="warning">Warning: files uploaded cannot be removed</h2>
             <br />
             <g:render template="/shared/uploadApplet" />
          
     <div class="buttons">
-    <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create" elementId="Cancel" action="fileList" params="['studyId': params.studyId,'sessionId': params.sessionId]">Cancel</g:link></span>
+    <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create list" elementId="Cancel" action="fileList" params="['studyId': params.studyId,'sessionId': params.sessionId]">Cancel</g:link></span>
     </div>
     </div>
     </body>

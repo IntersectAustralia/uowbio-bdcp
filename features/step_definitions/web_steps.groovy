@@ -307,8 +307,9 @@ Then(~"I should see a 4 column table \"(.*)\" with contents") { String tableId, 
 }
 
 Then(~"I print the page") {
-	page = response.body
-	println page
+	println "*** BROWSER LOCATION: [" + browser.getCurrentUrl() + "] ***"
+	println browser.getPageSource()
+	println "***"
 }
 
 Then(~"I wait for ajax") {
