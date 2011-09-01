@@ -31,18 +31,18 @@ class SessionFileController
         {
             def context = createContext(request)
             def dirstruct = params.dirStruct
-            def parsed_json = JSON.parse(dirstruct)
             def sessionObj = Session.findById(params.sessionId)
             def upload_root = "${params.studyId}/${sessionObj.component.id}/${params.sessionId}/"
             if (params.destDir != "")
             {
                 upload_root = upload_root + "${params.destDir}/"
             }
-            def success = (fileService.createAllFolders(context,parsed_json, upload_root) == true) ? true: false
-            success = (success == true && fileService.createAllFiles(context,parsed_json, upload_root, params) == true) ? true:false
+			dirstruct = JSON.parse(dirstruct)
+            def success = (fileService.createAllFolders(context, dirstruct, upload_root) == true) ? true: false
+            success = (success == true && fileService.createAllFiles(context, dirstruct, upload_root, params) == true) ? true:false
             def final_location_root = "${params.studyId}/${sessionObj.component.id}/"
             
-            success = (success == true && fileService.moveDirectoryFromTmp(context,upload_root, upload_root) == true)? true: false
+            success = (success == true && fileService.moveDirectoryFromTmp(context, upload_root, upload_root) == true)? true: false
             if (success)
             {
                 render "Successfully Uploaded Files!"
