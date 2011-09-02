@@ -17,11 +17,13 @@ class FileService
         def rootPath = new File(webAppContextPath,grailsApplication.config.files."${property}".location.toString())
         if (!tmpPath.exists())
         {
-            tmpPath.mkdirs()
+            def ok = tmpPath.mkdirs()
+            log.info("Creating directories: " + tmpPath + " ok:" + ok)
         }
         if (!rootPath.exists())
         {
-            rootPath.mkdirs()
+            def ok = rootPath.mkdirs()
+            log.info("Creating directories: " + rootPath + " ok:" + ok)
         }
         return ["tmpPath":tmpPath, "rootPath":rootPath]
     }

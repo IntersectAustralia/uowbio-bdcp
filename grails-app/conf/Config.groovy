@@ -86,7 +86,8 @@ log4j = {
 	//}
 
 	//debug  'org.codehaus.groovy.grails.plugins.springsecurity'
-	//debug  'au.org.intersect.bdcp.ldap'
+	debug  'au.org.intersect.bdcp'
+	
 	error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 			'org.codehaus.groovy.grails.web.pages', //  GSP
 			'org.codehaus.groovy.grails.web.sitemesh', //  layouts

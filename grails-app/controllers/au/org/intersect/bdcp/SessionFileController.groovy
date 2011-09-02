@@ -130,7 +130,7 @@ class SessionFileController
 	def saveDirectory =
     { 
         
-        directoryCommand dirCmd ->
+        DirectoryCommand dirCmd ->
         cache false
 		
 		def studyInstance = Study.get(params.studyId)
@@ -142,6 +142,12 @@ class SessionFileController
         def context = createContext(request)
         def sessionObj = Session.findById(params.sessionId)
         def path = params.studyId +"/" + sessionObj.component.id + "/" + sessionObj.id +"/" + dirCmd?.path
+		def sessionRoot = fileService.getFileReference(context, path)
+		if (!sessionRoot.exists())
+		{
+			def ok = sessionRoot.mkdirs()
+			log.info("Creating session directory: " + sessionRoot + " ok:" + ok)
+		}
         def containsDuplicateName = fileService.checkIfDirectoryExists(context, dirCmd.name.trim(), path)
         
 		if (dirCmd.hasErrors() || (containsDuplicateName))
@@ -263,7 +269,7 @@ class SessionFileController
 	
 
 }
-class directoryCommand
+class DirectoryCommand
 {
 	String name
 	String path
