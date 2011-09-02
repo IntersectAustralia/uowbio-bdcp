@@ -5,6 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
+        <g:javascript library="application" />
         <g:javascript library="jquery" plugin="jquery"/>
    		<jqui:resources />
         <title><g:message code="default.list.label" args="[entityName]" /> - Analysed data</title>
@@ -19,6 +20,11 @@
     <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab7']}" />
 
 	<div id="tabs-details">
+	<ul class="filetree">
+	<g:each in="${dirFiles}" status="l" var="file">
+			<li><span class='folder'>${file?.getName()}</span></li>
+    </g:each>
+    </ul>
 	</div>
 	</div> 
     </body>

@@ -103,9 +103,10 @@ log4j = {
 	warn   'org.mortbay.log'
 }
 images.location = "web-app/images/"
-forms.location = "uowbio/forms/"
-files.session.location = "sessions/files/"
+forms.location = "files/forms/"
+files.session.location = "files/sessions/"
 files.rifcs.location = "rifcs/"
+files.analysed.location = "files/analysed/"
 tmp.location = "tmp"
 
 ldapServers {

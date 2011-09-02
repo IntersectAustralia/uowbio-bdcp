@@ -14,13 +14,13 @@ import au.org.intersect.bdcp.ldap.LdapUser
 class StudyAnalysedDataController
 {
 	
-	def rifcsService
+	def fileService
 	
 	def roleCheckService
 	
-	def getContextRootPath(def servletRequest)
+	def createContext(def servletRequest)
 	{
-		return servletRequest.getSession().getServletContext().getRealPath("/")
+		return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"), "analysed")
 	}
 	
 
@@ -36,7 +36,42 @@ class StudyAnalysedDataController
 	{
 		cache false
 		def studyInstance = Study.get(params.studyId)
-		[studyInstance: studyInstance]
+		// if ur a researcher or system administrator and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER') || roleCheckService.checkUserRole('ROLE_SYS_ADMIN')) {
+			redirectNonAuthorizedAccessStudy(studyInstance)
+		}
+		def context = createContext(request)
+		ensureFilesRoot(context, studyInstance)
+		def dirFiles = fileService.listFiles(context, rootPath(studyInstance))
+		[studyInstance: studyInstance, dirFiles: dirFiles['files']]
 	}
+
+	/**
+	* Display project only to owner or collaborator
+	* @param _projectInstance
+	*/
+   private void redirectNonAuthorizedAccessStudy(Study _studyInstance)
+   {
+	   def userStore = UserStore.findByUsername(principal.username)
+	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(_studyInstance,userStore)
+
+	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
+		   redirect controller:'login', action: 'denied'
+	   }
+   }
+   
+   private void ensureFilesRoot(context, studyInstance)
+   {
+	   def dir = fileService.getFileReference(context, rootPath(studyInstance))
+	   if (!dir.exists())
+	   {
+		   dir.mkdirs()
+	   }
+   }
+   
+   private String rootPath(studyInstance)
+   {
+	   return "${studyInstance.id}/";
+   }
 
 }
