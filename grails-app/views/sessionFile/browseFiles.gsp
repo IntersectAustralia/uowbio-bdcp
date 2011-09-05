@@ -17,7 +17,8 @@
             <span><B>Path:</B> ${path}</span>
             <h2 id="warning">Warning: files uploaded cannot be removed</h2>
             <br />
-            <g:render template="/shared/uploadApplet" />
+            <g:render template="/shared/uploadApplet" 
+            	model='["uploadUrl":"${request.siteUrl}/study/${params.studyId}/session/${params.sessionId}/sessionFile/upload","destDir":"${params.directory}"]' />
          
     <div class="buttons">
     <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create list" elementId="Cancel" action="fileList" params="['studyId': params.studyId,'sessionId': params.sessionId]">Cancel</g:link></span>

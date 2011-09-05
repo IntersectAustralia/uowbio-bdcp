@@ -57,8 +57,8 @@
                             code="au.org.intersect.uploader.main.UploadApplet"
                             width="95" height="30" MAYSCRIPT>
                             <param name="mayscript" value="true" />
-                            <param name="uploadURL" value="${request.siteUrl}/study/${params.studyId}/session/${params.sessionId}/sessionFile/upload" />
-                            <param name="destDir" value = "${params.directory}"/>
+                            <param name="uploadURL" value="${uploadUrl}" />
+                            <param name="destDir" value = "${destDir}"/>
                             <param name="allowMultiSelect" value="true" />
                             <param name="fileSelectionMode" value="files_and_folders" />
                             <param name="sendVerifyRequestFirst" value="false" />
