@@ -12,13 +12,14 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 class FileServiceTests extends GrailsUnitTestCase
 {
     def fileService
-    
+
     /**
      * Setup operations for testing the {@link FileService} class
      */
     protected void setUp()
     {
         super.setUp()
+        mockLogging(FileService, true)
         fileService = new FileService()
         def filePath = new File('grails-app/conf/Config.groovy').toURI().toURL()
         def config = new ConfigSlurper(System.properties.get('grails.env')).parse(filePath)
