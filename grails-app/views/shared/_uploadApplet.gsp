@@ -14,7 +14,10 @@
 			        	}
 			        	 
 			        	function finishedWork() {
-			                $('#appletStatus').html('Finished');
+			                $('#appletStatus').html('Finished, redirecting...');
+			                setTimeout(function(){
+				                	window.location.replace('${redirUrl}')
+				                }, 2000);
 			        	}
 			        	 
 			        	function unexpectedError(exceptionMessage) {

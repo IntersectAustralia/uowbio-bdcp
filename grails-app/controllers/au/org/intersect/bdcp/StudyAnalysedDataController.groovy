@@ -1,15 +1,7 @@
 package au.org.intersect.bdcp
 
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.stream.StreamResult
-import javax.xml.transform.stream.StreamSource
-
+import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
-
-import au.org.intersect.bdcp.rifcs.Rifcs
-import au.org.intersect.bdcp.ldap.LdapUser
 
 class StudyAnalysedDataController
 {
@@ -27,13 +19,20 @@ class StudyAnalysedDataController
 	def secured = { block ->
 		cache false
 		def studyInstance = Study.get(Long.parseLong(params.studyId))
-		// if ur a researcher or system administrator and you either own or collaborate on a study then look at it, else error page
-		if (roleCheckService.checkUserRole('ROLE_RESEARCHER') || roleCheckService.checkUserRole('ROLE_SYS_ADMIN')) {
-			redirectNonAuthorizedAccessStudy(studyInstance)
+		if (studyInstance == null) {
+			flash.message = message(code:'study.analysed.invalidId')
+			redirect controller:'login', action: 'invalid'
+			return
+		}
+		def canDo = roleCheckService.checkUserRole('ROLE_LAB_MANAGER');
+		canDo = canDo || (roleCheckService.checkUserRole('ROLE_RESEARCHER') && roleCheckService.checkSameUser(studyInstance.project.owner.username))
+		if (!canDo) {
+			redirectNonAuthorizedAccessStudy()
+			return
 		}
 		def context = createContext(request)
 		ensureFilesRoot(context, studyInstance)
-		block(studyInstance, context)
+		block(studyInstance, context)		
 	}
 	
 
@@ -50,7 +49,7 @@ class StudyAnalysedDataController
 	{
 		secured { study, context ->
 			def dirFiles = fileService.listFiles(context, rootPath(study))
-			[studyInstance: study, dirFiles: dirFiles['files']]
+			render(view:'list', model:[studyInstance: study, dirFiles: dirFiles['files']])
 		}
 	}
 	
@@ -86,11 +85,30 @@ class StudyAnalysedDataController
 		}
 	}
 	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
 	def uploadFiles =
 	{	
-		secured { study, context ->
+		cache false
+		def studyInstance = Study.get(Long.parseLong(params.studyId))
+		if (studyInstance == null) {
+			flash.message = message(code:'study.analysed.invalidId')
+			redirect controller:'login', action: 'invalid'
+			return
+		}
+		def context = createContext(request)
+		ensureFilesRoot(context, studyInstance)
+		def dirstruct = params.dirStruct
+		def upload_root = rootPath(studyInstance) + "/" + params.destDir
+		dirstruct = JSON.parse(dirstruct)
+        def success = (fileService.createAllFolders(context, dirstruct, upload_root) == true) ? true : false
+        success = success && (fileService.createAllFiles(context, dirstruct, upload_root, params) == true)
+		success = success && (fileService.moveDirectoryFromTmp(context, upload_root, upload_root) == true)
+		if (success)
+		{
 			render "Successfully Uploaded Files!"
+		}
+		else
+		{
+			response.sendError 500
 		}
 	}
 
@@ -98,14 +116,9 @@ class StudyAnalysedDataController
 	* Display project only to owner or collaborator
 	* @param _projectInstance
 	*/
-   private void redirectNonAuthorizedAccessStudy(Study _studyInstance)
+   private void redirectNonAuthorizedAccessStudy()
    {
-	   def userStore = UserStore.findByUsername(principal.username)
-	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(_studyInstance,userStore)
-
-	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
-		   redirect controller:'login', action: 'denied'
-	   }
+		redirect controller:'login', action: 'denied'
    }
    
    private void ensureFilesRoot(context, studyInstance)

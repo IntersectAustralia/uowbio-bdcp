@@ -20,12 +20,12 @@
     <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab7']}" />
 
 	<div id="tabs-details">
-            <h1><g:message code="study.files.analysed.folder.create.title" /></h1>
+            <h1><g:message code="study.files.analysed.folder.upload.title" args="${[folderName.folder]}"/></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <g:render template="/shared/uploadApplet" 
-            	model='["uploadUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/uploadFiles","destDir":"${folderName.folder}"]' />
+            	model='["uploadUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/uploadFiles","destDir":"${folderName.folder}","redirUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/list"]' />
             
 	</div>
 	</div> 

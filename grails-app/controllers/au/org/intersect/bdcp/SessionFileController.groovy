@@ -17,8 +17,7 @@ class SessionFileController
 	
 	def roleCheckService
 
-	def pattern = ~/^([DF])\/(\d+)\/(.*)$/
-
+	def pattern = Pattern.compile("^([DF])/(\\d+)/(.*)\$")
     
     def createContext(def servletRequest)
     {
@@ -39,10 +38,8 @@ class SessionFileController
             }
 			dirstruct = JSON.parse(dirstruct)
             def success = (fileService.createAllFolders(context, dirstruct, upload_root) == true) ? true: false
-            success = (success == true && fileService.createAllFiles(context, dirstruct, upload_root, params) == true) ? true:false
-            def final_location_root = "${params.studyId}/${sessionObj.component.id}/"
-            
-            success = (success == true && fileService.moveDirectoryFromTmp(context, upload_root, upload_root) == true)? true: false
+            success = success && (fileService.createAllFiles(context, dirstruct, upload_root, params) == true)
+            success = success && (fileService.moveDirectoryFromTmp(context, upload_root, upload_root) == true)
             if (success)
             {
                 render "Successfully Uploaded Files!"
