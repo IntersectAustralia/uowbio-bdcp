@@ -109,8 +109,18 @@ class BootStrap
 			{
 				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
 				user.save(flush:true)				
-                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
-                user.save(flush:true)
+                                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
+                                user.save(flush:true)
+				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
+				user.save(flush:true)
+				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, title:'Mr')
+				user.save(flush:true)
+				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
+				user.save(flush:true)
+				createStaticData() 
+			}
+			intersect_showcase
+			{
 				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
 				user.save(flush:true)
 				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, title:'Mr')

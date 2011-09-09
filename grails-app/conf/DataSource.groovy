@@ -93,4 +93,16 @@ environments {
 			password = "bdcp"
 		}
 	}
+
+	intersect_showcase
+	{
+		dataSource
+		{
+			dbCreate = "update"
+			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
+			driverClassName = "org.postgresql.Driver"
+			username = "bdcp"
+			password = "bdcp"
+		}
+	}
 }
