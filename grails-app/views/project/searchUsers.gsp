@@ -40,15 +40,14 @@
 		</tbody>
 	</table>
 	</div>
-	<div class="buttons"><span class="button"><g:submitButton
-		name="create" id="search" class="save" value="Search" /></span></div>
+	<span class="button"><g:submitButton name="create" id="search" class="save button list" value="Search" /></span>
 </g:form> 
 
 <g:render template="userList" />
 
 <div class="buttons">
-	<span class="menuButton"><g:link elementId="Back" controller="project" class="list" action="listAll">Back</g:link></span>
-	<span class="button"><g:link elementId="cancel" controller="project" class="button" action="searchUsers">Cancel</g:link></span>	
+	<span class="button"><g:link elementId="Back" controller="project" class="list" action="listAll">Back</g:link></span>
+	<span class="button"><g:link elementId="cancel" controller="project" class="list" action="searchUsers">Cancel</g:link></span>	
 </div>
 </div>
         

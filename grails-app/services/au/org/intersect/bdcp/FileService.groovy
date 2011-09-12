@@ -10,18 +10,20 @@ class FileService
     static transactional = true
 
     def grailsApplication
-
+	
     def createContext(def webAppContextPath, String property)
     {
         def tmpPath = new File(webAppContextPath,grailsApplication.config.tmp.location.toString())
         def rootPath = new File(webAppContextPath,grailsApplication.config.files."${property}".location.toString())
         if (!tmpPath.exists())
         {
-            tmpPath.mkdirs()
+            def ok = tmpPath.mkdirs()
+            log.info("Creating directories: " + tmpPath + " ok:" + ok)
         }
         if (!rootPath.exists())
         {
-            rootPath.mkdirs()
+            def ok = rootPath.mkdirs()
+            log.info("Creating directories: " + rootPath + " ok:" + ok)
         }
         return ["tmpPath":tmpPath, "rootPath":rootPath]
     }
@@ -34,15 +36,17 @@ class FileService
 
     private boolean createAllFolders(def context, def json, def destination)
     {
-        return json.findAll{
-            p,q ->
-            p.startsWith("folder")
-        }.every {
-            key, val ->
-            def path = val[0]
-            def tmpDir = new File(context.get("tmpPath"), destination)
-            def directory = new File(tmpDir, path)
-            return checkPathIsValid(context.get("tmpPath"), directory) && ((directory.exists() && directory.isDirectory()) || directory.mkdirs());
+        return json.every { topLevel -> 
+			return topLevel.findAll({
+	            p,q ->
+	            p.startsWith("folder")
+	        }).every {
+	            key, val ->
+	            def path = val
+	            def tmpDir = new File(context.get("tmpPath"), destination)
+	            def directory = new File(tmpDir, path)
+	            return checkPathIsValid(context.get("tmpPath"), directory) && ((directory.exists() && directory.isDirectory()) || directory.mkdirs());
+	        }
         }
     }
 
@@ -52,22 +56,24 @@ class FileService
         {
             return false
         }
-        return json.findAll{
-            p,q ->
-            p.startsWith("file")
-        }.every{
-            key, val ->
-            def path = val[0]
-            def file = parameters[key]
-            def tmpDir = new File(context.get("tmpPath"), destination )
-            def filepath = new File(tmpDir, path)
-            if (!checkPathIsValid(context.get("tmpPath"), filepath))
-            {
-                return false;
-            }
-            filepath.mkdirs()
-            file.transferTo(filepath)
-            return true
+        return json.every { topLevel -> 
+			return topLevel.findAll({
+	            p,q ->
+	            p.startsWith("file")
+	        }).every{
+	            key, val ->
+	            def path = val
+	            def file = parameters[key]
+	            def tmpDir = new File(context.get("tmpPath"), destination )
+	            def filepath = new File(tmpDir, path)
+	            if (!checkPathIsValid(context.get("tmpPath"), filepath))
+	            {
+	                return false;
+	            }
+	            filepath.mkdirs()
+	            file.transferTo(filepath)
+	            return true
+	        }
         }
     }
 

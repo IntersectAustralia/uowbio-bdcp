@@ -8,10 +8,9 @@
 <div class="body">
 
 <h1>Account Administration</h1>
-<div class="rowTop"><g:link elementId="create" controller="admin"
+<div class="rowTop"><g:link elementId="create" class="button" controller="admin"
      action="search">Create New User</g:link> 
-     <g:link elementId="list" class="button"
-     controller="admin" action="listUsers">List All Users</g:link></div>
+     <g:link elementId="list" class="button" controller="admin" action="listUsers">List All Users</g:link></div>
 <div class="rowBottom">
 <div class="buttons"><span class="menuButton"><g:link
      elementId="Back" controller="admin" class="list" action="systemAdmin">Back</g:link></span>

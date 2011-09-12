@@ -163,4 +163,13 @@ class LoginController
 		cache false
 		render([error: 'access denied'] as JSON)
 	}
+	
+	/**
+	 * Show denied page.
+	 */
+	def invalid =
+	{
+		cache false
+	}
+
 }

@@ -8,7 +8,7 @@
         <title>${deviceGroupInstance?.groupingName}</title>
     </head>
     <body>
-        <div class="body">
+      <div class="body">
         <h1>${deviceGroupInstance?.groupingName}</h1>
         <br />
             <g:link elementId="Add new device" mapping="deviceDetails" controller="device" class="button" action="create" params="[deviceGroupId: params.deviceGroupId]">Add new device</g:link>
@@ -40,9 +40,11 @@
                 </table>
             </div>
             </g:if>
-            <div class="buttons"><span class="menuButton">
-                <g:link elementId="Back" controller="deviceGroup" class="list" action="list">Back</g:link></span>
-            </div>
+        <div class="buttons">
+          <span class="menuButton">
+            <g:link elementId="Back" controller="deviceGroup" class="list" action="list">Back</g:link>
+          </span>
         </div>
+      </div>
     </body>
 </html>

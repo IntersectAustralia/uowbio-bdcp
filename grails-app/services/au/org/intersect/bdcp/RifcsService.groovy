@@ -16,7 +16,7 @@ class RifcsService
 	private Map common = [
 			'originatingSource' : 'http://www.uow.edu.au',
 			'@group' : 'University of Wollongong',
-			'collection.email.address' : 'brl@uow.edu.au',
+			'collection.email.address' : 'biomechanics@uow.edu.au',
 			'collection.accessRights' : 'Access on request only',
 			'collection.physical.address' : """Biomechanics Research Laboratory
 School of Health Sciences
@@ -222,8 +222,8 @@ Wollongong N.S.W. 2522"""
 								}
 							}
 						}
-						study.keywords.split(';').each { keyword ->
-							  subject(type:'local', 'xml:lang':'en') { mkp.yield(keyword) }
+						study.keywords.split(',').each { keyword ->
+							  subject(type:'local', 'xml:lang':'en') { mkp.yield(keyword.trim()) }
 						}
 					}
 				}

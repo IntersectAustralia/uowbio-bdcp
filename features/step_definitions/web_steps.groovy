@@ -131,6 +131,23 @@ Given(~"I have created a deviceField with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"
     sql.execute("INSERT INTO device_field(id, version,device_id, device_fields_idx,date_created, last_updated, mandatory, field_label, field_type, field_options) VALUES (nextval('hibernate_sequence'), '0','${deviceId}', ${fieldIndex}, '${dateCreated}', '${lastUpdated}', '${mandatory}', ${fieldLabel}, ${fieldType}, ${fieldOptions});")
 }
 
+def deleteAll(File f) {
+	if (!f.exists()) { return; }
+	if (!f.isDirectory()) {
+		if (!f.delete()) { throw new RuntimeException("Cannot delete " + f.getAbsolutePath()); }
+	    return;
+	}
+	f.listFiles().each { File child ->
+		if (!".".equals(child.getName()) && !"..".equals(child.getName())) deleteAll(child)
+	}
+	if (!f.delete()) { throw new RuntimeException("Cannot delete directory " + f.getAbsolutePath()); }
+}
+
+Given(~"the file service folder \"(.*)\" is empty") { String path ->
+	def rootPath = new File("web-app/" + path)
+	deleteAll(rootPath)
+}
+
 def getDevice(String name) {
     def device
     def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
@@ -307,8 +324,9 @@ Then(~"I should see a 4 column table \"(.*)\" with contents") { String tableId, 
 }
 
 Then(~"I print the page") {
-	page = response.body
-	println page
+	println "*** BROWSER LOCATION: [" + browser.getCurrentUrl() + "] ***"
+	println browser.getPageSource()
+	println "***"
 }
 
 Then(~"I wait for ajax") {

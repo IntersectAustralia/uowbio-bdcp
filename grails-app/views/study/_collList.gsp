@@ -17,7 +17,7 @@
                             <td>${matchInstance.username.toArray()[1]}</td>
                              <td> ${matchInstance.givenName }</td>
                              <td> ${matchInstance.sn }</td>
-                             <td><g:link elementId="select[${i}]" url="${createLink(mapping: 'addCollaborator', controller:'study', action:'addCollaborator', params:['studyId': studyInstance.id, 'username': matchInstance.username.toArray()[1]])}">Select</g:link></td>
+                             <td><g:link elementId="select[${i}]" class="button right list" url="${createLink(mapping: 'addCollaborator', controller:'study', action:'addCollaborator', params:['studyId': studyInstance.id, 'username': matchInstance.username.toArray()[1]])}">Select</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>

@@ -17,8 +17,7 @@ class SessionFileController
 	
 	def roleCheckService
 
-	def pattern = ~/^([DF])\/(\d+)\/(.*)$/
-
+	def pattern = Pattern.compile("^([DF])/(\\d+)/(.*)\$")
     
     def createContext(def servletRequest)
     {
@@ -31,18 +30,16 @@ class SessionFileController
         {
             def context = createContext(request)
             def dirstruct = params.dirStruct
-            def parsed_json = JSON.parse(dirstruct)
             def sessionObj = Session.findById(params.sessionId)
             def upload_root = "${params.studyId}/${sessionObj.component.id}/${params.sessionId}/"
             if (params.destDir != "")
             {
                 upload_root = upload_root + "${params.destDir}/"
             }
-            def success = (fileService.createAllFolders(context,parsed_json, upload_root) == true) ? true: false
-            success = (success == true && fileService.createAllFiles(context,parsed_json, upload_root, params) == true) ? true:false
-            def final_location_root = "${params.studyId}/${sessionObj.component.id}/"
-            
-            success = (success == true && fileService.moveDirectoryFromTmp(context,upload_root, upload_root) == true)? true: false
+			dirstruct = JSON.parse(dirstruct)
+            def success = (fileService.createAllFolders(context, dirstruct, upload_root) == true) ? true: false
+            success = success && (fileService.createAllFiles(context, dirstruct, upload_root, params) == true)
+            success = success && (fileService.moveDirectoryFromTmp(context, upload_root, upload_root) == true)
             if (success)
             {
                 render "Successfully Uploaded Files!"
@@ -130,7 +127,7 @@ class SessionFileController
 	def saveDirectory =
     { 
         
-        directoryCommand dirCmd ->
+        DirectoryCommand dirCmd ->
         cache false
 		
 		def studyInstance = Study.get(params.studyId)
@@ -142,6 +139,12 @@ class SessionFileController
         def context = createContext(request)
         def sessionObj = Session.findById(params.sessionId)
         def path = params.studyId +"/" + sessionObj.component.id + "/" + sessionObj.id +"/" + dirCmd?.path
+		def sessionRoot = fileService.getFileReference(context, path)
+		if (!sessionRoot.exists())
+		{
+			def ok = sessionRoot.mkdirs()
+			log.info("Creating session directory: " + sessionRoot + " ok:" + ok)
+		}
         def containsDuplicateName = fileService.checkIfDirectoryExists(context, dirCmd.name.trim(), path)
         
 		if (dirCmd.hasErrors() || (containsDuplicateName))
@@ -263,7 +266,7 @@ class SessionFileController
 	
 
 }
-class directoryCommand
+class DirectoryCommand
 {
 	String name
 	String path

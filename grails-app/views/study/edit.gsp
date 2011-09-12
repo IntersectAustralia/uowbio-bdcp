@@ -112,6 +112,7 @@
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="description"><g:message code="study.keywords.label" default="Keywords" /></label>
+                                  <div class="explanation"><g:message code="study.keywords.explanation" default="Separated by comma (,)" /></div>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'keywords', 'errors')}">
                                     <g:textArea name="keywords" value="${studyInstance?.keywords}" rows="5" cols="40"/>
@@ -167,8 +168,8 @@
                     </table>
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" id="save" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
-                	<span class="button"><g:link elementId="cancel" controller="study" action="show" id="${studyInstance.id}">Cancel</g:link></span>
+                    <span class="button"><g:actionSubmit class="save list right" id="save" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" /></span>
+                	<span class="button"><g:link elementId="cancel" class="list" controller="study" action="show" id="${studyInstance.id}">Cancel</g:link></span>
                 </div>
             </g:form>
         </div>

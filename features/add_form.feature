@@ -28,7 +28,7 @@ Feature: Add Form
     Then I press "forms[0]"
     Then I should see "Participant 101"
     Then I should see "Forms"
-    Then I press "return"
+    Then I follow "back"
     Then I should see "Add Participant"
     Then I should see "101"
     
