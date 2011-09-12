@@ -18,6 +18,13 @@ class DeviceController {
         def sortedDeviceInstanceList = Device.findAllByDeviceGroup(deviceGroupInstance).sort {x,y -> x.name <=> y.name }
         [deviceInstanceList: sortedDeviceInstanceList, deviceInstanceTotal: Device.count(), "deviceGroupInstance": deviceGroupInstance]
     }
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def manualList = {
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		def deviceManualFormInstanceList = DeviceManualForm.findAllByDevice(Device.get(params.deviceId))
+		[deviceId: params.deviceId, deviceGroupId: params.deviceGroupId, deviceManualFormInstanceList: deviceManualFormInstanceList]
+	}
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def create = {

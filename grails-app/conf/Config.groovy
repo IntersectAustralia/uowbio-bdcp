@@ -103,6 +103,7 @@ log4j = {
 }
 images.location = "web-app/images/"
 forms.location = "uowbio/forms/"
+forms.deviceManuals.location = "uowbio/forms/deviceManuals/"
 files.session.location = "sessions/files/"
 files.rifcs.location = "rifcs/"
 tmp.location = "tmp"

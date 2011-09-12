@@ -32,7 +32,8 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                             <td><g:link elementId="${deviceInstance.name}" mapping="deviceDetails" controller="device" action="show" id="${deviceInstance.id}" params="[deviceGroupId: params.deviceGroupId]">${fieldValue(bean: deviceInstance, field: "name")}</g:link></td>
                             <td><g:link elementId="edit[${i}]" class="button" mapping="deviceDetails" controller="device" action="edit" id="${deviceInstance.id}" params="[deviceGroupId: params.deviceGroupId]">Edit</g:link>                       
-                            <g:link elementId="device-details[${i}]" mapping="deviceFieldDetails" class="list" class="button" action="list" params="[deviceGroupId: params.deviceGroupId, deviceId: deviceInstance.id]">Device Details</g:link></td>
+                            <g:link elementId="device-details[${i}]" mapping="deviceFieldDetails" class="list" class="button" action="list" params="[deviceGroupId: params.deviceGroupId, deviceId: deviceInstance.id]">Device Details</g:link>
+                            <g:link elementId="forms[${i}]" mapping="deviceManuals" controller="deviceManualForm" class="list" class="button" action="list" params="[deviceGroupId: params.deviceGroupId, deviceId: deviceInstance.id]">Manuals</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>
