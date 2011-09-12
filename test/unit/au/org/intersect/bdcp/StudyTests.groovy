@@ -73,7 +73,7 @@ class StudyTests extends GrailsUnitTestCase
 
 		assertEquals 'Study Title is blank.','blank', study.errors['studyTitle']
 		assertEquals 'Description is blank.','blank', study.errors['description']
-		assertEquals 'Keywords field is null.',null, study.errors['keywords']
+		assertNull 'Keywords field is null.', study.errors['keywords']
 		
 		study = new Study(studyTitle: 'Testing Study',
 				uowEthicsNumber: '110680' ,
