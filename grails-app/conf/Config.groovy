@@ -72,8 +72,6 @@ environments {
 	{ grails.serverURL = "http://www.changeme.com" }
 	intersect_demo
 	{ grails.serverURL = "http://www.changeme.com" }
-	intersect_showcase
-	{ grails.serverURL = "http://biomechanics-demo.uow.edu.au" }
 	cucumber
 	{ grails.serverURL = "http://localhost:8080/${appName}" }
 }
@@ -117,7 +115,6 @@ ldapServers {
 		port = 10400
 		indexed = ["objectClass", "uid", "mail"]
 	}
-
 }
 
 environments {
@@ -148,10 +145,6 @@ environments {
 	}
 
 	intersect_demo {
-		grails.mail.host = "localhost"
-	}
-
-	intersect_showcase {
 		grails.mail.host = "localhost"
 	}
 
@@ -243,20 +236,6 @@ environments {
 		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 
-	intersect_showcase {
-		// Spring security LDAP settings
-		grails.plugins.springsecurity.ldap.context.server = 'ldap://localhost:10400'
-		grails.plugins.springsecurity.ldap.context.managerDn = "uid=admin,ou=system"
-		grails.plugins.springsecurity.ldap.context.managerPassword = "secret"
-		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ="ou=people,dc=biomechanics, dc=local"
-		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
-		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
-		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
-	}
-	
 }
 
 
@@ -333,29 +312,6 @@ environments
 					{
 						searchScope = "subtree"
 					}
-				}
-			}
-
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]
-		}
-	}
-	
-	intersect_showcase
-	{
-		ldap
-		{
-
-			directories
-			{
-				d1
-				{
-					defaultDirectory = true
-					url = "ldap://localhost:10400"
-					base = "ou=people,dc=biomechanics, dc=local"
-					userDn = "uid=admin,ou=system"
-					password = "secret"
 				}
 			}
 
