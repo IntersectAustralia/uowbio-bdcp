@@ -31,6 +31,7 @@ class DeviceManualFormController
 	private boolean validateDeviceManualForms(deviceManualForms)
 	{
 		def allValid = true
+		
 		for (i in deviceManualFormsToLoad())
 		{
 			if (request.getFile("form.${i}")?.isEmpty() && (session["fileName[${i}]"] == null))
@@ -42,11 +43,11 @@ class DeviceManualFormController
 			{
 				allValid = false
 			}
-            else if(deviceManualForms[i]?.validate() && deviceManualForms.findAll { it.formName.equalsIgnoreCase(deviceManualForms[i].formName) }.size() > 1 )
-            {
-                deviceManualForms[i].errors.rejectValue('formName', 'deviceManualForm.formName.uniqueIgnoreCase.invalid')
-                allValid = false   
-            }
+//            else if(deviceManualForms[i]?.validate() && deviceManualForms.findAll { it?.formName.equalsIgnoreCase(deviceManualForms[i]?.formName) }.size() > 1 )
+//            {
+//                deviceManualForms[i].errors.rejectValue('formName', 'deviceManualForm.formName.uniqueIgnoreCase.invalid')
+//                allValid = false   
+//            }
             
 		}
 		
@@ -66,7 +67,7 @@ class DeviceManualFormController
 				usedFields.add (i)
 			}
 		}
-
+		
 		return usedFields
 	}
 
