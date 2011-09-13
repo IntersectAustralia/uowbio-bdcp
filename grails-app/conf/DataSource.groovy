@@ -58,16 +58,24 @@ environments {
 //			password = "bdcp"
 //		}
 		
-		dataSource {
-			pooled = true
-			dbCreate = "create-drop"
-			url = "jdbc:oracle:thin:@sirona.its.uow.edu.au:1521:nuitdev"
-			driverClassName = "oracle.jdbc.driver.OracleDriver"
-			username = "INTERSECT_DATA"
-			password = "c00l5tart"
+//		dataSource {
+//			pooled = true
+//			dbCreate = "create-drop"
+//			url = "jdbc:oracle:thin:@sirona.its.uow.edu.au:1521:nuitdev"
+//			driverClassName = "oracle.jdbc.driver.OracleDriver"
+//			username = "INTERSECT_DATA"
+//			password = "c00l5tart"
+//			dialect='org.hibernate.dialect.Oracle10gDialect'
+//			// INTERSECT_APP -> zn79zt91
+//			}
+		
+		dataSource 
+		{
+			dbCreate = "update"
+			jndiName = "java:comp/env/biomechDataSource"
 			dialect='org.hibernate.dialect.Oracle10gDialect'
-			// INTERSECT_APP -> zn79zt91
-			}
+		}
+
 	}
 
 	intersect_test

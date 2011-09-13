@@ -1,9 +1,6 @@
 import grails.util.Environment
 
-import groovy.sql.Sql
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.codehaus.groovy.grails.commons.ApplicationHolder
-
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
@@ -11,6 +8,7 @@ import au.org.intersect.bdcp.Component
 import au.org.intersect.bdcp.Device
 import au.org.intersect.bdcp.DeviceField
 import au.org.intersect.bdcp.DeviceGroup
+import au.org.intersect.bdcp.DeviceManualForm
 import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
@@ -52,6 +50,10 @@ class BootStrap
                 
                 user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
+				
+				user = new UserStore(username:"pnewnam", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
+				user.save(flush:true)
+				
 				createStaticData() 
 			}
 			
@@ -236,6 +238,14 @@ class BootStrap
 			maintServiceInfo: "Maintenance/Service information",
             deviceGroup: deviceGroup)
         device.save(flush: true)
+		
+		def deviceManualForm = new DeviceManualForm(formName: "devicemanual1",
+				form: "theForm1",
+				fileName: "filename1.txt",
+				fileExtension: "txt",
+				storedFileName: "filename1.txt",
+				device: device)
+		deviceManualForm.save(flush: true)
 
         def device2 = new Device(name: "Device2",
             description: "Some device",
@@ -252,6 +262,22 @@ class BootStrap
             maintServiceInfo: "Maintenance/Service information",
             deviceGroup: deviceGroup)
         device2.save(flush: true)
+		
+		def deviceManualForm2 = new DeviceManualForm(formName: "devicemanual2",
+			form: "theForm2",
+			fileName: "filename2.txt",
+			fileExtension: "txt",
+			storedFileName: "filename2.txt",
+			device: device2)
+		deviceManualForm2.save(flush: true)
+		
+		def deviceManualForm2a = new DeviceManualForm(formName: "devicemanual2a",
+			form: "theForm2a",
+			fileName: "filename2a.txt",
+			fileExtension: "txt",
+			storedFileName: "filename2a.txt",
+			device: device2)
+		deviceManualForm2a.save(flush: true)
         
         def deviceField = new DeviceField(fieldLabel: "Is the device currently being used?",
             fieldType: FieldType.TEXT,

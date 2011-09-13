@@ -36,7 +36,7 @@ class Device {
 		maintServiceInfo(size:0..1000)
     }
     
-    static hasMany = [deviceFields: DeviceField, studyDevices: StudyDevice]
+    static hasMany = [deviceFields: DeviceField, studyDevices: StudyDevice, deviceManualForms:DeviceManualForm]
     
     String toString()
     {

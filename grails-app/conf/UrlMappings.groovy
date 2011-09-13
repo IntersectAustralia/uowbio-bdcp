@@ -19,6 +19,14 @@ class UrlMappings
             controller = 'device'
         }
 		
+		name deviceManuals: "/deviceGroup/$deviceGroupId/device/$deviceId/$controller/$action?/$id?" {
+            controller = 'deviceManualForm'
+        }
+		
+		name deviceManualFormDetails: "/deviceGroup/$deviceGroupId/device/$deviceId/$controller/$action?/$id?" {
+			controller = 'deviceManualForm'
+		}
+		
 		name studyAnalysedData: "/studyAnalysedData/$studyId/$action?" {
 			controller = 'studyAnalysedData'
 	    }

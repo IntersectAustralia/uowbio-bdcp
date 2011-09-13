@@ -103,6 +103,7 @@ log4j = {
 	warn   'org.mortbay.log'
 }
 images.location = "web-app/images/"
+forms.deviceManuals.location = "uowbio/forms/deviceManuals/"
 forms.location = "files/forms/"
 files.session.location = "files/sessions/"
 files.rifcs.location = "rifcs/"
