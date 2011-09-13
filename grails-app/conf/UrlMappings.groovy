@@ -14,6 +14,10 @@ class UrlMappings
         name studyDeviceFieldDetails: "/study/$studyId/studyDeviceField/$action?/$id?" {
             controller = 'studyDeviceField'
         }
+		
+		name studyDeviceManuals: "/study/$studyId/device/$deviceId/$controller/$action?" {
+            controller = 'studyDevice'
+        }
         
         name deviceDetails: "/deviceGroup/$deviceGroupId/device/$action?/$id?" {
             controller = 'device'
