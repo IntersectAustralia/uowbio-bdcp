@@ -1,6 +1,9 @@
 package au.org.intersect.bdcp
 
+import eu.medsea.mimeutil.detector.MagicMimeMimeDetector
 import grails.plugins.springsecurity.Secured
+
+import java.io.File
 
 class StudyDeviceController {
 
@@ -142,4 +145,107 @@ class StudyDeviceController {
             redirect(action: "list")
         }
     }
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
+    def listStudyDeviceManuals = 
+	{
+		cache false
+		def studyInstance = Study.get(params.studyId)
+		
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		def deviceInstance = Device.get(params.deviceId)
+		def deviceManualFormInstanceList = DeviceManualForm.findAllByDevice(Device.get(params.deviceId))
+		[studyId: params.studyId, deviceId: params.deviceId, deviceInstance: deviceInstance, deviceManualFormInstanceList: deviceManualFormInstanceList]
+    }
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def downloadFile =
+	{
+		cache false
+		def deviceManualFormInstance = DeviceManualForm.get(params.id)
+		def fileDoc = new File( getRealPath() +  File.separatorChar + params.deviceId.toString() + File.separatorChar + deviceManualFormInstance.fileName)
+		
+		if(fileDoc.exists())
+		{
+			def fileName = deviceManualFormInstance.fileName
+
+			if (!deviceManualFormInstance.contentType)
+			{
+				response.setContentType(getMimeType(fileDoc))
+			}
+			else
+			{
+				response.setContentType deviceManualFormInstance.contentType
+			}
+						
+			response.setHeader "Content-disposition", "attachment; filename=${fileName}" ;
+			response.outputStream << fileDoc.newInputStream();
+			response.outputStream.flush();
+
+			return false
+		}
+		else
+		{
+			flash.message = "Device Manual Form ${deviceManualFormInstance.formName} could not be found"
+			redirect url: createLink(controller: 'studyDevice', action:'listStudyDeviceManuals',
+				mapping:'studyDeviceManuals', params:[studyId: params.studyId, deviceId: params.deviceId, id: params.id])
+		}
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def deleteDeviceManual =
+	{
+		cache false
+		def deviceManualFormInstance = DeviceManualForm.get(params.id)
+		
+		if (deviceManualFormInstance)
+		{
+			try
+			{
+				def filename = deviceManualFormInstance.fileName
+				deviceManualFormInstance.delete(flush: true)
+				def file =  new File( getRealPath() + File.separatorChar + params.deviceId + File.separatorChar + filename)
+
+				if (file.exists())
+				{
+					file.delete()
+				}
+				flash.message = "Device Manual Form ${deviceManualFormInstance.formName} deleted"
+				redirect url: createLink(controller: 'deviceManualForm', action:'listStudyDeviceManuals',
+					mapping:'studyDeviceManuals', params:[studyId: params.studyId, deviceId: params.deviceId, id: params.id])
+			}
+			catch (org.springframework.dao.DataIntegrityViolationException e)
+			{
+				flash.message = "Device Manual Form ${deviceManualFormInstance.formName} could not be deleted"
+				redirect url: createLink(controller: 'deviceManualForm', action:'listStudyDeviceManuals',
+					mapping:'studyDeviceManuals', params:[studyId: params.studyId, deviceId: params.deviceId, id: params.id])
+			}
+		}
+		else
+		{
+			flash.message = "Device Manual Form ${deviceManualFormInstance.formName} could not be found"
+			redirect url: createLink(controller: 'deviceManualForm', action:'listStudyDeviceManuals',
+				mapping:'studyDeviceManuals', params:[studyId: params.studyId, deviceId: params.deviceId, id: params.id])
+		}
+	}
+	
+	private String getRealPath()
+	{
+		return (request.getSession().getServletContext().getRealPath("/") + grailsApplication.config.forms.deviceManuals.location.toString())
+	}
+	
+	private String getMimeType(File file)
+	{
+		// use mime magic
+		MagicMimeMimeDetector detector = new MagicMimeMimeDetector();
+		Collection mimeTypes = detector.getMimeTypesFile(file);
+
+		if (mimeTypes) return mimeTypes.iterator().getAt(0).toString()
+
+		return "application/octet-stream"
+	}
+	
 }
