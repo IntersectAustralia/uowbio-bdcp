@@ -7,6 +7,7 @@ class StudyDevice {
     
     static hasMany = [studyDeviceFields: StudyDeviceField]
     
+    // TODO: FIX - I don't think these two methods are necessary, why? (C.Aya)
     static StudyDevice link(Study study,Device device) {
         StudyDevice studyDevice = StudyDevice.findByStudyAndDevice(study,device)
         if (!studyDevice) {
@@ -31,10 +32,9 @@ class StudyDevice {
         studyDeviceFields cascade:'all-delete-orphan'
     }
 
-    
+    // TODO: FIX - none shouldn't be nullable
     static constraints = {
         study(nullable: true)
         device(nullable: true)
-        
     }
 }
