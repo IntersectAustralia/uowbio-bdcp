@@ -119,8 +119,17 @@ Given(~"I have created a device field with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\
 	def row = sql.firstRow("SELECT id FROM device WHERE name=${deviceName}")
 	def deviceId = row.id;
 	row = sql.firstRow("SELECT count(id) as num FROM device_field WHERE device_id=${deviceId}")
-        def fieldIndex = row.num
+    def fieldIndex = row.num
     sql.execute("INSERT INTO device_field(id,device_id,device_fields_idx,field_label,field_type,static_content,mandatory,date_created,last_updated,version) VALUES (nextval('hibernate_sequence'),${deviceId},${fieldIndex},${fieldLabel},${fieldType},${staticContent},'${mandatory}', '2011-03-01 00:00:00', '2011-03-01 00:00:00',0);")
+}
+
+Given(~"I have created a device manual form with \"(.*)\", \"(.*)\", \"(.*)\"") { String formname, String filename, String deviceName ->
+	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+	def row = sql.firstRow("SELECT id FROM device WHERE name=${deviceName}")
+	def deviceId = row.id;
+	row = sql.firstRow("SELECT count(id) as num FROM device_field WHERE device_id=${deviceId}")
+	def fieldIndex = row.num
+	sql.execute("INSERT INTO device_manual_form(id, device_id, version, form_name, file_name) VALUES (nextval('hibernate_sequence'),${deviceId}, '0', ${formname}, ${filename});")
 }
 
 Given(~"I have created a deviceField with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String deviceName, String dateCreated, String lastUpdated, String mandatory, String fieldLabel, String fieldType, String fieldOptions ->
