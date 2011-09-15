@@ -219,13 +219,13 @@ class DeviceManualFormController
             
 			switch (deviceManualFormsToLoad().size())
 			{
-				case 0: flash.error = "No forms selected to upload"
+				case 0: flash.error = "No manuals selected to upload"
 				break
 
-				case 1: flash.message = "${deviceManualFormsToLoad().size()} Device manual form uploaded"
+				case 1: flash.message = "${deviceManualFormsToLoad().size()} Device manual uploaded"
 				break
 
-				case 2..10: flash.message = "${deviceManualFormsToLoad().size()} Device manual forms uploaded"
+				case 2..10: flash.message = "${deviceManualFormsToLoad().size()} Device manuals uploaded"
 				break
 				default:
 				break
@@ -263,7 +263,7 @@ class DeviceManualFormController
 		}
 		else
 		{
-			flash.message = "Device Manual Form ${deviceManualFormInstance.formName} could not be found"
+			flash.message = "Device Manual ${deviceManualFormInstance.formName} could not be found"
 			redirect url: createLink(controller: 'deviceManualForm', action:'list',
 				mapping:'deviceManualFormDetails', params:[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId, id: params.id])
 		}
@@ -416,20 +416,20 @@ class DeviceManualFormController
 				{
 					file.delete()
 				}
-				flash.message = "Device Manual Form ${deviceManualFormInstance.formName} deleted"
+				flash.message = "Device Manual ${deviceManualFormInstance.formName} deleted"
 				redirect url: createLink(controller: 'deviceManualForm', action:'list',
 					mapping:'deviceManualFormDetails', params:[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId, id: params.id])
 			}
 			catch (org.springframework.dao.DataIntegrityViolationException e)
 			{
-				flash.message = "Device Manual Form ${deviceManualFormInstance.formName} could not be deleted"
+				flash.message = "Device Manual ${deviceManualFormInstance.formName} could not be deleted"
 				redirect url: createLink(controller: 'deviceManualForm', action:'list',
 					mapping:'deviceManualFormDetails', params:[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId, id: params.id])
 			}
 		}
 		else
 		{
-			flash.message = "Device Manual Form ${deviceManualFormInstance.formName} could not be found"
+			flash.message = "Device Manual ${deviceManualFormInstance.formName} could not be found"
 			redirect url: createLink(controller: 'deviceManualForm', action:'list',
 				mapping:'deviceManualFormDetails', params:[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId, id: params.id])
 		}

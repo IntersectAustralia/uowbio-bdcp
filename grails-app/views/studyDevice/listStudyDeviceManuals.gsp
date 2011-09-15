@@ -19,7 +19,6 @@
         <div class="body">
 
             <h1>Device manuals for ${deviceInstance}</h1>
-            <h2>Forms</h2>
 
             <g:if test="${flash.message}">
             	<div class="message">${flash.message}</div>
@@ -30,7 +29,7 @@
             	<table>
                     <thead>
                         <tr>
-                            <th>${message(code: 'deviceManualForm.formName.label', default: 'Form Name')}</th>
+                            <th>${message(code: 'deviceManualForm.formName.label', default: 'Manual Name')}</th>
                         </tr>
                     </thead>
                     <tbody>

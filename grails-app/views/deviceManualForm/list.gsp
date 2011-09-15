@@ -18,8 +18,8 @@
             
         <div class="body">
 
-            <h1>Device Manual ${deviceInstance}</h1>
-            <h2>Forms</h2>
+            <h1>Device ${deviceInstance} Manuals</h1>
+            <h2>Setup Information</h2>
 
             <g:if test="${flash.message}">
             	<div class="message">${flash.message}</div>
@@ -53,7 +53,7 @@
             </div>
             </g:if>
             
-            <h2>Add Forms</h2>
+            <h2>Add Manual</h2>
             <g:if test="${flash.error}">
             	<div class="errors"><ul><li>${flash.error}</li></ul></div>
             </g:if>
