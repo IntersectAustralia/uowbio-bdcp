@@ -42,7 +42,7 @@
                             	</g:if>
                             </div>
                             <div class="columnRight">
-                            	<g:link mapping="studyDeviceManuals" elementId="delete[${i}]" controller="studyDevice" action="deleteDeviceManual" method="post" params="[studyId: params.studyId, deviceId: params.deviceId, id: deviceManualFormInstance.id]" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Delete</g:link>
+                            	<g:link mapping="studyDeviceManuals" elementId="delete" controller="studyDevice" action="deleteDeviceManual" method="post" params="[studyId: params.studyId, deviceId: params.deviceId, id: deviceManualFormInstance.id]" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Delete</g:link>
                             </div>
                             </td>
                         </tr>
