@@ -19,7 +19,6 @@
         <div class="body">
 
             <h1>Device manuals for ${deviceInstance}</h1>
-            <h2>Forms</h2>
 
             <g:if test="${flash.message}">
             	<div class="message">${flash.message}</div>
@@ -30,7 +29,7 @@
             	<table>
                     <thead>
                         <tr>
-                            <th>${message(code: 'deviceManualForm.formName.label', default: 'Form Name')}</th>
+                            <th>${message(code: 'deviceManualForm.formName.label', default: 'Manual Name')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +42,7 @@
                             	</g:if>
                             </div>
                             <div class="columnRight">
-                            	<g:link mapping="studyDeviceManuals" elementId="delete[${i}]" controller="studyDevice" action="deleteDeviceManual" method="post" params="[studyId: params.studyId, deviceId: params.deviceId, id: deviceManualFormInstance.id]" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Delete</g:link>
+                            	<g:link mapping="studyDeviceManuals" elementId="delete" controller="studyDevice" action="deleteDeviceManual" method="post" params="[studyId: params.studyId, deviceId: params.deviceId, id: deviceManualFormInstance.id]" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Delete</g:link>
                             </div>
                             </td>
                         </tr>

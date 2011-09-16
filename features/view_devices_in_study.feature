@@ -40,7 +40,7 @@ Feature: View Devices in Study
  Then I should see "deviceManual1"
  Then I press "manualForm[0]"
  Then I should see "Device Manual Form deviceManual1 could not be found"
- Then I press "delete[0]"
+ Then I press "delete"
  Then I should see "Device Manual Form deviceManual1 deleted"
  Then I should see "There are no device manuals for this device"
  

@@ -13,8 +13,8 @@
             <table>
 	            <thead>
 	                <tr>
-	                    <th>${message(code: 'deviceManualForm.formName.label', default: 'Form Name')}</th>
-	                    <th>Form</th>
+	                    <th>${message(code: 'deviceManualForm.formName.label', default: 'Manual Name')}</th>
+	                    <th>Manual</th>
 	                </tr>
 	            </thead>
                 <tbody>
