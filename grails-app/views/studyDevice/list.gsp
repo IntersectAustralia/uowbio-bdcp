@@ -25,7 +25,7 @@
 	                <ul>
 		                <g:each in="${deviceGroupMap?.devices}" status="j" var="deviceInstance">
 			                <li>${deviceInstance?.name} - ${deviceInstance.vendor} - ${deviceInstance.modelName} 
-			                	<g:link elementId="edit_${j}" mapping="studyDeviceFieldDetails" class="button" action="edit" params="['device.id':deviceInstance.id,'study.id':params.studyId, studyId: params.studyId]">Edit</g:link>
+			                	<g:link elementId="edit_${j}" mapping="studyDeviceFieldDetails" class="button" action="edit" params="['deviceId':deviceInstance.id,'studyId':params.studyId]">Edit</g:link>
 			                	<g:link elementId="forms[${j}]" mapping="studyDeviceManuals" class="button" controller="studyDevice" action="listStudyDeviceManuals" params="[deviceId:deviceInstance.id, studyId: params.studyId]">Manuals</g:link>
 			                </li>
 		                </g:each>

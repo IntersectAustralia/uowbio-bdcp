@@ -70,12 +70,12 @@ class StudyDeviceFieldTests extends GrailsUnitTestCase {
 				def property = fieldType == FieldType.TEXT ? 'text' : 'textArea'
 				def studyDeviceField1 = new StudyDeviceField(studyDevice:studyDevice, deviceField:textField)
 				studyDeviceField1."$property" = 'something'
-				studyDeviceField1.beforeValidate();
+				studyDeviceField1.validate();
 				assertEquals 'A correct ' + property + ' field does not pass', 0, studyDeviceField1.errors.errorCount
 				
 				studyDeviceField1 = new StudyDeviceField(studyDevice:studyDevice, deviceField:textField)
 				studyDeviceField1."$property" = ''
-				studyDeviceField1.beforeValidate();
+				studyDeviceField1.validate();
 				assertEquals 'A incorrect ' + property + ' field passes', (mandatory ? 1 : 0), studyDeviceField1.errors.errorCount
 			}
 		}
@@ -89,11 +89,11 @@ class StudyDeviceFieldTests extends GrailsUnitTestCase {
 			   mandatory: mandatory)
 		
 			def studyDeviceField1 = new StudyDeviceField(studyDevice:studyDevice, deviceField:textField, numeric:55)
-			studyDeviceField1.beforeValidate();
+			studyDeviceField1.validate();
 			assertEquals 'A correct numerci field does not pass', 0, studyDeviceField1.errors.errorCount
 			
 			studyDeviceField1 = new StudyDeviceField(studyDevice:studyDevice, deviceField:textField, numeric:null)
-			studyDeviceField1.beforeValidate();
+			studyDeviceField1.validate();
 			assertEquals 'A incorrect numeric field passes', (mandatory ? 1 : 0), studyDeviceField1.errors.errorCount
 		}
 	}
@@ -110,20 +110,20 @@ class StudyDeviceFieldTests extends GrailsUnitTestCase {
 				def property = fieldType == FieldType.RADIO_BUTTONS ? 'radioButtonsOption' : 'dropDownOption'
 				def studyDeviceField1 = new StudyDeviceField(studyDevice:studyDevice, deviceField:textField)
 				studyDeviceField1."$property" = 'Yes'
-				studyDeviceField1.beforeValidate();
+				studyDeviceField1.validate();
 				assertEquals 'A correct ' + property + ' field with Yes does not pass', 0, studyDeviceField1.errors.errorCount
 				studyDeviceField1 = new StudyDeviceField(studyDevice:studyDevice, deviceField:textField)
 				studyDeviceField1."$property" = 'No'
-				studyDeviceField1.beforeValidate();
+				studyDeviceField1.validate();
 				assertEquals 'A correct ' + property + ' field with No does not pass', 0, studyDeviceField1.errors.errorCount
 
 				studyDeviceField1 = new StudyDeviceField(studyDevice:studyDevice, deviceField:textField)
 				studyDeviceField1."$property" = 'Blah'
-				studyDeviceField1.beforeValidate();
+				studyDeviceField1.validate();
 				assertEquals 'A incorrect ' + property + ' field passes', 1, studyDeviceField1.errors.errorCount
 				studyDeviceField1 = new StudyDeviceField(studyDevice:studyDevice, deviceField:textField)
 				studyDeviceField1."$property" = null
-				studyDeviceField1.beforeValidate();
+				studyDeviceField1.validate();
 				assertEquals 'A incorrect ' + property + ' field passes', (mandatory ? 1 : 0), studyDeviceField1.errors.errorCount
 			}
 		}

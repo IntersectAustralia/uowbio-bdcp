@@ -27,7 +27,7 @@ class StudyAnalysedDataController
 		def canDo = roleCheckService.checkUserRole('ROLE_LAB_MANAGER');
 		canDo = canDo || (roleCheckService.checkUserRole('ROLE_RESEARCHER') && roleCheckService.checkSameUser(studyInstance.project.owner.username))
 		if (!canDo) {
-			redirectNonAuthorizedAccessStudy()
+		    redirect controller:'login', action: 'denied'
 			return
 		}
 		def context = createContext(request)
@@ -112,15 +112,6 @@ class StudyAnalysedDataController
 		}
 	}
 
-	/**
-	* Display project only to owner or collaborator
-	* @param _projectInstance
-	*/
-   private void redirectNonAuthorizedAccessStudy()
-   {
-		redirect controller:'login', action: 'denied'
-   }
-   
    private void ensureFilesRoot(context, studyInstance)
    {
 	   def dir = fileService.getFileReference(context, rootPath(studyInstance))

@@ -9,6 +9,60 @@ class StudyDeviceFieldController {
     def studyDeviceFieldService
 	
 	def roleCheckService
+	
+	// common security validation and context initialization
+	def secured = { block ->
+		cache false
+		
+		def studyInstance = Study.get(Long.parseLong(params.studyId))
+		if (studyInstance == null) {
+			flash.message = message(code:'study.deviceFields.studyId.invalid')
+			redirect controller:'login', action: 'invalid'
+			return
+		}
+		
+		def deviceInstance = Device.get(Long.parseLong(params.deviceId))
+		if (deviceInstance == null) {
+			flash.message = message(code:'study.deviceFields.deviceId.invalidId')
+			redirect controller:'login', action: 'invalid'
+			return
+		}
+		
+		def canDo = roleCheckService.checkUserRole('ROLE_RESEARCHER')
+		def userStore = UserStore.findByUsername(roleCheckService.getUsername())
+		def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(studyInstance,userStore)
+		canDo = canDo && (roleCheckService.checkSameUser(studyInstance.project.owner.username) || studyCollaborator)			
+		if (!canDo) {
+		    redirect controller:'login', action: 'denied'
+			return
+		}
+		def studyDevice = StudyDevice.findByStudyAndDevice(studyInstance, deviceInstance)
+        def studyDeviceFields = []		
+        def deviceFields = DeviceField.findAllByDevice(deviceInstance)
+        if (deviceFields.size() == 0) {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
+            redirect(action: "list")
+			return
+        }
+		if (studyDevice == null) {
+			deviceFields.each {  fieldDef ->
+				def domObj = new StudyDeviceField(studyDevice: studyDevice, deviceField: fieldDef)
+				studyDeviceFields.add(domObj)
+			}
+		} else {
+			deviceFields.each {  fieldDef ->
+				def domObj = studyDevice.studyDeviceFields.find { StudyDeviceField sdf -> sdf.deviceField.equals(fieldDef) }
+				if (domObj == null) {
+					// newly created field
+					domObj = new StudyDeviceField(studyDevice: studyDevice, deviceField: fieldDef)
+				} 
+				studyDeviceFields.add(domObj)
+			}
+		}
+        studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}
+		block(studyInstance, deviceInstance, studyDeviceFields)
+	}
+
     
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def index = {
@@ -120,62 +174,53 @@ class StudyDeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def edit = {
-        def studyDeviceFields = []
-		def studyInstance = Study.get(params.studyId)
-		
-		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
-		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
-			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		secured { studyInstance, deviceInstance, studyDeviceFields ->
+            return [studyInstance:studyInstance, deviceInstance:deviceInstance, studyDeviceFields: studyDeviceFields]
 		}
-		
-        studyDeviceFields.addAll(StudyDevice.findByStudyAndDevice(Study.findById(params.studyId), Device.findById(params.device.id))?.studyDeviceFields)
-        studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}
-        def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
-        if (studyDeviceFields == null) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
-            return [studyDeviceFields: studyDeviceFields, deviceFields: deviceFields]
-        }
     }
 	
-	/**
-	* Display Study only to research owner or research collaborator
-	* @param _studyInstance
-	*/
-   private void redirectNonAuthorizedResearcherAccessStudy(Study _studyInstance)
-   {
-	   def userStore = UserStore.findByUsername(principal.username)
-	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(_studyInstance,userStore)
-
-	   if(!_studyInstance.project.owner.username.equals(principal.username) && !studyCollaborator){
-		   redirect controller:'login', action: 'denied'
-	   }
-   }
-
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def update = {
-        
-        def result = studyDeviceFieldService.update(params)
 		
-		def studyInstance = Study.get(params.studyId)
-		
-		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
-		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
-			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		secured { studyInstance, deviceInstance, studyDeviceFields ->
+			def fieldsSize = params["fieldsSize"] as Integer
+			if (studyDeviceFields.size() != fieldsSize) {
+				flash.message = 'Number of fields in request does not match database. Editing cancelled'
+				redirect (mapping:'studyDeviceFieldDetails', params:[studyId:studyInstance.id, deviceId:deviceInstance.id, action:'edit'])
+				return				
+			}
+			def ok = true
+			for (i in 0..fieldsSize-1) {
+				def sdf = studyDeviceFields[i]
+				def sdfParams = params["studyDeviceFields["+i+"]"]
+				if (sdf.id != null) {
+					if (sdf.version > sdfParams.version) {
+						sdf.errors.reject('updated','Someone updated this in the dabase')
+						ok = false
+						continue
+					}
+				}
+				sdf.properties = sdfParams
+				ok = sdf.validate() && ok  // note: we want to validate always, so Ok should be last
+			}
+			if (!ok) {
+				render(view:'edit', model:[studyInstance:studyInstance, deviceInstance:deviceInstance, studyDeviceFields: studyDeviceFields])
+				return
+			}
+			def studyDevice = studyDeviceFields[0].studyDevice
+			if (studyDevice.id == null) {
+				studyDevice.save(flush:true)
+			}
+			def allOk = true
+			studyDeviceFields.each { allOk = it.save(flush:true) && allOk }
+			if (!allOk) {
+				flash.message = "There were unrecoverable errors saving the data"	
+			} else {
+				flash.message = "There were errors saving the data"	
+			}
+            redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":studyInstance.id, "device.id": deviceInstance.id, "study.id": studyInstance.id] )
 		}
         
-        if (result.successful)
-        {
-            flash.message = "${message(code: 'default.updated.message', args: [message(code: 'studyDevice.label', default: 'Device'), result.studyDeviceInstance.device])}"
-            redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":params.studyId, "device.id": params.device.id, "study.id": params.study.id] )
-        }
-        else
-        {
-            render(view: "edit", model: [studyDeviceFields: result.studyDeviceFields, deviceFields: result.deviceFields])
-        }
-         
     }
     
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])

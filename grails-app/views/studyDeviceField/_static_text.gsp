@@ -1,8 +1,8 @@
 <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="staticContent">${deviceFieldInstance.fieldLabel}</label>
+                                    <label for="staticContent">${studyDeviceField.deviceField.fieldLabel}</label>
                                 </td>
                                 <td valign="top" class="value">
-                                <p>${fieldValue(bean: deviceFieldInstance, field: 'staticContent').decodeHTML()}</p>
+                                <p>${fieldValue(bean: studyDeviceField.deviceField, field: 'staticContent').decodeHTML()}</p>
                                 </td>
                             </tr>

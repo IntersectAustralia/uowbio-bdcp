@@ -11,6 +11,7 @@ import au.org.intersect.bdcp.util.TextUtils
 
 class StudyDeviceField {
 
+    DeviceField deviceField 
     String text
     String textArea
     String numeric
@@ -25,7 +26,7 @@ class StudyDeviceField {
     // automatically updated by GORM
     Date lastUpdated
     
-    static belongsTo = [studyDevice: StudyDevice, deviceField: DeviceField]
+    static belongsTo = [studyDevice: StudyDevice]
     
     static mapping = {
         date type: PersistentLocalDate
@@ -38,8 +39,28 @@ class StudyDeviceField {
         }
     }
 	
-	def beforeValidate() {
-		deviceField.fieldType.normaliseAndValidate(deviceField, this)
+	def String toString() {
+		def prop = deviceField.fieldType.valueColumn
+		return "SDF[" + (id == null? '(new)' : id) + ", type:" + deviceField.fieldType + ', value:' + (prop != null ? this."${prop}" : "N/A")+  ']'
 	}
+	
+    static def validator = { column, val, obj ->
+        def ft = obj.deviceField.fieldType
+		if (!column.equals(ft.valueColumn)) { 
+			return
+		}
+        return ft.fieldValidate(obj.deviceField, val)
+    }
+
+    static constraints = {
+        deviceField(nullable:false)
+        text(blank:true, nullable:true, validator:validator.curry('text'))
+        textArea(blank:true, nullable:true, validator:validator.curry('textArea'))
+        numeric(blank:true, nullable:true, validator:validator.curry('numeric'))
+        date(blank:true, nullable:true, validator:validator.curry('date'))
+        time(blank:true, nullable:true, validator:validator.curry('time'))
+        radioButtonsOption(blank:true, nullable:true, validator:validator.curry('radioButtonsOption'))
+        dropDownOption(blank:true, nullable:true, validator:validator.curry('dropDownOption'))
+    }
 	
 }

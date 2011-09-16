@@ -25,5 +25,11 @@ class RoleCheckService {
 	  def ppal = auth.getPrincipal()
 	  return ppal.getUsername().equals(username)
   }
+  
+  def getUsername()
+  {
+	  def auth = springSecurityService.authentication;
+	  return auth.getPrincipal().getUsername()
+  }
 
 }

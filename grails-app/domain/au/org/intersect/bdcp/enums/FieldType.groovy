@@ -1,56 +1,29 @@
 package au.org.intersect.bdcp.enums
 
 import au.org.intersect.bdcp.util.TextUtils
+import java.text.NumberFormat
 
 public enum FieldType
 {
-    TEXT('textField.label','text', { fieldDef, domObj -> FieldType.validateText('text', fieldDef, domObj) }),
+    TEXT('textField.label','text', { fieldDef, val -> validateText(fieldDef, val)}),
 	
-    TEXTAREA('textArea.label','textArea', { fieldDef, domObj -> FieldType.validateText('textArea', fieldDef, domObj) }),
+    TEXTAREA('textArea.label','textArea', { fieldDef, val -> validateText(fieldDef, val)}),
 	
-    NUMERIC('numeric.label','numeric', { fieldDef, domObj -> 
-		def val = domObj.numeric
-		def minVal = -0.9E16
-		def maxVal = 0.9E16
-        if (val!= null)
-        {
-            if (!val.isNumber())
-            {
-				domObj.errors.reject('not.number', fieldDef.fieldLabel + ' not a number')
-            }
-            else
-            {
-                if (val.toBigDecimal() < minVal)
-                {
-                    def nf = NumberFormat.getInstance()
-					domObj.errors.reject('range.toosmall', [nf.format(minVal), fieldDef.fieldLabel] as Object[], fieldDef.fieldLabel + ' less than minimum allowed value')
-                }
-                else if (val.toBigDecimal() > maxVal)
-                {
-                    def nf = NumberFormat.getInstance()
-					domObj.errors.reject('range.toobig', [nf.format(maxVal), fieldDef.fieldLabel] as Object[], fieldDef.fieldLabel + ' more than maximum allowed value')
-                }
-            }
-        }
-        else if (fieldDef.mandatory)
-        {
-			domObj.errors.reject('nullable', [fieldDef.fieldLabel] as Object[], fieldDef.fieldLabel + ' is mandatory')
-        }
-	}),
+    NUMERIC('numeric.label','numeric', { fieldDef, val -> validateNumber(fieldDef, val)}),
 
-    DATE('date.label','date', { fieldDef, domObj -> validateNotNull('date', fieldDef, domObj)}),
+    DATE('date.label','date', { fieldDef, val -> validateNotNull(fieldDef, val)}),
 
-    TIME('time.label','time', { fieldDef, domObj -> validateNotNull('time', fieldDef, domObj)}),
+    TIME('time.label','time', { fieldDef, val -> validateNotNull(fieldDef, val)}),
 	
-    DROP_DOWN("dropDown.label",'dropDownOption', { fieldDef, domObj -> validateOptions('dropDownOption', fieldDef, domObj)}),
+    DROP_DOWN("dropDown.label",'dropDownOption', { fieldDef, val -> validateOptions(fieldDef, val)}),
 	
-    RADIO_BUTTONS("radioButtons.label",'radioButtonsOption', { fieldDef, domObj -> validateOptions('radioButtonsOption', fieldDef, domObj)}),
+    RADIO_BUTTONS("radioButtons.label",'radioButtonsOption', { fieldDef, val -> validateOptions(fieldDef, val)}),
 	
 	STATIC_TEXT('staticText.label', null, null)
     
     String name
 	String valueColumn
-	final Closure fieldValidate
+	final public Closure fieldValidate
     
     FieldType(String name, String valueColumn, Closure fieldValidate)
     {
@@ -63,10 +36,17 @@ public enum FieldType
     {
         return this.name
     }
-
-	void normaliseAndValidate(fieldDescription, domainObject) {
+	
+	public void updateInstance(domObj, fromInput) {
 		if (valueColumn == null)
 			return
+		domObj."$valueColumn" = fromInput[valueColumn]
+	}
+
+	void validateInstance(fieldDescription, domainObject) {
+		if (valueColumn == null) {
+			return
+		}
 	    fieldValidate(fieldDescription, domainObject)
 	}
     
@@ -84,8 +64,7 @@ public enum FieldType
         return items
     }
 	
-	static validateText(valueColumn, fieldDef, domObj) {
-			def val = domObj."$valueColumn" as String
+	static validateText(fieldDef, val) {
 			def minValue = 1
 			def maxValue = 255
 			if (TextUtils.isNotEmpty(val))
@@ -94,35 +73,62 @@ public enum FieldType
 				if (maxValue < l || l < minValue)
 				{
 					def messageProp = l < minValue ? 'size.toosmall' : 'size.toobig'
-					def messageDef = l < minValue ? 'small' : 'big'
-					domObj.errors.reject(messageProp, ([maxValue, fieldDef.fieldLabel] as Object[]), fieldDef.fieldLabel + ' field too ' + messageDef)
+					def limitVal = l < minValue ? minValue : maxValue
+					return [messageProp, fieldDef.fieldLabel, limitVal]
 				}
 			}
 			else if (fieldDef.mandatory)
 			{
-				domObj.errors.reject('blank', [fieldDef.fieldLabel] as Object[], fieldDef.fieldLabel + ' is mandatory')
+				return ['nullable', fieldDef.fieldLabel]
 			}
 	}
 	
-	static validateNotNull(valueColumn, fieldDef, domObj) {
-		def val = domObj."$valueColumn"
+	static validateNumber(fieldDef, val) {
+		def minVal = -0.9E16
+		def maxVal = 0.9E16
+		if (val!= null)
+		{
+			if (!val.isNumber())
+			{
+				return ['not.number', fieldDef.fieldLabel]
+			}
+			else
+			{
+				if (val.toBigDecimal() < minVal)
+				{
+					def nf = NumberFormat.getInstance()
+					return ['range.toosmall', fieldDef.fieldLabel, minVal]
+				}
+				else if (val.toBigDecimal() > maxVal)
+				{
+					def nf = NumberFormat.getInstance()
+					return ['range.toobig', fieldDef.fieldLabel, maxVal]
+				}
+			}
+		}
+		else if (fieldDef.mandatory)
+		{
+			return ['nullable', fieldDef.fieldLabel]
+		}
+
+	}
+	
+	static validateNotNull(fieldDef, val) {
 		if (val == null && fieldDef.mandatory)
 		{
-			domObj.errors.reject('nullable', [fieldDef.fieldLabel] as Object[], fieldDef.fieldLabel + ' is mandatory')
+			return ['nullable', fieldDef.fieldLabel]
 		}
 	}
 	
-	static validateOptions(valueColumn, fieldDef, domObj) {
-		def val = domObj."$valueColumn"
+	static validateOptions(fieldDef, val) {
 		if (!TextUtils.isNotEmpty(val) && fieldDef.mandatory)
 		{
-			domObj.errors.reject('nullable', [fieldDef.fieldLabel] as Object[], fieldDef.fieldLabel + ' is mandatory')
-			return
+			return ['nullable', fieldDef.fieldLabel]
 		}
 		if (TextUtils.isNotEmpty(val)) {
 			def options = Arrays.asList(fieldDef.fieldOptions.replaceAll("\r","").split("\n"))
 			if (!options.contains(val)) {
-				domObj.errors.reject('invalid', [fieldDef.fieldLabel] as Object[], fieldDef.fieldLabel + ' has a not listed value!')
+				return ['invalid', fieldDef.fieldLabel]
 			}
 		}
 	}

@@ -279,37 +279,56 @@ class BootStrap
 			device: device2)
 		deviceManualForm2a.save(flush: true)
         
-        def deviceField = new DeviceField(fieldLabel: "Is the device currently being used?",
-            fieldType: FieldType.TEXT,
-            mandatory: true)
-        device.addToDeviceFields(deviceField)
-        deviceField.save(flush: true)
-        
-        def deviceField2 = new DeviceField(fieldLabel: "Radio buttons?",
-            fieldType: FieldType.RADIO_BUTTONS,
-            fieldOptions: "test1\ntest2\n",
-            mandatory: true)
-        device.addToDeviceFields(deviceField2)
-        deviceField2.save(flush:true)
-        
-        def deviceField3 = new DeviceField(fieldLabel: "Device 2 questions?",
-            fieldType: FieldType.TEXT,
-            mandatory: true)
-        device2.addToDeviceFields(deviceField3)
-        deviceField3.save(flush: true)
-        
-        def deviceField4 = new DeviceField(fieldLabel: "Device 2 questions 2?",
-            fieldType: FieldType.TEXT,
-            mandatory: true)
-        device2.addToDeviceFields(deviceField4)
-        deviceField4.save(flush: true)
+        createSampleAllDeviceFields(device, device1Data(), true)
+		
+		createSampleAllDeviceFields(device2, device2Data(), false)
+		
         def studyDevice = StudyDevice.link(study, device);
         studyDevice.save(flush: true)
 
-        
-        
+	}
+	
+	def createSampleAllDeviceFields = { device, data, mandatory ->
+		def (labels, content) = data
+		def types = [FieldType.STATIC_TEXT, FieldType.TEXT, FieldType.TEXTAREA,
+			FieldType.DATE, FieldType.TIME, FieldType.NUMERIC,
+			FieldType.RADIO_BUTTONS,FieldType.DROP_DOWN]
+		for (i in 0..7) {
+	        def deviceField = new DeviceField(fieldLabel: labels[i],
+	            fieldType: types[i],
+	            mandatory: mandatory)
+			if (content[i] != null) {
+				if (i == 0) {
+					deviceField.staticContent = content[i]
+				} else {
+					deviceField.fieldOptions = content[i]
+				}
+			}
+	        device.addToDeviceFields(deviceField)
+	        deviceField.save(flush: true)
+		}
+	}
+	
+	def device1Data = {
+		def labels = ['Instructions','Participan initials','Interview result',
+			'Experiment date','Experiment time','Sequence',
+			'Shirt colour','Age range']
+		def content = ['Some instructions with <i>HTML</i>!', null, null,
+			null, null, null,
+			"White\nYellow\nOrange\nRed\nPink\nGreen\nDrak green\nBlue\nPurple\nBlack", "0-17\n18-45\n46-75\n75+"]
+		return [labels, content]
 	}
 
+	def device2Data = {
+		def labels = ['More instructions','Location','Location description',
+			'Building date','Experiment time','Number of levels',
+			'Building type','Model used']
+		def content = ['Some instructions with <i>HTML</i>!', null, null,
+			null, null, null,
+			"House\nSmall building\nWarehouse\nOther\nFactory", "M100\nM100+\nZ200\n"]
+		return [labels, content]
+	}
+	
 	def destroy =
 	{
         environments
