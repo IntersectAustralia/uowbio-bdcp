@@ -4,7 +4,7 @@ import grails.plugins.springsecurity.Secured
 
 class StudyDeviceFieldController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [update: "POST", delete: "POST"]
 
     def studyDeviceFieldService
 	
@@ -28,10 +28,10 @@ class StudyDeviceFieldController {
 			return
 		}
 		
-		def canDo = roleCheckService.checkUserRole('ROLE_RESEARCHER')
 		def userStore = UserStore.findByUsername(roleCheckService.getUsername())
 		def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(studyInstance,userStore)
-		canDo = canDo && (roleCheckService.checkSameUser(studyInstance.project.owner.username) || studyCollaborator)			
+		def canDo = roleCheckService.checkUserRole('ROLE_LAB_MANAGER') || 
+		        (roleCheckService.checkUserRole('ROLE_RESEARCHER') && (roleCheckService.checkSameUser(studyInstance.project.owner.username) || studyCollaborator))
 		if (!canDo) {
 		    redirect controller:'login', action: 'denied'
 			return
@@ -40,11 +40,12 @@ class StudyDeviceFieldController {
         def studyDeviceFields = []		
         def deviceFields = DeviceField.findAllByDevice(deviceInstance)
         if (deviceFields.size() == 0) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'studyDeviceField.label', default: 'StudyDeviceField'), params.id])}"
-            redirect(action: "list")
+            flash.message = message(code: 'studyDevice.noFields', args: [deviceInstance.name])
+		    redirect url:createLink(mapping:'studyDeviceDetails', action:'create', params:[studyId:studyInstance.id])
 			return
         }
 		if (studyDevice == null) {
+			studyDevice = new StudyDevice(study:studyInstance, device:deviceInstance)
 			deviceFields.each {  fieldDef ->
 				def domObj = new StudyDeviceField(studyDevice: studyDevice, deviceField: fieldDef)
 				studyDeviceFields.add(domObj)
@@ -69,95 +70,6 @@ class StudyDeviceFieldController {
         redirect(controller:"studyDevice", action: "create", params: params)
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
-    def create = {
-		def studyInstance = Study.get(params.studyId)
-		
-		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
-		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
-			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
-		}
-		
-        def studyDeviceFieldInstance = new StudyDeviceField()
-        studyDeviceFieldInstance.properties = params
-        def studyDeviceFields = []
-        def checked = []
-        return [studyDeviceFieldInstance: studyDeviceFieldInstance, studyDeviceFields: studyDeviceFields, checked: checked]
-    }
-
-    def saveAllStudyDeviceFields(studyDeviceFields)
-    {
-        studyDeviceFields.every {
-           if (!it.save(flush: true))
-           {
-               return false
-           }
-        }
-        return true
-    }
-    
-    def validStudyDeviceFields(studyDeviceFields)
-    {
-        def studyDeviceInstance = StudyDevice.link(Study.findById(params.study.id),Device.findById(params.device.id))
-        def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
-        def allValid = true
-        
-        for (int i=0; i < deviceFields.size(); i++)
-        {
-            if (!studyDeviceFields[i].validate())
-            {
-                allValid = false
-            }
-        }
-        
-        return allValid
-    }
-    
-    def laterVersion(studyDeviceFields)
-    {
-        def isLaterVersion = false
-        def deviceFields = DeviceField.findAllByDevice(Device.findById(params.device.id))
-        for (int i=0; i < deviceFields.size(); i++)
-                        {
-                            
-                            if (params["studyDeviceFields["+i+"]"].version) {
-                                def version = params["studyDeviceFields["+i+"]"].version.toLong()
-                                if (studyDeviceFields[i].version > version)
-                                {
-                                    studyDeviceFields[i].errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'studyDeviceField.label', default: 'StudyDeviceField')] as Object[], "Another user has updated this StudyDeviceField while you were editing")
-                                    studyDeviceFields[i].hasErrors()
-                                    isLaterVersion = true    
-                                }
-                            }
-                        }
-        return isLaterVersion
-    }
-    
-    
-    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
-    def save = {
-        
-		def studyInstance = Study.get(params.studyId)
-		
-		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
-		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
-			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
-		}
-		
-        def result = studyDeviceFieldService.save(params)
-        
-        if (result.successful)
-        {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'studyDevice.label', default: 'Device'), result.studyDeviceInstance.device])}"
-            redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":params.studyId, "device.id": params.device.id, "study.id": params.study.id] )
-        }
-        else
-        {
-            render(view: "create", model: [studyDeviceFields: result.studyDeviceFields, studyDeviceFieldInstance: result.studyDeviceFields, 'study.id': params.study.id])
-        }
-
-    }
-
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def show = {
        def studyDeviceFields = []
@@ -175,7 +87,8 @@ class StudyDeviceFieldController {
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def edit = {
 		secured { studyInstance, deviceInstance, studyDeviceFields ->
-            return [studyInstance:studyInstance, deviceInstance:deviceInstance, studyDeviceFields: studyDeviceFields]
+			def nextAction = studyDeviceFields[0].studyDevice.id == null ? 'create' : 'update'
+            render(view:'edit', model:[studyInstance:studyInstance, deviceInstance:deviceInstance, studyDeviceFields: studyDeviceFields, nextAction:nextAction])
 		}
     }
 	
@@ -204,7 +117,8 @@ class StudyDeviceFieldController {
 				ok = sdf.validate() && ok  // note: we want to validate always, so Ok should be last
 			}
 			if (!ok) {
-				render(view:'edit', model:[studyInstance:studyInstance, deviceInstance:deviceInstance, studyDeviceFields: studyDeviceFields])
+				def nextAction = studyDeviceFields[0].studyDevice.id == null ? 'create' : 'update'
+				render(view:'edit', model:[studyInstance:studyInstance, deviceInstance:deviceInstance, studyDeviceFields: studyDeviceFields, nextAction:nextAction])
 				return
 			}
 			def studyDevice = studyDeviceFields[0].studyDevice
@@ -214,9 +128,10 @@ class StudyDeviceFieldController {
 			def allOk = true
 			studyDeviceFields.each { allOk = it.save(flush:true) && allOk }
 			if (!allOk) {
+				// rollback
 				flash.message = "There were unrecoverable errors saving the data"	
 			} else {
-				flash.message = "There were errors saving the data"	
+				flash.message = message(code: 'default.updated.message', args: [message(code: 'studyDevice.label', default: 'Device'), deviceInstance.name])
 			}
             redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":studyInstance.id, "device.id": deviceInstance.id, "study.id": studyInstance.id] )
 		}

@@ -62,7 +62,7 @@ Feature: Edit Device Metadata for Study
  Then I fill in "studyDeviceFields[0].textArea" with "Some text"
  Then I select radiobutton "Option1" from "studyDeviceFields[1].radioButtonsOption"
  Then I select "Option1" from "studyDeviceFields[2].dropDownOption"
- Then I press "save"
+ Then I press "update"
  Then I should see "Devices"
  Then I should see "Force Platforms"
  Then I should see "Device1"

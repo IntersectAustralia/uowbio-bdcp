@@ -67,10 +67,10 @@ Feature: Add Device to Study with Metadata
  Then I fill in "studyDeviceFields[12].numeric" with "0"
  Then I fill in "studyDeviceFields[13].numeric" with "text"
  
- Then I press "save"
+ Then I press "update"
  Then I should see "Please provide a value that is a number for the question: Numeric_Mandatory"
  Then I have cleared and filled in "studyDeviceFields[13].numeric" with "9E15"
- Then I press "save"
+ Then I press "update"
  Then I should see "Devices"
  Then I should see "Force Platforms"
  Then I should see "Device1"
@@ -103,7 +103,7 @@ Feature: Add Device to Study with Metadata
  Then I fill in "studyDeviceFields[11].date" with "31/03/2011"
  Then I fill in "studyDeviceFields[13].numeric" with "9E15"
  
- Then I press "save"
+ Then I press "update"
  
  Then I should see "Devices"
  Then I should see "Force Platforms"

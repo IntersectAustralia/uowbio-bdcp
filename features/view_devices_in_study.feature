@@ -19,6 +19,7 @@ Feature: View Devices in Study
  Then I should see "Force Platforms"
  Then I should see "Device1"
  Then I press "select_0"
+ Then I print the page
  Then I press "save"
  Then I should see "Devices"
  Then I should see "Force Platforms"

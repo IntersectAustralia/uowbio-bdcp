@@ -279,7 +279,23 @@ class BootStrap
 			device: device2)
 		deviceManualForm2a.save(flush: true)
         
-        createSampleAllDeviceFields(device, device1Data(), true)
+        def device3 = new Device(name: "Device3",
+            description: "Device no fields",
+            manufacturer: "Some manufacturer",
+            locationOfManufacturer: "Some location",
+            modelName: "Ugly",
+            serialNumber: "11231ABC3",
+            uowAssetNumber: "11231ABC3",
+            dateOfPurchase: new Date(),
+            dateOfDelivery: new Date(),
+            purchasePrice: "\$30.00",
+            vendor: "Intersect",
+            fundingSource: "Other funding Body",
+            maintServiceInfo: "Maintenance/Service information here",
+            deviceGroup: deviceGroup)
+        device3.save(flush: true)
+		
+        createSampleAllDeviceFields(device, device1Data(), true) 
 		
 		createSampleAllDeviceFields(device2, device2Data(), false)
 		

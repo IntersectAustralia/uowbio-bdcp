@@ -41,7 +41,7 @@
                     </table>
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit id="update" class="save right list" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
+                    <span class="button"><g:actionSubmit id="update" action="update" class="save right list" value="${message(code: 'default.button.'+nextAction+'.label', default: nextAction)}" /></span>
                    <span class="button"><g:link elementId="cancel" class="list" mapping="studyDeviceDetails" controller="studyDevice" action="list" params="[studyId: params.studyId]">Cancel</g:link></span>
                 </div>
             </g:form>
