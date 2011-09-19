@@ -41,9 +41,6 @@
                             		<g:link elementId="manualForm[${i}]" action="downloadFile" controller="studyDevice" mapping="studyDeviceManuals" params="[studyId: params.studyId, deviceId: params.deviceId, id: deviceManualFormInstance.id]">${fieldValue(bean: deviceManualFormInstance, field: "formName")}</g:link>
                             	</g:if>
                             </div>
-                            <div class="columnRight">
-                            	<g:link mapping="studyDeviceManuals" elementId="delete" controller="studyDevice" action="deleteDeviceManual" method="post" params="[studyId: params.studyId, deviceId: params.deviceId, id: deviceManualFormInstance.id]" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Delete</g:link>
-                            </div>
                             </td>
                         </tr>
                     </g:each>

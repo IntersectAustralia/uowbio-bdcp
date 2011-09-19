@@ -157,7 +157,24 @@ class StudyDeviceController {
 			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
 		}
 		def deviceInstance = Device.get(params.deviceId)
-		def deviceManualFormInstanceList = DeviceManualForm.findAllByDevice(Device.get(params.deviceId))
+		def deviceManualFormInstanceList = []
+		def f = new File( getRealPath() + params.deviceId.toString() )
+		
+		if( f.exists() )
+		{
+			f.eachFile()
+			{ file->
+				if( !file.isDirectory() )
+				{
+					def deviceManualForm = DeviceManualForm.findWhere(storedFileName: file.getName(), device: deviceInstance)
+					if(deviceManualForm != null)
+					{
+						deviceManualFormInstanceList.add(deviceManualForm)
+					}
+				}
+			}
+		}
+		
 		[studyId: params.studyId, deviceId: params.deviceId, deviceInstance: deviceInstance, deviceManualFormInstanceList: deviceManualFormInstanceList]
     }
 	
