@@ -44,11 +44,11 @@ class ParticipantFormController
 			{
 				allValid = false
 			}
-            else if(participantForms[i]?.validate() && participantForms.findAll { it.formName.equalsIgnoreCase(participantForms[i].formName) }.size() > 1 )
-            {
-                participantForms[i].errors.rejectValue('formName', 'participantForm.formName.uniqueIgnoreCase.invalid')
-                allValid = false   
-            }
+//            else if(participantForms[i]?.validate() && participantForms.findAll { it.formName.equalsIgnoreCase(participantForms[i].formName) }.size() > 1 )
+//            {
+//                participantForms[i].errors.rejectValue('formName', 'participantForm.formName.uniqueIgnoreCase.invalid')
+//                allValid = false   
+//            }
             
 		}
 
@@ -121,17 +121,16 @@ class ParticipantFormController
 
 	private saveFile(file, participantFormInstance)
 	{
+//println "in saveFile()"
+//println "in saveFile() file is: " + file
 		if (!file?.isEmpty() && !(file == null))
 		{
 			def fileExtension = getFileExtension(file?.getOriginalFilename())
-			def fileName = participantFormInstance.id
-			if (fileExtension != null)
-			{
-				fileName = participantFormInstance.id + "." + fileExtension
-			}
-
-			file.transferTo( new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + fileName) )
-			participantFormInstance.form = participantFormInstance.id
+			def fileName = file?.getOriginalFilename()
+//println "in saveFile() fileName is: " + fileName
+			file.transferTo( new File( getRealPath() + params.participantId.toString() +File.separatorChar + fileName) )
+//println "in saveFile() fileName is 1: " + getRealPath() + params.participantId.toString() +File.separatorChar + fileName
+			participantFormInstance.form = participantFormInstance.formName
 			participantFormInstance.contentType = file.contentType
 			participantFormInstance.fileExtension = fileExtension
 			participantFormInstance.storedFileName = fileName
@@ -148,7 +147,7 @@ class ParticipantFormController
     {
         def participantFormInstanceList = []
         def participantInstance = Participant.get(params.participantId)
-        def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
+        def f = new File( getRealPath() + params.participantId.toString() )
         if( f.exists() )
         {
             f.eachFile()
@@ -196,7 +195,7 @@ class ParticipantFormController
 			{
                 if (participantForms[i].save(flush: true))
 				{
-					new File( getRealPath() + File.separatorChar + params.participantId.toString()).mkdirs()
+					new File( getRealPath() + params.participantId.toString()).mkdirs()
 					def file = request.getFile("form.${i}")
 					if (file?.isEmpty() && !(session["fileName[${i}]"] == null))
 					{
@@ -272,7 +271,7 @@ class ParticipantFormController
 			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
 		}
 
-		def fileDoc = new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.fileName)
+		def fileDoc = new File( getRealPath() + params.participantId.toString() +File.separatorChar + participantFormInstance.fileName)
 
 		if(fileDoc.exists())
 		{
@@ -322,7 +321,7 @@ class ParticipantFormController
 			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
 		}
 		
-		def f = new File( getRealPath() + File.separatorChar + params.participantId.toString() )
+		def f = new File( getRealPath() + params.participantId.toString() )
 		
 		if( f.exists() )
 		{
@@ -455,7 +454,7 @@ class ParticipantFormController
 			{
 				participantFormInstance.delete(flush: true)
 				def filename = params.id.replace('###', '.')
-				def file =  new File( getRealPath() +  File.separatorChar + params.participantId.toString() +File.separatorChar + participantFormInstance.fileName)
+				def file =  new File( getRealPath() + params.participantId.toString() +File.separatorChar + participantFormInstance.fileName)
 				if (file.exists())
 				{
 					file.delete()

@@ -30,7 +30,7 @@
             	<table>
                     <thead>
                         <tr>
-                            <th>${message(code: 'deviceManualForm.formName.label', default: 'Form Name')}</th>
+                            <th>${message(code: 'deviceManualForm.formName.label', default: 'Manual Name')}</th>
                         </tr>
                     </thead>
                     <tbody>
