@@ -37,10 +37,4 @@ Feature: View Devices in Study
  Then I should see "Force Platforms"
  Then I press "forms[0]"
  Then I should see "Device manuals for Device1"
- Then I should see "deviceManual1"
- Then I press "manualForm[0]"
- Then I should see "Device Manual Form deviceManual1 could not be found"
- Then I press "delete"
- Then I should see "Device Manual Form deviceManual1 deleted"
- Then I should see "There are no device manuals for this device"
  
