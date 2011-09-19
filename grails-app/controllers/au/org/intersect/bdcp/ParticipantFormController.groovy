@@ -121,15 +121,11 @@ class ParticipantFormController
 
 	private saveFile(file, participantFormInstance)
 	{
-//println "in saveFile()"
-//println "in saveFile() file is: " + file
 		if (!file?.isEmpty() && !(file == null))
 		{
 			def fileExtension = getFileExtension(file?.getOriginalFilename())
 			def fileName = file?.getOriginalFilename()
-//println "in saveFile() fileName is: " + fileName
 			file.transferTo( new File( getRealPath() + params.participantId.toString() +File.separatorChar + fileName) )
-//println "in saveFile() fileName is 1: " + getRealPath() + params.participantId.toString() +File.separatorChar + fileName
 			participantFormInstance.form = participantFormInstance.formName
 			participantFormInstance.contentType = file.contentType
 			participantFormInstance.fileExtension = fileExtension
@@ -275,12 +271,7 @@ class ParticipantFormController
 
 		if(fileDoc.exists())
 		{
-			def fileExtension = getFileExtension(participantFormInstance.fileName)
-			def fileName = participantFormInstance.formName
-			if (fileExtension != null)
-			{
-				fileName = participantFormInstance.formName + "." + fileExtension
-			}
+			def fileName = participantFormInstance.fileName
 
 			if (participantFormInstance.contentType == null)
 			{
@@ -290,7 +281,7 @@ class ParticipantFormController
 			{
 				response.setContentType participantFormInstance.contentType
 			}
-			response.setHeader "Content-disposition", "attachment; filename=${fileName}" ;
+			response.setHeader "Content-disposition", "attachment; filename=\"${fileName}\"" ;
 			response.outputStream << fileDoc.newInputStream();
 			response.outputStream.flush();
 
@@ -453,7 +444,7 @@ class ParticipantFormController
 			try
 			{
 				participantFormInstance.delete(flush: true)
-				def filename = params.id.replace('###', '.')
+				def filename = participantFormInstance.fileName
 				def file =  new File( getRealPath() + params.participantId.toString() +File.separatorChar + participantFormInstance.fileName)
 				if (file.exists())
 				{
@@ -461,20 +452,20 @@ class ParticipantFormController
 				}
 				flash.message = "Participant Form ${participantFormInstance.formName} deleted"
 				redirect url: createLink(controller: 'participantForm', action:'list',
-				mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+					mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
 			}
 			catch (org.springframework.dao.DataIntegrityViolationException e)
 			{
 				flash.message = "Participant Form ${participantFormInstance.formName} could not be deleted"
 				redirect url: createLink(controller: 'participantForm', action:'list',
-				mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+					mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
 			}
 		}
 		else
 		{
 			flash.message = "ParticipantForm ${participantFormInstance.formName} could not be found"
 			redirect url: createLink(controller: 'participantForm', action:'list',
-			mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+				mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
 		}
 	}
 }
