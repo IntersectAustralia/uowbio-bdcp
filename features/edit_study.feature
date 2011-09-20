@@ -75,7 +75,7 @@ Feature: Edit Study
       | Additional Ethics Details      | Some Additional Requirements  |
       | Description                    | Test Description              |
       | Industry Partners              | Partner1                      |
-      | Subjects                       | some , keywords ,,            |
+      | Subjects                       | some, keywords                |
       | Collaborators                  | Collaborator1                 |
       | Start Date                     | 04/2011                       |
       | End Date                       | 04/2011                       |

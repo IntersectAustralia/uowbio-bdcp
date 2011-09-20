@@ -178,10 +178,17 @@ class StudyDeviceController {
 		[studyId: params.studyId, deviceId: params.deviceId, deviceInstance: deviceInstance, deviceManualFormInstanceList: deviceManualFormInstanceList]
     }
 	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def downloadFile =
 	{
 		cache false
+		
+		def studyInstance = Study.get(params.studyId)
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
+			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+		}
+		
 		def deviceManualFormInstance = DeviceManualForm.get(params.id)
 		def fileDoc = new File( getRealPath() +  File.separatorChar + params.deviceId.toString() + File.separatorChar + deviceManualFormInstance.fileName)
 		
@@ -198,7 +205,7 @@ class StudyDeviceController {
 				response.setContentType deviceManualFormInstance.contentType
 			}
 						
-			response.setHeader "Content-disposition", "attachment; filename=${fileName}" ;
+			response.setHeader "Content-disposition", "attachment; filename=\"${fileName}\"" ;
 			response.outputStream << fileDoc.newInputStream();
 			response.outputStream.flush();
 
