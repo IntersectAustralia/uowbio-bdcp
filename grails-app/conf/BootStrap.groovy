@@ -27,6 +27,7 @@ class BootStrap
 	def springSecurityService
 	def concurrentSessionController
 	def securityContextPersistenceFilter
+	def grailsApplication
 	def fileService
         def d1LdapServer
 	
@@ -59,8 +60,8 @@ class BootStrap
 			
 			development
 			{ 
-				createTestData()
-				createStaticData() 
+				createTestData(servletContext)
+				createStaticData()
 			}
 			
 			test
@@ -155,8 +156,7 @@ class BootStrap
 			}
 	}
 
-	def createTestData =
-	{
+	def createTestData = { context ->
         def user1 = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://nla.ands.org.au/1234", title:'Mr')
         user1.save(flush:true)
         
@@ -246,6 +246,7 @@ class BootStrap
 				storedFileName: "filename1.txt",
 				device: device)
 		deviceManualForm.save(flush: true)
+		createFileForDevice(context, device, "filename1.txt")
 
         def device2 = new Device(name: "Device2",
             description: "Some device",
@@ -270,6 +271,8 @@ class BootStrap
 			storedFileName: "filename2.txt",
 			device: device2)
 		deviceManualForm2.save(flush: true)
+		createFileForDevice(context, device2, "filename2.txt")
+		
 		
 		def deviceManualForm2a = new DeviceManualForm(formName: "devicemanual2a",
 			form: "theForm2a",
@@ -278,7 +281,8 @@ class BootStrap
 			storedFileName: "filename2a.txt",
 			device: device2)
 		deviceManualForm2a.save(flush: true)
-        
+		createFileForDevice(context, device2, "filename2a.txt")
+		
         def device3 = new Device(name: "Device3",
             description: "Device no fields",
             manufacturer: "Some manufacturer",
@@ -302,6 +306,13 @@ class BootStrap
         def studyDevice = StudyDevice.link(study, device);
         studyDevice.save(flush: true)
 
+	}
+	
+	def createFileForDevice = { context, device, fileName ->
+		def realPath = context.getRealPath("/") + grailsApplication.config.forms.deviceManuals.location.toString()
+		def file = new File(realPath + device.id.toString() +File.separatorChar + fileName)
+		file.getParentFile().mkdirs()
+		file << ("FILE: " + fileName)
 	}
 	
 	def createSampleAllDeviceFields = { device, data, mandatory ->

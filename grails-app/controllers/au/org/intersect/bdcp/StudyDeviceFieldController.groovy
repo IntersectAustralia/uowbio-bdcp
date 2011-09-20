@@ -39,11 +39,6 @@ class StudyDeviceFieldController {
 		def studyDevice = StudyDevice.findByStudyAndDevice(studyInstance, deviceInstance)
         def studyDeviceFields = []		
         def deviceFields = DeviceField.findAllByDevice(deviceInstance)
-        if (deviceFields.size() == 0) {
-            flash.message = message(code: 'studyDevice.noFields', args: [deviceInstance.name])
-		    redirect url:createLink(mapping:'studyDeviceDetails', action:'create', params:[studyId:studyInstance.id])
-			return
-        }
 		if (studyDevice == null) {
 			studyDevice = new StudyDevice(study:studyInstance, device:deviceInstance)
 			deviceFields.each {  fieldDef ->
@@ -61,7 +56,7 @@ class StudyDeviceFieldController {
 			}
 		}
         studyDeviceFields.sort {x,y -> x.deviceField.dateCreated <=> y.deviceField.dateCreated}
-		block(studyInstance, deviceInstance, studyDeviceFields)
+		block(studyInstance, deviceInstance, studyDevice, studyDeviceFields)
 	}
 
     
@@ -86,7 +81,19 @@ class StudyDeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def edit = {
-		secured { studyInstance, deviceInstance, studyDeviceFields ->
+		secured { studyInstance, deviceInstance, studyDevice, studyDeviceFields ->
+			if (studyDeviceFields.size() == 0) {
+				def messageCode 
+				if (studyDevice.id == null) {
+					studyDevice.save(flush:true)
+					messageCode = 'added'
+				} else {
+				    messageCode = 'nothing'
+				}
+				flash.message = message(code:'studyDevice.noFields.' + messageCode ,args:[deviceInstance.name])
+				redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":studyInstance.id, "device.id": deviceInstance.id, "study.id": studyInstance.id] )
+				return
+			}
 			def nextAction = studyDeviceFields[0].studyDevice.id == null ? 'create' : 'update'
             render(view:'edit', model:[studyInstance:studyInstance, deviceInstance:deviceInstance, studyDeviceFields: studyDeviceFields, nextAction:nextAction])
 		}
@@ -95,7 +102,7 @@ class StudyDeviceFieldController {
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
     def update = {
 		
-		secured { studyInstance, deviceInstance, studyDeviceFields ->
+		secured { studyInstance, deviceInstance, studyDevice, studyDeviceFields ->
 			def fieldsSize = params["fieldsSize"] as Integer
 			if (studyDeviceFields.size() != fieldsSize) {
 				flash.message = 'Number of fields in request does not match database. Editing cancelled'
@@ -121,7 +128,6 @@ class StudyDeviceFieldController {
 				render(view:'edit', model:[studyInstance:studyInstance, deviceInstance:deviceInstance, studyDeviceFields: studyDeviceFields, nextAction:nextAction])
 				return
 			}
-			def studyDevice = studyDeviceFields[0].studyDevice
 			if (studyDevice.id == null) {
 				studyDevice.save(flush:true)
 			}

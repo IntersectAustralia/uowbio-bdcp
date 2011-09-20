@@ -125,7 +125,7 @@ class DeviceManualFormController
 			def fileExtension = getFileExtension(file?.getOriginalFilename())
 			def fileName = file?.getOriginalFilename()
 
-			file.transferTo( new File( getRealPath() +  File.separatorChar + params.deviceId.toString() +File.separatorChar + fileName) )
+			file.transferTo( new File( getRealPath() + params.deviceId.toString() +File.separatorChar + fileName) )
 			deviceManualFormInstance.form = deviceManualFormInstance.formName
 			deviceManualFormInstance.contentType = file.contentType
 			deviceManualFormInstance.fileExtension = fileExtension
@@ -143,7 +143,7 @@ class DeviceManualFormController
     {
         def deviceManualFormInstanceList = []
         def deviceInstance = Device.get(params.deviceId)
-        def f = new File( getRealPath() + File.separatorChar + params.deviceId.toString() )
+        def f = new File( getRealPath() + params.deviceId.toString() )
         if( f.exists() )
         {
             f.eachFile()
@@ -158,7 +158,7 @@ class DeviceManualFormController
                 }
             }
         }
-        render(view: "list", model: [deviceManualForms: deviceManualForms,deviceManualFormInstanceList: deviceManualFormInstanceList, deviceManualFormInstanceTotal: deviceManualFormInstanceList.size(), deviceInstance: Device.get(params.devicelId), forms:deviceManualForms, fileName: params.fileName, deviceId: params.deviceId ])
+        render(view: "list", model: [deviceManualForms: deviceManualForms,deviceManualFormInstanceList: deviceManualFormInstanceList, deviceManualFormInstanceTotal: deviceManualFormInstanceList.size(), deviceInstance: Device.get(params.deviceId), forms:deviceManualForms, fileName: params.fileName, deviceId: params.deviceId ])
     }
     
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -185,7 +185,7 @@ class DeviceManualFormController
 			{
                 if (deviceManualForms[i].save(flush: true))
 				{
-					new File( getRealPath() + File.separatorChar + params.deviceId.toString()).mkdirs()
+					new File( getRealPath() + params.deviceId.toString()).mkdirs()
 					def file = request.getFile("form.${i}")
 				
 					if (file?.isEmpty() && !(session["fileName[${i}]"] == null))
@@ -240,7 +240,7 @@ class DeviceManualFormController
 	{
 		cache false
 		def deviceManualFormInstance = DeviceManualForm.get(params.id)
-		def fileDoc = new File( getRealPath() +  File.separatorChar + params.deviceId.toString() + File.separatorChar + deviceManualFormInstance.fileName)
+		def fileDoc = new File( getRealPath() + params.deviceId.toString() + File.separatorChar + deviceManualFormInstance.fileName)
 		
 		if(fileDoc.exists())
 		{
@@ -254,8 +254,8 @@ class DeviceManualFormController
 			{
 				response.setContentType deviceManualFormInstance.contentType
 			}
-						
-			response.setHeader "Content-disposition", "attachment; filename=${fileName}" ;
+
+			response.setHeader "Content-disposition", "attachment; filename=\"${fileName}\"" ;
 			response.outputStream << fileDoc.newInputStream();
 			response.outputStream.flush();
 
@@ -283,7 +283,7 @@ class DeviceManualFormController
 		def deviceInstance = Device.get(params.deviceId)
 		def deviceManualFormInstanceList = []
 		def deviceManualForms = []
-		def f = new File( getRealPath() + File.separatorChar + params.deviceId.toString() )
+		def f = new File( getRealPath() + params.deviceId.toString() )
 		
 		if( f.exists() )
 		{
@@ -410,7 +410,7 @@ class DeviceManualFormController
 			{
 				def filename = deviceManualFormInstance.fileName 
 				deviceManualFormInstance.delete(flush: true)
-				def file =  new File( getRealPath() + File.separatorChar + params.deviceId + File.separatorChar + filename)
+				def file =  new File( getRealPath() + params.deviceId + File.separatorChar + filename)
 
 				if (file.exists())
 				{

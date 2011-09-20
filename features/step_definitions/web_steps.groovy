@@ -114,22 +114,24 @@ Given(~"I have created a device with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(
     sql.execute("INSERT INTO device(id,version, device_group_id, name, description, manufacturer, location_of_manufacturer, model_name, serial_number, uow_asset_number, date_of_purchase, date_of_delivery, purchase_price, vendor, funding_source, maint_service_info) VALUES (nextval('hibernate_sequence'),'0','-5000', ${name}, ${description}, ${manufacturer}, ${locationOfManufacturer}, ${model}, ${serialNumber}, ${uowAssetNumber}, '${dateOfPurchase}', '${dateOfDelivery}', ${purchasePrice}, ${vendor}, ${fundingSource}, ${maintServiceInfo});")
 }
 
-Given(~"I have created a device field with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\" for \"(.*)\"") { String fieldLabel, String fieldType, String staticContent, String mandatory, String deviceName ->
+Given(~"I have created a device field with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\" for \"(.*)\"") { String fieldLabel, String fieldType, String staticContent, Boolean mandatory, String deviceName ->
     def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver") 
 	def row = sql.firstRow("SELECT id FROM device WHERE name=${deviceName}")
 	def deviceId = row.id;
 	row = sql.firstRow("SELECT count(id) as num FROM device_field WHERE device_id=${deviceId}")
     def fieldIndex = row.num
-    sql.execute("INSERT INTO device_field(id,device_id,device_fields_idx,field_label,field_type,static_content,mandatory,date_created,last_updated,version) VALUES (nextval('hibernate_sequence'),${deviceId},${fieldIndex},${fieldLabel},${fieldType},${staticContent},'${mandatory}', '2011-03-01 00:00:00', '2011-03-01 00:00:00',0);")
+    sql.execute("INSERT INTO device_field(id,device_id,device_fields_idx,field_label,field_type,static_content,mandatory,date_created,last_updated,version) VALUES (nextval('hibernate_sequence'),${deviceId},${fieldIndex},${fieldLabel},${fieldType},${staticContent},${mandatory}, '2011-03-01 00:00:00', '2011-03-01 00:00:00',0);")
 }
 
 Given(~"I have created a device manual form with \"(.*)\", \"(.*)\", \"(.*)\"") { String formname, String filename, String deviceName ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
 	def row = sql.firstRow("SELECT id FROM device WHERE name=${deviceName}")
 	def deviceId = row.id;
-	row = sql.firstRow("SELECT count(id) as num FROM device_field WHERE device_id=${deviceId}")
-	def fieldIndex = row.num
-	sql.execute("INSERT INTO device_manual_form(id, device_id, version, form_name, file_name) VALUES (nextval('hibernate_sequence'),${deviceId}, '0', ${formname}, ${filename});")
+	sql.execute("INSERT INTO device_manual_form(id, device_id, version, form_name, file_name, stored_file_name) VALUES (nextval('hibernate_sequence'),${deviceId}, '0', ${formname}, ${filename}, ${filename});")
+	def filePath = new File("web-app/uowbio/forms/deviceManuals/" + deviceId + "/" + filename)
+	filePath.getParentFile().mkdirs()
+	println "CREATING " + filePath.getAbsolutePath()
+	filePath << ("FILE: " + filename + " @ " + filePath.getAbsolutePath())	
 }
 
 Given(~"I have created a deviceField with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"") { String deviceName, String dateCreated, String lastUpdated, String mandatory, String fieldLabel, String fieldType, String fieldOptions ->
@@ -244,6 +246,10 @@ Then(~"I should see \"(.*)\"") { String text ->
     assertThat(browser.findElementByTagName('body').text, containsString(text))
 }
 
+Then(~"I should see plain \"(.*)\"") { String text ->
+    assertThat(browser.getPageSource(), containsString(text))
+}
+
 Then(~"I should see in \"(.*)\" phrase \"(.*)\"") { String elementId, String phrase ->
 	element = browser.findElementById(elementId)
 	assertNotNull(element)
@@ -336,6 +342,10 @@ Then(~"I print the page") {
 	println "*** BROWSER LOCATION: [" + browser.getCurrentUrl() + "] ***"
 	println browser.getPageSource()
 	println "***"
+}
+
+Then(~"I navigate back") {
+	browser.navigate().back()
 }
 
 Then(~"I wait for ajax") {
