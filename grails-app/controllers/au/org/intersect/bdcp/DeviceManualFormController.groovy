@@ -28,30 +28,81 @@ class DeviceManualFormController
 		return value
 	}
 	
-	private boolean validateDeviceManualForms(deviceManualForms)
+	private boolean validateDeviceManualForms(deviceManualForms, usedFormRowNumbers)
 	{
 		def allValid = true
 		
-		for (i in deviceManualFormsToLoad())
-		{
-			if (request.getFile("form.${i}")?.isEmpty() && (session["fileName[${i}]"] == null))
+		int j = 0
+		for (rowNumber in usedFormRowNumbers)
+		{			
+			if (request.getFile("form.${rowNumber}")?.isEmpty() && (session["fileName[${rowNumber}]"] == null))
 			{
-				deviceManualForms[i].fileName = null
+				deviceManualForms[j].fileName = null
 			}
-            
-			if (!deviceManualForms[i]?.validate() && !deviceManualForms[i].hasErrors())
+
+			if (!deviceManualForms[j]?.validate())
 			{
 				allValid = false
 			}
-//            else if(deviceManualForms[i]?.validate() && deviceManualForms.findAll { it?.formName.equalsIgnoreCase(deviceManualForms[i]?.formName) }.size() > 1 )
-//            {
-//                deviceManualForms[i].errors.rejectValue('formName', 'deviceManualForm.formName.uniqueIgnoreCase.invalid')
-//                allValid = false   
-//            }
-            
+            else if(checkForReplication(deviceManualForms, j, "formName"))
+            {
+                deviceManualForms[j].errors.rejectValue('formName', 'deviceManualForm.formName.uniqueIgnoreCase.invalid')
+                allValid = false
+            }
+			else if(checkForReplication(deviceManualForms, j, "fileName"))
+			{
+				deviceManualForms[j].errors.rejectValue('fileName', 'deviceManualForm.fileName.uniqueIgnoreCase.invalid')
+				allValid = false
+			}
+			else if(deviceManualForms[j]?.fileName != null && checkNoConflictWithExistingFileName(deviceManualForms[j]?.fileName)) // check that file names provided dont match any existing files
+			{
+				deviceManualForms[j].errors.rejectValue('fileName', 'deviceManualForm.fileName.uniqueIgnoreCase.invalid')
+				allValid = false
+			}
+			j++
 		}
 		
 		return allValid
+	}
+	
+	private boolean checkNoConflictWithExistingFileName(_filename)
+	{
+		boolean conflict = false
+		
+		def deviceInstance = Device.get(params.deviceId)
+		def f = new File( getRealPath() + params.deviceId.toString() )
+		if( f.exists() )
+		{
+			f.eachFile()
+			{ file->
+				if( !file.isDirectory() )
+				{
+					def deviceManualForm = DeviceManualForm.findWhere(storedFileName: file.name, device: deviceInstance)
+					if(deviceManualForm && _filename && deviceManualForm?.storedFileName?.equalsIgnoreCase(_filename))
+					{
+						conflict = true
+					}
+				}
+			}
+		}
+		
+		return conflict
+	}
+	
+	private boolean checkForReplication(_deviceManualForms, index, fieldname)
+	{
+		boolean replication = false
+		
+		if(fieldname?.equalsIgnoreCase("fileName"))
+		{
+			replication = ((_deviceManualForms.findAll { it?.fileName.equalsIgnoreCase(_deviceManualForms[index]?.fileName) }).size() > 1)
+		}
+		else if((fieldname?.equalsIgnoreCase("formName")))
+		{
+			replication = ((_deviceManualForms.findAll { it?.formName.equalsIgnoreCase(_deviceManualForms[index]?.formName) }).size() > 1)
+		}
+			
+		return replication
 	}
 
 	private deviceManualFormsToLoad()
@@ -120,7 +171,7 @@ class DeviceManualFormController
 	
 	private saveFile(file, deviceManualFormInstance)
 	{
-		if (!file?.isEmpty() && !(file == null))
+		if ((file!= null) && (!file.isEmpty()))
 		{
 			def fileExtension = getFileExtension(file?.getOriginalFilename())
 			def fileName = file?.getOriginalFilename()
@@ -169,44 +220,50 @@ class DeviceManualFormController
 		def deviceManualFormInstanceList = []
 		def allValid = true
 		
-        for (i in deviceManualFormsToLoad())
+		// find row number of device manual rows with entries
+		List<Integer> usedFormRowNumbers = deviceManualFormsToLoad()
+		def j = 0
+        for (rowNumber in usedFormRowNumbers)
 		{
-			deviceManualForms[i] = new DeviceManualForm(params["forms["+i+"]"])		
+			deviceManualForms[j++] = new DeviceManualForm(params["forms["+rowNumber+"]"])
         }
 
-		if (!validateDeviceManualForms(deviceManualForms))
+		// check if device manual entries valid
+		if (!validateDeviceManualForms(deviceManualForms, usedFormRowNumbers))
 		{
             populateSessionValues()
             renderUploadErrorMsg(deviceManualForms);
 		}
 		else
 		{
-			for (i in deviceManualFormsToLoad())
+			j=0
+			for (rowNumber in usedFormRowNumbers)
 			{
-                if (deviceManualForms[i].save(flush: true))
+                if (deviceManualForms[j].save(flush: true))
 				{
 					new File( getRealPath() + params.deviceId.toString()).mkdirs()
-					def file = request.getFile("form.${i}")
+					def file = request.getFile("form.${rowNumber}")
 				
-					if (file?.isEmpty() && !(session["fileName[${i}]"] == null))
+					if (file?.isEmpty() && !(session["fileName[${rowNumber}]"] == null))
 					{
-						file = session["fileName[${i}]"]
+						file = session["fileName[${rowNumber}]"]
 					}
                     populateSessionValues()
-					saveFile(file, deviceManualForms[i])
+					saveFile(file, deviceManualForms[j])
 				}
                 else
                 {
                     allValid = false    
                 }
-                
+                j++
 			}
-
+			
+			j=0
             if (allValid == false)
             {
-                for (i in deviceManualFormsToLoad())
+                for (rowNumber in usedFormRowNumbers)
                 {
-                    deviceManualForms[i].delete(flush:true)
+                    deviceManualForms[j].delete(flush:true)
                 }
                 
                 renderUploadErrorMsg(deviceManualForms);
