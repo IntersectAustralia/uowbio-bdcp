@@ -21,21 +21,21 @@
     <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab7']}" />
 
 	<div id="tabs-details">
-	<g:link mapping="studyAnalysedData" controller="studyAnalysedData" class="create button" action="create" params="[studyId: studyInstance.id]">+ Add Folder</g:link>
-	<g:if test="${ dirFiles.size() > 0}">
+	<g:link mapping="studyAnalysedData" controller="studyAnalysedData" class="create button" action="createFolder" params="[studyId: studyInstance.id]">+ Add Folder</g:link>
+	<g:if test="${ folders.size() > 0}">
 	  <div class="list">
 	    <table>
 	      
 	      <tbody>
-	        <g:each in="${dirFiles}" status="i" var="file">
+	        <g:each in="${folders}" status="i" var="analysedFolder">
 	          <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 	            
 	            <td class="tablename">
-	              <div class="columnLeft">${file.getName()}</div>
+	              <div class="columnLeft">${analysedFolder.folder}</div>
 	            </td>
 	          
 	            <td class="tablebuttons">
-	              <g:link mapping="studyAnalysedData" elementId="edit-participant[${i}]" class="button right list" action="upload" params="[studyId: studyInstance.id, folder:file.getName()]">Upload</g:link>
+	              <g:link mapping="studyAnalysedData" elementId="edit-participant[${i}]" class="button right list" action="editData" params="[studyId: studyInstance.id, folder:analysedFolder.folder]">Upload</g:link>
 	             </td>
 	             
 	          </tr>

@@ -26,18 +26,18 @@ class ResultsDetailsFieldTests extends GrailsUnitTestCase {
     void testBlank() {
         
         resultsDetailsField = new ResultsDetailsField(fieldLabel: '',
-            fieldType: '',
-            mandatory: '')
+            fieldType: FieldType.TEXT,
+            mandatory: true)
         
         assertFalse 'No validation for blank field(s)' ,resultsDetailsField.validate()
         
-                assertEquals 'Field Label is blank.','blank', resultsDetailsField.errors['fieldLabel']
+        assertEquals 'Field Label is blank.','blank', resultsDetailsField.errors['fieldLabel']
                 
-                resultsDetailsField = new ResultsDetailsField(fieldLabel:'some label',
+        resultsDetailsField = new ResultsDetailsField(fieldLabel:'some label',
                     fieldType: FieldType.TEXTAREA,
                     mandatory: false)
                 
-                assertTrue "A valid resultsDetailsField did not validate!", resultsDetailsField.validate()
+        assertTrue "A valid resultsDetailsField did not validate!", resultsDetailsField.validate()
 
     }
     
@@ -231,11 +231,11 @@ class ResultsDetailsFieldTests extends GrailsUnitTestCase {
     {
         resultsDetailsField = new ResultsDetailsField(fieldLabel:'some label',
             fieldType: FieldType.DROP_DOWN,
-            staticContent: null,
             fieldOptions: "",
             mandatory: false) 
         
-        assertEquals "Not returning nullable when fieldOptions empty",['nullable'],resultsDetailsField.validFieldOptions("")
+        assertFalse "Not returning nullable when fieldOptions empty",resultsDetailsField.validate()
+        assertEquals 'fieldOptions are not ok','nullable', resultsDetailsField.errors['fieldOptions']
     }  
     
 }

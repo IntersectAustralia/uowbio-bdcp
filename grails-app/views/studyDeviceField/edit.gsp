@@ -36,7 +36,8 @@
                             <g:hiddenField name="studyDeviceFields[${i}].id" value="${studyDeviceField.id}" />
                             <g:hiddenField name="studyDeviceFields[${i}].version" value="${studyDeviceField.version}" />
                             <g:hiddenField name="studyDeviceFields[${i}].deviceFieldId" value="${studyDeviceField.deviceField.id}" />
-                            <g:render template="${studyDeviceField.deviceField.fieldType.toString().toLowerCase()}"  model = "['i':i, 'studyDeviceField': studyDeviceField]"/>
+                            <g:render template="/shared/${studyDeviceField.deviceField.fieldType.toString().toLowerCase()}"
+                             model = "['fieldName':'studyDeviceFields','defField':'deviceField','i':i, 'dataField': studyDeviceField]"/>
                         </g:each>
                     </table>
                 </div>

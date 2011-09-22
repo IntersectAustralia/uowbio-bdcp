@@ -106,7 +106,7 @@ class StudyDeviceFieldController {
 			def fieldsSize = params["fieldsSize"] as Integer
 			if (studyDeviceFields.size() != fieldsSize) {
 				flash.message = 'Number of fields in request does not match database. Editing cancelled'
-				redirect (mapping:'studyDeviceFieldDetails', params:[studyId:studyInstance.id, deviceId:deviceInstance.id, action:'edit'])
+				redirect url:createLink(mapping:'studyDeviceFieldDetails', params:[studyId:studyInstance.id, deviceId:deviceInstance.id, action:'edit'])
 				return				
 			}
 			def ok = true
@@ -124,21 +124,27 @@ class StudyDeviceFieldController {
 				ok = sdf.validate() && ok  // note: we want to validate always, so Ok should be last
 			}
 			if (!ok) {
-				def nextAction = studyDeviceFields[0].studyDevice.id == null ? 'create' : 'update'
+				def nextAction = studyDevice.id == null ? 'create' : 'update'
 				render(view:'edit', model:[studyInstance:studyInstance, deviceInstance:deviceInstance, studyDeviceFields: studyDeviceFields, nextAction:nextAction])
 				return
 			}
-			if (studyDevice.id == null) {
-				studyDevice.save(flush:true)
-			}
 			def allOk = true
-			studyDeviceFields.each { allOk = it.save(flush:true) && allOk }
-			if (!allOk) {
-				// rollback
-				flash.message = "There were unrecoverable errors saving the data"	
-			} else {
-				flash.message = message(code: 'default.updated.message', args: [message(code: 'studyDevice.label', default: 'Device'), deviceInstance.name])
+			StudyDevice.withTransaction { dbt ->
+				if (studyDevice.id == null) {
+					allOk = studyDevice.save(flush:true) && allOk
+				}
+				studyDeviceFields.each { allOk = it.save(flush:true) && allOk }
+				if (!allOk) {
+					dbt.setRollbackOnly()
+				}
 			}
+			if (!allOk) {
+				def nextAction = studyDevice.id == null ? 'create' : 'update'
+				flash.error = message(code: 'studyDevice.'+nextAction+'.db.error')
+				render(view:'edit', model:[studyInstance:studyInstance, deviceInstance:deviceInstance, studyDeviceFields: studyDeviceFields, nextAction:nextAction])
+				return
+			}
+			flash.message = message(code: 'default.updated.message', args: [message(code: 'studyDevice.label', default: 'Device'), deviceInstance.name])
             redirect(action: "list", controller:"studyDevice", mapping: "studyDeviceDetails", params:["studyId":studyInstance.id, "device.id": deviceInstance.id, "study.id": studyInstance.id] )
 		}
         

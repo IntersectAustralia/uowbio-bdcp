@@ -30,7 +30,7 @@
             </div>
             </g:hasErrors>
             
-            <g:form mapping="studyAnalysedData" params="[studyId: studyInstance.id]" action="createFolder" >
+            <g:form mapping="studyAnalysedData" params="[studyId: studyInstance.id]" action="doCreateFolder" >
                 <div class="dialog">
                     <table>
                         <tbody>
