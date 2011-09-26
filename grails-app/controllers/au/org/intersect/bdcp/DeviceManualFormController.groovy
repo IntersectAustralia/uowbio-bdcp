@@ -7,7 +7,13 @@ import grails.plugins.springsecurity.Secured
 
 
 
-
+/**
+ * This class has been adapted from the ParticipantsFormController class. Essentially it is used to accept and process requests that save and upload device manuals from a 
+ * form with multiple entries possible for a device manual. Complex validation takes place where duplicates on the form and the form relative to the file system are reported
+ * to the user as an unsuccessful save.
+ * 
+ * @author kherrman
+ */
 class DeviceManualFormController
 {
 	static allowedMethods = [save: "POST", update: "POST", delete: ["POST", "GET"]]
@@ -28,43 +34,56 @@ class DeviceManualFormController
 		return value
 	}
 	
+	/**
+	 * Checks if all of the entries in the device manual form are valid for a DeviceManualForm domain object and that there are no conflicts with same manual names on the 
+	 * form or same file name on the form or the file system itself, for a given device id.
+	 * @param deviceManualForms the deviceManualForm objects that correspond to the form entries.
+	 * @param usedFormRowNumbers the row indexes that have an entry on the form.
+	 * @return true if valid form entries for manuals.
+	 */
 	private boolean validateDeviceManualForms(deviceManualForms, usedFormRowNumbers)
 	{
 		def allValid = true
 		
-		int j = 0
+		int deviceManualFormIndex = 0
 		for (rowNumber in usedFormRowNumbers)
 		{			
 			if (request.getFile("form.${rowNumber}")?.isEmpty() && (session["fileName[${rowNumber}]"] == null))
 			{
-				deviceManualForms[j].fileName = null
+				deviceManualForms[deviceManualFormIndex].fileName = null
 			}
 
-			if (!deviceManualForms[j]?.validate())
+			if (!deviceManualForms[deviceManualFormIndex]?.validate())
 			{
 				allValid = false
 			}
-            else if(checkForReplication(deviceManualForms, j, "formName"))
+            else if(checkForReplication(deviceManualForms, deviceManualFormIndex, "formName"))
             {
-                deviceManualForms[j].errors.rejectValue('formName', 'deviceManualForm.formName.uniqueIgnoreCase.invalid')
+                deviceManualForms[deviceManualFormIndex].errors.rejectValue('formName', 'deviceManualForm.formName.uniqueIgnoreCase.invalid')
                 allValid = false
             }
-			else if(checkForReplication(deviceManualForms, j, "fileName"))
+			else if(checkForReplication(deviceManualForms, deviceManualFormIndex, "fileName"))
 			{
-				deviceManualForms[j].errors.rejectValue('fileName', 'deviceManualForm.fileName.uniqueIgnoreCase.invalid')
+				deviceManualForms[deviceManualFormIndex].errors.rejectValue('fileName', 'deviceManualForm.fileName.uniqueIgnoreCase.invalid')
 				allValid = false
 			}
-			else if(deviceManualForms[j]?.fileName != null && checkNoConflictWithExistingFileName(deviceManualForms[j]?.fileName)) // check that file names provided dont match any existing files
+			else if(deviceManualForms[deviceManualFormIndex]?.fileName != null && checkNoConflictWithExistingFileName(deviceManualForms[deviceManualFormIndex]?.fileName)) // check that file names provided dont match any existing files
 			{
-				deviceManualForms[j].errors.rejectValue('fileName', 'deviceManualForm.fileName.uniqueIgnoreCase.invalid')
+				deviceManualForms[deviceManualFormIndex].errors.rejectValue('fileName', 'deviceManualForm.fileName.uniqueIgnoreCase.invalid')
 				allValid = false
 			}
-			j++
+			deviceManualFormIndex++
 		}
 		
 		return allValid
 	}
 	
+	/**
+	 * Checks that there is no conflict of a file name that is trying to be loaded up by the form and the current files on the file system for a 
+	 * given device. The device manuals are grouped into directories numbered by the device id they belong to on the database.
+	 * @param _filename The file name checking there is a conflict with.
+	 * @return boolean indicating true there is a conflict with the file name supplied and the files on the file system.
+	 */
 	private boolean checkNoConflictWithExistingFileName(_filename)
 	{
 		boolean conflict = false
@@ -89,6 +108,13 @@ class DeviceManualFormController
 		return conflict
 	}
 	
+	/**
+	 * Checks for either the manual name or the form name conflicts on the actual form values submitted
+	 * @param _deviceManualForms The set of device manuals
+	 * @param index the device manual entry index in the collection
+	 * @param fieldname the fieldname that is being checked for replication
+	 * @return if replicated field returns true.
+	 */
 	private boolean checkForReplication(_deviceManualForms, index, fieldname)
 	{
 		boolean replication = false
@@ -105,6 +131,10 @@ class DeviceManualFormController
 		return replication
 	}
 
+	/**
+	 * Generates a List of integers representing the row number of the manual on the form that has an entry to download a manual.
+	 * @return List of integers representing the entries on the form that there is a manual to download.
+	 */
 	private deviceManualFormsToLoad()
 	{
 		def deviceManualFormCommand = new DeviceManualFormCommand()
@@ -122,6 +152,9 @@ class DeviceManualFormController
 		return usedFields
 	}
 
+	/**
+	 * Save state between handling requests if some form entries are invalid.
+	 */
 	private populateSessionValues()
 	{
 		for (i in deviceManualFormsToLoad())
@@ -217,78 +250,86 @@ class DeviceManualFormController
 	{
 		cache false
 		def deviceManualForms = []
-		def deviceManualFormInstanceList = []
 		def allValid = true
 		
 		// find row number of device manual rows with entries
 		List<Integer> usedFormRowNumbers = deviceManualFormsToLoad()
-		def j = 0
+		def deviceManualFormIndex = 0
         for (rowNumber in usedFormRowNumbers)
 		{
-			deviceManualForms[j++] = new DeviceManualForm(params["forms["+rowNumber+"]"])
+			deviceManualForms[deviceManualFormIndex++] = new DeviceManualForm(params["forms["+rowNumber+"]"])
         }
 
-		// check if device manual entries valid
+		// check if device manual entries not valid - handleSaveDeviceManualForm()
 		if (!validateDeviceManualForms(deviceManualForms, usedFormRowNumbers))
 		{
             populateSessionValues()
             renderUploadErrorMsg(deviceManualForms);
 		}
-		else
+		else // if the form entries are valid then save entries to the database and the file system
 		{
-			j=0
+			deviceManualFormIndex = 0
 			for (rowNumber in usedFormRowNumbers)
 			{
-                if (deviceManualForms[j].save(flush: true))
+                if (deviceManualForms[deviceManualFormIndex].save(flush: true))
 				{
+					// create directory using Java, java.io.File
 					new File( getRealPath() + params.deviceId.toString()).mkdirs()
+					// this is a Spring org.springframework.web.multipart.commons.CommonsMultipartFile provided by Grails framework
 					def file = request.getFile("form.${rowNumber}")
 				
 					if (file?.isEmpty() && !(session["fileName[${rowNumber}]"] == null))
 					{
 						file = session["fileName[${rowNumber}]"]
 					}
+					// save state in case attempted save is unsuccessful
                     populateSessionValues()
-					saveFile(file, deviceManualForms[j])
+					saveFile(file, deviceManualForms[deviceManualFormIndex])
 				}
                 else
                 {
                     allValid = false    
                 }
-                j++
+                deviceManualFormIndex++
 			}
 			
-			j=0
+			deviceManualFormIndex = 0
+			// remove database entries that were saved if ANY of the row entries failed - handleCleanup()
             if (allValid == false)
             {
                 for (rowNumber in usedFormRowNumbers)
                 {
-                    deviceManualForms[j].delete(flush:true)
+                    deviceManualForms[deviceManualFormIndex].delete(flush:true)
                 }
                 
                 renderUploadErrorMsg(deviceManualForms);
                 return
             }
-            else
+            else // remove state as save was successful
             {
                 clearSessionValues()
             }
-            
-			switch (deviceManualFormsToLoad().size())
-			{
-				case 0: flash.error = "No manuals selected to upload"
-				break
-
-				case 1: flash.message = "${deviceManualFormsToLoad().size()} Device manual uploaded"
-				break
-
-				case 2..10: flash.message = "${deviceManualFormsToLoad().size()} Device manuals uploaded"
-				break
-				default:
-				break
-			}
+			
+            reportSuccessfulUpdate(usedFormRowNumbers)
 
 			redirect url: createLink(controller: 'deviceManualForm', action:'list', mapping:'deviceManualFormDetails', params:[deviceId: params.deviceId, deviceGroupId: params.deviceGroupId])
+		}
+	}
+	
+	private reportSuccessfulUpdate(_usedFormRowNumbers)
+	{
+		switch (_usedFormRowNumbers.size())
+		{
+			case 0: flash.error = "No manuals selected to upload"
+			break
+
+			case 1: flash.message = "${_usedFormRowNumbers.size()} Device manual uploaded"
+			break
+
+			case 2..10: flash.message = "${_usedFormRowNumbers.size()} Device manuals uploaded"
+			break
+			default:
+			break
 		}
 	}
 
