@@ -94,8 +94,10 @@
     <body>
            <div class="body" id="tab1"> 
             <h1>
-              <g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" /><g:if test="${canPublish}">
-              <button id="publishButton" class="button"><g:message code="study.publish.button" /></button></g:if>
+              <g:message code="default.showTitle.label" args="[studyInstance.studyTitle]" />
+              <g:if test="${canPublish}">
+              		<button id="publishButton" class="button"><g:message code="study.publish.button" /></button>
+              </g:if>
             </h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
