@@ -79,6 +79,32 @@ class StudyAnalysedDataController
 		}
 	}
 	
+	def listFolder =
+	{
+		securedBasic { studyInstance, context ->
+			def studyAnalysedData = StudyAnalysedData.findById(params.id)
+			def name = params.folderPath
+			if (''.equals(name)) {
+				def resp = ['data':studyAnalysedData.folder,'state':'closed',metadata:['folderPath':'/']]
+				render resp as JSON
+				return
+			}
+			def folderPath = params.folderPath
+			folderPath = studyInstance.id + "/" + studyAnalysedData.folder + folderPath  
+			def file = fileService.getFileReference(context, folderPath)
+			if (file.isDirectory()) {
+			   def folders = file.listFiles().collect { f ->
+				   f.isDirectory() ? ['data':f.getName(),'icon':'folder','state':'closed',
+					   'metadata':['folderPath':('/'.equals(name) ? '' : name)+'/' +f.getName()]] : ['data':f.getName(),'icon':'file']
+			   }
+			   render folders as JSON
+			} else {
+			   def folders = ['data':name,'icon':'file']
+			   render folders as JSON
+			}
+		}
+	}
+	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
 	def createFolder =
 	{
@@ -102,11 +128,11 @@ class StudyAnalysedDataController
 				if (!ok) {
 					tx.setRollbackOnly()
 				}
-			}
-			if (!ok) {
-				flash.error = "Error saving data to DB"
-				render(view:'createFolder',model:[studyInstance: study, errors:true, folderName:folderV])
-				return
+				if (!ok) {
+					flash.error = "Error saving data to DB"
+					render(view:'createFolder',model:[studyInstance: study, errors:true, folderName:folderV])
+					return
+				}
 			}
 			redirect(params:[studyId:study.id, action:'list'])
 		}
