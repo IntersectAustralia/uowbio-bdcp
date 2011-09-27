@@ -299,10 +299,13 @@ class StudyController
 	{
 		cache false
 		def studyInstance = Study.get(params.id)
+		def canPublish = (roleCheckService.checkSameUser(studyInstance.project.owner.username) || roleCheckService.checkUserRole('ROLE_LAB_MANAGER') || roleCheckService.checkUserRole('ROLE_SYS_ADMIN'))
 		
-		// if ur a researcher and you either own or collaborate on a study then look at it, else error page
+		// if ur a researcher and you either own or collaborate on a study then look at it, else error page.
+		// researchers cant publish
 		if (roleCheckService.checkUserRole('ROLE_RESEARCHER')) {
 			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
+			canPublish = false
 		}
 		
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -313,7 +316,7 @@ class StudyController
 		}
 		else
 		{
-			[studyInstance: studyInstance, canPublish: roleCheckService.checkSameUser(studyInstance.project.owner.username) || roleCheckService.checkUserRole('ROLE_LAB_MANAGER'),
+			[studyInstance: studyInstance, canPublish: canPublish,
 				participantInstanceList: Participant.findAllByStudy(studyInstance), participantInstanceTotal: Participant.countByStudy(studyInstance),projectid: params.projectid]
 		}
 		

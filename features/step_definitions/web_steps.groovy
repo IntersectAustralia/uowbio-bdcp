@@ -234,6 +234,17 @@ When(~"I press \"(.*)\"") { String button ->
     browser.findElementById(button).click()
 }
 
+Then(~"I cannot press \"(.*)\"") { String button ->
+	try {
+		WebElement element = browser.findElementById(button).click()
+		Assert.fail()
+	} catch (org.openqa.selenium.NoSuchElementException nse) {
+		assertNotNull(nse)
+	} catch (Exception e) {
+		Assert.fail()
+	}
+}
+
 When(~"I press browser back button"){
 	browser.navigate().back()
 }

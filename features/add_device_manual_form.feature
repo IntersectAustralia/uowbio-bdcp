@@ -20,7 +20,6 @@ Feature: Add Device Manual Form
 	Then I should see "Device1"    
 	Then I press "forms[0]"
     Then I should see "Device Device1 Manuals"
-    Then I should see "Manuals"
     Then I should see "Add Manual"
     Then I select file "testFile" from "form.0"
     And I fill in "forms[0].formName" with "test"
@@ -30,6 +29,7 @@ Feature: Add Device Manual Form
     And I fill in "forms[1].fileName" with "testFile1"
     Then I press "upload"
     Then I should see "2 Device manuals uploaded"
+    Then I should see "test"
     Then I press "Logout"
     
     Given I have logged in as "sysadm"
@@ -44,7 +44,6 @@ Feature: Add Device Manual Form
 	Then I should see "Device1"    
 	Then I press "forms[0]"
     Then I should see "Device Device1 Manuals"
-    Then I should see "Manuals"
     Then I should see "Add Manual"
     Then I select file "testFile2" from "form.2"
     And I fill in "forms[2].formName" with "test2"
