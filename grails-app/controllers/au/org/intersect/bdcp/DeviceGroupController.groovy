@@ -13,7 +13,6 @@ class DeviceGroupController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def DeviceGroupList = DeviceGroup.list(params)
         def sortedDeviceGroup = DeviceGroupList.sort {x,y -> x.groupingName <=> y.groupingName}
         [deviceGroupInstanceList: sortedDeviceGroup, deviceGroupInstanceTotal: DeviceGroup.count()]
