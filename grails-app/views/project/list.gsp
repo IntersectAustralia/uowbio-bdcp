@@ -22,7 +22,7 @@
           
           <g:if test="${ myProjectInstanceList?.size() > 0}">
             <div class="projects">
-            	<g:each in="${myProjectInstanceList}" status="i" var="projectInstance">
+              <g:each in="${myProjectInstanceList}" status="i" var="projectInstance">
             	<div class="container_project">
             		<g:link action="show" id="${projectInstance.id}" class="project_title"> ${fieldValue(bean: projectInstance, field: "projectTitle")}</g:link>
             		<ul>
@@ -31,9 +31,13 @@
             		  </g:each>
                   <li><g:link id="addStudy" mapping="studyDetails" class="create button" controller="study" action="create" params="[projectId: projectInstance.id]">+ Add Study</g:link></li>
             		</ul>
-              </div>
-          	</g:each>
+              	</div>
+          	  </g:each>
           </div>
+          <div class="paginateButtons">
+			<g:paginate total="${myProjectInstanceListTotal}" />
+  		  </div>
+            
         </g:if>
 			
 			<h2>Collaborating Projects</h2>
