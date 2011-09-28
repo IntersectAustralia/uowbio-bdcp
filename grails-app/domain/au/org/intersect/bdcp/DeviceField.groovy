@@ -32,36 +32,9 @@ class DeviceField
 		})
         
         fieldOptions(nullable:true, validator: { val, obj ->
-			return [FieldType.DROP_DOWN, FieldType.RADIO_BUTTONS].contains(obj.fieldType) ? validFieldOptions(val) : true;
+			return [FieldType.DROP_DOWN, FieldType.RADIO_BUTTONS].contains(obj.fieldType) ? FieldTypeUtils.validFieldOptions(val) : true;
           })
         mandatory(nullable: false)
-    }
-    
-    static validFieldOptions(String val)
-    {
-        if (val != null && !val.isEmpty())
-        {
-            val = val.replaceAll("\r", "")
-            
-            List<String> fieldOptions = Arrays.asList(val.split("\n"))
-            if (fieldOptions.size() < 2)
-            {
-                return ['size.toosmall']
-            }
-            for (int i = 0; i < fieldOptions.size();i++) 
-            {
-                if (fieldOptions.subList(0,i).contains(fieldOptions.get(i)))
-                {
-                    return ['unique']
-                }
-            }
-			return true
-        }
-        else
-        {
-            return ['nullable']
-        }
-        
     }
     
     String toString()
@@ -71,20 +44,11 @@ class DeviceField
     
     String mandatoryStatus()
     {
-        if (fieldType == FieldType.STATIC_TEXT)
-        {
-            return "N/A"
-        }
-        return mandatory.toString().capitalize()
+		return FieldTypeUtils.mandatoryStatus(fieldType, mandatory)
     }
-    
+        
     def getFieldOptionsList()
     {
-        def options = fieldOptions?.tokenize("\n")
-        def trimmedOptions = []
-        options.each {
-            trimmedOptions.add(it.trim())
-        }
-        return trimmedOptions
+		return FieldTypeUtils.getFieldOptionsList(fieldOptions)
     }
 }

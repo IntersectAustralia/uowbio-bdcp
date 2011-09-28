@@ -20,4 +20,8 @@ class StudyAnalysedData {
         study(nullable: false)
         folder(nullable: false, blank:false)
     }
+	
+	public String toString() {
+		return "[SAD: id=" + id + ", studyId:" + study.id + ", folder='" + folder + "']"
+	}
 }

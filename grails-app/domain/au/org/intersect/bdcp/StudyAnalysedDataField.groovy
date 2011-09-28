@@ -11,6 +11,7 @@ import au.org.intersect.bdcp.util.TextUtils
 
 class StudyAnalysedDataField {
 
+	ResultsDetailsField resultsDetailsField
     String text
     String textArea
     String numeric
@@ -25,7 +26,7 @@ class StudyAnalysedDataField {
     // automatically updated by GORM
     Date lastUpdated
     
-    static belongsTo = [studyAnalysedData: StudyAnalysedData, resultsDetailsField: ResultsDetailsField]
+    static belongsTo = [studyAnalysedData: StudyAnalysedData]
     
     static mapping = {
         date type: PersistentLocalDate
@@ -38,111 +39,30 @@ class StudyAnalysedDataField {
         }
     }
     
+	def String toString() {
+		def prop = resultsDetailsField.fieldType.valueColumn
+		return "SAF[" + (id == null? '(new)' : id) + ", type:" + resultsDetailsField.fieldType + 
+		([FieldType.RADIO_BUTTONS, FieldType.DROP_DOWN].contains(resultsDetailsField.fieldType) ? ', opts:' + (resultsDetailsField.getFieldOptionsList()) : '') + 
+		', value:' + (prop != null ? this."${prop}" : "N/A")+  ']'
+	}
+	
+    static def validator = { column, val, obj ->
+        def ft = obj.resultsDetailsField.fieldType
+		if (!column.equals(ft.valueColumn)) { 
+			return
+		}
+        return ft.fieldValidate(obj.resultsDetailsField, val)
+    }
+
     static constraints = {
-        
-        text(nullable: true, validator: {val, obj ->
-                return checkSizeAndIfNull(val, obj, 0, 255, FieldType.TEXT) })
-        
-        textArea(nullable: true, validator: {val, obj ->
-                return checkSizeAndIfNull(val, obj, 0, 1000, FieldType.TEXTAREA)
-            })
-        numeric(nullable:true, validator: {val, obj ->
-            return checkRangeOfNumber(val, obj, -0.9E16, 0.9E16, FieldType.NUMERIC)
-            })
-        date(nullable:true, validator: {val, obj ->
-            return checkIfNull(val, obj, FieldType.DATE)
-            })
-        time(nullable:true, validator: {val, obj ->
-            return checkIfNull(val, obj, FieldType.TIME)
-            })
-        radioButtonsOption(nullable: true, size:0..1000, validator: {val, obj ->
-                return checkIfNotEmpty(val, obj, FieldType.RADIO_BUTTONS)
-            })
-        dropDownOption(nullable: true, size:0..1000, validator: {val, obj ->
-            return checkIfNotEmpty(val, obj, FieldType.DROP_DOWN)
-        })
+        resultsDetailsField(nullable:false)
+        text(blank:true, nullable:true, validator:validator.curry('text'))
+        textArea(blank:true, nullable:true, validator:validator.curry('textArea'))
+        numeric(blank:true, nullable:true, validator:validator.curry('numeric'))
+        date(blank:true, nullable:true, validator:validator.curry('date'))
+        time(blank:true, nullable:true, validator:validator.curry('time'))
+        radioButtonsOption(blank:true, nullable:true, validator:validator.curry('radioButtonsOption'))
+        dropDownOption(blank:true, nullable:true, validator:validator.curry('dropDownOption'))
     }
-    
-    static checkIfNull(val, obj, fieldType)
-    {
-        if (obj.deviceField?.fieldType == fieldType)
-        {
-            if (!val && obj.deviceField.mandatory)
-            {
-                return ['nullable', obj.deviceField.fieldLabel] 
-            }
-        }
-        return true
-    }
-    
-    static checkIfNotEmpty(val, obj, fieldType)
-    {
-        if (obj.deviceField?.fieldType == fieldType)
-        {
-            if (!TextUtils.isNotEmpty(val) && obj.deviceField.mandatory)
-            {
-                return ['nullable', obj.deviceField.fieldLabel]
-            }
-        }
-        return true
-    }
-    
-    static checkRangeOfNumber(val, obj, BigDecimal minVal, BigDecimal maxVal, fieldType)
-    {
-        if (obj.deviceField?.fieldType == fieldType)
-        {
-            if (val!= null)
-            {
-                if (!val.isNumber())
-                {
-                    return ['not.number', obj.deviceField.fieldLabel]
-                }
-                else
-                {
-                    if (val.toBigDecimal() < minVal)
-                    {
-                        def nf = NumberFormat.getInstance()
-                        return ['range.toosmall', nf.format(minVal), obj.deviceField.fieldLabel]
-                    }
-                    else if (val.toBigDecimal() > maxVal)
-                    {
-                        def nf = NumberFormat.getInstance()
-                        return ['range.toobig', nf.format(maxVal), obj.deviceField.fieldLabel]
-                    }
-                }
-            }
-            else if (obj.deviceField.mandatory)
-            {
-                return ['nullable', obj.deviceField.fieldLabel]
-            }
-        }
-        
-        return true
-    }
-    
-    static checkSizeAndIfNull(val, obj, minVal, maxVal, fieldType)
-    {
-        if (obj.deviceField?.fieldType == fieldType)
-        {
-            if (TextUtils.isNotEmpty(val))
-            {
-                if (val.size() < minVal)
-                {
-                    return ['size.toosmall', minVal, obj.deviceField.fieldLabel]
-                }
-                else if (val.size() > maxVal)
-                {
-                    return ['size.toobig', maxVal, obj.deviceField.fieldLabel]
-                }
-                
-            }
-            else if (obj.deviceField.mandatory)
-            {
-                return ['nullable', obj.deviceField.fieldLabel]
-            }
-            
-        }
-        
-        return true
-    }
+
 }
