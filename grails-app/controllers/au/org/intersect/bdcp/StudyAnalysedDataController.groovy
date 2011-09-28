@@ -15,20 +15,19 @@ class StudyAnalysedDataController
 		return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"), "analysed")
 	}
 	
-	def securedBasic = { block ->
+	def securedCommon = { onErrors, block ->
 		cache false
 		
 		def studyInstance = Study.get(Long.parseLong(params.studyId))
 		if (studyInstance == null) {
-			flash.message = message(code:'study.analysed.invalidId')
-			redirect controller:'login', action: 'invalid'
+			onErrors.badStudyId()
 			return
 		}
 		
 		def canDo = roleCheckService.checkUserRole('ROLE_LAB_MANAGER');
 		canDo = canDo || (roleCheckService.checkUserRole('ROLE_RESEARCHER') && roleCheckService.checkSameUser(studyInstance.project.owner.username))
 		if (!canDo) {
-		    redirect controller:'login', action: 'denied'
+			onErrors.unauthorised()
 			return
 		}
 		def context = createContext(request)
@@ -36,6 +35,27 @@ class StudyAnalysedDataController
 		block(studyInstance, context)
 	}
 	
+	def securedBasic = securedCommon.curry([
+		'badStudyId' : {
+			flash.message = message(code:'study.analysed.invalidId')
+			redirect controller:'login', action: 'invalid'
+		},
+		'unauthorised' : {
+			redirect controller:'login', action: 'denied'
+		}
+		])
+	
+	def securedJson = securedCommon.curry([
+		'badStudyId' : {
+			def resp = ['error': 'bad parameters']
+			render resp as JSON
+		},
+		'unauthorised' : {
+			def resp = ['error': 'unauthorised']
+			render resp as JSON
+		}
+		]) 
+		
 	// common security validation and context initialization
 	def secured = { block ->
 		securedBasic { studyInstance, context ->
@@ -81,7 +101,7 @@ class StudyAnalysedDataController
 	
 	def listFolder =
 	{
-		securedBasic { studyInstance, context ->
+		securedJson { studyInstance, context ->
 			def studyAnalysedData = StudyAnalysedData.findById(params.id)
 			def name = params.folderPath
 			if (''.equals(name)) {
