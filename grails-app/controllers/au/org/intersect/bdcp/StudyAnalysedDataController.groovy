@@ -137,14 +137,25 @@ class StudyAnalysedDataController
 	def doCreateFolder =
 	{	FolderCommand folderV ->
 		securedBasic { study, context ->
+			folderV.folder = folderV.folder?.trim()
 			if (folderV.hasErrors()) {
 				render(view:'createFolder',model:[studyInstance: study, errors:true, folderName:folderV])
 				return
 			}
 			def ok = true
 			StudyAnalysedData.withTransaction { tx ->
-				def saf = new StudyAnalysedData(study:study, folder:folderV.folder)
-				ok = saf.save(flush:true) && fileService.createDirectory(context, folderV.folder, rootPath(study))
+				def safOld = StudyAnalysedData.findByStudyAndFolder(study, folderV.folder)
+				if (safOld == null) {
+					def saf = new StudyAnalysedData(study:study, folder:folderV.folder)
+					ok = saf.save(flush:true)
+				} else {
+					ok = true
+				}
+				if (ok && fileService.checkIfDirectoryExists(context, folderV.folder, rootPath(study))) {
+					flash.message = "Folder already exists"
+				} else {
+				   ok = ok && fileService.createDirectory(context, folderV.folder, rootPath(study))
+				}
 				if (!ok) {
 					tx.setRollbackOnly()
 				}
@@ -163,7 +174,8 @@ class StudyAnalysedDataController
 	{
 		secured { study, studyAnalysedData, studyAnalysedDataFields, context ->
 			def nextAction = studyAnalysedData.id == null ? 'update' : 'save'
-			[studyInstance: study, studyAnalysedData: studyAnalysedData, studyAnalysedDataFields:studyAnalysedDataFields, nextAction:nextAction]
+			def mode = ['view', 'editOnly'].contains(params.mode) ? params.mode : 'edit'
+			render(view:'viewOrEditData', model:[studyInstance: study, studyAnalysedData: studyAnalysedData, studyAnalysedDataFields:studyAnalysedDataFields, nextAction:nextAction, mode:mode])
 		}
 	}
 	
@@ -172,9 +184,10 @@ class StudyAnalysedDataController
 		
 		secured {  study, studyAnalysedData, studyAnalysedDataFields, context ->
 			def fieldsSize = params["fieldsSize"] as Integer
+			def mode = ['view', 'editOnly'].contains(params.mode) ? params.mode : 'edit'
 			if (studyAnalysedDataFields.size() != fieldsSize) {
 				flash.message = 'Number of fields in request does not match database. Editing cancelled'
-				redirect url:createLink(mapping:'studyAnalysedData', params:[studyId:studyInstance.id, folder:studyAnalysedData.folder, action:'editData'])
+				redirect url:createLink(mapping:'studyAnalysedData', params:[studyId:studyInstance.id, folder:studyAnalysedData.folder, action:'editData', mode:mode])
 				return				
 			}
 			def ok = true
@@ -193,7 +206,7 @@ class StudyAnalysedDataController
 			}
 			if (!ok) {
 				def nextAction = studyAnalysedData.id == null ? 'create' : 'update'
-				render(view:'editData', model:[studyInstance: study, studyAnalysedData: studyAnalysedData, studyAnalysedDataFields:studyAnalysedDataFields, nextAction:nextAction])
+				render(view:'viewOrEditData', model:[studyInstance: study, studyAnalysedData: studyAnalysedData, studyAnalysedDataFields:studyAnalysedDataFields, nextAction:nextAction, mode:mode])
 				return
 			}
 			def allOk = true
@@ -209,10 +222,14 @@ class StudyAnalysedDataController
 			if (!allOk) {
 				def nextAction = studyAnalysedData.id == null ? 'create' : 'update'
 				flash.error = message(code: 'study.analysed.'+nextAction+'.db.error')
-				render(view:'editData', model:[studyInstance: study, studyAnalysedData: studyAnalysedData, studyAnalysedDataFields:studyAnalysedDataFields, nextAction:nextAction])
+				render(view:'viewOrEditData', model:[studyInstance: study, studyAnalysedData: studyAnalysedData, studyAnalysedDataFields:studyAnalysedDataFields, nextAction:nextAction, mode:mode])
 				return
 			}
-            redirect url:createLink(mapping: "studyAnalysedData", action:"upload", params:["studyId":study.id, "folder":studyAnalysedData.folder] )
+			if ('editOnly'.equals(mode)) {
+				redirect url:createLink(mapping: "studyAnalysedData", action:"list", params:["studyId":study.id] )
+			} else {
+            	redirect url:createLink(mapping: "studyAnalysedData", action:"upload", params:["studyId":study.id, "folder":studyAnalysedData.folder] )
+			}
 		}
         
     }

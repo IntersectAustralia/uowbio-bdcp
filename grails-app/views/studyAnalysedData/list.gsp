@@ -34,7 +34,7 @@
 	            <td>
 	              <div id="SA_${analysedFolder.id}"></div>
 	              <g:if test="${analysedFolder.studyAnalysedDataFields?.size() > 0}">
-	              <a id="SAV_${analysedFolder.id}">View metadata</a>
+	              <a id="SAV_${analysedFolder.id}" style="cursor:pointer;">View metadata</a>
 	              </g:if>
 	            </td>
 	            <td class="tablebuttons" valign="top">
@@ -76,14 +76,17 @@
                }
            },
            "themes": {
-			   "url" : '${jstreeTheme}',               
+			   "url" : '${jstreeTheme}',
                "theme": "classic"
            },
            'plugins' : [ "themes", "json_data" ]
            })
        $node = $('#SAV_${analysedFolder.id}');
-       $node.click(function() {alert('View metadata')});
+       $node.click(function() {
+           var viewLink = '${createLink(mapping:"studyAnalysedData", action:"editData", params:[studyId: studyInstance.id, folder:analysedFolder.folder, mode:'view'])}';
+           window.location.href=viewLink;
+           });
     </g:each>
-	</script>           
+	</script>
     </body>
 </html>
