@@ -39,6 +39,9 @@
 	                    </tbody>
 	                </table>
 	            </div>
+	            <div class="paginateButtons">
+					<g:paginate total="${ allProjectInstanceListTot }" />
+				</div>
 	            
             </g:if>
             

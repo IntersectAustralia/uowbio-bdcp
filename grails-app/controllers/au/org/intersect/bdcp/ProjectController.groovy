@@ -23,6 +23,7 @@ class ProjectController
 	{
 		cache false
 
+		params.max = Math.min( params.max ? params.max.toInteger() : 5, 100)
 		def collaborator = UserStore.findByUsername(principal.username);
 		def collaboratorProjectInstanceList = [];
 		collaboratorProjectInstanceList = collaborator.studyCollaborators.collect { it.study.project }
@@ -43,9 +44,10 @@ class ProjectController
 		}
 	   
 		def myProjectInstanceList = [];
-		myProjectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username));
+		myProjectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username), params);
+		def myCompleteProjectInstanceList = Project.findAllByOwner(UserStore.findByUsername(principal.username));
 	   
-		[myProjectInstanceList: myProjectInstanceList, collaboratorProjectInstanceList: collaboratorProjectInstanceList]
+		[myProjectInstanceList: myProjectInstanceList, myProjectInstanceListTotal: myCompleteProjectInstanceList.size(), collaboratorProjectInstanceList: collaboratorProjectInstanceList]
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -53,7 +55,8 @@ class ProjectController
 	{
 		cache false
 		
-		def allProjectInstanceList = Project.list();
+		params.max = Math.min( params.max ? params.max.toInteger() : 5, 100)
+		def allProjectInstanceList = Project.list(params);
 		
 		// assign firstname and surname to an owner, so I can sort projects by first name
 		def ldapUserDetail
@@ -66,7 +69,7 @@ class ProjectController
 		
 		allProjectInstanceList.sort{it.owner.firstName}
 		
-		[allProjectInstanceList: allProjectInstanceList]
+		[allProjectInstanceList: allProjectInstanceList, allProjectInstanceListTot: Project.count()]
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
