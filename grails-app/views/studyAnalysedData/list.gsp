@@ -31,19 +31,15 @@
 	      <tbody>
 	        <g:each in="${folders}" status="i" var="analysedFolder">
 	          <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-	            <td class="tablename">
-	              <div>${analysedFolder.folder}</div>
-	            </td>
-	            <td rowspan="2" width="75%">
+	            <td>
 	              <div id="SA_${analysedFolder.id}"></div>
+	              <g:if test="${analysedFolder.studyAnalysedDataFields?.size() > 0}">
+	              <a id="SAV_${analysedFolder.id}" style="cursor:pointer;">View metadata</a>
+	              </g:if>
 	            </td>
-	            <td class="tablebuttons">
+	            <td class="tablebuttons" valign="top">
 	              <g:link mapping="studyAnalysedData" elementId="edit-participant[${i}]" class="button right list" action="editData" params="[studyId: studyInstance.id, folder:analysedFolder.folder]">Upload</g:link>
 	             </td>	             
-	          </tr>
-	          <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-	          <td>&nbsp;</td>
-	          <td>&nbsp;</td>
 	          </tr>
 	        </g:each>
 	      </tbody>
@@ -70,19 +66,27 @@
                        return "listFolder?id=" + topId + '&folderPath=' + folderPath;
                     },
                    'success': function(response) {
-                       return response;
+                       if (response != null && response.error == null) { return response; }
+                       alert('Error:' + response.error);
+                       return null;
                    },
                    'error': function(request, textStatus, errorThrown) {
+                       alert('Cannot access folder or folder empty.')
                    }
                }
            },
            "themes": {
-			   "url" : '${jstreeTheme}',               
+			   "url" : '${jstreeTheme}',
                "theme": "classic"
            },
            'plugins' : [ "themes", "json_data" ]
            })
+       $node = $('#SAV_${analysedFolder.id}');
+       $node.click(function() {
+           var viewLink = '${createLink(mapping:"studyAnalysedData", action:"editData", params:[studyId: studyInstance.id, folder:analysedFolder.folder, mode:'view'])}';
+           window.location.href=viewLink;
+           });
     </g:each>
-	</script>           
+	</script>
     </body>
 </html>
