@@ -1,6 +1,8 @@
 
 
 <%@ page import="au.org.intersect.bdcp.ResultsDetailsField" %>
+<%@ page import="au.org.intersect.bdcp.enums.FieldType" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -38,7 +40,16 @@
                                 </td>
                             </tr>
                            
-                            <g:hiddenField name="fieldType" value="${resultsDetailsFieldInstance?.fieldType}" />
+                            <tr class="radiobutton">
+                                <td valign="top" class="name">
+                                    <g:message code="resultsDetailsField.fieldType.label" default="Field Type" />
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: resultsDetailsFieldInstance, field: 'fieldLabel', 'errors')}">
+                                    ${message(code:'deviceField.fieldType.'+resultsDetailsFieldInstance?.fieldType.name)}
+                                </td>
+                            </tr>
+                            
+                            <g:if test="${FieldType.STATIC_TEXT.equals(resultsDetailsFieldInstance?.fieldType)}">
                             
                             <tr class="radiobutton" id="staticFieldRow">
                                 <td valign="top" class="name">
@@ -48,6 +59,20 @@
                                     <ckeditor:editor name="staticContent">${resultsDetailsFieldInstance?.staticContent}</ckeditor:editor>
                                 </td>
                             </tr>
+                            
+                            </g:if>
+                            <g:else>
+                            
+                            <tr class="radiobutton" id="mandatoryFieldRow">
+                                <td valign="top" class="name">
+                                    <label for="mandatory"><g:message code="resultsDetailsField.mandatory.label" default="Mandatory" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: resultsDetailsFieldInstance, field: 'mandatory', 'errors')}">
+                                    <g:checkBox name="mandatory" value="${resultsDetailsFieldInstance?.mandatory}" />
+                                </td>
+                            </tr>
+                           
+                            </g:else>
                         
                         </tbody>
                     </table>

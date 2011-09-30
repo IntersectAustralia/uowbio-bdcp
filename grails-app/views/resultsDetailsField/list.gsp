@@ -6,6 +6,23 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'resultsDetailsField.label', default: 'ResultsDetailsField')}" />
+        <g:javascript library="jquery" plugin="jquery"/>
+        <jqui:resources /> 
+        <script type="text/javascript">
+   		$(function(){
+   	   		var $dialog = $('#optionsDialog');
+   	   	   	$dialog.dialog({autoOpen:false,
+   	   	   	   	width:200,
+   	   	   	   	height:150,
+   	   	   	   	modal:true,
+   	   	   	   	});
+ 	   	   	$('.view_options').click(function(obj) {
+ 	 	   	   	var opts = $(obj.currentTarget).attr('fieldoptions');
+ 	 	   	   	$dialog.html('Options:<br/><ul><li>' + opts.split("\\n").join('</li><li>') + '</li></ul>').dialog('open');
+ 	 	   	   	});
+   	   		
+   		})
+   		</script>       
         <title>Results Details Template</title>
     </head>
     <body>
@@ -29,6 +46,7 @@
                             <th>${message(code: 'resultsDetailsField.fieldType.label', default: 'Field Type')}</th>
                         
                             <th>${message(code: 'resultsDetailsField.mandatory.label', default: 'Mandatory')}</th>
+                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,17 +56,18 @@
                             <td>${fieldValue(bean: resultsDetailsFieldInstance, field: "fieldLabel")}</td>
                         
                             <td><g:message code="resultsDetailsField.fieldType.${resultsDetailsFieldInstance?.fieldType?.getName()}" />
-                            <g:if test="${resultsDetailsFieldInstance?.fieldType == FieldType.STATIC_TEXT}"
-                            ><g:link elementId="edit_${i}" controller="resultsDetailsField" action="edit" class="button" id="${resultsDetailsFieldInstance?.id}"
-                             >Edit</g:link
-                             ></g:if>
+                            
                             <g:if test="${[FieldType.DROP_DOWN, FieldType.RADIO_BUTTONS].contains(resultsDetailsFieldInstance?.fieldType)}"
-                            ><g:link elementId="show[${i}]" controller="resultsDetailsField" action="show" class="button" id="${resultsDetailsFieldInstance?.id}"
-                             >Show</g:link
-                             ></g:if>
+                            ><a id="show[${i}]" class="view_options" style="cursor:pointer;" 
+                                fieldOptions="${resultsDetailsFieldInstance.fieldOptions.replace("\n","\\n")}">(view options)</a>
+                            </g:if>
                              </td>
                             
                             <td>${resultsDetailsFieldInstance?.mandatoryStatus()}</td>
+                            
+                            <td><g:link elementId="edit_${i}" controller="resultsDetailsField" action="edit" class="button" id="${resultsDetailsFieldInstance?.id}"
+                             >Edit</g:link
+                             ></td>
                         
                         </tr>
                     </g:each>
@@ -59,5 +78,6 @@
             <br />
             <g:link class="list" class="button" controller="admin" action="resultsAdmin">Return to Results Administration</g:link>
         </div>
+        <div id="optionsDialog"><!-- FF3 --></div>
     </body>
 </html>
