@@ -200,6 +200,10 @@ class ParticipantFormController
 		{
 			def fileExtension = getFileExtension(file?.getOriginalFilename())
 			def fileName = file?.getOriginalFilename()
+			def dirName = new File(getRealPath() + params.participantId.toString())
+			if (!dirName.exists()) {
+				dirName.mkdirs();
+			}
 			file.transferTo( new File( getRealPath() + params.participantId.toString() +File.separatorChar + fileName) )
 			participantFormInstance.form = participantFormInstance.formName
 			participantFormInstance.contentType = file.contentType
