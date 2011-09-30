@@ -42,7 +42,7 @@ class FileService
 	            p.startsWith("folder")
 	        }).every {
 	            key, val ->
-	            def path = val
+	            def path = val.replace('\\','/')
 	            def tmpDir = new File(context.get("tmpPath"), destination)
 	            def directory = new File(tmpDir, path)
 	            return checkPathIsValid(context.get("tmpPath"), directory) && ((directory.exists() && directory.isDirectory()) || directory.mkdirs());
@@ -62,7 +62,7 @@ class FileService
 	            p.startsWith("file")
 	        }).every{
 	            key, val ->
-	            def path = val
+	            def path = val.replace('\\','/')
 	            def file = parameters[key]
 	            def tmpDir = new File(context.get("tmpPath"), destination )
 	            def filepath = new File(tmpDir, path)

@@ -4,6 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
+        <g:set var="imagesDir" value="${resource(dir:'images',file:'/')}" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
         <g:set var="jstreeTheme" value="${resource(dir:'plugins/js-tree-0.2/js/jstree_pre1.0_stable/themes/classic',file:'style.css')}" />
@@ -79,7 +80,20 @@
 			   "url" : '${jstreeTheme}',
                "theme": "classic"
            },
-           'plugins' : [ "themes", "json_data" ]
+           "types": {
+               "valid_children" : "all",
+               "type_attr" : "rel",
+               "types" : {
+                   "root" : {
+                       "valid_children" : "all"
+                   },
+                   "file" : {
+                       "icon" : {"image":"${imagesDir}/leaf.gif"},
+                       "valid_children" : ["none"]
+                   }                   
+               }
+           },
+           'plugins' : [ "themes", "json_data", "types" ]
            })
        $node = $('#SAV_${analysedFolder.id}');
        $node.click(function() {

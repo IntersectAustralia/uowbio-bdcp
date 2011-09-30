@@ -105,7 +105,7 @@ class StudyAnalysedDataController
 			def studyAnalysedData = StudyAnalysedData.findById(params.id)
 			def name = params.folderPath
 			if (''.equals(name)) {
-				def resp = ['data':studyAnalysedData.folder,'state':'closed',metadata:['folderPath':'/']]
+				def resp = ['data':studyAnalysedData.folder,'state':'closed','attr':['rel':'root'],'metadata':['folderPath':'/']]
 				render resp as JSON
 				return
 			}
@@ -114,12 +114,12 @@ class StudyAnalysedDataController
 			def file = fileService.getFileReference(context, folderPath)
 			if (file.isDirectory()) {
 			   def folders = file.listFiles().collect { f ->
-				   f.isDirectory() ? ['data':f.getName(),'icon':'folder','state':'closed',
-					   'metadata':['folderPath':('/'.equals(name) ? '' : name)+'/' +f.getName()]] : ['data':f.getName(),'icon':'file']
+				   f.isDirectory() ? ['data':f.getName(),'icon':'folder','state':'closed','attr':['rel':'folder'],
+					   'metadata':['folderPath':('/'.equals(name) ? '' : name)+'/' +f.getName()]] : ['data':f.getName(),'attr':['rel':'file']]
 			   }
 			   render folders as JSON
 			} else {
-			   def folders = ['data':name,'icon':'file']
+			   def folders = ['data':name,'attr':['rel':'file']]
 			   render folders as JSON
 			}
 		}
