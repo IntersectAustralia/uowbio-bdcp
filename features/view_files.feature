@@ -11,6 +11,11 @@ Feature: View Files
     Given I have created a study with "-2000", "-1000", "My Biomechanics Study", "1073A", "No", "Test Description", "Partner1", "keyword", "Collaborator1", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "10", "Test Criteria"
     Given I have created a project with "-1001", "My Other Biomechanics Project", "Joe Bloggs", "123", "B Biomechanics", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "Studying some stuff", "Alice Smith", "sysadm"
 	Given I have created a study with "-2001", "-1001", "My Other Biomechanics Study", "1073B", "No", "Test Description", "Partner1", "keyword too", "Collaborator1", "2011-04-01 00:00:00", "2011-04-01 00:00:00", "10", "Test Criteria"
+
+	Given I am on the home page
+	And I follow "My Biomechanics Study"
+	Then I follow "Files"
+	Then I should see "There are no components and sessions already added to the study. They must be added first in order to upload files."
    
     Given I am on the home page
     And I follow "My Biomechanics Study"

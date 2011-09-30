@@ -114,6 +114,9 @@
 
             </div>
             </g:if>
+            <g:else>
+            	<p>There are no components and sessions already added to the study. They must be added first in order to upload files.</p>
+            </g:else>	
             </div>
             </div>
     </body>

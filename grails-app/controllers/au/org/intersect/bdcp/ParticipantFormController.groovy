@@ -30,31 +30,106 @@ class ParticipantFormController
 		return value
 	}
 	
-	private boolean validateParticipantForms(participantForms)
+	/**
+	 * Checks if all of the entries in the participant form are valid for a participantForm domain object and that there are no conflicts with same manual names on the 
+	 * form or same file name on the form or the file system itself, for a given participant id.
+	 * @param participantForms the participantForm objects that correspond to the form entries.
+	 * @param usedFormRowNumbers the row indexes that have an entry on the form.
+	 * @return true if valid form entries for manuals.
+	 */
+	private boolean validateParticipantForms(participantForms, usedFormRowNumbers)
 	{
 		def allValid = true
-		for (i in participantFormsToLoad())
-		{
-			if (request.getFile("form.${i}")?.isEmpty() && (session["fileName[${i}]"] == null))
+		
+		int participantFormIndex = 0
+		for (rowNumber in usedFormRowNumbers)
+		{			
+			if (request.getFile("form.${rowNumber}")?.isEmpty() && (session["fileName[${rowNumber}]"] == null))
 			{
-				participantForms[i].fileName = null
+				participantForms[participantFormIndex].fileName = null
 			}
-            
-			if (!participantForms[i]?.validate() && !participantForms[i].hasErrors())
+
+			if (!participantForms[participantFormIndex]?.validate())
 			{
 				allValid = false
 			}
-//            else if(participantForms[i]?.validate() && participantForms.findAll { it.formName.equalsIgnoreCase(participantForms[i].formName) }.size() > 1 )
-//            {
-//                participantForms[i].errors.rejectValue('formName', 'participantForm.formName.uniqueIgnoreCase.invalid')
-//                allValid = false   
-//            }
-            
+            else if(checkForReplication(participantForms, participantFormIndex, "formName"))
+            {
+                participantForms[participantFormIndex].errors.rejectValue('formName', 'participantForm.formName.uniqueIgnoreCase.invalid')
+                allValid = false
+            }
+			else if(checkForReplication(participantForms, participantFormIndex, "fileName"))
+			{
+				participantForms[participantFormIndex].errors.rejectValue('fileName', 'participantForm.fileName.uniqueIgnoreCase.invalid')
+				allValid = false
+			}
+			else if(participantForms[participantFormIndex]?.fileName != null && checkNoConflictWithExistingFileName(participantForms[participantFormIndex]?.fileName)) // check that file names provided dont match any existing files
+			{
+				participantForms[participantFormIndex].errors.rejectValue('fileName', 'participantForm.fileName.uniqueIgnoreCase.invalid')
+				allValid = false
+			}
+			participantFormIndex++
 		}
-
+		
 		return allValid
 	}
-
+	
+	/**
+	 * Checks that there is no conflict of a file name that is trying to be loaded up by the form and the current files on the file system for a 
+	 * given participant. The participant forms are grouped into directories numbered by the participant id they belong to on the database.
+	 * @param _filename The file name checking there is a conflict with.
+	 * @return boolean indicating true there is a conflict with the file name supplied and the files on the file system.
+	 */
+	private boolean checkNoConflictWithExistingFileName(_filename)
+	{
+		boolean conflict = false
+		
+		def participantInstance = Participant.get(params.participantId)
+		def f = new File( getRealPath() + params.participantId.toString() )
+		if( f.exists() )
+		{
+			f.eachFile()
+			{ file->
+				if( !file.isDirectory() )
+				{
+					def participantForm = ParticipantForm.findWhere(storedFileName: file.name, participant: participantInstance)
+					if(participantForm && _filename && participantForm?.storedFileName?.equalsIgnoreCase(_filename))
+					{
+						conflict = true
+					}
+				}
+			}
+		}
+		
+		return conflict
+	}
+	
+	/**
+	 * Checks for either the participantForm name or the form name conflicts on the actual form values submitted
+	 * @param _participantForms The set of participant forms
+	 * @param index the participant form entry index in the collection
+	 * @param fieldname the fieldname that is being checked for replication
+	 * @return if replicated field returns true.
+	 */
+	private boolean checkForReplication(_participantForms, index, fieldname)
+	{
+		boolean replication = false
+		
+		if(fieldname?.equalsIgnoreCase("fileName"))
+		{
+			replication = ((_participantForms.findAll { it?.fileName.equalsIgnoreCase(_participantForms[index]?.fileName) }).size() > 1)
+		}
+		else if((fieldname?.equalsIgnoreCase("formName")))
+		{
+			replication = ((_participantForms.findAll { it?.formName.equalsIgnoreCase(_participantForms[index]?.formName) }).size() > 1)
+		}
+			
+		return replication
+	}
+	/**
+	* Generates a List of integers representing the row number of the participant form that has an entry to download a manual.
+	* @return List of integers representing the entries on the form that there is a manual to download.
+	*/
 	private participantFormsToLoad()
 	{
 		def participantFormCommand = new ParticipantFormCommand()
@@ -166,7 +241,6 @@ class ParticipantFormController
 	{
 		cache false
 		def participantForms = []
-		def participantFormInstanceList = []
 		def allValid = true
 		def studyInstance = Study.get(params.studyId)
 		
@@ -175,69 +249,85 @@ class ParticipantFormController
 			redirectNonAuthorizedResearcherAccessStudy(studyInstance)
 		}
         
-        for (i in participantFormsToLoad())
+		// find row number of participant form rows with entries
+		List<Integer> usedFormRowNumbers = participantFormsToLoad()
+		def participantFormIndex = 0
+        for (rowNumber in usedFormRowNumbers)
 		{
-			participantForms[i] = new ParticipantForm(params["forms["+i+"]"])		
+			participantForms[participantFormIndex++] = new ParticipantForm(params["forms["+rowNumber+"]"])
         }
 
-		if (!validateParticipantForms(participantForms))
+		// check if participant form entries not valid - handleSaveParticipantForm()
+		if (!validateParticipantForms(participantForms, usedFormRowNumbers))
 		{
-            populateSessionValues()
-            renderUploadErrorMsg(participantForms);
+			populateSessionValues()
+			renderUploadErrorMsg(participantForms);
 		}
-		else
+		else // if the form entries are valid then save entries to the database and the file system
 		{
-			for (i in participantFormsToLoad())
+			participantFormIndex = 0
+			for (rowNumber in usedFormRowNumbers)
 			{
-                if (participantForms[i].save(flush: true))
+                if (participantForms[participantFormIndex].save(flush: true))
 				{
-					new File( getRealPath() + params.participantId.toString()).mkdirs()
-					def file = request.getFile("form.${i}")
-					if (file?.isEmpty() && !(session["fileName[${i}]"] == null))
+					// create directory using Java, java.io.File
+					new File( getRealPath() + params.deviceId.toString()).mkdirs()
+					// this is a Spring org.springframework.web.multipart.commons.CommonsMultipartFile provided by Grails framework
+					def file = request.getFile("form.${rowNumber}")
+				
+					if (file?.isEmpty() && !(session["fileName[${rowNumber}]"] == null))
 					{
-						file = session["fileName[${i}]"]
+						file = session["fileName[${rowNumber}]"]
 					}
+					// save state in case attempted save is unsuccessful
                     populateSessionValues()
-					saveFile(file, participantForms[i])
+					saveFile(file, participantForms[participantFormIndex])
 				}
                 else
                 {
                     allValid = false    
                 }
-                
+                participantFormIndex++
 			}
-            
+			
+			participantFormIndex = 0
+			// remove database entries that were saved if ANY of the row entries failed - handleCleanup()
             if (allValid == false)
             {
-                for (i in participantFormsToLoad())
+                for (rowNumber in usedFormRowNumbers)
                 {
-                    participantForms[i].delete(flush:true)
+                    participantForms[participantFormIndex].delete(flush:true)
                 }
                 
                 renderUploadErrorMsg(participantForms);
                 return
             }
-            else
+            else // remove state as save was successful
             {
                 clearSessionValues()
             }
             
-			switch (participantFormsToLoad().size())
-			{
-				case 0: flash.error = "No forms selected to upload"
-				break
-
-				case 1: flash.message = "${participantFormsToLoad().size()} Participant Form uploaded"
-				break
-
-				case 2..10: flash.message = "${participantFormsToLoad().size()} Participant Forms uploaded"
-				break
-				default:
-				break
-			}
+			reportSuccessfulUpdate(usedFormRowNumbers)
 
 			redirect url: createLink(controller: 'participantForm', action:'list',
 			mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+		}
+	}
+	
+	private reportSuccessfulUpdate(_usedFormRowNumbers)
+	{
+		switch (_usedFormRowNumbers.size())
+		{
+			case 0: flash.error = "No forms selected to upload"
+			break
+
+			case 1: flash.message = "${_usedFormRowNumbers.size()} Participant Form uploaded"
+			break
+
+			case 2..10: flash.message = "${_usedFormRowNumbers.size()} Participant Forms uploaded"
+			break
+			default:
+			break
 		}
 	}
 	

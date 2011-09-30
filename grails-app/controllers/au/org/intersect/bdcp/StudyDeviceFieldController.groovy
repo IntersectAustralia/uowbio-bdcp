@@ -30,7 +30,7 @@ class StudyDeviceFieldController {
 		
 		def userStore = UserStore.findByUsername(roleCheckService.getUsername())
 		def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(studyInstance,userStore)
-		def canDo = roleCheckService.checkUserRole('ROLE_LAB_MANAGER') || 
+		def canDo = roleCheckService.checkUserRole('ROLE_LAB_MANAGER') || roleCheckService.checkUserRole('ROLE_SYS_ADMIN')
 		        (roleCheckService.checkUserRole('ROLE_RESEARCHER') && (roleCheckService.checkSameUser(studyInstance.project.owner.username) || studyCollaborator))
 		if (!canDo) {
 		    redirect controller:'login', action: 'denied'
