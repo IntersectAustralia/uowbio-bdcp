@@ -44,7 +44,7 @@ Feature: Add Device Manual Form
 	Then I press "forms[0]"
     Then I should see "Device Device1 Manuals"
     Then I should see "Add Manual"
-    Then I select file "features/test-files/form-upload2.txt" from "form.2"
+    Then I select file "features/test-files/form-upload3.txt" from "form.2"
     And I fill in "forms[2].formName" with "test2"
     Then I press "upload"
     Then I should see "1 Device manual uploaded"
