@@ -49,3 +49,23 @@ Feature: Add Device Manual Form
     Then I press "upload"
     Then I should see "1 Device manual uploaded"
     Then I press "Logout"
+
+    Given I have logged in as "labman"
+    Given I am on the home page
+	And I press "system-administration"
+	And I should see "System Administration"
+	Then I press "device-administration"
+	Then I should see "Device Administration"
+	Then I press "Force Platforms"
+	Then I should see "Force Platforms"
+	Then I should see "Add new device"
+	Then I should see "Device1"    
+	Then I press "forms[0]"
+    Then I should see "Device Device1 Manuals"
+    Then I should see "Add Manual"
+    Then I select file "features/test-files/form-upload3.txt" from "form.2"
+    And I fill in "forms[2].formName" with "test2"
+    Then I press "upload"
+    Then I should see "Please provide a unique name for the manual that you want to upload"
+    Then I press "Logout"
+    
