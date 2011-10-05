@@ -25,7 +25,7 @@ class StudyAnalysedDataController
 		}
 		
 		def canDo = roleCheckService.checkUserRole('ROLE_LAB_MANAGER');
-		canDo = canDo || (roleCheckService.checkUserRole('ROLE_RESEARCHER') && roleCheckService.checkSameUser(studyInstance.project.owner.username))
+		canDo = canDo || (roleCheckService.checkSameUser(studyInstance.project.owner.username))
 		if (!canDo) {
 			onErrors.unauthorised()
 			return
