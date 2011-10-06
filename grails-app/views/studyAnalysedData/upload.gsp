@@ -25,9 +25,12 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <g:render template="/shared/uploadApplet" 
-            	model='["uploadUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/uploadFiles","destDir":"${folderName.folder}","redirUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/list"]' />
+            	model='["uploadUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/uploadFiles","destDir":"${folderName.folder}","redirUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/upload?done=true"]' />
             
 	</div>
+    <div class="buttons">
+            <span class="button"><g:link elementId="cancel" class="list" mapping="studyAnalysedData" controller="studyAnalysedData" action="upload" id="${studyInstance.id}" params="[studyId: studyInstance.id, cancel:true]">Cancel</g:link></span>
+    </div>
 	</div> 
     </body>
 </html>
