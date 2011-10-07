@@ -4,21 +4,24 @@ import grails.plugins.springsecurity.Secured
 
 class DeviceFieldController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST"]
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER'])
     def index = {
+		cache false
         redirect(action: "list", params: params)
     }
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def list = {
+		cache false
         def deviceInstance = Device.findById(params.deviceId)
         [deviceFieldInstanceList: deviceInstance?.deviceFields, deviceFieldInstanceTotal: DeviceField.count(), deviceInstance: deviceInstance]
     }
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def create = {
+		cache false
         def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = new DeviceField()
         deviceFieldInstance.properties = params
@@ -27,6 +30,7 @@ class DeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def save = {
+		cache false
         def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = new DeviceField(params)
         if (deviceFieldInstance.validate()) {
@@ -42,6 +46,7 @@ class DeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def show = {
+		cache false
         def deviceFieldInstance = DeviceField.get(params.id)
         if (!deviceFieldInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceField.label', default: 'Field'), params.id])}"
@@ -54,6 +59,7 @@ class DeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def edit = {
+		cache false
         def deviceInstance = Device.findById(params.deviceId)
         def deviceFieldInstance = DeviceField.get(params.id)
         if (!deviceFieldInstance) {
@@ -67,8 +73,10 @@ class DeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def update = {
+		cache false
         def deviceFieldInstance = DeviceField.get(params.id)
-        if (deviceFieldInstance) {
+
+		if (deviceFieldInstance) {
             if (params.version) {
                 def version = params.version.toLong()
                 if (deviceFieldInstance.version > version) {
@@ -95,12 +103,15 @@ class DeviceFieldController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
     def delete = {
+		cache false
         def deviceFieldInstance = DeviceField.get(params.id)
         if (deviceFieldInstance) {
             try {
+				def device = Device.get(params.deviceId)
+				device.removeFromDeviceFields(deviceFieldInstance)
                 deviceFieldInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), params.id])}"
-                redirect(action: "list")
+                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), deviceFieldInstance])}"
+                 redirect(action: "list", mapping: "deviceFieldDetails", params: [deviceGroupId: params.deviceGroupId, deviceId: params.deviceId])
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), params.id])}"

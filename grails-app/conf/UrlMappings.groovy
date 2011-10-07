@@ -23,7 +23,7 @@ class UrlMappings
             controller = 'device'
         }
 		
-		name deviceManuals: "/deviceGroup/$deviceGroupId/device/$deviceId/$controller/$action?/$id?" {
+		name deviceManuals: "/deviceGroup/$deviceGroupId/device/$deviceId/deviceManualForm/$action?/$id?" {
             controller = 'deviceManualForm'
         }
 		
@@ -51,7 +51,7 @@ class UrlMappings
 			controller = 'study'
 		 }
         
-        name deviceFieldDetails: "/deviceGroup/$deviceGroupId/device/$deviceId/deviceField/$action?/$id?" {
+        name deviceFieldDetails: "/deviceGroup/$deviceGroupId/device/$deviceId/$controller/$action?/$id?" {
             controller = 'deviceField'
         }
         
