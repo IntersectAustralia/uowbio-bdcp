@@ -25,6 +25,13 @@ class RoleCheckService {
 	  def ppal = auth.getPrincipal()
 	  return ppal.getUsername().equals(username)
   }
+
+  def boolean isCollaborator(studyInstance)
+  {
+	   def userStore = UserStore.findByUsername(getUsername())
+	   def studyCollaborator = StudyCollaborator.findByStudyAndCollaborator(studyInstance,userStore)
+	   return studyCollaborator != null
+  }
   
   def getUsername()
   {

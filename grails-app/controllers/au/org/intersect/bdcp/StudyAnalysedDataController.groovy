@@ -14,7 +14,7 @@ class StudyAnalysedDataController
 	{
 		return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"), "analysed")
 	}
-	
+
 	def securedCommon = { onErrors, block ->
 		cache false
 		
@@ -25,7 +25,7 @@ class StudyAnalysedDataController
 		}
 		
 		def canDo = roleCheckService.checkUserRole('ROLE_LAB_MANAGER');
-		canDo = canDo || (roleCheckService.checkUserRole('ROLE_RESEARCHER') && roleCheckService.checkSameUser(studyInstance.project.owner.username))
+		canDo = canDo || roleCheckService.checkSameUser(studyInstance.project.owner.username) || roleCheckService.isCollaborator(studyInstance)
 		if (!canDo) {
 			onErrors.unauthorised()
 			return
@@ -238,6 +238,10 @@ class StudyAnalysedDataController
 	def upload =
 	{
 		secured { study, studyAnalysedData, studyAnalysedDataFields, context ->
+			if (params.done != null || params.cancel != null) {
+				flash.message = params.done != null ? message(code:'study.analysed.upload.done') : message(code:'study.analysed.upload.cancel') 
+				redirect url:createLink(mapping: "studyAnalysedData", action:"list", params:["studyId":study.id] )
+			}
 			[studyInstance: study, errors:false, folderName:new FolderCommand(folder:params.folder)]
 		}
 	}
