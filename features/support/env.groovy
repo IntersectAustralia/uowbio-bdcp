@@ -14,7 +14,10 @@ private final String FILE_HTML = "<div>" + LOREM_IPSUM_TEXT + "</div>";
 
 Before() {
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("delete from participant_form")
+  sql.execute("delete from study_analysed_field")
+  sql.execute("delete from study_analysed_data")
+  sql.execute("delete from results_details_field")
+  sql.execute("delete from participant_form")
   sql.execute("delete from participant")
   sql.execute("delete from study_session")
   sql.execute("delete from component")
@@ -28,7 +31,6 @@ Before() {
   sql.execute("delete from device")
   sql.execute("delete from device_group")
   sql.execute("delete from user_store")
-  sql.execute("delete from results_details_field")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, title, date_created, last_updated) VALUES ('-1','0','dpollum', 'false', 'ROLE_LAB_MANAGER', 'http://ands.org.au/1234', 'Mr', now(), now());")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, title, date_created, last_updated) VALUES ('-2','0','chrisk', 'false', 'ROLE_RESEARCHER', null, 'Mr', now(), now());")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, title, date_created, last_updated) VALUES ('-3','0','labman', 'false', 'ROLE_LAB_MANAGER', 'http://ands.org.au/5678', 'Mr', now(), now());")
@@ -50,6 +52,9 @@ After() {
   browser.quit()
   
   def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+  sql.execute("delete from study_analysed_field")
+  sql.execute("delete from study_analysed_data")
+  sql.execute("delete from results_details_field")
   sql.execute("delete from participant_form")
   sql.execute("delete from participant")
   sql.execute("delete from study_session")
@@ -64,7 +69,6 @@ After() {
   sql.execute("delete from device")
   sql.execute("delete from device_group")
   sql.execute("delete from user_store")
-  sql.execute("delete from results_details_field")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, title, date_created, last_updated) VALUES ('-1','0','dpollum', 'false', 'ROLE_LAB_MANAGER', 'http://ands.org.au/1234', 'Mr', now(), now());")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, title, date_created, last_updated) VALUES ('-2','0','chrisk', 'false', 'ROLE_RESEARCHER', null, 'Mr', now(), now());")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, title, date_created, last_updated) VALUES ('-3','0','labman', 'false', 'ROLE_LAB_MANAGER', 'http://ands.org.au/5678', 'Mr', now(), now());")

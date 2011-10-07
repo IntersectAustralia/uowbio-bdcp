@@ -10,6 +10,8 @@ import groovy.sql.Sql
 import au.org.intersect.bdcp.UserStore;
 import au.org.intersect.bdcp.Project;
 
+import au.org.intersect.uploader.http.MultipartPostHelper;
+
 this.metaClass.mixin(cuke4duke.GroovyDsl)
 
 /**
@@ -142,6 +144,36 @@ Given(~"I have created a deviceField with \"(.*)\", \"(.*)\", \"(.*)\", \"(.*)\"
     sql.execute("INSERT INTO device_field(id, version,device_id, device_fields_idx,date_created, last_updated, mandatory, field_label, field_type, field_options) VALUES (nextval('hibernate_sequence'), '0','${deviceId}', ${fieldIndex}, '${dateCreated}', '${lastUpdated}', '${mandatory}', ${fieldLabel}, ${fieldType}, ${fieldOptions});")
 }
 
+Given(~"I have created result fields") { 
+	def insertResultField = { sql, columns ->
+		def sqlStmt = "INSERT INTO results_details_field(id,version, field_label, field_type, field_options, static_content, mandatory, date_created, last_updated) " +
+		  "VALUES (nextval('hibernate_sequence'), '0','${columns['fieldLabel']}','${columns['fieldType']}','${columns['fieldOptions']}','${columns['staticContent']}','${columns['mandatory']}',now(),now())";
+		println sqlStmt
+        sql.execute(sqlStmt)
+	}
+	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
+	def labels = ['Results','Student initials','Summary',
+		'Analysis date','Analysis time','Data rows',
+		'Software','Quality']
+	def content = ['Register important <b>results</b>', null, null,
+		null, null, null,
+		"Windows\nMac\nLinux\nOther", "Best\nOk\nAverage\nPoor\nNone"]
+	def types = ['STATIC_TEXT', 'TEXT', 'TEXTAREA',
+		'DATE', 'TIME', 'NUMERIC',
+		'RADIO_BUTTONS','DROP_DOWN']
+	for (i in 0..7) {
+		def field = [fieldLabel: labels[i], fieldType: types[i], mandatory: (i % 2 == 0)]
+		if (content[i] != null) {
+			if (i == 0) {
+				field['staticContent'] = content[i]
+			} else {
+				field['fieldOptions'] = content[i]
+			}
+		}
+		insertResultField(sql, field)
+	}
+}
+
 def deleteAll(File f) {
 	if (!f.exists()) { return; }
 	if (!f.isDirectory()) {
@@ -157,6 +189,32 @@ def deleteAll(File f) {
 Given(~"the file service folder \"(.*)\" is empty") { String path ->
 	def rootPath = new File("web-app/" + path)
 	deleteAll(rootPath)
+}
+
+Given(~"the file service folder \"(.*)\" exists") { String path ->
+	def rootPath = new File("web-app/" + path)
+	if (!rootPath.exists()) {
+	   assertTrue(rootPath.mkdirs())
+	}
+}
+
+Then(~"I should have file service (.*) \"(.*)\"") { String type, String path ->
+	def file = new File("web-app/" + path)
+	assertTrue(file.getAbsolutePath() + " not found", file.exists())
+	assertTrue("folder".equals(type) == file.isDirectory())
+}
+
+Then(~"I use uploader to upload files to study (\\d+) in folder \"(.*)\"") { String studyId, String destFolder ->
+	def mph = new MultipartPostHelper("http://localhost:8080/BDCP/studyAnalysedData/${studyId}/uploadFiles")
+    def destDir = destFolder
+	def dirStruct = """[{"folder_root":"test-files","file_1":"test-files/form-upload1.txt",
+		              "file_2":"test-files/form-upload2.txt","file_3":"test-files/form-upload3.txt"}]"""
+	mph.addStringPart('dirStruct', dirStruct, 'application/json', 'utf-8')
+	mph.addStringPart('destDir', destDir, 'text/plain', 'utf-8')
+	mph.addFilePart('file_1', new File('features/test-files/form-upload1.txt'))
+	mph.addFilePart('file_2', new File('features/test-files/form-upload2.txt'))
+	mph.addFilePart('file_3', new File('features/test-files/form-upload3.txt'))
+	mph.execute()
 }
 
 def getDevice(String name) {
@@ -288,6 +346,12 @@ Then(~"There must be an ID \"(.*)\" which is (visible|hidden)") { String element
 
 Then(~"There must be an ID \"(.*)\"") { String elementId ->
     assertNotNull(browser.findElementById(elementId))
+}
+
+Then(~"There must be an? (.+) with class \"(.*)\"") { String tagName, String className ->
+    def elems = browser.findElementsByCssSelector(tagName+"."+className)
+	assertNotNull(tagName+"."+className + " not found", elems)
+	assertTrue("should have only one", elems.size()==1)
 }
 
 Then(~"I clear \"(.*)\"") { String field ->

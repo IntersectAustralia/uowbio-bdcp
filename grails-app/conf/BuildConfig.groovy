@@ -13,7 +13,7 @@ grails.project.dependency.resolution = {
 		grailsPlugins()
 		grailsHome()
 		grailsCentral()
-
+		
 		// uncomment the below to enable remote dependency resolution
 		// from public Maven repositories
 		//mavenLocal()
@@ -32,5 +32,5 @@ grails.project.dependency.resolution = {
     
     plugins{
         runtime ":greenmail:1.2.2.2-SNAPSHOT"
-       }
+    }
 }

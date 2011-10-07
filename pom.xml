@@ -42,7 +42,7 @@
 	</properties>
 
 	<dependencies>
-		
+
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -86,7 +86,7 @@
 			<version>${selenium.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.seleniumhq.webdriver</groupId>
 			<artifactId>webdriver-support</artifactId>
@@ -131,7 +131,7 @@
 						<cucumberArg>--guess</cucumberArg>
 					</cucumberArgs>
 					<gems>
-					    <gem>install gherkin --version ${gherkin.version}</gem>
+						<gem>install gherkin --version ${gherkin.version}</gem>
 						<gem>install cuke4duke --version ${cuke4duke.version}</gem>
 					</gems>
 				</configuration>
@@ -144,13 +144,36 @@
 						</goals>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>intersect</groupId>
+						<artifactId>uploader</artifactId>
+						<version>1.0</version>
+						<scope>system</scope>
+						<systemPath>${basedir}/uploader-repo/uploader.jar</systemPath>
+					</dependency>
+					<dependency>
+						<groupId>intersect</groupId>
+						<artifactId>commons-httpclient</artifactId>
+						<version>3.1</version>
+						<scope>system</scope>
+						<systemPath>${basedir}/uploader-repo/commons-httpclient-3.1.jar</systemPath>
+					</dependency>
+					<dependency>
+						<groupId>intersect</groupId>
+						<artifactId>log4j</artifactId>
+						<version>1.2.15</version>
+						<scope>system</scope>
+						<systemPath>${basedir}/uploader-repo/log4j-1.2.15.jar</systemPath>
+					</dependency>
+				</dependencies>
 			</plugin>
 
 			<plugin>
 				<groupId>org.codehaus.groovy.maven</groupId>
 				<artifactId>gmaven-plugin</artifactId>
 				<version>1.0</version>
-                <executions>
+				<executions>
 					<execution>
 						<goals>
 							<goal>testCompile</goal>
@@ -160,4 +183,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

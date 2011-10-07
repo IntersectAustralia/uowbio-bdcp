@@ -24,7 +24,7 @@
     <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab7']}" />
 
 	<div id="tabs-details">
-	<g:link mapping="studyAnalysedData" controller="studyAnalysedData" class="create button" action="createFolder" params="[studyId: studyInstance.id]">+ Add Folder</g:link>
+	<g:link elementId="createFolder" mapping="studyAnalysedData" controller="studyAnalysedData" class="create button" action="createFolder" params="[studyId: studyInstance.id]">+ Add Folder</g:link>
 	<g:if test="${ folders.size() > 0}">
 	  <div class="list">
 	    <table>
@@ -39,7 +39,7 @@
 	              </g:if>
 	            </td>
 	            <td class="tablebuttons" valign="top">
-	              <g:link mapping="studyAnalysedData" elementId="edit-participant[${i}]" class="button right list" action="editData" params="[studyId: studyInstance.id, folder:analysedFolder.folder]">Upload</g:link>
+	              <g:link mapping="studyAnalysedData" elementId="edit-folder[${i}]" class="button right list" action="editData" params="[studyId: studyInstance.id, folder:analysedFolder.folder]">Upload</g:link>
 	             </td>	             
 	          </tr>
 	        </g:each>
