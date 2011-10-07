@@ -23,5 +23,5 @@ Feature: Delete Device Field From Device Metadata Template
  Then I should see "Device1 Details Template"
  Then I should see "Location of Strap"
  Then I press "delete[0]"
- Then I should see "DeviceField - Location of Strap deleted"
+ Then I should see "Device field - Location of Strap deleted"
  Then I press "Logout"

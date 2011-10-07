@@ -109,18 +109,17 @@ class DeviceFieldController {
             try {
 				def device = Device.get(params.deviceId)
 				device.removeFromDeviceFields(deviceFieldInstance)
-                deviceFieldInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), deviceFieldInstance])}"
+                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'deviceField.label', default: 'Device field'), deviceFieldInstance])}"
                  redirect(action: "list", mapping: "deviceFieldDetails", params: [deviceGroupId: params.deviceGroupId, deviceId: params.deviceId])
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), params.id])}"
-                redirect(action: "show", id: params.id)
+                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'deviceField.label', default: 'Device field'), deviceFieldInstance])}"
+                redirect(action: "list", mapping: "deviceFieldDetails", params: [deviceGroupId: params.deviceGroupId, deviceId: params.deviceId])
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceField.label', default: 'DeviceField'), params.id])}"
-            redirect(action: "list")
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'deviceField.label', default: 'Device field'), deviceFieldInstance])}"
+            redirect(action: "list", mapping: "deviceFieldDetails", params: [deviceGroupId: params.deviceGroupId, deviceId: params.deviceId])
         }
     }
 }
