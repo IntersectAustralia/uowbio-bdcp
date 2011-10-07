@@ -15,7 +15,7 @@ Feature: View Files
 	Given I am on the home page
 	And I follow "My Biomechanics Study"
 	Then I follow "Files"
-	Then I should see "There are no components and sessions already added to the study. They must be added first in order to upload files."
+	Then I should see "Please add components and sessions in the Components tab before uploading files."
    
     Given I am on the home page
     And I follow "My Biomechanics Study"

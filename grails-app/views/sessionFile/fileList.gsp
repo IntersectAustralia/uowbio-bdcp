@@ -85,7 +85,10 @@
         <div id="component">
         
         <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab4']}" />
-            <g:if test="${ componentInstanceTotal > 0}">
+        	<g:if test="${ sessionFiles.size() == 0 && componentInstanceTotal > 0 }">
+            	<p>Please add sessions in the Components tab before uploading files.</p>
+            </g:if>
+            <g:elseif test="${ componentInstanceTotal > 0}">
             <div class="projects">
               <ul id="example" class="filetree">
                 <p>To download file(s), please check the corresponding box(es) on the left, and click 'Download' when you are satisfied with your selection.</p>
@@ -113,10 +116,10 @@
 <button id="downloadButton" class="button">Download</button>
 
             </div>
-            </g:if>
+            </g:elseif>
             <g:else>
-            	<p>There are no components and sessions already added to the study. They must be added first in order to upload files.</p>
-            </g:else>	
+            	<p>Please add components and sessions in the Components tab before uploading files.</p>
+            </g:else>
             </div>
             </div>
     </body>
