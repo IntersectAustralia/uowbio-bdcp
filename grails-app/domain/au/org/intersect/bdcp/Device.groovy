@@ -37,6 +37,8 @@ class Device {
     }
     
     static hasMany = [deviceFields: DeviceField, studyDevices: StudyDevice, deviceManualForms:DeviceManualForm]
+	
+	static mapping = {deviceFields cascade: "all-delete-orphan"}
     
     String toString()
     {

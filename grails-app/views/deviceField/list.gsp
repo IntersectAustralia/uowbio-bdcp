@@ -29,26 +29,28 @@
                             <th>${message(code: 'deviceField.fieldType.label', default: 'Field Type')}</th>
                         
                             <th>${message(code: 'deviceField.mandatory.label', default: 'Mandatory')}</th>
+                            
+                            <th/>
                         </tr>
                     </thead>
                     <tbody>
                     <g:each in="${deviceFieldInstanceList}" status="i" var="deviceFieldInstance">
+                    <g:if test="${deviceFieldInstance}">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                        
                             <td>${fieldValue(bean: deviceFieldInstance, field: "fieldLabel")}</td>
-
-                            <td><g:message code="deviceField.fieldType.${deviceFieldInstance?.fieldType?.getName()}" />
-                            <g:if test="${deviceFieldInstance?.fieldType == FieldType.STATIC_TEXT}"
-                            ><g:link elementId="edit_${i}" mapping="deviceFieldDetails" action="edit" class="button" id="${deviceFieldInstance?.id}"
-                             params="[deviceGroupId: deviceFieldInstance.device.deviceGroup.id, deviceId: deviceFieldInstance.device.id]">Edit</g:link
-                             ></g:if>
-                            <g:if test="${[FieldType.DROP_DOWN, FieldType.RADIO_BUTTONS].contains(deviceFieldInstance?.fieldType)}"
-                            ><g:link elementId="show[${i}]" mapping="deviceFieldDetails" action="show" class="button" id="${deviceFieldInstance?.id}"
-                             params="[deviceGroupId: deviceFieldInstance.device.deviceGroup.id, deviceId: deviceFieldInstance.device.id]">Show</g:link
-                             ></g:if>
-                             </td>
-                             <td>${deviceFieldInstance?.mandatoryStatus()}</td>
+                            <td>
+                            	<g:message code="deviceField.fieldType.${deviceFieldInstance?.fieldType?.getName()}" />
+                            	<g:if test="${deviceFieldInstance?.fieldType == FieldType.STATIC_TEXT}">
+                            		<g:link elementId="edit_${i}" mapping="deviceFieldDetails" action="edit" class="button" method="post" id="${deviceFieldInstance?.id}" params="[deviceGroupId: deviceFieldInstance.device.deviceGroup.id, deviceId: deviceFieldInstance.device.id]">Edit</g:link>
+                            	</g:if>
+                            	<g:if test="${[FieldType.DROP_DOWN, FieldType.RADIO_BUTTONS].contains(deviceFieldInstance?.fieldType)}">
+                            		<g:link elementId="show[${i}]" mapping="deviceFieldDetails" action="show" class="button" method="post" id="${deviceFieldInstance?.id}" params="[deviceGroupId: deviceFieldInstance.device.deviceGroup.id, deviceId: deviceFieldInstance.device.id]">Show</g:link>
+                            	</g:if>
+							</td>
+							<td>${deviceFieldInstance?.mandatoryStatus()}</td>
+							<td><g:link elementId="delete[${i}]" mapping="deviceFieldDetails" controller="deviceField" action="delete" class="button" id="${deviceFieldInstance?.id}" params="[deviceGroupId: deviceFieldInstance?.device?.deviceGroup?.id, deviceId: deviceFieldInstance?.device?.id]" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">Delete</g:link></td>
                         </tr>
+                    </g:if>
                     </g:each>
                     </tbody>
                 </table>
