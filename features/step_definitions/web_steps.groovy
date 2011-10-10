@@ -354,6 +354,13 @@ Then(~"There must be an? (.+) with class \"(.*)\"") { String tagName, String cla
 	assertTrue("should have only one", elems.size()==1)
 }
 
+Then(~"There must be (\\d+) (.+) with class \"(.*)\"") { String number, String tagName, String className ->
+	def n = Integer.parseInt(number)
+    def elems = browser.findElementsByCssSelector(tagName+"."+className)
+	assertNotNull(tagName+"."+className + " not found", elems)
+	assertTrue("should have only one", elems.size()==n)
+}
+
 Then(~"I clear \"(.*)\"") { String field ->
 	fieldElement = browser.findElement(By.name(field))
 	fieldElement.clear()
@@ -413,10 +420,22 @@ Then(~"I should see a 4 column table \"(.*)\" with contents") { String tableId, 
 	table.diffLists(webTable)
 }
 
+Then(~"I click tree node \"(.*)\"") { String nodeLabel ->
+	def elem = browser.findElements(By.xpath("//body/div//ul/li[contains(a,'${nodeLabel}')]")).get(0)
+	assertNotNull("Tree label " + nodeLabel + " not found", elem)
+	elem.findElement(By.tagName("ins")).click()
+}
+
 Then(~"I print the page") {
 	println "*** BROWSER LOCATION: [" + browser.getCurrentUrl() + "] ***"
 	println browser.getPageSource()
 	println "***"
+}
+
+Then(~"I print the page to \"(.*)\"") { String fname ->
+	println "*** BROWSER LOCATION: [" + browser.getCurrentUrl() + "] ***"
+	def txt = browser.getPageSource()
+	(new File(fname)) << txt
 }
 
 Then(~"I navigate back") {
@@ -426,4 +445,9 @@ Then(~"I navigate back") {
 Then(~"I wait for ajax") {
 	Thread.sleep(5000)
 }
+
+Then(~"I wait 10mins") {
+	Thread.sleep(600000)
+}
+
 
