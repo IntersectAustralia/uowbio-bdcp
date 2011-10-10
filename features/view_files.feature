@@ -28,6 +28,8 @@ Feature: View Files
     And I press "save"
     Then I should see "saved"
     Then I should see "TestComponent"
+    Then I follow "Files"
+	Then I should see "Please add sessions in the Components tab before uploading files."
 
     Given I am on the home page
     And I follow "My Biomechanics Study"
