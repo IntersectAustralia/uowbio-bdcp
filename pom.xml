@@ -124,6 +124,10 @@
 				<artifactId>cuke4duke-maven-plugin</artifactId>
 				<version>${cuke4duke.version}</version>
 				<configuration>
+                                        <jvmArgs>
+                                                <jvmArg>-Xmx256m</jvmArg>
+                                                <jvmArg>-XX:MaxPermSize=128m</jvmArg>
+                                        </jvmArgs>
 					<cucumberArgs>
 						<cucumberArg>--color</cucumberArg>
 						<cucumberArg>--verbose</cucumberArg>
