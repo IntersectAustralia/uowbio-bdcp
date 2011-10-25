@@ -203,7 +203,7 @@ Wollongong N.S.W. 2522"""
 						location {
 							address {
 								physical(type:"streetAddress") {
-									value { mkp.yield(common['collection.physical.address']) }
+									addressPart(type:"text") { mkp.yield(common['collection.physical.address']) }
 								}
 							}
 							address {
@@ -261,7 +261,7 @@ Wollongong N.S.W. 2522"""
 							}
 							address {
 								electronic(type:"email") {
-									addressPart(type:"text") { mkp.yield(ldapUser.mail) }
+									value { mkp.yield(ldapUser.mail) }
 								}
 							}
 						}
