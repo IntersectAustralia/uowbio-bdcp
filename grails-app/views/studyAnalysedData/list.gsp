@@ -33,7 +33,7 @@
 	        <g:each in="${folders}" status="i" var="analysedFolder">
 	          <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 	            <td>
-	              <div id="SA_${analysedFolder.id}"></div>
+	              <div id="SA_${analysedFolder.id}"><!-- FF3 --></div>
 	              <g:if test="${analysedFolder.studyAnalysedDataFields?.size() > 0}">
 	              <a id="SAV_${analysedFolder.id}" style="cursor:pointer;">View metadata</a>
 	              </g:if>
@@ -51,7 +51,6 @@
 	</div>
 	</div>
 	<script type="text/javascript">
-	var globId = 1;
 	// TODO: watch out for single and double quotes in folder name !!!
 	var $node = null;
     <g:each in="${folders}" status="i" var="analysedFolder">
