@@ -34,7 +34,7 @@ class FileService
         return [files: top.listFiles(), sessionRoot: top]
     }
 
-    private boolean createAllFolders(def context, def json, def destination)
+    public boolean createAllFolders(def context, def json, def destination)
     {
         return json.every { topLevel -> 
 			return topLevel.findAll({
@@ -50,7 +50,7 @@ class FileService
         }
     }
 
-    private boolean createAllFiles(def context, def json, def destination, def parameters)
+    public boolean createAllFiles(def context, def json, def destination, def parameters)
     {
         if (parameters == null)
         {
