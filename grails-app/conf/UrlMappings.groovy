@@ -84,6 +84,7 @@ class UrlMappings
 				// apply constraints here
 			} }
 		"/"(controller:"project", action:"list")
+		"404"(view:'/notfound')
 		"500"(view:'/error')
 		
 	}
