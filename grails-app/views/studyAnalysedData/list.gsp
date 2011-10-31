@@ -25,6 +25,7 @@
 
 	<div id="tabs-details">
 	<g:link elementId="createFolder" mapping="studyAnalysedData" controller="studyAnalysedData" class="create button" action="createFolder" params="[studyId: studyInstance.id]">+ Add Folder</g:link>
+
     <g:if test="${ folders.size() > 0}">
     <g:form action="downloadFiles" controller="studyAnalysedData" mapping="studyAnalysedData" params="[studyId: studyInstance.id]">
       <div class="list">
@@ -55,7 +56,6 @@
 	
 	</div>
 	<script type="text/javascript">
-	var globId = 1;
 	// TODO: watch out for single and double quotes in folder name !!!
 	var $node = null;
     <g:each in="${folders}" status="i" var="analysedFolder">
