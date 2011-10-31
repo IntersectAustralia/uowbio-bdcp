@@ -3,12 +3,19 @@ package au.org.intersect.bdcp
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
+import java.util.Set
+import java.util.regex.Pattern
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+
 class StudyAnalysedDataController
 {
 	
 	def fileService
 	
 	def roleCheckService
+	
+//	def pattern = Pattern.compile("^(*)/(.*)\$")
 	
 	def createContext(def servletRequest)
 	{
@@ -99,27 +106,102 @@ class StudyAnalysedDataController
 		}
 	}
 	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
+	def download =
+	{
+		securedBasic { study, context ->
+			println "in download()*********"
+			def studyId = Study.findById(params.studyId)
+			def files = params.list('files')
+			println "studyId is: " + params.studyId
+			println "files is: " + files
+			
+			def studyAnalysedFolders = StudyAnalysedData.findAllByStudy(study)
+			render(view:'list', model:[studyInstance: study, folders:studyAnalysedFolders])
+		}
+	}
+	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
+	def downloadFiles =
+	{
+		
+		cache false
+		
+		def context = createContext(request)
+		def study = Study.findById(params.studyId)
+		def files = params.list('files')
+		def zipName = study.studyTitle + ".zip"
+		
+		response.setContentType "application/zip"
+		response.setHeader "Content-Disposition", "attachment; filename=\"" + zipName + "\""
+		response.setHeader "Content-Description", "File download for BDCP"
+		response.setHeader "Content-Transfer-Encoding", "binary"
+
+		def zipOs = new ZipOutputStream(response.outputStream)
+		def added = new HashSet()
+		zipOs.setComment "Created with BDCP web application"
+		files.each { String file ->
+				addFileToZip(study, context, zipOs, file, added)
+			}
+		zipOs.close()
+		response.flushBuffer()
+		
+		return true
+		
+	}
+	
+	private void addFileToZip(Study study, Object context, ZipOutputStream zipOs, String file, Set added)
+	{
+		def thePath = file
+		File theFile = fileService.getFileReference(context, thePath)
+		def lastMod = theFile.lastModified()
+		if (!theFile.isDirectory())
+		{
+			def zipEntry = new ZipEntry(thePath)
+			long fileSize = theFile.length()
+			zipEntry.setTime(lastMod)
+			zipEntry.setSize(fileSize)
+			zipOs.putNextEntry(zipEntry)
+			zipOs << new FileInputStream(theFile)
+			zipOs.closeEntry()
+		}
+		else
+		{
+			addDirectoryToZip(zipOs, "/" + thePath, added, lastMod)
+		}
+	}
+	
+	private void addDirectoryToZip(ZipOutputStream zipOs, String directory, Set added, long lastMod)
+	{
+		def zipEntry = new ZipEntry(directory + "/")		
+		zipEntry.setComment directory
+		zipEntry.setTime(lastMod)
+		zipOs.putNextEntry(zipEntry)
+		added.add(directory)
+	}
+	
 	def listFolder =
 	{
 		securedJson { studyInstance, context ->
 			def studyAnalysedData = StudyAnalysedData.findById(params.id)
 			def name = params.folderPath
+			def folderPath = studyInstance.id + "/" + studyAnalysedData.folder
+
 			if (''.equals(name)) {
-				def resp = ['data':studyAnalysedData.folder,'state':'closed','attr':['rel':'root'],'metadata':['folderPath':'/']]
+				def resp = ['data':studyAnalysedData.folder,'state':'closed','attr':['rel':'root'],'metadata':['folderPath':folderPath]]
 				render resp as JSON
 				return
 			}
-			def folderPath = params.folderPath
-			folderPath = studyInstance.id + "/" + studyAnalysedData.folder + folderPath  
-			def file = fileService.getFileReference(context, folderPath)
+
+			def file = fileService.getFileReference(context, name)
 			if (file.isDirectory()) {
 			   def folders = file.listFiles().collect { f ->
 				   f.isDirectory() ? ['data':f.getName(),'icon':'folder','state':'closed','attr':['rel':'folder'],
-					   'metadata':['folderPath':('/'.equals(name) ? '' : name)+'/' +f.getName()]] : ['data':f.getName(),'attr':['rel':'file']]
+					   'metadata':['folderPath':('/'.equals(name) ? '' : name)+'/' +f.getName()]] : ['data':f.getName(),'attr':['rel':'file', 'folderPath':('/'.equals(name) ? '' : name)+"/"+f.getName()]]
 			   }
 			   render folders as JSON
 			} else {
-			   def folders = ['data':name,'attr':['rel':'file']]
+			   def folders = ['data':name,'attr':['rel':'file', 'folderPath':('/'.equals(name) ? '' : name)+"/"+file.getName()]]
 			   render folders as JSON
 			}
 		}
