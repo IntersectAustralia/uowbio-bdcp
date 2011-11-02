@@ -111,9 +111,6 @@
                }
            },
            'plugins' : [ "themes", "json_data", "types", "checkbox" ]
-           }).bind("check_node.jstree", function (e, data) {
-                        // alert("checkededddd");
-                        // get descriptor of location of 
            });
        $node = $('#SAV_${analysedFolder.id}');
        $node.click(function() {
@@ -122,54 +119,5 @@
            });
     </g:each>
 	</script>
-	<script type="text/javascript">
-    	function submitMe(){ 
-	        var checked_ids = []; 
-	        $("#server_tree").jstree("get_checked",null,true).each 
-	            (function () { 
-	                checked_ids.push(this.id); 
-	            }); 
-	           alert('checked_ids');
-	           alert('checked_ids.len is: ' + checked_ids)
-    	}
-	
-	    function myform() {
-        	alert('Hi Karlos in function1111');
-            var checked_ids = [];
-            $.tree.plugins.checkbox.get_checked($.tree.reference("#demo_1")).each(function () {
-              checked_ids.push(this.id);
-            });
-            document.new.systems.value = checked_ids.join(",");
-            return true; 
-        }
-    </script>
-    <script type="text/javascript">
-	    function changeTarget() {
-//        	alert('Hi Karlos in function2222');
-//        	def val = $('a.checked')[0].text
-var checked_ids = []; 
-jQuery.jstree._focused().get_checked().each(function () {
-	   checked_ids.push(this.id);
-});
-
-var theCheckedObject = jQuery.jstree._focused().get_checked()
-for (var name in theCheckedObject){
-	  if (theCheckedObject.hasOwnProperty(name)) {
-//		    alert(name);
-		  }
-
-}
-
-//alert('Hi Karlos in function3333');
-//alert('checked_ids.length is: ' + checked_ids.length);
-	for (i=0; i < checked_ids.length; i++)
-	{
-//		alert('i is: ' + i);
-//		alert('checked_id val is: ' + checked_ids[i].toString());
-	}
-	alert( checked_ids.join(",")); 
-            return true; 
-        }
-    </script>
     </body>
 </html>
