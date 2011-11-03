@@ -106,21 +106,6 @@ class StudyAnalysedDataController
 		}
 	}
 	
-	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
-	def download =
-	{
-		securedBasic { study, context ->
-			println "in download()*********"
-			def studyId = Study.findById(params.studyId)
-			def files = params.list('files')
-			println "studyId is: " + params.studyId
-			println "files is: " + files
-			
-			def studyAnalysedFolders = StudyAnalysedData.findAllByStudy(study)
-			render(view:'list', model:[studyInstance: study, folders:studyAnalysedFolders])
-		}
-	}
-	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def downloadFiles =
 	{
