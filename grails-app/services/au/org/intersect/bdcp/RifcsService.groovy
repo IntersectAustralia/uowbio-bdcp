@@ -161,9 +161,10 @@ Wollongong N.S.W. 2522"""
 	{
 		obj, related ->
 		def root = new XmlSlurper().parseText(obj.xmlContent)
+		def regObjSubtype = root.registryObject.children().find { ["party","collection","activity","service"].contains(it.name()) }
 		related.each { relatedAssoc ->
 			if (relatedAssoc != null) {
-				root.registryObject.appendNode {
+				regObjSubtype.appendNode {
 					relatedObject {
 						key(relatedAssoc['key'])
 						relation('type':relatedAssoc['type'])

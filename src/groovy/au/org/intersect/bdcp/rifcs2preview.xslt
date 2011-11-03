@@ -68,7 +68,7 @@
 		<tr>
 			<td>Contact Details:</td>
 			<td colspan="2">
-				<pre><xsl:value-of select="ro:location/ro:address/ro:physical/ro:value/text()"/></pre>
+				<pre><xsl:value-of select="ro:location/ro:address/ro:physical/ro:addressPart/text()"/></pre>
 			</td>
 		</tr>
 		</xsl:if>
