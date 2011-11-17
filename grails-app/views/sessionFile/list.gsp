@@ -122,7 +122,7 @@
     {
         var items = {
 
-                upload_files_item: {
+                uploadFilesItem: {
     				label: "Upload Files",
     				action: function (obj) { 
     					alert('In upload files.')
@@ -157,9 +157,9 @@
                 }
             };
 
-            if ($(obj).hasClass("folder")) {
+            if ($(obj).hasClass("jstree-leaf")) {
                 // Delete the "delete" menu item
-                delete items.deleteItem;
+                delete items.uploadFilesItem;
             }
 
             return items;
