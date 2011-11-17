@@ -15,12 +15,18 @@ environments {
 	{
 		dataSource
 		{
-			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-			driverClassName = "org.hsqldb.jdbcDriver"
-			url = "jdbc:hsqldb:mem:devDB"
-			//url = "jdbc:hsqldb:file:devDB;shutdown=true"
-			username = "sa"
-			password = ""
+//			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+//			driverClassName = "org.hsqldb.jdbcDriver"
+//			url = "jdbc:hsqldb:mem:devDB"
+//			//url = "jdbc:hsqldb:file:devDB;shutdown=true"
+//			username = "sa"
+//			password = ""
+			
+			dbCreate = "create-drop"
+			url = "jdbc:postgresql://localhost:5432/bdcp-test"
+			driverClassName = "org.postgresql.Driver"
+			username = "grails"
+			password = "grails"
 		}
 	}
 	test

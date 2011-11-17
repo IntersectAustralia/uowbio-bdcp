@@ -207,12 +207,12 @@ class BootStrap
 			participant: participant)
 		participantForm.save(flush: true)
 		
-        def component = new Component(name:"test",
-            description: "test", study: study)
+        def component = new Component(name:"testComponent",
+            description: "testComponentDescription", study: study)
         component.save(flush: true)
         
-        def sessionInstance = new Session(name:"test",
-            description: "test", component: component)
+        def sessionInstance = new Session(name:"testSession",
+            description: "testSessionDescription", component: component)
         sessionInstance.save(flush:true)
         
         def deviceGroup = new DeviceGroup(groupingName: "Force Platforms")

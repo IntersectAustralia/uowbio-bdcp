@@ -87,23 +87,6 @@ Feature: Add Collaborator who is researcher to study
  Then I press "Logout"
  
  Given I have logged in as "researcher"
- Given I am on the list files page for study "-2000"
- Then I should see "My Biomechanics Study"
- Then I press "Logout"
- 
- Given I have logged in as "chrisk"
- Given I am on the list files page for study "-2000"
- Then I should see "My Biomechanics Study"
- Then I press "Logout"
- 
- Given I have logged in as "researcher1"
- Given I am on the home page
- Then I cannot follow "My Biomechanics Study"
- Given I am on the list files page for study "-2000"
- Then I should see "Sorry, you're not authorized to view this page."
- Then I press "Logout"
- 
- Given I have logged in as "researcher"
  Given I am on the list devices page for study "-2000"
  Then I should see "Add Device"
  Then I press "Logout"

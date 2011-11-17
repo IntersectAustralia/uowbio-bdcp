@@ -18,10 +18,10 @@
             <h2 id="warning">Warning: files uploaded cannot be removed</h2>
             <br />
             <g:render template="/shared/uploadApplet" 
-            	model='["uploadUrl":"${request.siteUrl}/study/${params.studyId}/session/${params.sessionId}/sessionFile/upload","destDir":"${params.directory}","redirUrl":"${request.siteUrl}/study/${params.studyId}/sessionFile/fileList"]' />
+            	model='["uploadUrl":"${request.siteUrl}/study/${params.studyId}/session/${params.sessionId}/sessionFile/uploadFiles","destDir":"${params.directory}","redirUrl":"${request.siteUrl}/study/${params.studyId}/sessionFile/upload?done=true"]' />
          
     <div class="buttons">
-    <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create list" elementId="Cancel" action="fileList" params="['studyId': params.studyId,'sessionId': params.sessionId]">Cancel</g:link></span>
+    <span class="button"><g:link mapping="sessionFileDetails" controller="sessionFile" class="create list" elementId="Cancel" action="list" params="['studyId': params.studyId,'sessionId': params.sessionId]">Cancel</g:link></span>
     </div>
     </div>
     </body>

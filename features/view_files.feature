@@ -15,7 +15,6 @@ Feature: View Files
 	Given I am on the home page
 	And I follow "My Biomechanics Study"
 	Then I follow "Files"
-	Then I should see "Please add components and sessions in the Components tab before uploading files."
    
     Given I am on the home page
     And I follow "My Biomechanics Study"
@@ -28,8 +27,6 @@ Feature: View Files
     And I press "save"
     Then I should see "saved"
     Then I should see "TestComponent"
-    Then I follow "Files"
-	Then I should see "Please add sessions in the Components tab before uploading files."
 
     Given I am on the home page
     And I follow "My Biomechanics Study"
@@ -69,16 +66,12 @@ Feature: View Files
 	Given I am on the home page
 	And I follow "My Biomechanics Study"
 	Then I follow "Files"
-	Then I should see "TestComponent"
-	Then I should see "TestSession"
 	Then I press "Logout"
  
 	Given I have logged in as "sysadm"
 	Given I am on the home page
 	Then I follow "My Other Biomechanics Study"
 	Then I follow "Files"
-	Then I should see "TestComponent1"
-	Then I should see "TestSession1"
 	
 	Given I am on the home page
 	And I press "all-projects"
@@ -108,6 +101,4 @@ Feature: View Files
 	Then I follow "My Biomechanics Project"
 	Then I follow "My Biomechanics Study"
 	Then I follow "Files"
-	Then I should see "TestComponent"
-	Then I should see "TestSession"
 	Then I press "Logout"
