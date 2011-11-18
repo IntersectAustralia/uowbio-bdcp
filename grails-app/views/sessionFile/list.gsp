@@ -125,27 +125,15 @@
                 uploadFilesItem: {
     				label: "Upload Files",
     				action: function (obj) { 
-    					alert('In upload files.')
-    					//document.write(str.split(" ",3))
-//    					alert('value is: ' + obj[0].getElementsByTagName('input').files.value)
-    					var folderOrFileStr = $(obj).attr('rel')
-    					if(folderOrFileStr == "file"){
-    						alert('can only upload files from a directory!!!')
-    						return
-    					}
     					var relDirectoryStr = 'value is: ' + obj[0].getElementsByTagName('input').files.value
     					var sessionId = relDirectoryStr.split('/', 3)[2]
-//    					alert('value is: ' + sessionId)
     					var relativePathArray = relDirectoryStr.split('/')
-//    					alert('value is: ' + relativePathArray)
     					var relativePathFromSession = ''
     					for (var i=3; i< relativePathArray.length; i++)
     					{
-//    						alert('val is ' + relativePathArray[i])
     						relativePathFromSession = relativePathFromSession + relativePathArray[i] + '/'
     					}
     					relativePathFromSession = relativePathFromSession.substr(0, relativePathFromSession.length-1)
-//    					alert('val is ' + relativePathFromSession)
     					document.location="browseFiles?directory=" + relativePathFromSession + "&sessionId=" + sessionId
     				},                                     
     				seperator_after: false,
