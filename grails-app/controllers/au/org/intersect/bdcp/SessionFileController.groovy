@@ -190,9 +190,6 @@ class SessionFileController
 					   'metadata':['folderPath':('/'.equals(name) ? '' : name)+'/' +f.getName()]] : ['data':f.getName(),'attr':['rel':'file', 'folderPath':('/'.equals(name) ? '' : name)+"/"+f.getName()]]
 			   }
 			   render folders as JSON
-			} else {
-			   def folders = ['data':name,'attr':['rel':'file', 'folderPath':('/'.equals(name) ? '' : name)+"/"+file.getName()]]
-			   render folders as JSON
 			}
 		}
 	}
