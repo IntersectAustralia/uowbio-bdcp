@@ -145,7 +145,7 @@
                 }
             };
 
-            if ($(obj).hasClass("jstree-leaf")) {
+            if ($(obj).attr('rel') != 'folder') {
                 // Delete the "delete" menu item
                 delete items.uploadFilesItem;
             }
