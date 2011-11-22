@@ -107,7 +107,7 @@
                    "file" : {
                        "icon" : {"image":"${imagesDir}/leaf.gif"},
                        "valid_children" : ["none"]
-                   }                   
+                   }
                }
            },
    		   "contextmenu" : {

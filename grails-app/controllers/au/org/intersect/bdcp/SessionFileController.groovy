@@ -3,6 +3,7 @@ package au.org.intersect.bdcp
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
+import java.awt.event.ItemEvent;
 import java.util.Set
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
@@ -132,31 +133,36 @@ class SessionFileController
 	private void addFileToZip(Study study, Object context, ZipOutputStream zipOs, String file, Set added)
 	{
 		def thePath = file
-		File theFile = fileService.getFileReference(context, thePath)
-		def lastMod = theFile.lastModified()
-		if (!theFile.isDirectory())
+		File theFileOrDir = fileService.getFileReference(context, thePath)
+		def lastMod = theFileOrDir.lastModified()
+		if (!theFileOrDir.isDirectory() && !added.contains(theFileOrDir) )
 		{
 			def zipEntry = new ZipEntry(thePath)
-			long fileSize = theFile.length()
+			long fileSize = theFileOrDir.length()
 			zipEntry.setTime(lastMod)
 			zipEntry.setSize(fileSize)
 			zipOs.putNextEntry(zipEntry)
-			zipOs << new FileInputStream(theFile)
+			zipOs << new FileInputStream(theFileOrDir)
 			zipOs.closeEntry()
+			added.add(theFileOrDir)
 		}
-		else
+		else if (theFileOrDir.isDirectory() && !added.contains(theFileOrDir) )
 		{
-			addDirectoryToZip(zipOs, "/" + thePath, added, lastMod)
+			addDirectoryToZip (theFileOrDir, study, context, zipOs, file, added)
 		}
 	}
 	
-	private void addDirectoryToZip(ZipOutputStream zipOs, String directory, Set added, long lastMod)
+	private void addDirectoryToZip(File directory, Study study, Object context, ZipOutputStream zipOs, String file, Set added)
 	{
-		def zipEntry = new ZipEntry(directory + "/")		
-		zipEntry.setComment directory
-		zipEntry.setTime(lastMod)
-		zipOs.putNextEntry(zipEntry)
-		added.add(directory)
+		directory.eachFile { it -> 
+			if( !added.contains(it.toString()) )
+			{
+				if(it.isDirectory()) added.add(it.toString())
+				addFileToZip( study, context, zipOs, 
+					it.toString().substring (new Integer(it.toString().indexOf("sessions")).intValue() + (new Integer("sessions".size()).intValue() + 1)), 
+					added)
+			}
+		}
 	}
 	
 	def listFolder =
