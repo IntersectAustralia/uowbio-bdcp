@@ -259,7 +259,7 @@ class StudyDeviceController {
 	
 	private String getRealPath()
 	{
-		return (request.getSession().getServletContext().getRealPath("/") + grailsApplication.config.forms.deviceManuals.location.toString())
+		return ( grailsApplication.config.forms.deviceManuals.location.toString())
 	}
 	
 	private String getMimeType(File file)

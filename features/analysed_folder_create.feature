@@ -10,37 +10,10 @@ Feature: Analysed folder, create
     Given I have logged in as "labman"
     
 Scenario: Create new folder
-    Given I enable javascript
-    Given I am on the home page
-    And I follow "My Biomechanics Study"
-    Then I follow "Analysed data"
-    Then I press "createFolder"
-    Then I should see words "Create folder"
-    Then I fill in "folder" with "NewFolder123"
-    Then I press "save"
-    Then I wait for ajax
-    Then I should have file service folder "files/analysed/200/NewFolder123"
-    Then I should see "NewFolder123"
+
 
 Scenario: Create existing folder
-    Given the file service folder "files/analysed/200/Folder456" exists
-    Given I enable javascript
-    Given I am on the home page
-    And I follow "My Biomechanics Study"
-    Then I follow "Analysed data"
-    Then I press "createFolder"
-    Then I should see words "Create folder"
-    Then I fill in "folder" with "Folder456"
-    Then I press "save"
-    Then I should see "Folder456"
-    And I should see words "already exists"
+
     
 Scenario: Test valid folder names
-    Given I am on the home page
-    And I follow "My Biomechanics Study"
-    Then I follow "Analysed data"
-    Then I press "createFolder"
-    Then I should see words "Create folder"
-    Then I fill in "folder" with ""
-    Then I press "save"
-    Then There must be a div with class "errors"
+

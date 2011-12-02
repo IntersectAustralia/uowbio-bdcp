@@ -57,13 +57,13 @@ class Study
 		hasAdditionalEthicsRequirements(nullable:true,inList:["No", "Yes"])
 		additionalEthicsRequirements(nullable:true, size:1..1000)
 		description(blank:false, size:1..1000)
-		industryPartners(size:1..1000)
+		industryPartners(nullable:true, size:1..1000)
 		keywords(nullable:false, blank:false, size:1..1000)
-		collaborators(size:1..1000)
+		collaborators(nullable:true, size:1..1000)
 		startDate(nullable: false)
 		endDate(nullable:false)
-		numberOfParticipants(size:1..1000)
-		inclusionExclusionCriteria(size:1..1000)
+		numberOfParticipants(nullable:true, size:1..1000)
+		inclusionExclusionCriteria(nullable:true, size:1..1000)
 		published(nullable:true)
 	}
 	

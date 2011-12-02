@@ -46,13 +46,10 @@ class BootStrap
 			{
 				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
-				
 				user = new UserStore(username:"egully", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mrs')
 				user.save(flush:true)
-                
                 user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
-				
 				user = new UserStore(username:"pnewnam", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
 				user.save(flush:true)
 				
@@ -69,14 +66,14 @@ class BootStrap
 			{
 				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
-                user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
+				user = new UserStore(username:"egully", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mrs')
+				user.save(flush:true)
+                user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
-                user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
-                user.save(flush:true)
-                user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, title:'Mr')
-                user.save(flush:true)
-                user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
-                user.save(flush:true)
+				user = new UserStore(username:"pnewnam", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
+				user.save(flush:true)
+				
+				createStaticData() 
 			}
 			
 			cucumber
@@ -240,14 +237,14 @@ class BootStrap
             deviceGroup: deviceGroup)
         device.save(flush: true)
 		
-		def deviceManualForm = new DeviceManualForm(formName: "devicemanual1",
-				form: "theForm1",
-				fileName: "filename1.txt",
-				fileExtension: "txt",
-				storedFileName: "filename1.txt",
-				device: device)
-		deviceManualForm.save(flush: true)
-		createFileForDevice(context, device, "filename1.txt")
+//		def deviceManualForm = new DeviceManualForm(formName: "devicemanual1",
+//				form: "theForm1",
+//				fileName: "filename1.txt",
+//				fileExtension: "txt",
+//				storedFileName: "filename1.txt",
+//				device: device)
+//		deviceManualForm.save(flush: true)
+//		createFileForDevice(context, device, "filename1.txt")
 
         def device2 = new Device(name: "Device2",
             description: "Some device",
@@ -265,24 +262,24 @@ class BootStrap
             deviceGroup: deviceGroup)
         device2.save(flush: true)
 		
-		def deviceManualForm2 = new DeviceManualForm(formName: "devicemanual2",
-			form: "theForm2",
-			fileName: "filename2.txt",
-			fileExtension: "txt",
-			storedFileName: "filename2.txt",
-			device: device2)
-		deviceManualForm2.save(flush: true)
-		createFileForDevice(context, device2, "filename2.txt")
-		
-		
-		def deviceManualForm2a = new DeviceManualForm(formName: "devicemanual2a",
-			form: "theForm2a",
-			fileName: "filename2a.txt",
-			fileExtension: "txt",
-			storedFileName: "filename2a.txt",
-			device: device2)
-		deviceManualForm2a.save(flush: true)
-		createFileForDevice(context, device2, "filename2a.txt")
+//		def deviceManualForm2 = new DeviceManualForm(formName: "devicemanual2",
+//			form: "theForm2",
+//			fileName: "filename2.txt",
+//			fileExtension: "txt",
+//			storedFileName: "filename2.txt",
+//			device: device2)
+//		deviceManualForm2.save(flush: true)
+//		createFileForDevice(context, device2, "filename2.txt")
+//		
+//		
+//		def deviceManualForm2a = new DeviceManualForm(formName: "devicemanual2a",
+//			form: "theForm2a",
+//			fileName: "filename2a.txt",
+//			fileExtension: "txt",
+//			storedFileName: "filename2a.txt",
+//			device: device2)
+//		deviceManualForm2a.save(flush: true)
+//		createFileForDevice(context, device2, "filename2a.txt")
 		
         def device3 = new Device(name: "Device3",
             description: "Device no fields",

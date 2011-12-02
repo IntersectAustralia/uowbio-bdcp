@@ -10,10 +10,12 @@ class SessionController
     def fileService
 	
 	def roleCheckService
+	
+	def grailsApplication
     
-    def createContext(def servletRequest)
+    def createContext()
     {
-        return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"), "session")
+        return fileService.createContext( "session")
     }
     
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
@@ -54,7 +56,7 @@ class SessionController
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
 	def save =
 	{
-        def context = createContext(request)
+        def context = createContext()
         def sessionInstance = new Session(params)
         def path = params.studyId +"/" + sessionInstance.component.id + "/"
 		def studyInstance = Study.get(params.studyId)
@@ -66,8 +68,8 @@ class SessionController
 		
 		if (sessionInstance.save(flush: true))
 		{
-            fileService.createDirectory(context,params.studyId.toString(),"")
-            fileService.createDirectory(context,sessionInstance.id.toString(), path)
+            fileService.createDirectory(grailsApplication.config.bdcp.files.root, params.studyId.toString(),"")
+            fileService.createDirectory(grailsApplication.config.bdcp.files.root, sessionInstance.id.toString(), path)
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'session.label', default: 'Session'), sessionInstance.name])}"
 			redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])
 		}

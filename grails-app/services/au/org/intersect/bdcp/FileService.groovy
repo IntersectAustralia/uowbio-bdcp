@@ -11,10 +11,10 @@ class FileService
 
     def grailsApplication
 	
-    def createContext(def webAppContextPath, String property)
+    def createContext( String property)
     {
-        def tmpPath = new File(webAppContextPath,grailsApplication.config.tmp.location.toString())
-        def rootPath = new File(webAppContextPath,grailsApplication.config.files."${property}".location.toString())
+        def tmpPath = new File( grailsApplication.config.tmp.location.toString())
+        def rootPath = new File( grailsApplication.config.files."${property}".location.toString())
         if (!tmpPath.exists())
         {
             def ok = tmpPath.mkdirs()
@@ -28,13 +28,13 @@ class FileService
         return ["tmpPath":tmpPath, "rootPath":rootPath]
     }
 
-    def listFiles(def context, def path)
+    def listFiles( String rootFilePath, def path)
     {
-        def top = new File(context.get("rootPath"), path)
+        def top = new File( rootFilePath, path)
         return [files: top.listFiles(), sessionRoot: top]
     }
 
-    public boolean createAllFolders(def context, def json, def destination)
+    public boolean createAllFolders( String rootFilePath, def json, def destination)
     {
         return json.every { topLevel -> 
 			return topLevel.findAll({
@@ -43,14 +43,14 @@ class FileService
 	        }).every {
 	            key, val ->
 	            def path = val.replace('\\','/')
-	            def tmpDir = new File(context.get("tmpPath"), destination)
+	            def tmpDir = new File( grailsApplication.config.tmp.location, destination)
 	            def directory = new File(tmpDir, path)
-	            return checkPathIsValid(context.get("tmpPath"), directory) && ((directory.exists() && directory.isDirectory()) || directory.mkdirs());
+	            return checkPathIsValid( grailsApplication.config.tmp.location, directory) && ((directory.exists() && directory.isDirectory()) || directory.mkdirs());
 	        }
         }
     }
 
-    public boolean createAllFiles(def context, def json, def destination, def parameters)
+    public boolean createAllFiles( def json, def destination, def parameters)
     {
         if (parameters == null)
         {
@@ -64,12 +64,12 @@ class FileService
 	            key, val ->
 	            def path = val.replace('\\','/')
 	            def file = parameters[key]
-	            def tmpDir = new File(context.get("tmpPath"), destination )
+	            def tmpDir = new File( grailsApplication.config.tmp.location, destination )
 	            def filepath = new File(tmpDir, path)
-	            if (!checkPathIsValid(context.get("tmpPath"), filepath))
-	            {
-	                return false;
-	            }
+				if (!checkPathIsValid( grailsApplication.config.tmp.location, filepath))
+				{
+					return false;
+				}
 	            filepath.mkdirs()
 	            file.transferTo(filepath)
 	            return true
@@ -77,20 +77,19 @@ class FileService
         }
     }
 
-
-    private boolean moveDirectoryFromTmp(def context, def previous, def destination)
+    private boolean moveDirectoryFromTmp( String rootPath, def previous, def destination)
     {
-        File oldDir = new File(context.get("tmpPath"), previous)
-        if (!checkPathIsValid(context.get("tmpPath"), oldDir))
-        {
-            return false
-        }
-        File newDir = new File(context.get("rootPath"), destination).getParentFile()
-        if (!checkPathIsValid(context.get("rootPath"), newDir))
-        {
-            return false;
-        }
-
+        File oldDir = new File( grailsApplication.config.tmp.location, previous)
+		if (!checkPathIsValid( grailsApplication.config.tmp.location, oldDir))
+		{
+			return false
+		}
+        File newDir = new File( rootPath, destination).getParentFile()
+		if (!checkPathIsValid( rootPath, newDir))
+		{
+			return false;
+		}
+		
         try
         {
             FileUtils.copyDirectoryToDirectory(oldDir, newDir)
@@ -99,34 +98,42 @@ class FileService
         }
         catch (IOException ioException)
         {
-            return false
+			log.error("Unable to move directory from tmp: " + grailsApplication.config.tmp.location)
+			log.error("Unable to move directory from tmp, Exception: " + ioException.toString())
         }
+		finally 
+		{
+			return false
+		}
     }
 
-    def boolean checkIfDirectoryExists(def context, String name, String path)
+    def boolean checkIfDirectoryExists( String rootPath, String name, String path)
     {
-        File directoryPath = new File(context.get("rootPath"), path)
+        File directoryPath = new File(rootPath, path)
         File directory = new File(directoryPath, name)
         return directory.exists() || ((directory?.listFiles() == null || directory?.listFiles()?.isEmpty())? false: directoryPath?.listFiles().every {
             it.getName().compareToIgnoreCase(name) == 0
         })
     }
 
-    def boolean createDirectory(def context, String name, String path)
+    def boolean createDirectory(String rootPath, String name, String path)
     {
-        File directoryPath = new File(context.get("rootPath"), path)
+        File directoryPath = new File(rootPath, path)
         File directory = new File(directoryPath, name)
 
-        return checkPathIsValid(context.get("rootPath"), directory) && directory.getParentFile().exists() && directory.mkdir()
-    }
-
-    def boolean checkPathIsValid(File rootPath, File path)
-    {
-        return rootPath.isDirectory() && path.getAbsolutePath().startsWith(rootPath.getAbsolutePath())
+        return checkPathIsValid( rootPath, directory) && (directory.getParentFile().exists() && directory.mkdir())
     }
 	
-	def File getFileReference(def context, String path)
+	def boolean checkPathIsValid(String rootPath, File path)
 	{
-        return new File(context.get("rootPath"), path)
+		File fileRootPath = new File(rootPath + "/")
+		def bool = fileRootPath.isDirectory() 
+		def bool1 = path.getAbsolutePath().startsWith(fileRootPath.getAbsolutePath())
+		return bool && bool1
+	}
+	
+	def File getFileReference( String rootPath, String path)
+	{
+        return new File( rootPath, path)
 	}
 }

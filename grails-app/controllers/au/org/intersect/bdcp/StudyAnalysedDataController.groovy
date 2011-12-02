@@ -16,11 +16,13 @@ class StudyAnalysedDataController
 	
 	def roleCheckService
 	
+	def grailsApplication
+	
 //	def pattern = Pattern.compile("^(*)/(.*)\$")
 	
-	def createContext(def servletRequest)
+	def createContext()
 	{
-		return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"), "analysed")
+		return fileService.createContext( "analysed")
 	}
 
 	def securedCommon = { onErrors, block ->
@@ -38,7 +40,7 @@ class StudyAnalysedDataController
 			onErrors.unauthorised()
 			return
 		}
-		def context = createContext(request)
+		def context = createContext()
 		ensureFilesRoot(context, studyInstance)
 		block(studyInstance, context)
 	}
@@ -113,7 +115,7 @@ class StudyAnalysedDataController
 		
 		cache false
 		
-		def context = createContext(request)
+		def context = createContext()
 		def study = Study.findById(params.studyId)
 		def files = params.list('files')
 		def zipName = study.studyTitle + ".zip"
@@ -139,7 +141,7 @@ class StudyAnalysedDataController
 	private void addFileToZip(Study study, Object context, ZipOutputStream zipOs, String file, Set added)
 	{
 		def thePath = file
-		File theFileOrDir = fileService.getFileReference(context, thePath)
+		File theFileOrDir = fileService.getFileReference( grailsApplication.config.files.analysed.location, thePath)
 		def lastMod = theFileOrDir.lastModified()
 		if (!theFileOrDir.isDirectory() && !added.contains(theFileOrDir) )
 		{
@@ -184,7 +186,7 @@ class StudyAnalysedDataController
 				return
 			}
 
-			def file = fileService.getFileReference(context, name)
+			def file = fileService.getFileReference( grailsApplication.config.files.analysed.location, name)
 			if (file.isDirectory()) {
 			   def folders = file.listFiles().collect { f ->
 				   f.isDirectory() ? ['data':f.getName(),'icon':'folder','state':'closed','attr':['rel':'folder'],
@@ -224,10 +226,10 @@ class StudyAnalysedDataController
 				} else {
 					ok = true
 				}
-				if (ok && fileService.checkIfDirectoryExists(context, folderV.folder, rootPath(study))) {
+				if (ok && fileService.checkIfDirectoryExists( grailsApplication.config.files.analysed.location, folderV.folder, rootPath(study))) {
 					flash.message = "Folder already exists"
 				} else {
-				   ok = ok && fileService.createDirectory(context, folderV.folder, rootPath(study))
+				   ok = ok && fileService.createDirectory( grailsApplication.config.files.analysed.location, folderV.folder, rootPath(study))
 				}
 				if (!ok) {
 					tx.setRollbackOnly()
@@ -328,14 +330,14 @@ class StudyAnalysedDataController
 			redirect controller:'login', action: 'invalid'
 			return
 		}
-		def context = createContext(request)
+		def context = createContext()
 		ensureFilesRoot(context, studyInstance)
 		def dirstruct = params.dirStruct
-		def upload_root = rootPath(studyInstance) + "/" + params.destDir
+		def upload_root = rootPath(studyInstance) + params.destDir
 		dirstruct = JSON.parse(dirstruct)
-        def success = (fileService.createAllFolders(context, dirstruct, upload_root) == true) ? true : false
-        success = success && (fileService.createAllFiles(context, dirstruct, upload_root, params) == true)
-		success = success && (fileService.moveDirectoryFromTmp(context, upload_root, upload_root) == true)
+        def success = (fileService.createAllFolders( grailsApplication.config.files.analysed.location, dirstruct, upload_root) == true) ? true : false
+        success = success && (fileService.createAllFiles( dirstruct, upload_root, params) == true)
+		success = success && (fileService.moveDirectoryFromTmp( grailsApplication.config.files.analysed.location, upload_root, upload_root) == true)
 		if (success)
 		{
 			render "Successfully Uploaded Files!"
@@ -348,7 +350,7 @@ class StudyAnalysedDataController
 
    private void ensureFilesRoot(context, studyInstance)
    {
-	   def dir = fileService.getFileReference(context, rootPath(studyInstance))
+	   def dir = fileService.getFileReference( grailsApplication.config.files.analysed.location, rootPath(studyInstance))
 	   if (!dir.exists())
 	   {
 		   dir.mkdirs()

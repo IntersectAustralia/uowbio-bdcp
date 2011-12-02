@@ -10,10 +10,12 @@ class ComponentController
     def fileService
 	
 	def roleCheckService
+	
+	def grailsApplication
     
-    def createContext(def servletRequest)
+    def createContext()
     {
-        return fileService.createContext(servletRequest.getSession().getServletContext().getRealPath("/"), "session")
+        return fileService.createContext( "session")
     }
     
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -71,7 +73,7 @@ class ComponentController
 	def save =
 	{
 		def componentInstance = new Component(params)
-        def context = createContext(request)
+        def context = createContext()
         def path = params.studyId +"/"
 		def studyInstance = Study.get(params.studyId)
 		
@@ -82,8 +84,8 @@ class ComponentController
 		
         if (componentInstance.save(flush: true))
         {
-            fileService.createDirectory(context,params.studyId.toString(),"")
-            fileService.createDirectory(context,componentInstance.id.toString(), path)
+            fileService.createDirectory(grailsApplication.config.bdcp.files.root, params.studyId.toString(), "")
+            fileService.createDirectory(grailsApplication.config.bdcp.files.root, componentInstance.id.toString(), path)
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'component.label', default: 'Component'), componentInstance.name])}"
 			//            redirect(action: "show", id: componentInstance.id)
 			redirect(mapping:"componentDetails",controller: "component", action: "list", id: params.studyId, params:[studyId: params.studyId])

@@ -15,18 +15,18 @@ environments {
 	{
 		dataSource
 		{
-//			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-//			driverClassName = "org.hsqldb.jdbcDriver"
-//			url = "jdbc:hsqldb:mem:devDB"
+			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+			driverClassName = "org.hsqldb.jdbcDriver"
+			url = "jdbc:hsqldb:mem:devDB"
 //			//url = "jdbc:hsqldb:file:devDB;shutdown=true"
 //			username = "sa"
 //			password = ""
 			
-			dbCreate = "create-drop"
-			url = "jdbc:postgresql://localhost:5432/bdcp-test"
-			driverClassName = "org.postgresql.Driver"
-			username = "grails"
-			password = "grails"
+//			dbCreate = "create-drop"
+//			url = "jdbc:postgresql://localhost:5432/bdcp-test"
+//			driverClassName = "org.postgresql.Driver"
+//			username = "grails"
+//			password = "grails"
 		}
 	}
 	test
@@ -34,10 +34,8 @@ environments {
 		dataSource
 		{
 			dbCreate = "create-drop"
-			url = "jdbc:hsqldb:file:devDB;shutdown=true"
-			driverClassName = "org.hsqldb.jdbcDriver"
-			username = "sa"
-			password = ""
+			jndiName = "java:comp/env/biomechDataSource"
+			dialect='org.hibernate.dialect.Oracle10gDialect'
 		}
 	}
 	

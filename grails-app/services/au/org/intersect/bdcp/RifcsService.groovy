@@ -9,6 +9,8 @@ import org.hibernate.FetchMode as FM
 
 class RifcsService
 {
+	def grailsApplication
+	
 	private static final int THREADS = 3
 	private static final String FILEPREFIX_STUDY = "study"
 	private def executor = Executors.newFixedThreadPool(THREADS)
@@ -46,8 +48,8 @@ Wollongong N.S.W. 2522"""
 	
 	private def makeContext =
 	{	baseCtxPath ->
-		def staticCtx = fileService.createContext(baseCtxPath, "rifcs")
-		fileService.getFileReference(staticCtx, ".").mkdirs()
+		def staticCtx = fileService.createContext( "rifcs")
+		fileService.getFileReference( grailsApplication.config.files.rifcs.location, ".").mkdirs()
 		return staticCtx
 	}
 	
@@ -82,7 +84,7 @@ Wollongong N.S.W. 2522"""
 		staticCtx ->
 		Study.withTransaction {
 			def studies = Study.findAllByPublished(true).findAll {
-				File f = fileService.getFileReference(staticCtx, makeFilename(it));
+				File f = fileService.getFileReference( grailsApplication.config.files.rifcs.location, makeFilename(it));
 				!f.exists() || f.lastModified() < it.lastUpdated.getTime()
 			}
 			studies.each {
@@ -100,7 +102,7 @@ Wollongong N.S.W. 2522"""
 		staticCtx ->
 		UserStore.withTransaction() {
 			def users = UserStore.findAllPublished().findAll {
-				File f = fileService.getFileReference(staticCtx, makeFilename(it));
+				File f = fileService.getFileReference( grailsApplication.config.files.rifcs.location, makeFilename(it));
 				!f.exists() || f.lastModified() < it.lastUpdated.getTime()
 			}
 			users.each { user ->
@@ -152,7 +154,7 @@ Wollongong N.S.W. 2522"""
 	{
 		staticCtx, Closure closure, object, related ->
 		println("Publishing " + makeName(object) + ' @ ' + (new Date()))
-		File file = fileService.getFileReference(staticCtx, makeFilename(object))
+		File file = fileService.getFileReference( grailsApplication.config.files.rifcs.location, makeFilename(object))
 		def xml = closure(object, related)		
 		new FileOutputStream(file) << streamXml(xml)
 	}

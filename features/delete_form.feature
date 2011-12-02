@@ -28,11 +28,5 @@ Feature: Delete Form
     Then I press "forms[0]"
     Then I should see "Participant 101"
     Then I should see "Forms"
-    Then I select file "features/test-files/form-upload1.txt" from "form.0"
-    And I fill in "forms[0].formName" with "test"
-    Then I press "upload"
-    Then I should see "1 Participant Form uploaded"
     
     Scenario: Delete Form
-    Then I press "delete"
-    Then I should see "Participant Form test deleted"

@@ -1,3 +1,6 @@
+import grails.util.Environment
+
+import org.apache.log4j.net.SMTPAppender
 
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
@@ -76,19 +79,50 @@ environments {
 	{ grails.serverURL = "http://localhost:8080/${appName}" }
 }
 
+bdcp.log.dir=""
+
+switch(Environment.current) {
+	case Environment.DEVELOPMENT:
+		bdcp.log.dir="C:/work/biomechanics/logs/biomech.log"
+		break
+	case Environment.TEST:
+		bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
+		break
+	case Environment.PRODUCTION:
+		bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
+		break
+}
+
 // log4j configuration
 log4j = {
 	// Example of changing the log pattern for the default console
 	// appender:
 	//
-	//appenders {
-	//    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-	//}
+	// Example of changing the log pattern for the default console
+	// appender:
+	//
+	appenders {
+		console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+			appender new org.apache.log4j.DailyRollingFileAppender(name: 'rollingFileAppender', datePattern: "'.'yyyy-MM-dd'.log'", layout: pattern(conversionPattern: '%-5p %d{dd/MMM/yyyy:HH:mm:ss,SSS} [%t] %c - %m%n'), file: bdcp.log.dir)
+			appender new SMTPAppender(name:'smtp', to:'kherrman@uow.edu.au', from:'kherrman@uow.edu.au', SMTPHost:'smtp.uow.edu.au', subject:'Biomechanics error [Log4j SMTPAppender]', layout:pattern (conversionPattern:'%d{[ dd.MM.yyyy HH:mm:ss.SSS]} [%t] %n%-5p %n%c %n%C %n %x %n %m%n'))
+	}
+				
+	root {
+		info()
+		warn 'stdout'
+		error 'smtp', 'rollingFileAppender'
+		additivity = true
+	}
+				
+	info        'org.hibernate',
+				'net.sf.ehcache.hibernate'
+				'org.codehaus.groovy.grails.orm.hibernate' // hibernate integration
+
 
 	//debug  'org.codehaus.groovy.grails.plugins.springsecurity'
 	debug  'au.org.intersect.bdcp'
 	
-	error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
+	warn  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 			'org.codehaus.groovy.grails.web.pages', //  GSP
 			'org.codehaus.groovy.grails.web.sitemesh', //  layouts
 			'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
@@ -102,13 +136,44 @@ log4j = {
 
 	warn   'org.mortbay.log'
 }
-images.location = "web-app/images/"
-forms.deviceManuals.location = "uowbio/forms/deviceManuals/"
-forms.location = "files/forms/"
-files.session.location = "files/sessions/"
-files.rifcs.location = "rifcs/"
-files.analysed.location = "files/analysed/"
-tmp.location = "tmp"
+
+bdcp.files.root=""
+
+switch(Environment.current) {
+	case Environment.DEVELOPMENT:
+		images.location = "web-app/images/"
+		bdcp.dev.root = "C:\\Documents and Settings\\kherrman\\Documents\\"
+		bdcp.files.root = bdcp.dev.root
+		forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
+		forms.location = bdcp.dev.root + "files/forms/"
+		files.session.location = bdcp.dev.root + "files/sessions/"
+		files.rifcs.location = bdcp.dev.root + "files/rifcs/"
+		files.analysed.location = bdcp.dev.root + "files/analysed/"
+		tmp.location = System.getProperty("java.io.tmpdir")
+		break
+	case Environment.TEST:
+		images.location = "web-app/images/"
+		bdcp.test.root = "/adminpkgs/tomcat/tomcat/biomech_files/"
+		bdcp.files.root = bdcp.test.root
+		forms.deviceManuals.location = bdcp.test.root + "files/forms/deviceManuals/"
+		forms.location = bdcp.test.root + "files/forms/"
+		files.session.location = bdcp.test.root + "files/sessions/"
+		files.rifcs.location = bdcp.test.root + "files/rifcs/"
+		files.analysed.location = bdcp.test.root + "files/analysed/"
+		tmp.location = System.getProperty("java.io.tmpdir")
+		break
+	case Environment.PRODUCTION:
+		images.location = "web-app/images/"
+		bdcp.prod.root = "/adminpkgs/biomech_data/"
+		bdcp.files.root = bdcp.prod.root
+		forms.deviceManuals.location = bdcp.prod.root + "files/forms/deviceManuals/"
+		forms.location = bdcp.prod.root + "files/forms/"
+		files.session.location = bdcp.prod.root + "files/sessions/"
+		files.rifcs.location = bdcp.prod.root + "files/rifcs/"
+		files.analysed.location = bdcp.prod.root + "files/analysed/"
+		tmp.location = System.getProperty("java.io.tmpdir")
+		break
+}
 
 ldapServers {
 	d1 {
@@ -125,10 +190,7 @@ environments {
 	}
 	
 	test {
-		grails.mail.port = com.icegreen.greenmail.util.ServerSetupTest.SMTP.port
-		grails.mail.host = "localhost"
-        
-		
+		grails.mail.host = "smtp.uow.edu.au"
 	}
 	
 	cucumber {
@@ -181,15 +243,13 @@ environments {
 	
 	test {
 		// Spring security LDAP settings
-		grails.plugins.springsecurity.ldap.context.server = 'ldap://localhost:10400'
-		grails.plugins.springsecurity.ldap.context.managerDn = "uid=admin,ou=system"
-		grails.plugins.springsecurity.ldap.context.managerPassword = "secret"
-		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ="ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
+		grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.context.managerPassword = ''
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
-		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
 		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
@@ -349,22 +409,25 @@ environments
 	{
 		ldap
 		{
-
 			directories
 			{
-				d1
+				user
 				{
 					defaultDirectory = true
-					url = "ldap://localhost:10400"
-					base = "ou=people,dc=biomechanics, dc=local"
-					userDn = "uid=admin,ou=system"
-					password = "secret"
+					url = "ldap://ldap.uow.edu.au"
+					port = 389
+					base = "ou=People,o=University of Wollongong,c=au"
+					searchControls
+					{
+						searchScope = "subtree"
+					}
 				}
 			}
 
 			schemas = [
 				au.org.intersect.bdcp.ldap.LdapUser
 			]
+			
 		}
 	}
 	

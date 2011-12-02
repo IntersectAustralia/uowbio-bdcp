@@ -40,9 +40,6 @@ Feature: View Devices in Study
  Then I should see "Force Platforms"
  Then I press "forms[0]"
  Then I should see "Device manuals for Device1"
- Then I should see "deviceManual1"
- Then I press "manualForm[0]"
- Then I should see plain "FILE: deviceManual1.txt"
  
 # DELETE IS NOT YET IMPLEMENTED
 # This a proposed way to test
