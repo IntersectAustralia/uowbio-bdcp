@@ -24,16 +24,16 @@ class Device {
         name(blank:false, size:1..1000, uniqueIgnoreCase:[scope:"none"])
         description(blank:false, size:1..1000)
         manufacturer(blank:false, size:1..1000)
-        locationOfManufacturer(size:1..1000)
+        locationOfManufacturer(nullable:true, size:1..1000)
         modelName(blank:false, size:1..1000)
-        serialNumber(size:1..1000)
-		uowAssetNumber(size:0..1000)
+        serialNumber(nullable:true, size:1..1000)
+		uowAssetNumber(nullable:true, size:0..1000)
         dateOfPurchase(nullable:false)
         dateOfDelivery(nullable:false)
-        purchasePrice(size:1..1000)
-        vendor(size:1..1000)
-        fundingSource(size:1..1000)
-		maintServiceInfo(size:0..1000)
+        purchasePrice(nullable:true, size:1..1000)
+        vendor(nullable:true, size:1..1000)
+        fundingSource(nullable:true, size:1..1000)
+		maintServiceInfo(nullable:true, size:0..1000)
     }
     
     static hasMany = [deviceFields: DeviceField, studyDevices: StudyDevice, deviceManualForms:DeviceManualForm]
