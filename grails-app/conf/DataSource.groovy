@@ -31,12 +31,9 @@ environments {
 	}
 	test
 	{
-		dataSource
-		{
-			dbCreate = "create-drop"
-			jndiName = "java:comp/env/biomechDataSource"
-			dialect='org.hibernate.dialect.Oracle10gDialect'
-		}
+			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+			driverClassName = "org.hsqldb.jdbcDriver"
+			url = "jdbc:hsqldb:mem:devDB"
 	}
 	
 	cucumber
@@ -53,12 +50,9 @@ environments {
 
 	production
 	{
-		dataSource 
-		{
-			dbCreate = "update"
-			jndiName = "java:comp/env/biomechDataSource"
-			dialect='org.hibernate.dialect.Oracle10gDialect'
-		}
+			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+			driverClassName = "org.hsqldb.jdbcDriver"
+			url = "jdbc:hsqldb:mem:devDB"
 	}
 
 	intersect_test

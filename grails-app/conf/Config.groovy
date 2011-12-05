@@ -101,18 +101,7 @@ log4j = {
 	// Example of changing the log pattern for the default console
 	// appender:
 	//
-	appenders {
-		console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-			appender new org.apache.log4j.DailyRollingFileAppender(name: 'rollingFileAppender', datePattern: "'.'yyyy-MM-dd'.log'", layout: pattern(conversionPattern: '%-5p %d{dd/MMM/yyyy:HH:mm:ss,SSS} [%t] %c - %m%n'), file: bdcp.log.dir)
-			appender new SMTPAppender(name:'smtp', to:'kherrman@uow.edu.au', from:'kherrman@uow.edu.au', SMTPHost:'smtp.uow.edu.au', subject:'Biomechanics error [Log4j SMTPAppender]', layout:pattern (conversionPattern:'%d{[ dd.MM.yyyy HH:mm:ss.SSS]} [%t] %n%-5p %n%c %n%C %n %x %n %m%n'))
-	}
-				
-	root {
-		info()
-		warn 'stdout'
-		error 'smtp', 'rollingFileAppender'
-		additivity = true
-	}
+
 				
 	info        'org.hibernate',
 				'net.sf.ehcache.hibernate'
