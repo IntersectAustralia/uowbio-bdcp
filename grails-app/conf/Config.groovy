@@ -101,7 +101,6 @@ log4j = {
 	// Example of changing the log pattern for the default console
 	// appender:
 	//
-
 				
 	info        'org.hibernate',
 				'net.sf.ehcache.hibernate'
