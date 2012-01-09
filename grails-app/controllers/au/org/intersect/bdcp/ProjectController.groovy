@@ -26,8 +26,8 @@ class ProjectController
 		params.max = Math.min( params.max ? params.max.toInteger() : 5, 100)
 		def collaborator = UserStore.findByUsername(principal.username);
 		def collaboratorProjectInstanceList = [];
-		collaboratorProjectInstanceList = collaborator.studyCollaborators.collect { it.study.project }
-		collaboratorProjectInstanceList = collaboratorProjectInstanceList.unique()
+		collaboratorProjectInstanceList = collaborator?.studyCollaborators.collect { it.study.project }
+		collaboratorProjectInstanceList = collaboratorProjectInstanceList?.unique()
 		def collaboratorProjectStudies = [];
 
 		collaboratorProjectInstanceList.each
@@ -184,7 +184,12 @@ class ProjectController
 		def sortedActivatedMatches = ldapUsers.sort
 		{x,y -> x.sn <=> y.sn}
 		
-		render (view: "searchUsers", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedActivatedMatches])
+		// return UserStore objects
+		def sortedActivatedUserStoreMatches = []
+		sortedActivatedMatches.each { sortedActivatedUserStoreMatches << new UserStore( username: it.uid, surname: it.sn, firstName: it.givenName) }
+		
+		
+		render (view: "searchUsers", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedActivatedUserStoreMatches])
 	}
 	
 	private String normalizeValue(value)

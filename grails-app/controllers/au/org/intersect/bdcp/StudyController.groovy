@@ -82,12 +82,15 @@ class StudyController
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
 		
 		def matches = []
+		def match
 		collaborators.each
 		{
-			matches << LdapUser.find(filter: "(uid=${it?.username})")
+			match = LdapUser.find(filter: "(uid=${it?.username})")
+			
+			matches << new UserStore(username: match.uid, firstName: match.givenName, surname: match.sn)
 		}
 		def sortedCollaboratorMatches = matches.sort
-		{x,y -> x.sn <=> y.sn}
+		{x,y -> x.surname <=> y.surname}
 
 		[studyInstance: studyInstance, collaboratorInstanceList: sortedCollaboratorMatches, collaboratorInstanceTotal: sortedCollaboratorMatches.size()]
 	}
@@ -124,12 +127,22 @@ class StudyController
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
 		
 		def matches = []
+		def match
 		collaborators.each
 		{
-			matches << LdapUser.find(filter: "(uid=${it?.username})")
+			match = LdapUser.find(filter: "(uid=${it?.username})")
+			if(match)
+			{
+				matches << new UserStore(username: match.uid, firstName: match.givenName, surname: match.sn)
+			}
+			else // its an external user
+			{
+				matches << it
+			}
+			
 		}
 		def sortedCollaboratorMatches = matches.sort
-		{x,y -> x.sn <=> y.sn}
+		{x,y -> x.surname <=> y.surname}
 		
 		render(view: "listCollaborators", model: [studyInstance: studyInstance, username: params.username, collaboratorInstanceList: sortedCollaboratorMatches, collaboratorInstanceTotal: sortedCollaboratorMatches.size()])
 	}
@@ -149,12 +162,21 @@ class StudyController
 		def collaborators = studyInstance.studyCollaborators.collect { it.collaborator }
 		
 		def matches = []
+		def match
 		collaborators.each
 		{
-			matches << LdapUser.find(filter: "(uid=${it?.username})")
+			match = LdapUser.find(filter: "(uid=${it?.username})")
+			if(match)
+			{
+				matches << new UserStore(username: match.uid, firstName: match.givenName, surname: match.sn)
+			}
+			else // its an external user
+			{
+				matches << it
+			}
 		}
 		def sortedCollaboratorMatches = matches.sort
-		{x,y -> x.sn <=> y.sn}
+		{x,y -> x.surname <=> y.surname}
 		
 		render(view: "listCollaborators", model: [studyInstance: studyInstance, collaboratorInstanceList: sortedCollaboratorMatches, collaboratorInstanceTotal: sortedCollaboratorMatches.size()])
 	}
@@ -251,7 +273,24 @@ class StudyController
 		def sortedActivatedMatches = ldapUsers.sort
 		{x,y -> x.sn <=> y.sn}
 		
-		render (view: "searchCollaborators", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedActivatedMatches, studyInstance: studyInstance])
+		// return UserStore objects
+		def sortedActivatedUserStoreMatches = []
+		sortedActivatedMatches.each { sortedActivatedUserStoreMatches << new UserStore( username: it.uid, surname: it.sn, firstName: it.givenName) }
+		
+		// add external users
+		UserStore.list().each
+		{
+			if(it.email)
+			{
+				if (!it?.deactivated)
+				{
+					sortedActivatedUserStoreMatches << it
+				}
+				
+			}
+		}
+		
+		render (view: "searchCollaborators", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedActivatedUserStoreMatches, studyInstance: studyInstance])
 
 	}
 	

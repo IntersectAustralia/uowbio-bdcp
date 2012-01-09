@@ -58,6 +58,7 @@
 	<input type="hidden" name="visited" value="" />
 	<table class="noborder">
 		<tbody>
+		<g:if test="${matches}">
 			<tr class="prop">
 				<td valign="top" class="name"><g:message
 					code="admin.enabled.label" default="Hide Deactivated Users" /></td>
@@ -67,6 +68,7 @@
 					value="${hideUsers}" onclick="changeValue(); this.form.submit();" /></td>
 
 			</tr>
+		</g:if>
 		</tbody>
 	</table>
 	<g:render template="listUsers"

@@ -13,26 +13,30 @@ hibernate
 environments {
 	development
 	{
-  		dataSource
-  		{
-  			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-  			driverClassName = "org.hsqldb.jdbcDriver"
-  			url = "jdbc:hsqldb:mem:devDB"
-  			//url = "jdbc:hsqldb:file:devDB;shutdown=true"
-  			username = "sa"
-  			password = ""
-  		}
-  	}
-  	test
-  	{
-  		dataSource
-  		{
-  			dbCreate = "create-drop"
-  			url = "jdbc:hsqldb:file:devDB;shutdown=true"
-  			driverClassName = "org.hsqldb.jdbcDriver"
-  			username = "sa"
-  			password = ""
-  		}
+		dataSource
+		{
+//			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+//			driverClassName = "org.hsqldb.jdbcDriver"
+//			url = "jdbc:hsqldb:mem:devDB"
+//			//url = "jdbc:hsqldb:file:devDB;shutdown=true"
+//			username = "sa"
+//			password = ""
+			
+			dbCreate = "create-drop"
+			url = "jdbc:postgresql://localhost:5432/bdcp-test"
+			driverClassName = "org.postgresql.Driver"
+			username = "grails"
+			password = "grails"
+		}
+	}
+	test
+	{
+		dataSource
+		{
+			dbCreate = "create-drop"
+			jndiName = "java:comp/env/biomechDataSource"
+			dialect='org.hibernate.dialect.Oracle10gDialect'
+		}
 	}
 	
 	cucumber
@@ -51,11 +55,9 @@ environments {
 	{
 		dataSource 
 		{
-			dbCreate = "create-drop"
-			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
-			driverClassName = "org.postgresql.Driver"
-			username = "bdcp"
-			password = "bdcp"
+			dbCreate = "update"
+			jndiName = "java:comp/env/biomechDataSource"
+			dialect='org.hibernate.dialect.Oracle10gDialect'
 		}
 	}
 

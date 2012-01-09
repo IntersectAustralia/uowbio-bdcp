@@ -38,7 +38,7 @@
 					code="admin.firstname.label" default="Firstname" /></td>
 
 				<td valign="top" class="value">
-				${matchInstance.givenName}
+				${matchInstance.firstName}
 				</td>
 
 			</tr>
@@ -48,7 +48,7 @@
 					code="admin.surname.label" default="Surname" /></td>
 
 				<td valign="top" class="value">
-				${matchInstance.sn}
+				${matchInstance.surname}
 				</td>
 
 			</tr>
@@ -58,7 +58,7 @@
 					code="admin.userid.label" default="User ID" /></td>
 
 				<td valign="top" class="value">
-				${matchInstance.username.toArray()[1]}
+				${matchInstance.username}
 				</td>
 
 			</tr>

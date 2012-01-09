@@ -63,6 +63,7 @@
 		<g:if test="${username}">
 			<p>Collaborator <u>${username}</u> added to study <u>${studyInstance.studyTitle}</u></p>
 		</g:if>	
+		<br/>
         <g:render template="collaborators" />
         </div>
     	</div>

@@ -12,7 +12,9 @@ class RoleCheckService {
    def boolean checkUserRole(roleType)
    {
 	   def auth = springSecurityService.authentication;
-	   def role = auth.getPrincipal().getAuthorities()[0];
+	   def princple = auth.getPrincipal();
+	   def authorArr = princple.getAuthorities().toArray()
+	   def role = authorArr[0]
 	   return role.equals(roleType)
    }
    

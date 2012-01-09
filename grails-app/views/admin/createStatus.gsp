@@ -10,7 +10,7 @@
 
 <p>Account Creation ${accountStatus}
 </p>
-
+<br/>
 <g:hasErrors bean="${user}">
 	<div class="errors"><g:renderErrors bean="${user}" as="list" />
 	</div>

@@ -10,7 +10,7 @@ Feature: Search User Accounts
      And I press "account-administration"
      Then I should see "Account Administration"
      Then I press "create"
-     Then I should see "New User Account"
+     Then I should see "New UoW User Account"
      Then I press "search"
      Then I should see a 4 column table "searchTable" with contents
      |abe       	| John  		| Abe              	| Select  |
@@ -32,7 +32,7 @@ Feature: Search User Accounts
      And I press "account-administration"
      Then I should see "Account Administration"
      Then I press "create"
-     Then I should see "New User Account"
+     Then I should see "New UoW User Account"
      Then I fill in "surname" with "Kenward"
      Then I press "search"
      Then I should see a 4 column table "searchTable" with contents
@@ -52,10 +52,4 @@ Feature: Search User Accounts
      |chrisk | Chris | Kenward  | Select  |
      |davidk | David | Kenward  | Select  |
      |johnk  | John  | Kenward  | Select  |
-     
-     
-      
-     
-     
-     
      

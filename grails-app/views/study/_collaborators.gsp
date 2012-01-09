@@ -15,11 +15,11 @@
       <tbody>
         <g:each in="${collaboratorInstanceList}" status="i" var="collaboratorInstance">
           <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-            <td><div class="columnLeft">${fieldValue(bean: collaboratorInstance, field: "uid")}</div></td>
-            <td><div class="columnLeft">${fieldValue(bean: collaboratorInstance, field: "givenName")}</div></td>
-            <td><div class="columnLeft">${fieldValue(bean: collaboratorInstance, field: "sn")}</div></td>
+            <td><div class="columnLeft">${fieldValue(bean: collaboratorInstance, field: "username")}</div></td>
+            <td><div class="columnLeft">${fieldValue(bean: collaboratorInstance, field: "firstName")}</div></td>
+            <td><div class="columnLeft">${fieldValue(bean: collaboratorInstance, field: "surname")}</div></td>
             <td>
-              <g:link class="myDelete" elementId="delete[${i}]" mapping='deleteCollaborator' controller="study" action="deleteCollaborator" params="[collaboratorUid: collaboratorInstance.uid, studyId: studyInstance.id]">Delete</g:link>
+              <g:link class="myDelete" elementId="delete[${i}]" mapping='deleteCollaborator' controller="study" action="deleteCollaborator" params="[collaboratorUid: collaboratorInstance.username, studyId: studyInstance.id]">Delete</g:link>
             </td>
           </tr>
         </g:each>

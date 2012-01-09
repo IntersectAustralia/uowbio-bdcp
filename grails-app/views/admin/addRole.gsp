@@ -21,9 +21,11 @@
     <p>Please assign a role.</p>
   </g:if>
  
-      <g:hiddenField name="username" value="${username}" />
-      <g:hiddenField name="givenName" value="${givenName}" />
-      <g:hiddenField name="sn" value="${sn}" />
+      <g:hiddenField name="userid" value="${params.userid}" />
+      <g:hiddenField name="firstName" value="${params.firstName}" />
+      <g:hiddenField name="surname" value="${params.surname}" />
+      <g:hiddenField name="email" value="${params.email}" />
+      <g:hiddenField name="password" value="${params.password}" />
  
       <div class="dialog">
           <label>User role</label>

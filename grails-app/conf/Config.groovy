@@ -66,11 +66,11 @@ grails.spring.bean.packages = []
 // set per-environment serverURL stem for creating absolute links
 environments {
 	production
-	{ grails.serverURL = "http://www.changeme.com" }
+	{ grails.serverURL = "https://biomech.uow.edu.au/biomech" }
 	development
 	{ grails.serverURL = "http://localhost:8080/${appName}" }
 	test
-	{ grails.serverURL = "http://localhost:8080/${appName}" }
+	{ grails.serverURL = "https://biomechtst.uow.edu.au/biomech" }
 	intersect_test
 	{ grails.serverURL = "http://www.changeme.com" }
 	intersect_demo
@@ -85,6 +85,9 @@ switch(Environment.current) {
 	case Environment.DEVELOPMENT:
 		bdcp.log.dir="C:/work/biomechanics/logs/biomech.log"
 		break
+	case Environment.CUSTOM:
+		bdcp.log.dir="C:/work/biomechanics/logs/biomech.log"
+		break
 	case Environment.TEST:
 		bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
 		break
@@ -92,6 +95,8 @@ switch(Environment.current) {
 		bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
 		break
 }
+println "Environemnt is: ******************** " + Environment.current
+bdcp.log.dir="C:/work/biomechanics/logs/biomech.log"
 
 // log4j configuration
 log4j = {
@@ -101,6 +106,18 @@ log4j = {
 	// Example of changing the log pattern for the default console
 	// appender:
 	//
+	appenders {
+		console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+			appender new org.apache.log4j.DailyRollingFileAppender(name: 'rollingFileAppender', datePattern: "'.'yyyy-MM-dd'.log'", layout: pattern(conversionPattern: '%-5p %d{dd/MMM/yyyy:HH:mm:ss,SSS} [%t] %c - %m%n'), file: bdcp.log.dir)
+			appender new SMTPAppender(name:'smtp', to:'kherrman@uow.edu.au', from:'kherrman@uow.edu.au', SMTPHost:'smtp.uow.edu.au', subject:'Biomechanics error [Log4j SMTPAppender]', layout:pattern (conversionPattern:'%d{[ dd.MM.yyyy HH:mm:ss.SSS]} [%t] %n%-5p %n%c %n%C %n %x %n %m%n'))
+	}
+				
+	root {
+		info()
+		warn 'stdout'
+		error 'smtp', 'rollingFileAppender'
+		additivity = true
+	}
 				
 	info        'org.hibernate',
 				'net.sf.ehcache.hibernate'
@@ -108,7 +125,8 @@ log4j = {
 
 
 	//debug  'org.codehaus.groovy.grails.plugins.springsecurity'
-	debug  'au.org.intersect.bdcp'
+	debug  'au.org.intersect.bdcp',
+		   'org.codehaus.groovy.grails.plugins.springsecurity'
 	
 	warn  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 			'org.codehaus.groovy.grails.web.pages', //  GSP
@@ -129,6 +147,17 @@ bdcp.files.root=""
 
 switch(Environment.current) {
 	case Environment.DEVELOPMENT:
+		images.location = "web-app/images/"
+		bdcp.dev.root = "C:\\Documents and Settings\\kherrman\\Documents\\"
+		bdcp.files.root = bdcp.dev.root
+		forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
+		forms.location = bdcp.dev.root + "files/forms/"
+		files.session.location = bdcp.dev.root + "files/sessions/"
+		files.rifcs.location = bdcp.dev.root + "files/rifcs/"
+		files.analysed.location = bdcp.dev.root + "files/analysed/"
+		tmp.location = System.getProperty("java.io.tmpdir")
+		break
+	case Environment.CUSTOM:
 		images.location = "web-app/images/"
 		bdcp.dev.root = "C:\\Documents and Settings\\kherrman\\Documents\\"
 		bdcp.files.root = bdcp.dev.root
@@ -226,7 +255,8 @@ environments {
 		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics,dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+//		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
 	}
 	
 	test {
@@ -445,7 +475,7 @@ environments
 
 
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'au.org.intersect.bdcp.SecUser'
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'au.org.intersect.bdcp.UserStore'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'au.org.intersect.bdcp.SecUserSecRole'
 grails.plugins.springsecurity.authority.className = 'au.org.intersect.bdcp.SecRole'
 //grails.plugins.springsecurity.controllerAnnotations.staticRules = [

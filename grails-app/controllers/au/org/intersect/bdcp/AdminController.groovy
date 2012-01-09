@@ -3,7 +3,8 @@ package au.org.intersect.bdcp
 import grails.plugins.springsecurity.Secured
 import au.org.intersect.bdcp.enums.UserRole
 import au.org.intersect.bdcp.ldap.LdapUser
-
+import au.org.intersect.bdcp.SecRole
+import au.org.intersect.bdcp.SecUserSecRole
 
 
 class AdminController
@@ -24,37 +25,44 @@ class AdminController
 
 	def allowedMethods = []
 
-      @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
-      def create =
-      {
-            cache false
-            def accountStatus = "Failed"
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def create =
+	{
+		cache false
+        def accountStatus = "Failed"
 
-			def username = params.username != null ? params.username : ""
-			def givenName = params.givenName != null ? params.givenName : ""
-			def sn = params.sn != null ? params.sn : ""
-			def role = params.authority != null ? params.authority : ""
-			def nlaIdentifier = params.nlaIdentifier != null ? params.nlaIdentifier : ""
-			def title = params.title != null ? params.title : null
-			
-            def user;
-            user = new UserStore(username: username, authority: role, nlaIdentifier:nlaIdentifier, title:title);
+		def userid = params.userid != null ? params.userid : params.email
+		def firstName = params.firstName != null ? params.firstName : ""
+		def surname = params.surname != null ? params.surname : ""
+		def role = params.authority != null ? params.authority : ""
+		def email = params.email != null ? params.email : ""
+		def password = params.password != null ? params.password : ""
+		def nlaIdentifier = params.nlaIdentifier != null ? params.nlaIdentifier : ""
+		def title = params.title != null ? params.title : null
+		
+		println "create::userid is: " + userid
+		println "create::firstName is: " + firstName
+		println "create::surname is: " + surname
+		println "create::password is: " + password
+	
+		def user;
+		user = new UserStore(username: userid, firstName: firstName, surname: surname, authority: role, nlaIdentifier: nlaIdentifier, title: title, email: email, password: password);
 
-            if (user?.validate())
-            {
-                  accountStatus = "Successful"
-				  def roleString = (UserRole)role.toString()
-				  def rolename = roleString.getName();
-                  render (view: "create", model:[username:username, givenName: givenName, sn: sn, role:role, rolename:rolename, nlaIdentifier:nlaIdentifier, title:title])
-            }
-            else
-            {
-                  accountStatus = "Failed"
-                  render (view: "addRole", model:[accountStatus: accountStatus, user:user, username:username, givenName: givenName, sn: sn, authority:role, nlaIdentifier:nlaIdentifier, title:title])
-            }
-           
-            return [username: username, givenName: givenName, sn: sn, role: role]
-      }
+		if (user?.validate())
+		{
+			accountStatus = "Successful"
+			def roleString = (UserRole)role.toString()
+			def rolename = roleString.getName();
+			render (view: "create", model:[userid:userid, firstName: firstName, surname: surname, role:role, rolename:rolename, nlaIdentifier:nlaIdentifier, title:title, email: email, password: password])
+		}
+		else
+		{
+			accountStatus = "Failed"
+			render (view: "addRole", model:[accountStatus: accountStatus, user:user, userid:userid, firstName: firstName, surname: surname, authority:role, nlaIdentifier:nlaIdentifier, title:title])
+        }
+       
+        return [userid: userid, firstName: firstName, surname: surname, role: role, password: password]
+	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def save =
@@ -63,30 +71,45 @@ class AdminController
 		def accountStatus = "Failed"
 		def user
 		def email
+		
+println "save::firstName is: " + params.firstName
+println "save::surname is: " + params.surname
+println "save::password is: " + params.password
 
-		if (params.username != null)
+		if (params.userid != null && !params.email)
 		{
 			LdapUser match = LdapUser.find(
-					filter: "(uid=${params.username})")
+					filter: "(uid=${params.userid})")
 			if (match !=  null)
 			{
 				email = match.mail
-				user= new UserStore(username: params.username, authority: params.role, nlaIdentifier:params.nlaIdentifier, title:params.title)
+				user= new UserStore(username: params.userid, authority: params.role, nlaIdentifier: params.nlaIdentifier, title: params.title, password: springSecurityService.encodePassword(params.password), enabled: true, deactivated: false)
 			}
+		}
+		else if( params.email) // external user
+		{
+			user = new UserStore(username: params.userid, authority: params.role, nlaIdentifier: params.nlaIdentifier, title: params.title, email: params.email, surname: params.surname, firstName: params.firstName, password: springSecurityService.encodePassword(params.password), enabled: true, deactivated: false)
+			user.save(flush:true, failOnError:true)
+			email = params.email
+			def secRole = SecRole.findByAuthority( UserRole.ROLE_LAB_MANAGER.toString())
+			def secUserSecRole = new SecUserSecRole(secUser: user, secRole: secRole)
+			secUserSecRole.save(flush:true, failOnError:true)
 		}
 		if (user!= null && user.save(flush:true))
 		{
 			accountStatus = "Successful"
 			emailNotifierService.contactUser(user.username, user.authority.getName(), email)
-			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,username:params.username, role: params.role])
+			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,userid:params.userid, role: params.role])
 			session.firstName =  ""
 			session.surname = ""
 			session.userid = ""
+			session.password = ""
+			session.email = ""
 		}
 		else
 		{
 			accountStatus = "Failed"
-			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,username:params.username])
+			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,userid:params.userid])
 		}
 	}
 
@@ -112,8 +135,9 @@ class AdminController
 	{
 		cache false
 		def matches = []
+		def flagDisplayCreateExternalUser = true
 
-		render(view: "search", model:[matches:matches])
+		render(view: "search", model: [matches: matches, flagDisplayCreateExternalUser: flagDisplayCreateExternalUser])
 	}
 
 	private String normalizeValue(value)
@@ -130,18 +154,33 @@ class AdminController
 		def hideDeactivatedUsers = (params.hideUsers == null || params.hideUsers == "false") ? false : true
 		def matches = []
 		def activatedMatches = []
+		def match
 		UserStore.list().each
 		{
-			matches <<LdapUser.find(filter: "(uid=${it?.username})")
-			if (!it?.deactivated)
+			match = LdapUser.find(filter: "(uid=${it?.username})")
+			if(match)
 			{
-				activatedMatches <<LdapUser.find(filter: "(uid=${it?.username})")
+				matches << new UserStore(username: match.uid, firstName: match.givenName, surname: match.sn)
+				
+				if (!it?.deactivated)
+				{
+					activatedMatches << new UserStore(username: match.uid, firstName: match.givenName, surname: match.sn)
+				}
+			}
+			if(it.email)
+			{
+				matches << it
+				if (!it?.deactivated)
+				{
+					activatedMatches << it
+				}
+				
 			}
 		}
 		def sortedMatches = matches.sort
-		{x,y -> x.sn <=> y.sn}
+		{x,y -> x.surname <=> y.surname}
 		def sortedActivatedMatches = activatedMatches.sort
-		{x,y -> x.sn <=> y.sn}
+		{x,y -> x.surname <=> y.surname}
 		if (hideDeactivatedUsers)
 		{
 			render (view: "listUsers", model: [ matches: sortedActivatedMatches, hideUsers: hideDeactivatedUsers])
@@ -158,6 +197,15 @@ class AdminController
 		cache false
 		def match = LdapUser.find(filter: "(uid=${params.username})")
 		def userStore = UserStore.findByUsername(params.username)
+		if(match)
+		{
+			match = new UserStore( username: match.uid, firstName: match.givenName, surname: match.sn)
+		}
+		else
+		{
+			match = userStore
+		}
+		
 		render (view:"edit", model :[matchInstance: match, userInstance: userStore, hideUsers: params.hideUsers])
 	}
 
@@ -185,7 +233,7 @@ class AdminController
 			}
 			def active = userInstance.deactivated
 			userInstance.properties = params
-			if (userInstance.deactivated && springSecurityService.principal.getUsername() == params.username)
+			if (userInstance.deactivated && springSecurityService.principal.getUsername() == params.userid)
 			{
 				flash.error="${userInstance.username} could not be deactivated because you are the current user"
 				userInstance.deactivated = false
@@ -300,8 +348,64 @@ class AdminController
 
 		def sortedMatches = matches.sort
 		{x,y -> x.getUserId() <=> y.getUserId()?: x.sn <=> y.sn ?: x.givenName <=> y.givenName}
+		
+		def flagDisplayCreateExternalUser = false
 
-		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedMatches])
+		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedMatches, flagDisplayCreateExternalUser: flagDisplayCreateExternalUser])
+	}
+	
+	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def displayCreateExternalUser =
+	{
+		cache false
+		
+		render (view: "displayCreateExternalUser", model: [firstName: params.firstName, surname:params.surname, email:params.email, password:params.password])
+	}
+	
+	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
+	def createExternalUser =
+	{
+		cache false
+		
+		if (params.firstName != null)
+		{
+			session.firstName = params.firstName
+		}
+		else
+		{
+			session.firstName = ""
+		}
+		if (params.surname != null)
+		{
+			session.surname = params.surname
+		}
+		else
+		{
+			session.surname=""
+		}
+		if (params.email != null)
+		{
+			session.email = params.email
+		}
+		else
+		{
+			session.email=""
+		}
+		if (params.password != null)
+		{
+			session.password = params.password
+		}
+		else
+		{
+			session.password=""
+		}
+
+		println "createExternalUser::firstName is: " + params.firstName
+		println "createExternalUser::surname is: " + params.surname
+		println "createExternalUser::password is: " + params.password
+		
+		
+		render (view: "addRole", model: [firstName: params.firstName, surname: params.surname, email: params.email, password: params.password])
 	}
 	
 	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -309,13 +413,20 @@ class AdminController
 	{
 		cache false
 
-		def username = params.username != null ? params.username : ""
-		def givenName = params.givenName != null ? params.givenName : ""
-		def sn = params.sn != null ? params.sn : ""
+		def userid = params.userid != null ? params.userid : params.email
+		def firstName = params.firstName != null ? params.firstName : ""
+		def surname = params.surname != null ? params.surname : ""
+		def email = params.email != null ? params.email : ""
+		def password = params.password != null ? params.password : ""
 		def role = params.authority != null ? params.authority: ""
 		def nlaIdentifier = params.nlaIdentifier != null ? params.nlaIdentifier : null
 		
-		return [username: username, givenName: givenName, sn: sn, role: role, nlaIdentifier:nlaIdentifier]
+		println "addRole::userid is: " + userid
+		println "addRole::firstName is: " + firstName
+		println "addRole::surname is: " + surname
+		println "addRole::password is: " + password
+		
+		return [userid: userid, firstName: firstName, surname: surname, email: email, password: password, role: role, nlaIdentifier: nlaIdentifier]
 	}
 	
 }

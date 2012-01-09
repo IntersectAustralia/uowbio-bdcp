@@ -14,10 +14,10 @@
                     <tbody>
                     <g:each in="${matches}" status="i" var="matchInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td>${matchInstance.username.toArray()[1]}</td>
-                             <td> ${matchInstance.givenName }</td>
-                             <td> ${matchInstance.sn }</td>
-                             <td><g:link elementId="select[${i}]" class="button right list" url="${createLink(mapping: 'addCollaborator', controller:'study', action:'addCollaborator', params:['studyId': studyInstance.id, 'username': matchInstance.username.toArray()[1]])}">Select</g:link></td>
+                            <td>${matchInstance?.username}</td>
+                             <td> ${matchInstance?.firstName }</td>
+                             <td> ${matchInstance?.surname }</td>
+                             <td><g:link elementId="select[${i}]" class="button right list" url="${createLink(mapping: 'addCollaborator', controller:'study', action:'addCollaborator', params:['studyId': studyInstance.id, 'username': matchInstance?.username]) }">Select</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>

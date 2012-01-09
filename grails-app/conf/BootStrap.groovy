@@ -8,11 +8,12 @@ import au.org.intersect.bdcp.Component
 import au.org.intersect.bdcp.Device
 import au.org.intersect.bdcp.DeviceField
 import au.org.intersect.bdcp.DeviceGroup
-import au.org.intersect.bdcp.DeviceManualForm
 import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
 import au.org.intersect.bdcp.ResultsDetailsField
+import au.org.intersect.bdcp.SecRole
+import au.org.intersect.bdcp.SecUserSecRole
 import au.org.intersect.bdcp.Session
 import au.org.intersect.bdcp.StaticMetadataObject
 import au.org.intersect.bdcp.Study
@@ -79,15 +80,15 @@ class BootStrap
 			cucumber
 			{
 				// SEE features/support/env.groovy for initialization values as used in cuke4duke
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/1234", title:'Mr')
+				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/1234", title:'Mr', enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false)
                 user.save(flush:true)
-				user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null, title:'Mr')
+				user =new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null, title:'Mr', enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false)
 				user.save(flush:true)
-				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/5678", title:'Mr')
+				user = new UserStore(username:"labman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://ands.org.au/5678", title:'Mr', enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false)
 				user.save(flush:true)
-				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, nlaIdentifier:null, title:'Mr')
+				user = new UserStore(username:"sysadm", deactivated: false, authority: UserRole.ROLE_SYS_ADMIN, nlaIdentifier:null, title:'Mr', enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false)
 				user.save(flush:true)
-				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null, title:'Mr')
+				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null, title:'Mr', enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false)
 				user.save(flush:true)
 				createStaticData() 
 			}
@@ -155,17 +156,29 @@ class BootStrap
 	}
 
 	def createTestData = { context ->
-        def user1 = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://nla.ands.org.au/1234", title:'Mr')
+        def user1 = new UserStore(username:"dpollum", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, nlaIdentifier:"http://nla.ands.org.au/1234", title:'Mr')
         user1.save(flush:true)
         
-        def user2 = new UserStore(username:"chrisk", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:"http://nla.ands.org.au/2345", title:'Mr')
+        def user2 = new UserStore(username:"chrisk", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:"http://nla.ands.org.au/2345", title:'Mr')
         user2.save(flush:true)
 		
-		def user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
+		def user = new UserStore(username:"researcher", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
 		user.save(flush:true)
 		
-		def user3 = new UserStore(username:"researcher1", deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
+		def user3 = new UserStore(username:"researcher1", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
 		user3.save(flush:true)
+		
+		def user4 = new UserStore(username:"res@hotmail.com", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr', email: 'kherrman@uow.edu.au', firstName: 'researcher1', surname: 'resSurname')
+		user4.save(flush:true, failOnError:true)
+		
+//		def secUser = new SecUser(username:"res", password: springSecurityService.encodePassword('password'), enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false)
+//		secUser.save(flush:true, failOnError:true)
+		def secRole = new SecRole(authority: UserRole.ROLE_LAB_MANAGER.toString())
+		secRole.save(flush:true, failOnError:true)
+//		println "secUser is: " + user4
+//		println "secRole is: " + secRole
+		def secUserSecRole = new SecUserSecRole(secUser: user4, secRole: secRole)
+		secUserSecRole.save(flush:true, failOnError:true)
         
 		def project = new Project(projectTitle: 'TestProject',
 				researcherName: 'researcher' ,

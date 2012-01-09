@@ -14,10 +14,10 @@
                     <tbody>
                     <g:each in="${matches}" status="i" var="matchInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td> ${matchInstance.sn }</td>
-                            <td> ${matchInstance.givenName }</td>
-                            <td>${matchInstance.username.toArray()[1]}</td>
-                            <td><g:link elementId="edit[${i}]" class="button list right" controller="admin" action="edit" params="[username: matchInstance.username.toArray()[1], hideUsers: hideUsers]">Edit</g:link></td>
+                            <td> ${matchInstance.surname }</td>
+                            <td> ${matchInstance.firstName }</td>
+                            <td>${matchInstance.username}</td>
+                            <td><g:link elementId="edit[${i}]" class="button list right" controller="admin" action="edit" params="[username: matchInstance.username, hideUsers: hideUsers]">Edit</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>

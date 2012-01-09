@@ -13,10 +13,10 @@
                     <tbody>
                     <g:each in="${matches}" status="i" var="matchInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td>${matchInstance.uid}</td>
-                             <td> ${matchInstance.givenName }</td>
-                             <td> ${matchInstance.sn }</td>
-                             <td><g:link elementId="select[${i}]" url="${createLink(mapping: 'createForResearcher', controller:'project', action:'createForResearcher', params:['nameCreateProjFor': matchInstance.uid])}">Select</g:link></td>
+                            <td>${matchInstance.username}</td>
+                             <td> ${matchInstance.firstName }</td>
+                             <td> ${matchInstance.surname }</td>
+                             <td><g:link elementId="select[${i}]" url="${createLink(mapping: 'createForResearcher', controller:'project', action:'createForResearcher', params:['nameCreateProjFor': matchInstance.username])}">Select</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>
