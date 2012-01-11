@@ -86,8 +86,14 @@ class StudyController
 		collaborators.each
 		{
 			match = LdapUser.find(filter: "(uid=${it?.username})")
-			
-			matches << new UserStore(username: match.uid, firstName: match.givenName, surname: match.sn)
+			if(match)
+			{
+				matches << new UserStore(username: match.uid, firstName: match.givenName, surname: match.sn)
+			}
+			else // external user
+			{
+				matches << it
+			}
 		}
 		def sortedCollaboratorMatches = matches.sort
 		{x,y -> x.surname <=> y.surname}

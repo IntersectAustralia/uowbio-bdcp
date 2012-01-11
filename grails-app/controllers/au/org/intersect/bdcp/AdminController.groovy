@@ -93,13 +93,13 @@ println "save::password is: " + params.password
 			user.save(flush:true, failOnError:true)
 			email = params.email
 			def _secRole = SecRole.findByAuthority( params.role )
-			println "secRole1 is: " + _secRole
+println "secRole1 is: " + _secRole
 			if(!_secRole)
 			{
 				_secRole = new SecRole( authority: params.role )
 				_secRole.save(flush:true, failOnError:true)
 			}
-			println "secRole2 is: " + _secRole
+println "secRole2 is: " + _secRole
 			def secUserSecRole = new SecUserSecRole(secUser: user, secRole: _secRole)
 			secUserSecRole.save(flush:true, failOnError:true)
 		}

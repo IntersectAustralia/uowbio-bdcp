@@ -3,7 +3,7 @@ Feature: Create User Account
   As a System Administrator
   I want to create a user account
 
-  Scenario: Create User Account
+  Scenario: Create User Account For External User
     Given I have logged in as "sysadm"
     Given I am on the home page
     And I press "system-administration"
