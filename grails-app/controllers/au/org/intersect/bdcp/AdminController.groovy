@@ -96,7 +96,7 @@ println "save::password is: " + params.password
 			println "secRole1 is: " + _secRole
 			if(!_secRole)
 			{
-				_secRole = new SecRole( authority: UserRole.ROLE_LAB_MANAGER.toString())
+				_secRole = new SecRole( authority: params.role )
 				_secRole.save(flush:true, failOnError:true)
 			}
 			println "secRole2 is: " + _secRole
