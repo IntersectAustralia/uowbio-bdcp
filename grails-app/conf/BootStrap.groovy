@@ -90,6 +90,7 @@ class BootStrap
 				user.save(flush:true)
 				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null, title:'Mr', enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false)
 				user.save(flush:true)
+				
 				createStaticData() 
 			}
 			
@@ -175,6 +176,10 @@ class BootStrap
 //		secUser.save(flush:true, failOnError:true)
 		def secRole = new SecRole(authority: UserRole.ROLE_LAB_MANAGER.toString())
 		secRole.save(flush:true, failOnError:true)
+//		secRole = new SecRole(authority: UserRole.ROLE_SYS_ADMIN.toString())
+//		secRole.save(flush:true, failOnError:true)
+//		secRole = new SecRole(authority: UserRole.ROLE_RESEARCHER.toString())
+//		secRole.save(flush:true, failOnError:true)
 //		println "secUser is: " + user4
 //		println "secRole is: " + secRole
 		def secUserSecRole = new SecUserSecRole(secUser: user4, secRole: secRole)

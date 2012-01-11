@@ -31,7 +31,7 @@ class AdminController
 		cache false
         def accountStatus = "Failed"
 
-		def userid = params.userid != null ? params.userid : params.email
+		def userid = params.userid?.length() > 0 ? params.userid : params.email
 		def firstName = params.firstName != null ? params.firstName : ""
 		def surname = params.surname != null ? params.surname : ""
 		def role = params.authority != null ? params.authority : ""
@@ -74,6 +74,7 @@ class AdminController
 		
 println "save::firstName is: " + params.firstName
 println "save::surname is: " + params.surname
+println "save::role is: " + params.role
 println "save::password is: " + params.password
 
 		if (params.userid != null && !params.email)
@@ -91,7 +92,8 @@ println "save::password is: " + params.password
 			user = new UserStore(username: params.userid, authority: params.role, nlaIdentifier: params.nlaIdentifier, title: params.title, email: params.email, surname: params.surname, firstName: params.firstName, password: springSecurityService.encodePassword(params.password), enabled: true, deactivated: false)
 			user.save(flush:true, failOnError:true)
 			email = params.email
-			def secRole = SecRole.findByAuthority( UserRole.ROLE_LAB_MANAGER.toString())
+			def secRole = SecRole.findByAuthority( params.role )
+			secRole = secRole != null ? secRole : new SecRole( authority: params.role)
 			def secUserSecRole = new SecUserSecRole(secUser: user, secRole: secRole)
 			secUserSecRole.save(flush:true, failOnError:true)
 		}
@@ -402,10 +404,11 @@ println "save::password is: " + params.password
 
 		println "createExternalUser::firstName is: " + params.firstName
 		println "createExternalUser::surname is: " + params.surname
+		println "createExternalUser::email is: " + params.email
 		println "createExternalUser::password is: " + params.password
 		
 		
-		render (view: "addRole", model: [firstName: params.firstName, surname: params.surname, email: params.email, password: params.password])
+		render (view: "addRole", model: [userid: params.email, firstName: params.firstName, surname: params.surname, email: params.email, password: params.password])
 	}
 	
 	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])

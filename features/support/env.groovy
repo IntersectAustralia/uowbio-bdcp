@@ -81,7 +81,6 @@ After() {
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, title, date_created, last_updated, enabled, account_expired, account_locked, password_expired) VALUES ('-4','0','sysadm', 'false', 'ROLE_SYS_ADMIN', null, 'Mr', now(), now(), 'true', 'false', 'false', 'false');")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, title, date_created, last_updated, enabled, account_expired, account_locked, password_expired) VALUES ('-5','0','researcher', 'false', 'ROLE_RESEARCHER', null, 'Mr', now(), now(), 'true', 'false', 'false', 'false');")
   sql.execute("INSERT INTO user_store (id,version, username, deactivated, authority, nla_identifier, title, date_created, last_updated, enabled, account_expired, account_locked, password_expired) VALUES ('-6','0','researcher1', 'false', 'ROLE_RESEARCHER', null, 'Mr', now(), now(), 'true', 'false', 'false', 'false');")
-  
   File tmpDir = new File(getTmpPath())
   File realDir = new File(getRealPath())
   File formsDir = new File(getUowBioFormsPath())
