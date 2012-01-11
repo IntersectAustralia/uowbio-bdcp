@@ -92,9 +92,15 @@ println "save::password is: " + params.password
 			user = new UserStore(username: params.userid, authority: params.role, nlaIdentifier: params.nlaIdentifier, title: params.title, email: params.email, surname: params.surname, firstName: params.firstName, password: springSecurityService.encodePassword(params.password), enabled: true, deactivated: false)
 			user.save(flush:true, failOnError:true)
 			email = params.email
-			def secRole = SecRole.findByAuthority( params.role )
-			secRole = secRole != null ? secRole : new SecRole( authority: params.role)
-			def secUserSecRole = new SecUserSecRole(secUser: user, secRole: secRole)
+			def _secRole = SecRole.findByAuthority( params.role )
+			println "secRole1 is: " + _secRole
+			if(!_secRole)
+			{
+				_secRole = new SecRole( authority: UserRole.ROLE_LAB_MANAGER.toString())
+				_secRole.save(flush:true, failOnError:true)
+			}
+			println "secRole2 is: " + _secRole
+			def secUserSecRole = new SecUserSecRole(secUser: user, secRole: _secRole)
 			secUserSecRole.save(flush:true, failOnError:true)
 		}
 		if (user!= null && user.save(flush:true))
