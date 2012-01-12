@@ -34,11 +34,6 @@
      Then I press "save"
      Then I should see words "dpollum deactivated successfully"
      Then I press "Logout"
-   	 Then I should see "Please enter your userid and password to login"
-     Then I fill in "j_username" with "dpollum"
-   	 Then I fill in "j_password" with "password"
-   	 Then I press "Login"
-   	 Then I should see "Please enter your userid and password to login"
    	 
    	 Given I have logged in
    	 Given I am on the home page

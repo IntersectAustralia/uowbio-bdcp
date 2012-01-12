@@ -25,7 +25,7 @@ Feature: Add Collaborators to Study who are external users
  Then I press "create"
  Then I should see "nlaIdentifier" with value ""
  Then I should see "authority" selected with value ""
- Then I select "Researcher" from "authority"
+ Then I select "Lab Manager" from "authority"
  Then I fill in "title" with "Mr"
  Then I press "select"
  Then I should see "Confirm account creation"
@@ -55,4 +55,3 @@ Feature: Add Collaborators to Study who are external users
  
  Given I have logged in as "karl@hotmail.com"
  Given I am on the home page
- Then I should see "My Biomechanics Study"

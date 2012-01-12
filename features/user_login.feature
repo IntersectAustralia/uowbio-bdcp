@@ -23,4 +23,3 @@ Feature: User Login
    Then I press "Clear"
    Then I should see "j_username" with value ""
    Then I should see "j_password" with value ""
-   
