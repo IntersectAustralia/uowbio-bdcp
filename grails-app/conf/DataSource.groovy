@@ -27,6 +27,13 @@ environments {
 			driverClassName = "org.postgresql.Driver"
 			username = "grails"
 			password = "grails"
+			
+//			dbCreate = "create-drop"
+//			url = "jdbc:oracle:thin:@hoita.its.uow.edu.au:1521:restst"
+//			driverClassName = "oracle.jdbc.driver.OracleDriver"
+//			dialect='org.hibernate.dialect.Oracle10gDialect'
+//			username = "biomechanics_data"
+//			password = "uaosyoyr"
 		}
 	}
 	test

@@ -181,6 +181,12 @@ class BootStrap
 		def user = new UserStore(username:"researcher", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
 		user.save(flush:true)
 		
+//		user = new UserStore(username:"pnewnam", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
+//		user.save(flush:true)
+//		
+//		user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
+//		user.save(flush:true)
+		
 		def user3 = new UserStore(username:"researcher1", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
 		user3.save(flush:true)
 		
@@ -208,7 +214,7 @@ class BootStrap
 				endDate: new Date(),
 				description: 'Test Description',
 				supervisors: 'test supervisor',
-                owner: user2)
+                owner: user)
 		project.save(flush: true)
 
 		def study = new Study(studyTitle: 'TestStudy',

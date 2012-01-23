@@ -88,7 +88,7 @@ class StudyController
 			match = LdapUser.find(filter: "(uid=${it?.username})")
 			if(match)
 			{
-				matches << new UserStore(username: match.uid, firstName: match.givenName, surname: match.sn)
+				matches << new UserStore(username: match.username.toArray()[1], firstName: match.givenName, surname: match.sn)
 			}
 			else // external user
 			{
@@ -139,7 +139,7 @@ class StudyController
 			match = LdapUser.find(filter: "(uid=${it?.username})")
 			if(match)
 			{
-				matches << new UserStore(username: match.uid, firstName: match.givenName, surname: match.sn)
+				matches << new UserStore(username: match.username.toArray()[1], firstName: match.givenName, surname: match.sn)
 			}
 			else // its an external user
 			{
@@ -174,7 +174,7 @@ class StudyController
 			match = LdapUser.find(filter: "(uid=${it?.username})")
 			if(match)
 			{
-				matches << new UserStore(username: match.uid, firstName: match.givenName, surname: match.sn)
+				matches << new UserStore(username: match.username.toArray()[1], firstName: match.givenName, surname: match.sn)
 			}
 			else // its an external user
 			{
@@ -281,7 +281,7 @@ class StudyController
 		
 		// return UserStore objects
 		def sortedActivatedUserStoreMatches = []
-		sortedActivatedMatches.each { sortedActivatedUserStoreMatches << new UserStore( username: it.uid, surname: it.sn, firstName: it.givenName) }
+		sortedActivatedMatches.each { sortedActivatedUserStoreMatches << new UserStore( username: it.username.toArray()[1], surname: it.sn, firstName: it.givenName) }
 		
 		// add external users
 		UserStore.list().each

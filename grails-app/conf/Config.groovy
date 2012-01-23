@@ -241,7 +241,7 @@ environments {
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
 		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+//		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
 	development {
@@ -268,7 +268,7 @@ environments {
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
 		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+//		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
 	cucumber {
@@ -491,7 +491,7 @@ grails.plugins.springsecurity.errors.login.disabled = "Sorry, your account is di
 grails.plugins.springsecurity.errors.login.expired = "Sorry, your account has expired."
 grails.plugins.springsecurity.errors.login.passwordExpired = "Sorry, your password has expired."
 grails.plugins.springsecurity.errors.login.locked = "Sorry, your account is locked."
-grails.plugins.springsecurity.errors.login.fail = "Incorrect password or userid. Please enter your UOW userid and password again or call ITS for assistance."
+grails.plugins.springsecurity.errors.login.fail = "Incorrect password or userid. Please enter your userid and password again or call ITS for assistance."
 
 
 
