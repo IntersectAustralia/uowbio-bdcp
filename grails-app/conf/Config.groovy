@@ -282,7 +282,7 @@ environments {
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
 		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+//		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
 	intersect_test {

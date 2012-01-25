@@ -45,9 +45,7 @@ class BootStrap
 		{
 			production
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
-                user.save(flush:true)
-				user = new UserStore(username:"egully", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mrs')
+				user = new UserStore(username:"egully", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Ms')
 				user.save(flush:true)
                 user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
@@ -65,13 +63,15 @@ class BootStrap
 			
 			test
 			{
-				def user = new UserStore(username:"dpollum", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
-                user.save(flush:true)
-				user = new UserStore(username:"egully", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mrs')
+				user = new UserStore(username:"egully", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Ms')
 				user.save(flush:true)
                 user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
                 user.save(flush:true)
 				user = new UserStore(username:"pnewnam", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
+				user.save(flush:true)
+				user = new UserStore(username:"jsteele", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Ms')
+				user.save(flush:true)
+				user = new UserStore(username:"bmunro", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Ms')
 				user.save(flush:true)
 				
 				createStaticData() 
