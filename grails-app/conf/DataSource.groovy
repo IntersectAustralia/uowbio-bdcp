@@ -44,10 +44,10 @@ environments {
 //			jndiName = "java:comp/env/biomechDataSource"
 //			dialect='org.hibernate.dialect.Oracle10gDialect'
 			dbCreate = "create-drop"
-			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
-			driverClassName = "org.postgresql.Driver"
-			username = "bdcp"
-			password = "bdcp"
+			url = "jdbc:hsqldb:file:devDB;shutdown=true"
+			driverClassName = "org.hsqldb.jdbcDriver"
+			username = "sa"
+			password = ""
 		}
 	}
 	
