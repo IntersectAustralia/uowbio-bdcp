@@ -40,9 +40,14 @@ environments {
 	{
 		dataSource
 		{
+//			dbCreate = "create-drop"
+//			jndiName = "java:comp/env/biomechDataSource"
+//			dialect='org.hibernate.dialect.Oracle10gDialect'
 			dbCreate = "create-drop"
-			jndiName = "java:comp/env/biomechDataSource"
-			dialect='org.hibernate.dialect.Oracle10gDialect'
+			url = "jdbc:postgresql://localhost:5432/bdcp-test"
+			driverClassName = "org.postgresql.Driver"
+			username = "grails"
+			password = "grails"
 		}
 	}
 	
@@ -62,9 +67,14 @@ environments {
 	{
 		dataSource 
 		{
-			dbCreate = "update"
-			jndiName = "java:comp/env/biomechDataSource"
-			dialect='org.hibernate.dialect.Oracle10gDialect'
+//			dbCreate = "update"
+//			jndiName = "java:comp/env/biomechDataSource"
+//			dialect='org.hibernate.dialect.Oracle10gDialect'
+			dbCreate = "create-drop"
+			url = "jdbc:postgresql://localhost:5432/bdcp-test"
+			driverClassName = "org.postgresql.Driver"
+			username = "grails"
+			password = "grails"
 		}
 	}
 
