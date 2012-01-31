@@ -44,10 +44,10 @@ environments {
 //			jndiName = "java:comp/env/biomechDataSource"
 //			dialect='org.hibernate.dialect.Oracle10gDialect'
 			dbCreate = "create-drop"
-			url = "jdbc:postgresql://localhost:5432/bdcp-test"
+			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
 			driverClassName = "org.postgresql.Driver"
-			username = "grails"
-			password = "grails"
+			username = "bdcp"
+			password = "bdcp"
 		}
 	}
 	
@@ -70,11 +70,11 @@ environments {
 //			dbCreate = "update"
 //			jndiName = "java:comp/env/biomechDataSource"
 //			dialect='org.hibernate.dialect.Oracle10gDialect'
-			dbCreate = "create-drop"
-			url = "jdbc:postgresql://localhost:5432/bdcp-test"
+			dbCreate = "update"
+			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
 			driverClassName = "org.postgresql.Driver"
-			username = "grails"
-			password = "grails"
+			username = "bdcp"
+			password = "bdcp"
 		}
 	}
 
