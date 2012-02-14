@@ -86,7 +86,7 @@ switch(Environment.current) {
 		bdcp.log.dir="C:/work/biomechanics/logs/biomech.log"
 		break
 	case Environment.CUSTOM:
-		bdcp.log.dir="C:/work/biomechanics/logs/biomech.log"
+		bdcp.log.dir="/var/lib/BDCP/biomech.log"
 		break
 	case Environment.TEST:
 		bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
@@ -159,7 +159,7 @@ switch(Environment.current) {
 		break
 	case Environment.CUSTOM:
 		images.location = "web-app/images/"
-		bdcp.dev.root = "C:\\Documents and Settings\\kherrman\\Documents\\"
+		bdcp.dev.root = "/var/lib/BDCP/"
 		bdcp.files.root = bdcp.dev.root
 		forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
 		forms.location = bdcp.dev.root + "files/forms/"
