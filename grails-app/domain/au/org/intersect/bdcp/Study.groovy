@@ -53,7 +53,7 @@ class Study
 	static constraints =
 	{
 		studyTitle(blank:false, size:1..1000, validFilename:true)
-		uowEthicsNumber(blank:false, unique:true,size:1..1000)
+		uowEthicsNumber(blank:false, size:1..1000)
 		hasAdditionalEthicsRequirements(nullable:true,inList:["No", "Yes"])
 		additionalEthicsRequirements(nullable:true, size:1..1000)
 		description(blank:false, size:1..1000)
