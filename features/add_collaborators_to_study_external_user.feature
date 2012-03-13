@@ -22,6 +22,7 @@ Feature: Add Collaborators to Study who are external users
  Given I have cleared and filled in "surname" with "Herrmanns"
  Given I have cleared and filled in "email" with "karl@hotmail.com"
  Given I have cleared and filled in "password" with "password"
+ Given I have cleared and filled in "password_2" with "password"
  Then I press "create"
  Then I should see "nlaIdentifier" with value ""
  Then I should see "authority" selected with value ""

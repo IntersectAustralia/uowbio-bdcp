@@ -37,6 +37,7 @@ Feature: Create User Account
     Given I have cleared and filled in "surname" with "Herrmann"
     Given I have cleared and filled in "email" with "karl@hotmail.com"
     Given I have cleared and filled in "password" with "myPassword"
+    Given I have cleared and filled in "password_2" with "myPassword"
     Then I press "create"
 	Then I should see "nlaIdentifier" with value ""
     Then I should see "authority" selected with value ""
