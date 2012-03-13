@@ -34,7 +34,7 @@ Feature: Create Study
       | Additional Ethics Requirements | No                      |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
-      | Subjects                       | keyword something       |
+      | Keywords                       | keyword something       |
       | Collaborators                  | Collaborator1           |
       | Start Date                     | 03/2011                 |
       | End Date                       | 03/2011                 |
@@ -68,7 +68,7 @@ Feature: Create Study
       | Additional Ethics Details      | Some Additional Requirements        |
       | Description                    | Test Description                    |
       | Industry Partners              | Partner1                            |
-      | Subjects                       | some keywords                       |
+      | Keywords                       | some keywords                       |
       | Collaborators                  | Collaborator1                       |
       | Start Date                     | 03/2011                             |
       | End Date                       | 03/2011                             |
