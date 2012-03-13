@@ -90,45 +90,6 @@ class StudyTests extends GrailsUnitTestCase
 		assertTrue "A valid study did not validate!", study.validate()
 	}
 	
-	/**
-	* Test the domain class {@link Study} to make sure that unique fields
-	* are correctly validated
-	*/
-   void testUnique()
-   {
-	   study = new Study(studyTitle: 'TestStudy',
-				uowEthicsNumber: '110678' ,
-				description: 'Test Description',
-				industryPartners: 'Partner1',
-				keywords: 'keyword',
-				collaborators: 'some collaborator',
-				startDate: new Date(),
-				endDate: new Date(),
-				project: project,
-				numberOfParticipants:"10",
-				inclusionExclusionCriteria: "No Criteria")
-
-	   study.beforeValidate() // BUG http://jira.grails.org/browse/GRAILS-7432
-	   assertFalse 'No validation for unique field(s)' ,study.validate()
-
-	   assertEquals 'UOW Ethics Number is not unique.','unique', study.errors['uowEthicsNumber']
-	   
-	   study = new Study(studyTitle: 'Testing Study',
-			   uowEthicsNumber: '110680' ,
-			   description: 'Test Description',
-			   industryPartners: 'Partner1',
-			   keywords: 'keyword',
-			   collaborators: 'some collaborator',
-			   startDate: new Date(),
-			   endDate: new Date(),
-			   project: project,
-			   numberOfParticipants:"10",
-			   inclusionExclusionCriteria: "No Criteria")
-	   
-	   study.beforeValidate() // BUG http://jira.grails.org/browse/GRAILS-7432
-	   assertTrue "A valid study did not validate!", study.validate()
-   }
-	
    /**
    * Test the range validation of fields in the domain class {@link Study} are
    * correctly validated
