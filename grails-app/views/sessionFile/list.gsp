@@ -34,7 +34,7 @@
 	    <g:form action="downloadFiles" controller="sessionFile" mapping="sessionFileList" params="[studyId: studyInstance.id]">
 	      <div class="list">
 	        <table>
-	      <tr><th>Right click on folder to upload files and directories</th></tr>
+	      <tr><th>Right click on session or folder to upload files and directories</th></tr>
           <tbody>
             <g:each in="${folders}" status="i" var="folder">
               <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
@@ -102,11 +102,16 @@
                "type_attr" : "rel",
                "types" : {
                    "root" : {
+                       "icon" : {"image":"${imagesDir}/component.gif"},
                        "valid_children" : "all"
                    },
                    "file" : {
                        "icon" : {"image":"${imagesDir}/leaf.gif"},
                        "valid_children" : ["none"]
+                   },
+                   "session" : {
+                       "icon" : {"image":"${imagesDir}/session.gif"},
+                       "valid_children" : ["all"]
                    }
                }
            },
@@ -138,14 +143,10 @@
     				},                                     
     				seperator_after: false,
     				seperator_before: false
-                },
-                deleteItem: { // The "delete" menu item
-                    label: "Delete",
-                    action: function () {alert('Delete Files')}
                 }
             };
 
-            if ($(obj).attr('rel') != 'folder') {
+            if ($(obj).attr('rel') == 'root' || $(obj).attr('rel') == 'file') {
                 // Delete the "delete" menu item
                 delete items.uploadFilesItem;
             }
