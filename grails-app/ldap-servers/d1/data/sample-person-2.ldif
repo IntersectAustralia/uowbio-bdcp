@@ -1,5 +1,4 @@
 dn: uid=johnk,ou=people,dc=biomechanics,dc=local
-uid: 4081
 uid: johnk
 cn: John Kenward
 displayName: John Kenward

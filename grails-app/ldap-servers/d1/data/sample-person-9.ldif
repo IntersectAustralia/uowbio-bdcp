@@ -1,5 +1,4 @@
 dn: uid=sysadm,ou=people,dc=biomechanics,dc=local
-uid: 7777
 uid: sysadm
 cn: System Administrator
 displayName: System Administrator

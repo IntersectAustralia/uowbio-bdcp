@@ -1,5 +1,4 @@
 dn: uid=johnma,ou=people,dc=biomechanics,dc=local
-uid: 4081
 uid: johnma
 cn: John Michael Anderson
 displayName: John Michael Anderson

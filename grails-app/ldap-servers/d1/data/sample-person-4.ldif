@@ -1,5 +1,4 @@
 dn: uid=abe,ou=people,dc=biomechanics,dc=local
-uid: 4081
 uid: abe
 cn: John Abe
 displayName: John Abe

@@ -1,5 +1,4 @@
 dn: uid=davidk,ou=people,dc=biomechanics,dc=local
-uid: 4081
 uid: davidk
 cn: David Kenward
 displayName: David Kenward

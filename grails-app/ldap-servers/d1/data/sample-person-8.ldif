@@ -1,5 +1,4 @@
 dn: uid=labman,ou=people,dc=biomechanics,dc=local
-uid: 7777
 uid: labman
 cn: Lab Manager
 displayName: Lab Manager

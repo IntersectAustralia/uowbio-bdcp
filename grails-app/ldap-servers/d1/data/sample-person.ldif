@@ -1,5 +1,4 @@
 dn: uid=chrisk,ou=people,dc=biomechanics,dc=local
-uid: 4081
 uid: chrisk
 cn: Chris Kenward
 displayName: Chris Kenward
