@@ -15,10 +15,10 @@
                     <tbody>
                     <g:each in="${matches}" status="i" var="matchInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td>${matchInstance.username.toArray()[1]}</td>
+                            <td>${matchInstance.username}</td>
                              <td> ${matchInstance.givenName }</td>
                              <td> ${matchInstance.sn }</td>
-                             <td><g:link elementId="select[${i}]" controller="admin" action="addRole" params="[userid: matchInstance.username.toArray()[1], firstName: matchInstance.givenName, surname: matchInstance.sn]">Select</g:link></td>
+                             <td><g:link elementId="select[${i}]" controller="admin" action="addRole" params="[userid: matchInstance.username, firstName: matchInstance.givenName, surname: matchInstance.sn]">Select</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>
