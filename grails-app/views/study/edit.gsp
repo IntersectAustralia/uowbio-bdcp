@@ -124,7 +124,7 @@
                                   <label for="collaborators"><g:message code="study.collaborators.label" default="Collaborators" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: studyInstance, field: 'collaborators', 'errors')}">
-                                    <g:textField name="collaborators" value="${studyInstance?.collaborators}" />
+                                    <g:textArea name="collaborators" value="${studyInstance?.collaborators}" rows="3" cols="40"/>
                                 </td>
                             </tr>
                         

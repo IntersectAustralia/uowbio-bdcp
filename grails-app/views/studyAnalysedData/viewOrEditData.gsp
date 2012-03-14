@@ -25,7 +25,8 @@
             </div>
             </g:hasErrors>
             </g:each>
-            
+
+            <g:if test="${studyAnalysedDataFields.size()>0}">
             
             <g:form id="saveForm" method="post"  mapping="studyAnalysedData" params="['studyId':studyInstance.id,'folder':studyAnalysedData.folder]" action="updateData">
                 <g:hiddenField name="mode" value="${mode}" />
@@ -55,6 +56,14 @@
                 </div>
                 </g:else>
             </g:form>
+
+            </g:if>
+            <g:else>
+            There are no fields defined in <b>Results Details Template</b>. Please contact your administrator.
+            <div class="buttons">
+                <span class="button"><g:link elementId="cancel" class="list" mapping="studyAnalysedData" action="list" params="[studyId:studyInstance.id]">Return</g:link></span>
+            </div>
+            </g:else>
         </div>
     </body>
 </html>

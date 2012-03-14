@@ -106,7 +106,7 @@ println "secRole2 is: " + _secRole
 		if (user!= null && user.save(flush:true))
 		{
 			accountStatus = "Successful"
-			emailNotifierService.contactUser(user.username, user.authority.getName(), email)
+			emailNotifierService.contactUser(params.email ? "mailExternal" : "mail", user.username, params.password, email, user.authority.getName())
 			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,userid:params.userid, role: params.role])
 			session.firstName =  ""
 			session.surname = ""
@@ -367,54 +367,68 @@ println "secRole2 is: " + _secRole
 	{
 		cache false
 		
-		render (view: "displayCreateExternalUser", model: [firstName: params.firstName, surname:params.surname, email:params.email, password:params.password])
+		render (view: "displayCreateExternalUser", model: [firstName: params.firstName, surname:params.surname, email:params.email, formErrors:[]])
 	}
 	
 	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def createExternalUser =
 	{
 		cache false
+                def formErrors = [:]
 		
-		if (params.firstName != null)
+		if (params.firstName != null && params.firstName.length() > 0)
 		{
 			session.firstName = params.firstName
 		}
 		else
 		{
 			session.firstName = ""
+			formErrors['firstName'] = 'Please provide first name'
 		}
-		if (params.surname != null)
+		if (params.surname != null && params.surname.length() > 0)
 		{
 			session.surname = params.surname
 		}
 		else
 		{
 			session.surname=""
+			formErrors['surname'] = 'Please provide first name'
 		}
-		if (params.email != null)
+		if (params.email != null && params.email.length() > 0)
 		{
 			session.email = params.email
 		}
 		else
 		{
 			session.email=""
+			formErrors['email'] = 'Please provide email'
 		}
-		if (params.password != null)
+		if (params.password != null && params.password.length() > 0)
 		{
-			session.password = params.password
+			if (params.password.equals(params.password_2))
+			{
+				session.password = params.password
+			}
+			else
+			{
+				formErrors['password_2'] = "Passwords do not match"
+			}
 		}
 		else
 		{
 			session.password=""
+                        formErrors['password'] = 'Please provide a password';
 		}
 
-		println "createExternalUser::firstName is: " + params.firstName
-		println "createExternalUser::surname is: " + params.surname
-		println "createExternalUser::email is: " + params.email
-		println "createExternalUser::password is: " + params.password
-		
-		
-		render (view: "addRole", model: [userid: params.email, firstName: params.firstName, surname: params.surname, email: params.email, password: params.password])
+		if (formErrors.size() == 0)
+		{
+
+			render (view: "addRole", model: [userid: params.email, firstName: params.firstName, surname: params.surname, email: params.email, password: params.password])
+		}
+		else
+		{
+			render (view: "displayCreateExternalUser", model:[firstName:session.firstName, surname:session.surname, email:session.email, formErrors:formErrors])
+		}
 	}
 	
 	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])

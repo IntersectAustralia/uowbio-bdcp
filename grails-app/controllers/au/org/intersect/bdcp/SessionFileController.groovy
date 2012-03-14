@@ -184,7 +184,7 @@ class SessionFileController
 			// case for directory that is a session that hangs off component directory
 			if (name ==~ /[0-9]+[\/][0-9]+/) {
 				def resp = component.sessions.collect { session ->
-					 ['data':session.name,'icon':'folder','state':'closed','attr':['rel':'folder'],'metadata':['folderPath':studyInstance.id + '/' + component.id + '/' + session.id]]
+					 ['data':session.name,'state':'closed','attr':['rel':'session'],'metadata':['folderPath':studyInstance.id + '/' + component.id + '/' + session.id]]
 				}
 				render resp as JSON
 				return

@@ -20,7 +20,7 @@ Feature: Publish Study
       | Additional Ethics Requirements | No                      |
       | Description                    | Test Description        |
       | Industry Partners              | Partner1                |
-      | Subjects                       | keyword                 |
+      | Keywords                       | keyword                 |
       | Collaborators                  | Collaborator1           |
       | Start Date                     | 04/2011                 |
       | End Date                       | 04/2011                 |

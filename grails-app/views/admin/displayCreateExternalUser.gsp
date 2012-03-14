@@ -16,26 +16,32 @@
 			<tr class="prop">
 				<td valign="top" class="name"><label for="firstName">First Name</label></td>
 				<td valign="top"
-					class="value ${hasErrors(bean: projectInstance, field: 'projectTitle', 'errors')}"><g:textField name="firstName" value="${session?.firstName}" />
+					class="value ${formErrors['firstName'] ? 'errors' : ''}"><g:textField name="firstName" value="${firstName}" />
 				</td>
 			</tr>
 			<tr class="prop">
 				<td valign="top" class="name"><label for="surname">Surname</label>
 				</td>
 				<td valign="top"
-					class="value ${hasErrors(bean: projectInstance, field: 'projectTitle', 'errors')}"><g:textField name="surname" value="${session?.surname}" />
+					class="value ${formErrors['surname'] ? 'errors' : ''}"><g:textField name="surname" value="${surname}" />
 				</td>
 			</tr>
 			<tr class="prop">
 				<td valign="top" class="name"><label for="email">Email</label></td>
 				<td valign="top"
-					class="value ${hasErrors(bean: projectInstance, field: 'projectTitle', 'errors')}"><g:textField name="email" value="${session?.email}" />
+					class="value ${formErrors['email'] ? 'errors' : ''}"><g:textField name="email" value="${email}" />
 				</td>
 			</tr>
 			<tr class="prop">
 				<td valign="top" class="name"><label for="password">Password</label></td>
 				<td valign="top"
-					class="value ${hasErrors(bean: projectInstance, field: 'projectTitle', 'errors')}"><g:passwordField name="password" value="${session?.password}" />
+					class="value ${formErrors['password'] ? 'errors' : ''}"><g:passwordField name="password" value="" />
+				</td>
+			</tr>
+			<tr class="prop">
+				<td valign="top" class="name"><label for="password_2">Confirm password</label></td>
+				<td valign="top"
+					class="value ${formErrors['password_2'] ? 'errors' : ''}"><g:passwordField name="password_2" value="" />
 				</td>
 			</tr>
 
