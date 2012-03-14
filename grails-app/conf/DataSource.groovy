@@ -40,14 +40,14 @@ environments {
 	{
 		dataSource
 		{
-			dbCreate = "create-drop"
-			jndiName = "java:comp/env/biomechDataSource"
-			dialect='org.hibernate.dialect.Oracle10gDialect'
 //			dbCreate = "create-drop"
-//			url = "jdbc:hsqldb:file:devDB;shutdown=true"
-//			driverClassName = "org.hsqldb.jdbcDriver"
-//			username = "sa"
-//			password = ""
+//			jndiName = "java:comp/env/biomechDataSource"
+//			dialect='org.hibernate.dialect.Oracle10gDialect'
+			dbCreate = "create-drop"
+			url = "jdbc:hsqldb:file:devDB;shutdown=true"
+			driverClassName = "org.hsqldb.jdbcDriver"
+			username = "sa"
+			password = ""
 		}
 	}
 	
@@ -67,14 +67,14 @@ environments {
 	{
 		dataSource 
 		{
-			dbCreate = "update"
-			jndiName = "java:comp/env/biomechDataSource"
-			dialect='org.hibernate.dialect.Oracle10gDialect'
 //			dbCreate = "update"
-//			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
-//			driverClassName = "org.postgresql.Driver"
-//			username = "bdcp"
-//			password = "bdcp"
+//			jndiName = "java:comp/env/biomechDataSource"
+//			dialect='org.hibernate.dialect.Oracle10gDialect'
+			dbCreate = "update"
+			url = "jdbc:postgresql://localhost:5432/bdcp-prod"
+			driverClassName = "org.postgresql.Driver"
+			username = "bdcp"
+			password = "bdcp"
 		}
 	}
 
