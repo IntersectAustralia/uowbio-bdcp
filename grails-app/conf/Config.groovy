@@ -96,7 +96,6 @@ switch(Environment.current) {
 		break
 }
 println "Environemnt is: ******************** " + Environment.current
-bdcp.log.dir="C:/work/biomechanics/logs/biomech.log"
 
 // log4j configuration
 log4j = {
