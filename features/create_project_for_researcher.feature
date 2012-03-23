@@ -43,7 +43,7 @@ Feature: As a Lab Manager or System Administrator I Create a project for a resea
       | Project Title   | Researcher Biomechanics Project |
       | Researcher Name | The researcher                  |
       | Student Number  | 1234567890                      |
-      | Degree          | B Biomech						  |
+      | Current degree  | B Biomech						  |
       | Start Date      | 03/2011                 		  |
       | End Date        | 03/2011                 		  |
       | Description     | Studying some stuff     		  |
@@ -105,7 +105,7 @@ Feature: As a Lab Manager or System Administrator I Create a project for a resea
       | Project Title   | Researcher1 Biomechanics Project |
       | Researcher Name | The researcher1                  |
       | Student Number  | 1234567890                       |
-      | Degree          | B Biomech			   			   |
+      | Current degree  | B Biomech			   			   |
       | Start Date      | 03/2011                 		   |
       | End Date        | 03/2011                 		   |
       | Description     | Studying some stuff     		   |
@@ -120,7 +120,7 @@ Feature: As a Lab Manager or System Administrator I Create a project for a resea
       | Project Title   | Researcher1 Biomechanics Project |
       | Researcher Name | The researcher1                  |
       | Student Number  | 1234567890                      |
-      | Degree          | B Biomech						  |
+      | Current degree  | B Biomech						  |
       | Start Date      | 03/2011                 		  |
       | End Date        | 03/2011                 		  |
       | Description     | Studying some stuff     		  |

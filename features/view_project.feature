@@ -24,7 +24,7 @@ Feature: View Project
       | Project Title   | Researcher Biomechanics Project |
       | Researcher Name | Fred Bloggs             |
       | Student Number  | 123456                  |
-      | Degree          | Masters of Biomechanics |
+      | Current degree  | Masters of Biomechanics |
       | Start Date      | 03/2011                 |
       | End Date        | 03/2011                 |
       | Description     | Studying some stuff     |
@@ -39,7 +39,7 @@ Feature: View Project
       | Project Title   | Researcher Biomechanics Project |
       | Researcher Name | Fred Bloggs             |
       | Student Number  | 123456                  |
-      | Degree          | Masters of Biomechanics |
+      | Current degree  | Masters of Biomechanics |
       | Start Date      | 03/2011                 |
       | End Date        | 03/2011                 |
       | Description     | Studying some stuff     |
@@ -67,7 +67,7 @@ Feature: View Project
       | Project Title   | Researcher Biomechanics Project |
       | Researcher Name | Fred Bloggs             |
       | Student Number  | 123456                  |
-      | Degree          | Masters of Biomechanics |
+      | Current degree  | Masters of Biomechanics |
       | Start Date      | 03/2011                 |
       | End Date        | 03/2011                 |
       | Description     | Studying some stuff     |

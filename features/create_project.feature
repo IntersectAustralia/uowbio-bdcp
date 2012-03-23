@@ -24,7 +24,7 @@ Feature: Create project
       | Project Title   | My Biomechanics Project |
       | Researcher Name | researcher              |
       | Student Number  | 123456                  |
-      | Degree          | Masters of Biomechanics |
+      | Current degree  | Masters of Biomechanics |
       | Start Date      | 03/2011                 |
       | End Date        | 03/2011                 |
       | Description     | Studying some stuff     |
@@ -51,7 +51,7 @@ Feature: Create project
       | Project Title   | Chris Biomechanics Project		|
       | Researcher Name | chrisk              				|
       | Student Number  | 12345678                  		|
-      | Degree          | Masters of Biomechanics 			|
+      | Current degree  | Masters of Biomechanics 			|
       | Start Date      | 03/2011                 			|
       | End Date        | 03/2011                 			|
       | Description     | Studying some stuff     			|
@@ -78,7 +78,7 @@ Feature: Create project
       | Project Title   | Sysadm Biomechanics Project		|
       | Researcher Name | sysadm              				|
       | Student Number  | 123456789                  		|
-      | Degree          | Masters of Biomechanics 			|
+      | Current degree  | Masters of Biomechanics 			|
       | Start Date      | 03/2011                 			|
       | End Date        | 03/2011                 			|
       | Description     | Studying some stuff     			|
@@ -105,7 +105,7 @@ Feature: Create project
       | Project Title   | labman Biomechanics Project		|
       | Researcher Name | labman              				|
       | Student Number  | 1234567890                  		|
-      | Degree          | Masters of Biomechanics 			|
+      | Current degree  | Masters of Biomechanics 			|
       | Start Date      | 03/2011                 			|
       | End Date        | 03/2011                 			|
       | Description     | Studying some stuff     			|
@@ -123,7 +123,7 @@ Feature: Create project
       | Project Title   | My Biomechanics Project |
       | Researcher Name | researcher              |
       | Student Number  | 123456                  |
-      | Degree          | Masters of Biomechanics |
+      | Current degree  | Masters of Biomechanics |
       | Start Date      | 03/2011                 |
       | End Date        | 03/2011                 |
       | Description     | Studying some stuff     |
@@ -141,7 +141,7 @@ Feature: Create project
       | Project Title   | labman Biomechanics Project  			|
       | Researcher Name | labman                               	|
       | Student Number  | 1234567890                			|
-      | Degree          | Masters of Biomechanics              	|
+      | Current degree  | Masters of Biomechanics              	|
       | Start Date      | 03/2011                              	|
       | End Date        | 03/2011                              	|
       | Description     | Studying some stuff                  	|
@@ -159,7 +159,7 @@ Feature: Create project
 		| Project Title   | My Biomechanics Project |
 		| Researcher Name | researcher              |
 		| Student Number  | 123456                  |
-		| Degree          | Masters of Biomechanics |
+		| Current degree  | Masters of Biomechanics |
 		| Start Date      | 03/2011                 |
 		| End Date        | 03/2011                 |
 		| Description     | Studying some stuff     |
@@ -178,7 +178,7 @@ Feature: Create project
 		| Project Title   | Sysadm Biomechanics Project  		 |
 		| Researcher Name | sysadm                               |
 		| Student Number  | 123456789                    		 |
-		| Degree          | Masters of Biomechanics              |
+		| Current degree  | Masters of Biomechanics              |
 		| Start Date      | 03/2011                              |
 		| End Date        | 03/2011                              |
 		| Description     | Studying some stuff                  |
