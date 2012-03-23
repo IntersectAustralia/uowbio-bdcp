@@ -1,5 +1,4 @@
 dn: uid=carlos,ou=people,dc=biomechanics,dc=local
-uid: 7777
 uid: carlos
 cn: Carlos Aya
 displayName: Carlos Aya

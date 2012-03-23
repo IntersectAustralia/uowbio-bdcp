@@ -1,5 +1,4 @@
 dn: uid=jdoesmith,ou=people,dc=biomechanics,dc=local
-uid: 4081
 uid: jdoesmith
 cn: John Doe-Smith
 displayName: John Doe-Smith

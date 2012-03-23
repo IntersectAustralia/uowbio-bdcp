@@ -168,11 +168,11 @@ println "secRole2 is: " + _secRole
 			match = LdapUser.find(filter: "(uid=${it?.username})")
 			if(match)
 			{
-				matches << new UserStore(username: match.username.toArray()[1], firstName: match.givenName, surname: match.sn)
+				matches << new UserStore(username: match.username, firstName: match.givenName, surname: match.sn)
 				
 				if (!it?.deactivated)
 				{
-					activatedMatches << new UserStore(username: match.username.toArray()[1], firstName: match.givenName, surname: match.sn)
+					activatedMatches << new UserStore(username: match.username, firstName: match.givenName, surname: match.sn)
 				}
 			}
 			if(it.email)
@@ -207,7 +207,7 @@ println "secRole2 is: " + _secRole
 		def userStore = UserStore.findByUsername(params.username)
 		if(match)
 		{
-			match = new UserStore( username: match.username.toArray()[1], firstName: match.givenName, surname: match.sn)
+			match = new UserStore( username: match.username, firstName: match.givenName, surname: match.sn)
 		}
 		else
 		{

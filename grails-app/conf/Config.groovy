@@ -232,20 +232,21 @@ environments {
 
 // Spring security LDAP settings
 environments {
+
 	production {
 		// Spring security LDAP settings
-		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
-		grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
-		grails.plugins.springsecurity.ldap.context.managerPassword = ''
-		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap-ids.uow.edu.au:389'
+		grails.plugins.springsecurity.ldap.context.managerDn = 'uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au'
+		grails.plugins.springsecurity.ldap.context.managerPassword = 'Abx\\xn$4'
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,dc=uow,dc=edu,dc=au'
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.search.base = 'ou=People,dc=uow,dc=edu,dc=au'
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-//		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+		grails.plugins.springsecurity.ldap.search.subtree = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
 	}
 	
-	development {
-		
+	development {		
 		// Spring security LDAP settings
 		grails.plugins.springsecurity.ldap.context.server = 'ldap://localhost:10400'
 		grails.plugins.springsecurity.ldap.context.managerDn = "uid=admin,ou=system"
@@ -255,20 +256,21 @@ environments {
 		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics,dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-//		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
 	}
 	
 	test {
 		// Spring security LDAP settings
-		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
-		grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
-		grails.plugins.springsecurity.ldap.context.managerPassword = ''
-		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap-ids.uow.edu.au:389'
+		grails.plugins.springsecurity.ldap.context.managerDn = 'uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au'
+		grails.plugins.springsecurity.ldap.context.managerPassword = 'Abx\\xn$4'
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,dc=uow,dc=edu,dc=au'
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.search.base = 'ou=People,dc=uow,dc=edu,dc=au'
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-//		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+		grails.plugins.springsecurity.ldap.search.subtree = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
 	}
 	
 	cucumber {
@@ -329,9 +331,11 @@ environments
 				user
 				{
 					defaultDirectory = true
-					url = "ldap://ldap.uow.edu.au"
+					url = "ldap://ldap-ids.uow.edu.au"
 					port = 389
-					base = "ou=People,o=University of Wollongong,c=au"
+					base = "ou=people,dc=uow,dc=edu,dc=au"
+					userDn = "uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au"
+					password = 'Abx\\xn$4'
 					searchControls
 					{
 						searchScope = "subtree"
@@ -432,9 +436,11 @@ environments
 				user
 				{
 					defaultDirectory = true
-					url = "ldap://ldap.uow.edu.au"
+					url = "ldap://ldap-ids.uow.edu.au"
 					port = 389
-					base = "ou=People,o=University of Wollongong,c=au"
+					base = "ou=people,dc=uow,dc=edu,dc=au"
+					userDn = "uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au"
+					password = 'Abx\\xn$4'
 					searchControls
 					{
 						searchScope = "subtree"

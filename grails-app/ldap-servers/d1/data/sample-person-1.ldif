@@ -1,5 +1,4 @@
 dn: uid=dpollum,ou=people,dc=biomechanics,dc=local
-uid: 4081
 uid: dpollum
 cn: David Pollum
 displayName: David Pollum

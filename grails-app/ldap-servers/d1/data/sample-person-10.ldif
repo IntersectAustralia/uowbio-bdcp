@@ -1,5 +1,4 @@
 dn: uid=researcher,ou=people,dc=biomechanics,dc=local
-uid: 7777
 uid: researcher
 cn: The Researcher
 displayName: The Researcher

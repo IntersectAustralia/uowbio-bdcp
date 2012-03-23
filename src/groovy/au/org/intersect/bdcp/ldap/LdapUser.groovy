@@ -9,7 +9,7 @@ class LdapUser{
 	@GldapoNamingAttribute
 	String uid
 	@GldapoSynonymFor("uid")
-	Set<String> username
+	String username
 	String cn
 	String sn
 	String givenName
@@ -18,8 +18,8 @@ class LdapUser{
 	String displayName
 
 	def String getUserId()
-	{
-		def userId = this.username?.toArray()[1]
+	{println "username is: " + username
+		def userId = this.username
 		if (userId != null)
 		{
 			return userId
