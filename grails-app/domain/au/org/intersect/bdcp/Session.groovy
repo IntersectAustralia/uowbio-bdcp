@@ -1,9 +1,13 @@
 package au.org.intersect.bdcp
 
-class Session {
+class Session implements Comparable {
 
 	String name
 	String description
+
+        int compareTo(obj) {
+           return name.compareTo(obj.name)
+        }
 	
 	static belongsTo = [component:Component]
 	

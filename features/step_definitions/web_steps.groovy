@@ -96,14 +96,16 @@ Given(~"I have created a collaborator study with \"(.*)\", \"(.*)\", \"(.*)\", \
 	sql.execute("INSERT INTO study_collaborator (id, version, collaborator_id, study_id) VALUES ('${study_collaborator_id}', '0', ${collaboratorId}, '${study_id}')")
 }
 
-Given(~"I have created a component with \"(.*)\", \"(.*)\"") { String name, String description ->
+Given(~"I have created a component (\\d+) for study (\\d+) with \"(.*)\", \"(.*)\"") { int id, int studyId, String name, String description ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO component (id,version, study_id, name, description) VALUES ('-3000','0','-2000', ${name}, ${description});")
+	sql.execute("INSERT INTO component (id,version, study_id, name, description) VALUES ('${id}','0','${studyId}', ${name}, ${description});")
 }
 
-Given(~"I have created a session with \"(.*)\", \"(.*)\"") { String name, String description ->
+Given(~"I have created a session (\\d+) for component (\\d+) with \"(.*)\", \"(.*)\"") { int id, int componentId, String name, String description ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO study_session (id,version, component_id, name, description) VALUES ('-4000','0', '-3000', ${name}, ${description});")
+	sql.execute("INSERT INTO study_session (id,version, component_id, name, description) VALUES ('${id}','0', '${componentId}', ${name}, ${description});")
+        def path = '-2000/'+componentId+'/'+id
+        new File('web-app/uowbio/files/sessions',path).mkdirs()
 }
 
 Given(~"I have created a device grouping with \"(.*)\"") { String groupingName ->
@@ -204,9 +206,9 @@ Then(~"I should have file service (.*) \"(.*)\"") { String type, String path ->
 	assertTrue("folder".equals(type) == file.isDirectory())
 }
 
-Then(~"I use uploader to upload files to study (\\d+) in folder \"(.*)\"") { String studyId, String destFolder ->
-	def mph = new MultipartPostHelper("http://localhost:8080/BDCP/studyAnalysedData/${studyId}/uploadFiles")
-    def destDir = destFolder
+Then(~"I use uploader to upload files to study (\\d+) into session (\\d+) and path \"(.*)\"") { String studyId, String sessionId, String destFolder, table ->
+	def mph = new MultipartPostHelper("http://localhost:8080/BDCP/study/${studyId}/session/${sessionId}/sessionFile/uploadFiles")
+        def destDir = destFolder
 	def dirStruct = """[{"folder_root":"test-files","file_1":"test-files/form-upload1.txt",
 		              "file_2":"test-files/form-upload2.txt","file_3":"test-files/form-upload3.txt"}]"""
 	mph.addStringPart('dirStruct', dirStruct, 'application/json', 'utf-8')
@@ -393,6 +395,28 @@ Then(~"I should see \"(.*)\" selected with value \"(.*)\"") { String field, Stri
 Then(~"I select file \"(.*)\" from \"(.*)\"") { String filePath, String field ->
 	fieldElement = browser.findElement(By.name(field))
 	fieldElement.sendKeys(new File(filePath).getAbsolutePath())
+}
+
+Then(~"I open folder \"(.*)\"") { String folderName ->
+        js = """
+           var obj = \$('div.list a:contains("' + arguments[0] +'")').parent();
+           var tree = obj.parents('div.jstree-0');
+           tree.jstree('open_node',obj);
+           return obj.size();
+        """
+        assertEquals(1,browser.executeScript(js,folderName))
+        Thread.sleep(5000);
+}
+
+Then(~"I open context menu for \"(.*)\"") { String folderName ->
+        js = """
+           var obj = \$('div.list a:contains("' + arguments[0] +'")').parent();
+           var tree = obj.parents('div.jstree-0');
+           tree.jstree('show_contextmenu',obj);
+           return obj.size();
+        """
+        assertEquals(1,browser.executeScript(js,folderName))
+        Thread.sleep(5000);
 }
 
 Then(~"I should see table \"(.*)\" with contents") { String tableId, cuke4duke.Table table ->

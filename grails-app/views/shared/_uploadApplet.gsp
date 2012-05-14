@@ -57,7 +57,7 @@
 		        	</script>
                     <applet codebase="${request.contextPath}/applets"
                             ARCHIVE="uploader.jar, lib/commons-codec-1.4.jar, lib/commons-httpclient-3.1.jar, lib/commons-logging-1.1.1.jar, lib/log4j-1.2.15.jar, lib/plugin.jar"
-                            code="au.org.intersect.uploader.main.UploadApplet"
+                            CODE="au.org.intersect.uploader.main.UploadApplet"
                             width="95" height="30" MAYSCRIPT>
                             <param name="mayscript" value="true" />
                             <param name="uploadURL" value="${uploadUrl}" />

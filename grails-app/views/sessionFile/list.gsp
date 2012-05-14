@@ -30,7 +30,7 @@
         <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab4']}" />
         <div id="tabs-details">
 
-	
+	<g:if test="${folders.size()!=0}">
 	    <g:form action="downloadFiles" controller="sessionFile" mapping="sessionFileList" params="[studyId: studyInstance.id]">
 	      <div class="list">
 	        <table>
@@ -49,6 +49,15 @@
 	      </div>
 	      <g:submitButton class="button" name="Download"></g:submitButton>
 	    </g:form>
+        </g:if>
+        <g:else>
+	      <div class="list">
+	        <table>
+	          <tr><th>There are no components</th></tr>
+	        </table>
+	      </div>
+            
+        </g:else>
 		</div>
         
         
