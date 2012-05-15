@@ -176,21 +176,23 @@ Given(~"I have created result fields") {
 	}
 }
 
-def deleteAll(File f) {
+def deleteChildren(File f) {
 	if (!f.exists()) { return; }
 	if (!f.isDirectory()) {
-		if (!f.delete()) { throw new RuntimeException("Cannot delete " + f.getAbsolutePath()); }
+            assertTrue(f.delete())
 	    return;
 	}
 	f.listFiles().each { File child ->
-		if (!".".equals(child.getName()) && !"..".equals(child.getName())) deleteAll(child)
+		if (!".".equals(child.getName()) && !"..".equals(child.getName())) {
+                    deleteChildren(child)
+                    assertTrue(!child.exists() || child.delete())
+                }
 	}
-	if (!f.delete()) { throw new RuntimeException("Cannot delete directory " + f.getAbsolutePath()); }
 }
 
 Given(~"the file service folder \"(.*)\" is empty") { String path ->
 	def rootPath = new File("web-app/" + path)
-	deleteAll(rootPath)
+	deleteChildren(rootPath)
 }
 
 Given(~"the file service folder \"(.*)\" exists") { String path ->
@@ -206,17 +208,31 @@ Then(~"I should have file service (.*) \"(.*)\"") { String type, String path ->
 	assertTrue("folder".equals(type) == file.isDirectory())
 }
 
+// table of form expected by uploader
+// | token       | path          |  content (optional) |
+// | folder_root | a_parent_path |                     |
+// | file_1      | file_name_1   |  file_to_copy_1     |
+// | file_2      | file_name_2   |  file_to_copy_2     |
+// ... etc
 Then(~"I use uploader to upload files to study (\\d+) into session (\\d+) and path \"(.*)\"") { String studyId, String sessionId, String destFolder, table ->
 	def mph = new MultipartPostHelper("http://localhost:8080/BDCP/study/${studyId}/session/${sessionId}/sessionFile/uploadFiles")
         def destDir = destFolder
-	def dirStruct = """[{"folder_root":"test-files","file_1":"test-files/form-upload1.txt",
-		              "file_2":"test-files/form-upload2.txt","file_3":"test-files/form-upload3.txt"}]"""
+        def dirStruct = '[{' + table.rows().collect({row -> '"' + row.get(0) + '":"' + row.get(1) + '"'}).join(',') + '}]';
 	mph.addStringPart('dirStruct', dirStruct, 'application/json', 'utf-8')
 	mph.addStringPart('destDir', destDir, 'text/plain', 'utf-8')
-	mph.addFilePart('file_1', new File('features/test-files/form-upload1.txt'))
-	mph.addFilePart('file_2', new File('features/test-files/form-upload2.txt'))
-	mph.addFilePart('file_3', new File('features/test-files/form-upload3.txt'))
+        table.rows().each {row ->
+            if (row.get(0).startsWith('file_')) {
+	        mph.addFilePart(row.get(0),
+                      new File('features', (row.size() == 3 ? row.get(2) : row.get(1))))
+            }
+        }
 	mph.execute()
+}
+
+Then(~"assert files \"(.*)\" and \"(.*)\" are identical") { String fname1, String fname2 ->
+    def file1 = new File(fname1)
+    def file2 = new File(fname2)
+    assertEquals(file1.text, file2.text)
 }
 
 def getDevice(String name) {
@@ -471,6 +487,9 @@ Then(~"I wait for ajax") {
 }
 
 Then(~"I wait 10mins") {
+        println "**********************************************************"
+        println "*               WAITING 10 MINUTES                        "
+        println "**********************************************************"
 	Thread.sleep(600000)
 }
 
