@@ -124,7 +124,6 @@
         | folder_root | test-files                  |                             |
         | file_1      | test-files/form-upload1.txt | test-files/form-upload2.txt |
         Then assert files "features/test-files/form-upload2.txt" and "web-app/uowbio/files/sessions/2000/3000/4000/test-folder/test-files/form-upload1.txt" are identical
-        Then I wait 10mins
 	Then I press "all-projects"
 	And I follow "My Biomechanics Project"
 	And I follow "My Biomechanics Study"
