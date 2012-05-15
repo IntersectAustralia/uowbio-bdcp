@@ -494,10 +494,9 @@ width: 100%;
 
 .projects li {
 	margin: 0px 0 0 0; padding: 00px 0 0px 40px;
-	height: 30px;
 	border-bottom: 1px solid  #E5E5E5;
-		background-color: #F5F5F5;
-		line-height: 29px;
+	background-color: #F5F5F5;
+	line-height: 29px;
 	list-style-type: none;
 }
 
@@ -813,9 +812,11 @@ table#studyTable {
   display: inline; float: right; line-height: 14px;
 }
 
+ 
 .projects a.create.button {
-	float: left;
-}
+ 	float: left;
+} 
+
 
 .project_study, a.project_study, a.project_study:link, a.project_study:visited {
 	font-weight: normal; color: #000;
