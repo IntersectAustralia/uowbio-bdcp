@@ -15,7 +15,7 @@
             <br />
             <br />
             <g:if test="${deviceInstanceList.size() > 0}">
-            <h2>Devices</h2>
+            <h2>Existing Devices</h2>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>

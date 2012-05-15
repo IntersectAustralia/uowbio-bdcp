@@ -22,7 +22,7 @@ Feature: Edit Device Metadata for Study
  Then I press "device-details[0]"
  Then I should see "Device1 Details Template"
  Then I press "Add Field"
- Then I should see "Add New Device1 Details Template Field"
+ Then I should see "Add new field"
  Then I fill in "fieldLabel" with "Location of Strap"
  Then I select radiobutton "TEXTAREA" from "fieldType"
  Then I press "save"
@@ -30,7 +30,7 @@ Feature: Edit Device Metadata for Study
  
  Then I should see "Device1 Details Template"
  Then I press "Add Field"
- Then I should see "Add New Device1 Details Template Field"
+ Then I should see "Add new field"
  Then I fill in "fieldLabel" with "Select a Radio Button Option"
  Then I select radiobutton "RADIO_BUTTONS" from "fieldType"
  Then I fill in "fieldOptions" with "Option1"
@@ -42,7 +42,7 @@ Feature: Edit Device Metadata for Study
  
  Then I should see "Device1 Details Template"
  Then I press "Add Field"
- Then I should see "Add New Device1 Details Template Field"
+ Then I should see "Add new field"
  Then I fill in "fieldLabel" with "Select a Drop Down Option"
  Then I select radiobutton "DROP_DOWN" from "fieldType"
  Then I fill in "fieldOptions" with "Option1"

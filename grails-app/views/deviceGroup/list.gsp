@@ -18,6 +18,7 @@
             <g:if test ="${deviceGroupInstanceList.size() > 0}" >
             
             <h2>Existing Device Groupings</h2>
+            <p>Click on a Grouping Name to add or view devices for that grouping</p>
             
             <div class="list">
                 <table>

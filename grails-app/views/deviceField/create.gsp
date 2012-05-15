@@ -7,7 +7,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'deviceField.label', default: 'DeviceField')}" />
-        <title>Add New ${deviceInstance.name} Details Template Field</title>
+        <title>${deviceInstance.name} - Add new field</title>
         <g:javascript library="jquery" plugin="jquery"/>
         <jqui:resources />
         <g:render template="ckeditor" />
@@ -35,7 +35,7 @@
     </head>
     <body>
         <div class="body">
-            <h1>Add New ${deviceInstance.name} Details Template Field</h1>
+            <h1>Add new field</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -44,6 +44,7 @@
                 <g:renderErrors bean="${deviceFieldInstance}" as="list" />
             </div>
             </g:hasErrors>
+            <p>Please enter a label for the new field, select the field type and tick the mandatory box if applicable. Please note that radio buttons will always be mandatory.</p>
              <g:form mapping="deviceFieldDetails" action="save" params="[deviceGroupId: params.deviceGroupId, deviceId: params.deviceId]" >
                 <div class="dialog">
                     <table>

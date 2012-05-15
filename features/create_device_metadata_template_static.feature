@@ -21,7 +21,7 @@ Feature: Create Device Metadata Template
  Then I press "device-details[0]"
  Then I should see "Device1 Details Template"
  Then I press "Add Field"
- Then I should see "Add New Device1 Details Template Field"
+ Then I should see "Add new field"
  Then I fill in "fieldLabel" with "A header 123"
  Then I select radiobutton "STATIC_TEXT" from "fieldType"
  Then I fill in "staticContent" with "This is my static text"
