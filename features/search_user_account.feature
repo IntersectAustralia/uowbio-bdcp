@@ -47,7 +47,6 @@ Feature: Search User Accounts
      Then I fill in "title" with "Prof."
      Then I press "select"
      Then I should see "Confirm account creation"
-     Then I print the page
      Then I press "cancel"
      Then I should see a 4 column table "searchTable" with contents
      |chrisk | Chris | Kenward  | Select  |

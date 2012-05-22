@@ -58,8 +58,6 @@ class AdminController
 		def email
                 def ok = true
                 def msg = null
-                print "SAVE *****"
-                print params
 		
 		if (!params.isExternal)
 		{

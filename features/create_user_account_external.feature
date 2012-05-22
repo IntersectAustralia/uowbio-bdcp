@@ -47,3 +47,5 @@ Feature: Create User Account
     Then I should see "Confirm account creation"
     Then I press "confirm"
     Then I should see "Success"
+    Then I logout
+    Then I log in as "karl@hotmail.com" with "myPassword"

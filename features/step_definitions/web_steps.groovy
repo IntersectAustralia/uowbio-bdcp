@@ -65,6 +65,21 @@ Given(~"I have logged in as \"(.*)\"") { String username ->
 	browser.findElementById("Login").click()
 }
 
+Then(~"I log in as \"(.*)\" with \"(.*)\"") { String username, String password ->
+	browser.get("http://localhost:8080/BDCP/login/auth")
+	fieldElement = browser.findElement(By.name("j_username"))
+	fieldElement.sendKeys(username)
+	fieldElement = browser.findElement(By.name("j_password"))
+	fieldElement.sendKeys(password)
+	browser.findElementById("Login").click()
+        assertThat(browser.findElementByTagName('body').text, containsString("Logout"))
+}
+
+Then(~"I logout") {
+    browser.get("http://localhost:8080/BDCP")
+    browser.findElementById('Logout').click()
+}
+
 Given(~"I am on the email page") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/list")
 }
