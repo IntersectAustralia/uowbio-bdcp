@@ -42,9 +42,7 @@
 </g:form>
 <br/><hr/><br/>
 <g:if test="${flagDisplayCreateExternalUser == true}">
-	<g:form action="displayCreateExternalUser" method="post">
-		<span class="button"><g:submitButton	name="create ext" id="createExternal" class="save button" value="Create External User" /></span>
-	</g:form>
+	<h1 class="border-button"><g:link elementId="createExternal" controller+"admin" action="displayCreateExternalUser">Create External User Account</g:link></h1>
 </g:if>
 
 	<g:render template="list" model="['matches': matches]" />

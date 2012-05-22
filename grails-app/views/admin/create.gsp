@@ -44,22 +44,43 @@
       style="float: left; margin: 0 7px 20px 0;"></span>Are you sure?</p>
 </div>
 <div class="body">
+
+<h1>Confirm new account</h1>
  
 <p>Confirm account creation for ${title} ${firstName} ${surname}, with userid: ${userid} with role: ${rolename}. (User will receive an
 email notification</p>
 <p>advising of new account.)</p>
 <br />
 
-<div class="rowTop"><g:link controller="admin" class="create"
-      elementId="Confirm" class="button" params="[role: role, userid: userid, nlaIdentifier: nlaIdentifier, title: title, email:email, surname: surname, firstName: firstName, password: password]" action="save"
-      method="post">Confirm</g:link> <g:link controller="admin"
-      class="create" elementId="Cancel" class="button" action="searchUsers"
-      params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
-</div>
-<div class="rowBottom">
-<div class="buttons"><g:link controller="admin" elementId="Back"
-      class="create" action="addRole"
-      params="[role: role, userid: userid]">Back</g:link>
+<div class="rowTop">
+     <g:form>
+      <g:hiddenField name="isExternal" value="${isExternal}" />
+      <g:hiddenField name="userid" value="${userid}" />
+      <g:hiddenField name="username" value="${username}" />
+      <g:hiddenField name="firstName" value="${firstName}" />
+      <g:hiddenField name="surname" value="${surname}" />
+      <g:hiddenField name="email" value="${email}" />
+      <g:hiddenField name="password" value="${password}" />
+      <g:hiddenField name="title" value="${title}" />
+      <g:hiddenField name="authority" value="${authority}" />
+      <g:hiddenField name="nlaIdentifier" value="${nlaIdentifier}" />
+      <div class="buttons">
+            <span class="button">
+                  <g:actionSubmit name="save" id="confirm" class="save right" controller="admin" action="save" value="Confirm" />
+            </span>
+            <span class="menuButton">
+                  <g:if test="${isExternal}">
+                  <g:link controller="admin" elementId="cancel" class="list" action="displayCreateExternalUser" 
+                          params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
+                  </g:if>
+                  <g:else>
+                  <g:link controller="admin" elementId="cancel" class="list" action="searchUsers" 
+                          params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
+                  </g:else>
+            </span>
+      </div>
+ 
+     </g:form>
 </div>
 </div>
 </div>

@@ -30,7 +30,8 @@ Feature: Add Collaborators to Study who are external users
  Then I fill in "title" with "Mr"
  Then I press "select"
  Then I should see "Confirm account creation"
- Then I press "Confirm"
+ Then I press "confirm"
+ Then I should see "Success"
  Then I press "Logout"
  
  Given I have logged in as "labman" 

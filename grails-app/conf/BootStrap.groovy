@@ -40,6 +40,14 @@ class BootStrap
 		securityContextPersistenceFilter.forceEagerSessionCreation = true
 		SpringSecurityUtils.clientRegisterFilter('concurrentSessionFilter',
 		SecurityFilterPosition.CONCURRENT_SESSION_FILTER)
+
+                UserRole.values().each { authority ->
+                        if (SecRole.findByAuthority(authority.toString()) == null)
+                        {
+                                def role = new SecRole(authority: authority.toString())
+                                role.save(flush:true, failOnError:true)
+                        }
+                }
 		
 		environments
 		{
@@ -90,21 +98,6 @@ class BootStrap
 				user.save(flush:true)
 				user = new UserStore(username:"researcher", deactivated: false, authority: UserRole.ROLE_RESEARCHER, nlaIdentifier:null, title:'Mr', enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false)
 				user.save(flush:true)
-//				def user4 = new UserStore(username:"karlos@gmail.com", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr', email: 'karlos@gmail.com', firstName: 'Karlos', surname: 'Herrmann')
-//				user4.save(flush:true, failOnError:true)
-//				
-//		//		def secUser = new SecUser(username:"res", password: springSecurityService.encodePassword('password'), enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false)
-//		//		secUser.save(flush:true, failOnError:true)
-//				def secRole = new SecRole(authority: UserRole.ROLE_LAB_MANAGER.toString())
-//				secRole.save(flush:true, failOnError:true)
-//		//		secRole = new SecRole(authority: UserRole.ROLE_SYS_ADMIN.toString())
-//		//		secRole.save(flush:true, failOnError:true)
-//		//		secRole = new SecRole(authority: UserRole.ROLE_RESEARCHER.toString())
-//		//		secRole.save(flush:true, failOnError:true)
-//		//		println "secUser is: " + user4
-//		//		println "secRole is: " + secRole
-//				def secUserSecRole = new SecUserSecRole(secUser: user4, secRole: secRole)
-//				secUserSecRole.save(flush:true, failOnError:true)
 				
 				createStaticData() 
 			}
@@ -181,28 +174,13 @@ class BootStrap
 		def user = new UserStore(username:"researcher", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
 		user.save(flush:true)
 		
-//		user = new UserStore(username:"pnewnam", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
-//		user.save(flush:true)
-		
-//		user = new UserStore(username:"kherrman", deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr')
-//		user.save(flush:true)
-		
 		def user3 = new UserStore(username:"researcher1", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_RESEARCHER, title:'Mr')
 		user3.save(flush:true)
 		
 		def user4 = new UserStore(username:"res@hotmail.com", password: springSecurityService.encodePassword('password'), enabled: true, deactivated: false, authority: UserRole.ROLE_LAB_MANAGER, title:'Mr', email: 'kherrman@uow.edu.au', firstName: 'researcher1', surname: 'resSurname')
 		user4.save(flush:true, failOnError:true)
 		
-//		def secUser = new SecUser(username:"res", password: springSecurityService.encodePassword('password'), enabled: true, accountExpired: false, accountLocked: false, passwordExpired: false)
-//		secUser.save(flush:true, failOnError:true)
-		def secRole = new SecRole(authority: UserRole.ROLE_LAB_MANAGER.toString())
-		secRole.save(flush:true, failOnError:true)
-//		secRole = new SecRole(authority: UserRole.ROLE_SYS_ADMIN.toString())
-//		secRole.save(flush:true, failOnError:true)
-//		secRole = new SecRole(authority: UserRole.ROLE_RESEARCHER.toString())
-//		secRole.save(flush:true, failOnError:true)
-//		println "secUser is: " + user4
-//		println "secRole is: " + secRole
+		def secRole = SecRole.findByAuthority(UserRole.ROLE_LAB_MANAGER.toString())
 		def secUserSecRole = new SecUserSecRole(secUser: user4, secRole: secRole)
 		secUserSecRole.save(flush:true, failOnError:true)
         

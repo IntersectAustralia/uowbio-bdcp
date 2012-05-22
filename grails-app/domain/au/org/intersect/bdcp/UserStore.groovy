@@ -30,15 +30,15 @@ class UserStore {
 	static hasMany = [studyCollaborators: StudyCollaborator]
 	
     static constraints = {
-    	username(blank:false, unique:true, size:1..1000)
-		firstName(nullable:true, size:1..1000)
-		surname(nullable:true, size:1..1000)
+    	username(blank:false, unique:true, size:1..255)
+		firstName(nullable:true, size:1..255)
+		surname(nullable:true, size:1..255)
 		title(nullable:false, blank:false, size:2..20)
-		email(nullable:true)
+		email(nullable:true, size:6..255) // min email a@a.au
 		authority(nullable:false, blank:false)
 		nlaIdentifier(nullable:true, blank:false, maxSize:255)
 		published(nullable:true)
-		password nullable: true
+		password(nullable:true,minSize:1)
 	}
 	
 	String toString() {

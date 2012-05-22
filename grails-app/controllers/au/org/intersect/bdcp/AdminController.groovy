@@ -28,40 +28,25 @@ class AdminController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def create =
 	{
+
 		cache false
-        def accountStatus = "Failed"
 
-		def userid = params.userid?.length() > 0 ? params.userid : params.email
-		def firstName = params.firstName != null ? params.firstName : ""
-		def surname = params.surname != null ? params.surname : ""
-		def role = params.authority != null ? params.authority : ""
-		def email = params.email != null ? params.email : ""
-		def password = params.password != null ? params.password : ""
-		def nlaIdentifier = params.nlaIdentifier != null ? params.nlaIdentifier : ""
-		def title = params.title != null ? params.title : null
+		def username = !params.isExternal ? params.username : params.email
 		
-		println "create::userid is: " + userid
-		println "create::firstName is: " + firstName
-		println "create::surname is: " + surname
-		println "create::password is: " + password
-	
-		def user;
-		user = new UserStore(username: userid, firstName: firstName, surname: surname, authority: role, nlaIdentifier: nlaIdentifier, title: title, email: email, password: password);
+		def user = new UserStore(username: username, firstName: params.firstName, surname: params.surname, authority: params.authority, nlaIdentifier: params.nlaIdentifier, 
+                                         title: params.title, email: params.email, password: params.password);
 
-		if (user?.validate())
+		if (user.validate())
 		{
-			accountStatus = "Successful"
-			def roleString = (UserRole)role.toString()
-			def rolename = roleString.getName();
-			render (view: "create", model:[userid:userid, firstName: firstName, surname: surname, role:role, rolename:rolename, nlaIdentifier:nlaIdentifier, title:title, email: email, password: password])
+			render (view: "create", model:[userid:user.username, isExternal:params.isExternal, firstName: user.firstName, surname: user.surname, authority:user.authority,
+                                nlaIdentifier:user.nlaIdentifier, title:user.title, email: user.email, password: params.password, username:username])
 		}
 		else
 		{
-			accountStatus = "Failed"
-			render (view: "addRole", model:[accountStatus: accountStatus, user:user, userid:userid, firstName: firstName, surname: surname, authority:role, nlaIdentifier:nlaIdentifier, title:title])
-        }
+			render (view: "addRole", model:[userInstance:user, userid:user.username, firstName: user.firstName, surname: user.surname, authority:user.authority, password:params.password,
+                                isExternal: params.isExternal, email:user.email, nlaIdentifier:user.nlaIdentifier, title:user.title, username:user.username, formErrors:user.errors])
+		}
        
-        return [userid: userid, firstName: firstName, surname: surname, role: role, password: password]
 	}
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -71,53 +56,63 @@ class AdminController
 		def accountStatus = "Failed"
 		def user
 		def email
+                def ok = true
+                def msg = null
+                print "SAVE *****"
+                print params
 		
-println "save::firstName is: " + params.firstName
-println "save::surname is: " + params.surname
-println "save::role is: " + params.role
-println "save::password is: " + params.password
-
-		if (params.userid != null && !params.email)
+		if (!params.isExternal)
 		{
 			LdapUser match = LdapUser.find(
 					filter: "(uid=${params.userid})")
 			if (match !=  null)
 			{
 				email = match.mail
-				user= new UserStore(username: params.userid, authority: params.role, nlaIdentifier: params.nlaIdentifier, title: params.title, password: springSecurityService.encodePassword(params.password), enabled: true, deactivated: false)
+				user= new UserStore(username: params.userid, authority: params.authority, nlaIdentifier: params.nlaIdentifier, title: params.title, password: springSecurityService.encodePassword(params.password), enabled: true, deactivated: false)
+			        if (!user.save(flush:true, failOnError:false))
+                                {
+                                    ok = false
+                                    msg = "Error saving LDAP user data"
+                                }
 			}
+                        else
+                        {
+                                
+                                ok = false
+                                msg = "User ${params.userid} not found in LDAP!"
+                        }
 		}
-		else if( params.email) // external user
+		else // external user
 		{
-			user = new UserStore(username: params.userid, authority: params.role, nlaIdentifier: params.nlaIdentifier, title: params.title, email: params.email, surname: params.surname, firstName: params.firstName, password: springSecurityService.encodePassword(params.password), enabled: true, deactivated: false)
-			user.save(flush:true, failOnError:true)
+			user = new UserStore(username: params.userid, authority: params.authority, nlaIdentifier: params.nlaIdentifier, title: params.title, email: params.email, surname: params.surname, firstName: params.firstName, password: springSecurityService.encodePassword(params.password), enabled: true, deactivated: false)
+			if (!user.save(flush:true, failOnError:false))
+                        {
+                            ok = false;
+                            msg = "Error saving external user data"
+                        }
 			email = params.email
-			def _secRole = SecRole.findByAuthority( params.role )
-println "secRole1 is: " + _secRole
-			if(!_secRole)
-			{
-				_secRole = new SecRole( authority: params.role )
-				_secRole.save(flush:true, failOnError:true)
-			}
-println "secRole2 is: " + _secRole
-			def secUserSecRole = new SecUserSecRole(secUser: user, secRole: _secRole)
-			secUserSecRole.save(flush:true, failOnError:true)
-		}
-		if (user!= null && user.save(flush:true))
+                }
+                if (ok)
+                {
+		        def secRole = SecRole.findByAuthority( params.authority )
+		        def secUserSecRole = new SecUserSecRole(secUser: user, secRole: secRole)
+		        if (!secUserSecRole.save(flush:true, failOnError:false))
+                        {
+                            ok = false;
+                            msg = "Error saving role information ${secRole}"
+                        }
+                }
+		 
+		if (ok)
 		{
 			accountStatus = "Successful"
 			emailNotifierService.contactUser(params.email ? "mailExternal" : "mail", user.username, params.password, email, user.authority.getName())
-			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,userid:params.userid, role: params.role])
-			session.firstName =  ""
-			session.surname = ""
-			session.userid = ""
-			session.password = ""
-			session.email = ""
+			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,userid:params.userid, msg: msg, role: params.authority])
 		}
 		else
 		{
 			accountStatus = "Failed"
-			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,userid:params.userid])
+			render (view: "createStatus", model:[accountStatus: accountStatus, user: user ,userid:params.userid, msg: msg, role: params.authority])
 		}
 	}
 
@@ -276,7 +271,6 @@ println "secRole2 is: " + _secRole
 			}
 			else
 			{
-				println userInstance.errors
 				render(view: "edit", model: [matchInstance:match, userInstance: userInstance])
 			}
 		}
@@ -366,90 +360,68 @@ println "secRole2 is: " + _secRole
 	def displayCreateExternalUser =
 	{
 		cache false
-		
-		render (view: "displayCreateExternalUser", model: [firstName: params.firstName, surname:params.surname, email:params.email, formErrors:[]])
+		render (view: "displayCreateExternalUser", model: [firstName: params.firstName, surname:params.surname, email:params.email, formErrors:noFormErrors()])
 	}
 	
 	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def createExternalUser =
 	{
 		cache false
-                def formErrors = [:]
+		def user = new UserStore(username: params.email, title: 'NO', email: params.email, surname: params.surname, firstName: params.firstName, authority:UserRole.ROLE_RESEARCHER)
+	        user.validate()
+		if (params.password != params.password_2)
+                {
+                    // The following helps with field highlighting in your view
+                    user.errors.rejectValue( 'password', 'userStore.password.doesnotmatch')
+                }
+		if (params.password == null || params.password.trim().length() == 0)
+                {
+                    // The following helps with field highlighting in your view
+                    user.errors.rejectValue( 'password', 'userStore.password.blank')
+                }
+		if (params.firstName == null || params.firstName.trim().length() == 0)
+                {
+                    // The following helps with field highlighting in your view
+                    user.errors.rejectValue( 'firstName', 'userStore.firstName.blank')
+                }
+		if (params.surname == null || params.surname.trim().length() == 0)
+                {
+                    // The following helps with field highlighting in your view
+                    user.errors.rejectValue( 'surname', 'userStore.surname.blank')
+                }
 		
-		if (params.firstName != null && params.firstName.length() > 0)
+		if (!user.hasErrors())
 		{
 			session.firstName = params.firstName
-		}
-		else
-		{
-			session.firstName = ""
-			formErrors['firstName'] = 'Please provide first name'
-		}
-		if (params.surname != null && params.surname.length() > 0)
-		{
 			session.surname = params.surname
-		}
-		else
-		{
-			session.surname=""
-			formErrors['surname'] = 'Please provide first name'
-		}
-		if (params.email != null && params.email.length() > 0)
-		{
 			session.email = params.email
-		}
-		else
-		{
-			session.email=""
-			formErrors['email'] = 'Please provide email'
-		}
-		if (params.password != null && params.password.length() > 0)
-		{
-			if (params.password.equals(params.password_2))
-			{
-				session.password = params.password
-			}
-			else
-			{
-				formErrors['password_2'] = "Passwords do not match"
-			}
-		}
-		else
-		{
-			session.password=""
-                        formErrors['password'] = 'Please provide a password';
-		}
+                        session.password = params.password
 
-		if (formErrors.size() == 0)
-		{
 
-			render (view: "addRole", model: [userid: params.email, firstName: params.firstName, surname: params.surname, email: params.email, password: params.password])
+			render (view: "addRole", model: [isExternal:params.isExternal, username: params.email, firstName: params.firstName, surname: params.surname, 
+                                email: params.email, password: params.password, formErrors:noFormErrors()])
 		}
 		else
 		{
-			render (view: "displayCreateExternalUser", model:[firstName:session.firstName, surname:session.surname, email:session.email, formErrors:formErrors])
+			render (view: "displayCreateExternalUser", model:[firstName:params.firstName, surname:params.surname, email:params.email, formErrors:user.errors])
 		}
 	}
 	
+
 	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def addRole =
 	{
 		cache false
 
 		def userid = params.userid != null ? params.userid : params.email
-		def firstName = params.firstName != null ? params.firstName : ""
-		def surname = params.surname != null ? params.surname : ""
-		def email = params.email != null ? params.email : ""
-		def password = params.password != null ? params.password : ""
-		def role = params.authority != null ? params.authority: ""
-		def nlaIdentifier = params.nlaIdentifier != null ? params.nlaIdentifier : null
-		
-		println "addRole::userid is: " + userid
-		println "addRole::firstName is: " + firstName
-		println "addRole::surname is: " + surname
-		println "addRole::password is: " + password
-		
-		return [userid: userid, firstName: firstName, surname: surname, email: email, password: password, role: role, nlaIdentifier: nlaIdentifier]
+		return [username: userid, firstName: params.firstName, surname: params.surname, email: params.email, password: params.password, role: params.authority, 
+                        nlaIdentifier: params.nlaIdentifier, isExternal: params.isExternal, formErrors:noFormErrors()]
 	}
-	
+
+        def noFormErrors =
+        {
+	        def noErrors = [hasErrors: { -> false}, hasFieldErrors: { String p -> false }]	
+                return noErrors
+        }
+
 }

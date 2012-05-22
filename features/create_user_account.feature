@@ -77,4 +77,5 @@ Feature: Create User Account
      Then I fill in "title" with "Mr"
      Then I press "select"
      Then I should see "Confirm account creation"
-     Then I press "Confirm"
+     Then I press "confirm"
+     Then I should see "Success"

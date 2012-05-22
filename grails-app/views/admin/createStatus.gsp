@@ -11,19 +11,18 @@
 <p>Account Creation ${accountStatus}
 </p>
 <br/>
-<g:hasErrors bean="${user}">
-	<div class="errors"><g:renderErrors bean="${user}" as="list" />
+<g:if test="${accountStatus == 'Failed'}">
+	<div class="errors"><ul><li>${msg}</li></ul>
 	</div>
-</g:hasErrors> <g:if test="${accountStatus == 'Failed'}">
 	<p>Please create the account again</p>
 	<p>or contact your system administrator for support</p>
 	<div class="buttons"><g:link controller="admin"
 		elementId="searchUsers" class="create" action="searchUsers"
 		params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Return to Search Results</g:link>
 	</div>
-</g:if> <g:else>
+</g:if> 
 	<g:link controller="admin" elementId="accountAdmin" class="create"
 		action="accountAdmin">Return to Account Administration</g:link>
-</g:else></div>
+</div>
 </body>
 </html>

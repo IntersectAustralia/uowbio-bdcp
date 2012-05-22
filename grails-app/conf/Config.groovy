@@ -221,10 +221,12 @@ environments {
 	
 	intersect_test {
 		grails.mail.host = "localhost"
+                greenmail.disabled=true
 	}
 
 	intersect_demo {
 		grails.mail.host = "localhost"
+                greenmail.disabled=true
 	}
 
 }
