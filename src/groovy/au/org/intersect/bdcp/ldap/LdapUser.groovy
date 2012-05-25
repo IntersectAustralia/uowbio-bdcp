@@ -18,7 +18,7 @@ class LdapUser{
 	String displayName
 
 	def String getUserId()
-	{println "username is: " + username
+	{
 		def userId = this.username
 		if (userId != null)
 		{

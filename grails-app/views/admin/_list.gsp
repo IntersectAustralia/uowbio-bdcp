@@ -1,6 +1,5 @@
             
            <g:if test="${ matches.size() > 0}">
-           <h2>Results</h2>
            <div class="list">
                 <table id="searchTable">
                     <thead>

@@ -70,12 +70,12 @@ email notification</p>
             </span>
             <span class="menuButton">
                   <g:if test="${isExternal}">
-                  <g:link controller="admin" elementId="cancel" class="list" action="displayCreateExternalUser" 
-                          params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
+                      <g:actionSubmit name="back" id="cancel" class="cancel left" controller="admin" action="displayCreateExternalUser" value="Cancel" />
                   </g:if>
                   <g:else>
-                  <g:link controller="admin" elementId="cancel" class="list" action="searchUsers" 
-                          params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
+                      <g:link controller="admin"
+		          elementId="cancel" class="cancel left anchor" action="searchUsers"
+		          params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Cancel</g:link>
                   </g:else>
             </span>
       </div>

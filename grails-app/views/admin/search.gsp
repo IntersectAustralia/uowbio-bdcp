@@ -15,21 +15,18 @@
 
 			<tr class="prop">
 				<td valign="top" class="name"><label for="firstName">First Name</label></td>
-				<td valign="top"
-					class="value ${hasErrors(bean: projectInstance, field: 'projectTitle', 'errors')}"><g:textField name="firstName" value="${session?.firstName}" />
+				<td valign="top" class="value"><g:textField name="firstName" value="${session?.firstName}" />
 				</td>
 			</tr>
 			<tr class="prop">
 				<td valign="top" class="name"><label for="surname">Surname</label>
 				</td>
-				<td valign="top"
-					class="value ${hasErrors(bean: projectInstance, field: 'projectTitle', 'errors')}"><g:textField name="surname" value="${session?.surname}" />
+				<td valign="top" class="value"><g:textField name="surname" value="${session?.surname}" />
 				</td>
 			</tr>
 			<tr class="prop">
 				<td valign="top" class="name"><label for="userid">User ID</label></td>
-				<td valign="top"
-					class="value ${hasErrors(bean: projectInstance, field: 'projectTitle', 'errors')}"><g:textField name="userid" value="${session?.userid}" />
+				<td valign="top" class="value"><g:textField name="userid" value="${session?.userid}" />
 				</td>
 			</tr>
 
@@ -41,11 +38,17 @@
 	
 </g:form>
 <br/><hr/><br/>
-<g:if test="${flagDisplayCreateExternalUser == true}">
 	<h1 class="border-button"><g:link elementId="createExternal" controller+"admin" action="displayCreateExternalUser">Create External User Account</g:link></h1>
-</g:if>
 
-	<g:render template="list" model="['matches': matches]" />
+        <g:if test="${searching}">
+            <g:if test="${matches.size()>0}">
+                <h2>Results found, click <i>Select</i> on user to create UoW Account</h2>
+	        <g:render template="list" model="['matches': matches]" />
+            </g:if>
+            <g:else>
+                <h2>No results found</h2>
+            </g:else>
+        </g:if>
 
 	<div class="buttons">
     	<span class="menuButton"><g:link elementId="Back" controller="admin" class="list" action="accountAdmin">Back</g:link></span>

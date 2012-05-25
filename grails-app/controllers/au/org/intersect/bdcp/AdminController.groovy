@@ -136,9 +136,7 @@ class AdminController
 	{
 		cache false
 		def matches = []
-		def flagDisplayCreateExternalUser = true
-
-		render(view: "search", model: [matches: matches, flagDisplayCreateExternalUser: flagDisplayCreateExternalUser])
+		render(view: "search", model: [matches: matches, searching:false])
 	}
 
 	private String normalizeValue(value)
@@ -351,7 +349,7 @@ class AdminController
 		
 		def flagDisplayCreateExternalUser = false
 
-		render (view: "search", model: [firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedMatches, flagDisplayCreateExternalUser: flagDisplayCreateExternalUser])
+		render (view: "search", model: [searching:true,firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedMatches, flagDisplayCreateExternalUser: flagDisplayCreateExternalUser])
 	}
 	
 	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
@@ -376,6 +374,11 @@ class AdminController
                 {
                     // The following helps with field highlighting in your view
                     user.errors.rejectValue( 'password', 'userStore.password.blank')
+                } else
+		if (!goodPassword(params.password))
+                {
+                    // The following helps with field highlighting in your view
+                    user.errors.rejectValue( 'password', 'userStore.password.weak')
                 }
 		if (params.firstName == null || params.firstName.trim().length() == 0)
                 {
@@ -386,6 +389,11 @@ class AdminController
                 {
                     // The following helps with field highlighting in your view
                     user.errors.rejectValue( 'surname', 'userStore.surname.blank')
+                }
+		if (params.email == null || !(params.email.toLowerCase() ==~ /^[_.a-z0-9%-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/))
+                {
+                    // The following helps with field highlighting in your view
+                    user.errors.rejectValue( 'email', 'userStore.email.invalid')
                 }
 		
 		if (!user.hasErrors())
@@ -420,6 +428,12 @@ class AdminController
         {
 	        def noErrors = [hasErrors: { -> false}, hasFieldErrors: { String p -> false }]	
                 return noErrors
+        }
+
+        def goodPassword =
+        { password ->
+                // at least two letters and two digits
+                return (password =~ /[a-zA-Z].*[a-zA-Z]/) && (password =~ /[0-9].*[0-9]/)
         }
 
 }

@@ -32,11 +32,11 @@
       <div class="dialog">
          <table border="0">
           <tr><td><label for="selectRole">User role</label></td>
-                <td><g:select id="selectRole" noSelection="['':'']" from="${UserRole.list()}" keys="${UserRole.listValues()}" name="authority" value="${userInstance?.authority}"></g:select></td></tr>
+                <td class="value ${formErrors.hasFieldErrors('authority') ? 'errors' : ''}"><g:select id="selectRole" noSelection="['':'']" from="${UserRole.list()}" keys="${UserRole.listValues()}" name="authority" value="${userInstance?.authority}"></g:select></td></tr>
             <tr><td><label for="nlaIdentifier"><g:message code="admin.nlaIdentifier.label" default="NLA Persistence Identifier" /></label></td>
-		<td><g:textField id="nlaIdentifier" name="nlaIdentifier" value="${nlaIdentifier}" /></td></tr>
+		<td class="value ${formErrors.hasFieldErrors('nlaIdentifier') ? 'errors' : ''}"><g:textField id="nlaIdentifier" name="nlaIdentifier" value="${nlaIdentifier}" /></td></tr>
             <tr><td><label for="title"><g:message code="admin.title.label" default="Title" /></label></td>
-		<td><g:textField id="title" name="title" value="${title}" /></td></tr>
+		<td class="value ${formErrors.hasFieldErrors('title') ? 'errors' : ''}"><g:textField id="title" name="title" value="${title}" /></td></tr>
          </table>
       </div>
  
@@ -48,17 +48,18 @@
             </span>
             <span class="menuButton">
                   <g:if test="${isExternal}">
-                  <g:link controller="admin" elementId="Back" class="list" action="displayCreateExternalUser" 
-                          params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Back</g:link>
+                  <g:actionSubmit name="back" id="Back" class="cancel left" controller="admin" action="displayCreateExternalUser" value="Back" />
                   </g:if>
                   <g:else>
-                  <g:link controller="admin" elementId="Back" class="list" action="searchUsers" 
-                          params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Back</g:link>
+                      <g:link controller="admin"
+		          elementId="Back" class="cancel left anchor" action="searchUsers"
+		          params="[surname:session.surname, firstName: session.firstName, userid: session.userid]">Back</g:link>
                   </g:else>
             </span>
       </div>
  
-</g:form></div>
+</g:form>
+</div>
 
  
 </body>

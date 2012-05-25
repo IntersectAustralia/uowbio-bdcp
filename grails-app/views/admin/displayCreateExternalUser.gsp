@@ -61,7 +61,7 @@
 	</table>
 	</div>
 
-    <span class="button"><g:submitButton name="create" id="create" class="save button" value="Create" /></span>
+    <span class="button"><g:submitButton name="create" id="create" class="save button" value="Create Account" /></span>
 	
 </g:form>
 

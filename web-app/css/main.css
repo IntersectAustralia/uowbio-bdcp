@@ -557,13 +557,27 @@ ul.filetree { margin: 0 0 20px 0; padding: 0 0 0 30px; }
 	overflow: visible;
 }
 
+.buttons .anchor {
+	margin: 0 0 0 10px; padding: 9px 6px;
+	width: auto;
+	background: #fff;
+	border: 0;
+	color: #333;
+	cursor: pointer;
+	font-size: 10px;
+	font-weight: bold;
+	overflow: visible;
+        position: relative;
+        top: 10px;
+}
+
 .buttons input.delete {
 	background: transparent url(../images/skin/database_delete.png) 5px 50%
 		no-repeat;
 	padding-left: 28px;
 }
 
-.buttons input.cancel {
+.buttons .cancel {
 	background: transparent url(../images/skin/database_delete.png) 5px 50%
 		no-repeat;
 	padding-left: 28px;
