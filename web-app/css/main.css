@@ -464,7 +464,7 @@ input#Login { right: 0; }
 */
 
 .project_title, a.project_title, a.project_title:link, a.project_title:visited {
-	margin: 0; padding: 0 0 0 10px; height: 30px;
+	margin: 0; padding: 0 0 0 10px;
 	line-height: 30px; color: #000;
 	border-top: 1px dashed #FFF; background: #E5E5E5;
 }
