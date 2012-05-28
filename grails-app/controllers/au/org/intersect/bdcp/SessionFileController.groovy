@@ -97,10 +97,11 @@ class SessionFileController
 	def browseFiles =
 	{
 		cache false
-		def sessionObj = Session.findById(params.sessionId)
+        def sessionId = params.sessionId
+		def sessionObj = Session.findById(sessionId)
 		def path = sessionObj?.component.name + "/" + sessionObj?.name +"/" + params.directory
 		
-		['path': path]
+		['path': path,'sessionId':sessionId]
 	}
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
@@ -176,7 +177,7 @@ class SessionFileController
 
 			// case of base directory display component name for folder
 			if (''.equals(name)) {
-				def resp = ['data':component.name,'state':'closed','attr':['rel':'root'],'metadata':['folderPath':folderPath]]
+				def resp = ['data':component.name,state: 'closed', 'attr':['rel':'root'],'metadata':['folderPath':folderPath]]
 				render resp as JSON
 				return
 			}
@@ -184,21 +185,36 @@ class SessionFileController
 			// case for directory that is a session that hangs off component directory
 			if (name ==~ /[0-9]+[\/][0-9]+/) {
 				def resp = component.sessions.collect { session ->
-					 ['data':session.name,'state':'closed','attr':['rel':'session'],'metadata':['folderPath':studyInstance.id + '/' + component.id + '/' + session.id]]
+					 def map = ['data':session.name,'state':'closed','attr':['rel':'session'],
+                         'metadata':['folderPath':studyInstance.id + '/' + component.id + '/' + session.id,'sessionId':session.id]]
+                     map
 				}
 				render resp as JSON
 				return
 			 }
 
 			// other directories and files under the component/session directory trunk
+            def sessionId = params.sessionId
 			def file = fileService.getFileReference( grailsApplication.config.files.session.location, name)
 			if (file.isDirectory()) {
 			   def folders = file.listFiles().collect { f ->
-				   f.isDirectory() ? ['data':f.getName(),'icon':'folder','state':'closed','attr':['rel':'folder'],
-					   'metadata':['folderPath':('/'.equals(name) ? '' : name)+'/' +f.getName()]] : ['data':f.getName(),'attr':['rel':'file', 'folderPath':('/'.equals(name) ? '' : name)+"/"+f.getName()]]
+				   if (f.isDirectory())
+                   {
+                       ['data':f.getName(),'icon':'folder','state':'closed','attr':['rel':'folder'], 
+                            'metadata':['folderPath':('/'.equals(name) ? '' : name)+'/' +f.getName(),'sessionId':sessionId]] 
+                   }
+                   else
+                   {
+                       ['data':f.getName(),'attr':['rel':'file', 'folderPath':('/'.equals(name) ? '' : name)+"/"+f.getName()]]
+                   }
 			   }
 			   render folders as JSON
 			}
+            else
+            {
+               def folders = []
+               render folders as JSON
+            }
 		}
 	}
     

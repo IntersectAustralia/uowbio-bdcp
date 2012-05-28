@@ -29,18 +29,18 @@
           	<g:each in="${componentInstanceList}" status="i" var="componentInstance">
             	<div class="projects">
               	<span class="component_title">
-              		${fieldValue(bean: componentInstance, field: "name")} 
+              		${componentInstance.name} 
               		- 
-              		${fieldValue(bean: componentInstance, field: "description")}
+              		${componentInstance.description}
               		<g:link mapping="componentDetails" elementId="edit-component[${i}]" class="button" controller="component" action="edit" params="[studyId: params.studyId, id: componentInstance.id]"><span>Edit</span></g:link>
                 </span>
                 
                 <ul>
                 	<g:each in="${componentInstance.getSessionsList()}" status="n" var="sessionInstance">
                     <li>
-                    	${fieldValue(bean: sessionInstance, field: "name")} 
+                    	${sessionInstance.name} 
                     	- 
-                    	${fieldValue(bean: sessionInstance, field: "description")} 
+                    	${sessionInstance.description} 
                     	<g:link mapping="sessionDetails" elementId="edit-session[${n}]" class="button" controller="session" action="edit" params="[studyId: params.studyId, id: sessionInstance.id,componentId: componentInstance.id]"><span>Edit</span></g:link> 
                     </li>                        
                 	</g:each>

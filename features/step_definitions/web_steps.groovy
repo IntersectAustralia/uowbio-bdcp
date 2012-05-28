@@ -230,7 +230,7 @@ Then(~"I should have file service (.*) \"(.*)\"") { String type, String path ->
 // | file_2      | file_name_2   |  file_to_copy_2     |
 // ... etc
 Then(~"I use uploader to upload files to study (\\d+) into session (\\d+) and path \"(.*)\"") { String studyId, String sessionId, String destFolder, table ->
-	def mph = new MultipartPostHelper("http://localhost:8080/BDCP/study/${studyId}/session/${sessionId}/sessionFile/uploadFiles")
+	def mph = new MultipartPostHelper("http://localhost:8080/BDCP/study/${studyId}/sessionFile/uploadFiles?sessionId=${sessionId}")
         def destDir = destFolder
         def dirStruct = '[{' + table.rows().collect({row -> '"' + row.get(0) + '":"' + row.get(1) + '"'}).join(',') + '}]';
 	mph.addStringPart('dirStruct', dirStruct, 'application/json', 'utf-8')

@@ -68,7 +68,8 @@ environments {
 	production
 	{ grails.serverURL = "https://biomech.uow.edu.au/biomech" }
 	development
-	{ grails.serverURL = "http://localhost:8080/${appName}" }
+	{ // grails.serverURL = "http://localhost:8080/${appName}" 
+    }
 	test
 	{ grails.serverURL = "https://biomechtst.uow.edu.au/biomech" }
 	intersect_test

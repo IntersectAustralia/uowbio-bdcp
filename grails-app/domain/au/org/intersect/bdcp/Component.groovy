@@ -5,7 +5,7 @@ class Component {
 	
 	String name
 	String description
-        SortedSet sessions
+    SortedSet sessions
 
 	static belongsTo = [study:Study]
 	
