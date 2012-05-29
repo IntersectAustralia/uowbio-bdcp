@@ -14,9 +14,6 @@ private final String FILE_HTML = "<div>" + LOREM_IPSUM_TEXT + "</div>";
 
 Before() {
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-  sql.execute("delete from study_analysed_field")
-  sql.execute("delete from study_analysed_data")
-  sql.execute("delete from results_details_field")
   sql.execute("delete from participant_form")
   sql.execute("delete from participant")
   sql.execute("delete from study_session")
@@ -55,9 +52,6 @@ After() {
   browser.quit()
   
   def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-  sql.execute("delete from study_analysed_field")
-  sql.execute("delete from study_analysed_data")
-  sql.execute("delete from results_details_field")
   sql.execute("delete from participant_form")
   sql.execute("delete from participant")
   sql.execute("delete from study_session")

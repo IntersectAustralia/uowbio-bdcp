@@ -11,7 +11,6 @@ import au.org.intersect.bdcp.DeviceGroup
 import au.org.intersect.bdcp.Participant
 import au.org.intersect.bdcp.ParticipantForm
 import au.org.intersect.bdcp.Project
-import au.org.intersect.bdcp.ResultsDetailsField
 import au.org.intersect.bdcp.SecRole
 import au.org.intersect.bdcp.SecUserSecRole
 import au.org.intersect.bdcp.Session
@@ -318,8 +317,6 @@ class BootStrap
 		
 		createSampleAllDeviceFields(device2, device2Data(), false)
 		
-		createSampleResultDetailsFields()
-		
         def studyDevice = StudyDevice.link(study, device);
         studyDevice.save(flush: true)
 
@@ -330,31 +327,6 @@ class BootStrap
 		def file = new File(realPath + device.id.toString() +File.separatorChar + fileName)
 		file.getParentFile().mkdirs()
 		file << ("FILE: " + fileName)
-	}
-
-	def createSampleResultDetailsFields = {
-		def labels = ['Results','Student initials','Summary',
-			'Analysis date','Analysis time','Data rows',
-			'Software','Quality']
-		def content = ['Register important <b>results</b>', null, null,
-			null, null, null,
-			"Windows\nMac\nLinux\nOther", "Best\nOk\nAverage\nPoor\nNone"]
-		def types = [FieldType.STATIC_TEXT, FieldType.TEXT, FieldType.TEXTAREA,
-			FieldType.DATE, FieldType.TIME, FieldType.NUMERIC,
-			FieldType.RADIO_BUTTONS,FieldType.DROP_DOWN]
-		for (i in 0..7) {
-	        def field = new ResultsDetailsField(fieldLabel: labels[i],
-	            fieldType: types[i],
-	            mandatory: (i % 2 == 0))
-			if (content[i] != null) {
-				if (i == 0) {
-					field.staticContent = content[i]
-				} else {
-					field.fieldOptions = content[i]
-				}
-			}
-	        field.save(flush: true)
-		}
 	}
 
 	def createSampleAllDeviceFields = { device, data, mandatory ->

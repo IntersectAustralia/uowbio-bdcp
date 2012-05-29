@@ -20,12 +20,17 @@
     <g:render template="/study/tabs" model="${[studyInstance:studyInstance, tab:'tab7']}" />
 
 	<div id="tabs-details">
-            <h1><g:message code="study.files.analysed.folder.upload.title" args="${[folderName.folder]}"/></h1>
+            <g:if test="${params.folderPath.length()!=0}">
+            <h1><g:message code="study.files.analysed.folder.upload.title.normal" args="${[params.folderPath]}"/></h1>
+            </g:if>
+            <g:else>
+            <h1><g:message code="study.files.analysed.folder.upload.title.root" /></h1>
+            </g:else>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <g:render template="/shared/uploadApplet" 
-            	model='["uploadUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/uploadFiles","destDir":"${folderName.folder}","redirUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/upload?done=true"]' />
+            	model='["uploadUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/uploadFiles","destDir":"${params.folderPath}","redirUrl":"${request.siteUrl}/studyAnalysedData/${params.studyId}/upload?done=true"]' />
             
 	</div>
     <div class="buttons">

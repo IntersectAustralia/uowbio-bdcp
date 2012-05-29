@@ -141,6 +141,8 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	warn   'org.mortbay.log'
+
+    error 'com.gargoylesoftware.htmlunit'
 }
 
 bdcp.files.root=""

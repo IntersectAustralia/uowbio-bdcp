@@ -69,7 +69,6 @@ class SessionFileController
 	def secured = { block ->
 		securedBasic { studyInstance, context ->
 			def component = Component.findByStudy(studyInstance)
-			def resultFields = ResultsDetailsField.findAll()
 			if (component == null) {
 				component = new Component(study:studyInstance)
 			} 
