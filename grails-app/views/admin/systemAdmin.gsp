@@ -14,7 +14,6 @@
       <div class="rowTop">
         <g:link elementId="account-administration" class="button" controller="admin" action="accountAdmin">Account Administration</g:link> 
         <g:link elementId="device-administration" class="button" controller="deviceGroup" action="list">Device Administration</g:link>
-        <g:link elementId="results-administration" class="button" controller="admin" action="resultsAdmin">Results Administration</g:link>
       </div>
       
       <div class="rowBottom">
