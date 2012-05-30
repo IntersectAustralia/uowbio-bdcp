@@ -226,6 +226,25 @@ class StudyAnalysedDataController
     }
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
+    def doDeleteFolder =
+    {   
+        securedBasic { study, context ->
+            def baseDir = fileService.getFileReference( grailsApplication.config.files.analysed.location, rootPath(study) )
+            def folderPath = new File(baseDir, params.folderPath)
+            if (folderPath.exists()) {
+                if (deleteRecursive(folderPath)) {
+                    flash.message = params.folderPath + " deleted"
+                } else {
+                    flash.message = "Delete: error deleting " + params.folderPath
+                }
+            } else {
+                flash.message = "Delete: resource not found"
+            } 
+            redirect(params:[studyId:study.id, action:'list'])
+        }
+    }
+
+    @Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
     def upload =
     {
         secured { study, context ->
@@ -278,12 +297,28 @@ class StudyAnalysedDataController
        return "${studyInstance.id}/";
    }
 
+   def deleteRecursive(File f) {
+       if (!f.exists()) { return true; }
+       if (!f.isDirectory()) {
+           return f.delete();
+       }
+       return !f.listFiles().find({ File child ->
+           if (!".".equals(child.getName()) && !"..".equals(child.getName())) {
+               return !deleteRecursive(child);
+           } else {
+               return false;
+           }
+       }) && f.delete()
+   }
+
+
+
    def formErrors =
    {   errorMap ->
        def allErrors = errorMap.collect { key, value -> 
            value
        }
-	   def objErrors = [hasErrors: { -> errorMap.size()!=0}, hasFieldErrors: { String p -> errorMap[p] != null }, 'allErrors': allErrors ]	
+           def objErrors = [hasErrors: { -> errorMap.size()!=0}, hasFieldErrors: { String p -> errorMap[p] != null }, 'allErrors': allErrors ]  
        return objErrors
    }
 

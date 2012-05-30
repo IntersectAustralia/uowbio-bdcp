@@ -80,6 +80,20 @@ Then(~"I logout") {
     browser.findElementById('Logout').click()
 }
 
+Given(~"the confirmation will be (.+)") { String option ->
+    confirmation.answer = option.toLowerCase().equals('true')
+}
+
+Then(~"I confirm") {
+    assertTrue(confirmation.called && confirmation.answer)
+    confirmation.called = false
+}
+
+Then(~"I cancel") {
+    assertTrue(confirmation.called && !confirmation.answer)
+    confirmation.called = false
+}
+
 Given(~"I am on the email page") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/list")
 }
@@ -214,7 +228,23 @@ Given(~"the file service folder \"(.*)\" exists") { String path ->
 	def rootPath = new File("web-app/" + path)
 	if (!rootPath.exists()) {
 	   assertTrue(rootPath.mkdirs())
+	   assertTrue(rootPath.exists() && rootPath.isDirectory())
 	}
+}
+
+Given(~"the file service file \"(.*)\" exists") { String path ->
+	def file = new File("web-app/" + path)
+        new FileOutputStream(file) << "text"
+}
+
+Then(~"the file service (folder|file) \"(.*)\" should not exist") { String type, String path ->
+	def rootPath = new File("web-app/" + path)
+        assertFalse(rootPath.exists())
+}
+
+Then(~"the file service (folder|file) \"(.*)\" should exist") { String type, String path ->
+	def rootPath = new File("web-app/" + path)
+        assertTrue(rootPath.exists())
 }
 
 Then(~"I should have file service (.*) \"(.*)\"") { String type, String path ->

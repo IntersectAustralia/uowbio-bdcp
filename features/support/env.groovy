@@ -2,6 +2,8 @@
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.JavascriptExecutor
 import com.gargoylesoftware.htmlunit.BrowserVersion
+import com.gargoylesoftware.htmlunit.ConfirmHandler
+import com.gargoylesoftware.htmlunit.Page
 import groovy.sql.Sql
 import java.io.File
 import java.io.IOException
@@ -11,6 +13,22 @@ this.metaClass.mixin(cuke4duke.GroovyDsl)
 private final String LOREM_IPSUM_TEXT = "lorem ipsum dolor sit amet";
 private final String FILE_HTML = "<div>" + LOREM_IPSUM_TEXT + "</div>";
 
+public class ConfirmationHandler implements ConfirmHandler {
+
+   boolean handleConfirm(Page page, String message) {
+      called = true
+      if (text == null || text.length()==0) {
+         return answer
+      }
+      if (message.contains(text)) {
+         return answer
+      } 
+      throw new RuntimeException("Expected '${text}' in confirmation message but got '${message}'")    
+   }
+   public String text = null
+   public boolean answer = false
+   public boolean called = false
+}
 
 Before() {
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
@@ -39,6 +57,9 @@ Before() {
 //  sql.execute("INSERT INTO sec_user_sec_role (sec_user_id, sec_role_id) VALUES ('-7','-8');")
   // browser = new FirefoxDriver()
   browser = new HtmlUnitDriver(BrowserVersion.FIREFOX_3_6)
+  confirmation = new ConfirmationHandler()
+  browser.getWebClient().setConfirmHandler((ConfirmHandler) confirmation)
+  
   jsExecutor = (JavascriptExecutor) browser;
   //browser.setJavascriptEnabled(true)
   //browser = new HtmlUnitDriver()
