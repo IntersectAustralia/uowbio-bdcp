@@ -127,6 +127,7 @@
                                         <jvmArgs>
                                                 <jvmArg>-Xmx256m</jvmArg>
                                                 <jvmArg>-XX:MaxPermSize=128m</jvmArg>
+                                                <jvmArg>-Dlog4j.configuration=features/log4j.properties</jvmArg>
                                         </jvmArgs>
 					<cucumberArgs>
 						<cucumberArg>--color</cucumberArg>
