@@ -108,14 +108,15 @@ log4j = {
 	//
 	appenders {
 		console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-			appender new org.apache.log4j.DailyRollingFileAppender(name: 'rollingFileAppender', datePattern: "'.'yyyy-MM-dd'.log'", layout: pattern(conversionPattern: '%-5p %d{dd/MMM/yyyy:HH:mm:ss,SSS} [%t] %c - %m%n'), file: bdcp.log.dir)
-			appender new SMTPAppender(name:'smtp', to:'kherrman@uow.edu.au', from:'kherrman@uow.edu.au', SMTPHost:'smtp.uow.edu.au', subject:'Biomechanics error [Log4j SMTPAppender]', layout:pattern (conversionPattern:'%d{[ dd.MM.yyyy HH:mm:ss.SSS]} [%t] %n%-5p %n%c %n%C %n %x %n %m%n'))
+		appender new org.apache.log4j.DailyRollingFileAppender(name: 'rollingFileAppender', datePattern: "'.'yyyy-MM-dd'.log'", layout: pattern(conversionPattern: '%-5p %d{dd/MMM/yyyy:HH:mm:ss,SSS} [%t] %c - %m%n'), file: bdcp.log.dir)
+		appender new SMTPAppender(name:'smtp', to:'kherrman@uow.edu.au', from:'kherrman@uow.edu.au', SMTPHost:'smtp.uow.edu.au', subject:'Biomechanics error [Log4j SMTPAppender]', layout:pattern (conversionPattern:'%d{[ dd.MM.yyyy HH:mm:ss.SSS]} [%t] %n%-5p %n%c %n%C %n %x %n %m%n'))
 	}
 				
 	root {
 		info()
 		warn 'stdout'
-		error 'smtp', 'rollingFileAppender'
+		error 'stdout', 'rollingFileAppender'
+		debug 'stdout'
 		additivity = true
 	}
 				
@@ -125,7 +126,7 @@ log4j = {
 
 
 	//debug  'org.codehaus.groovy.grails.plugins.springsecurity'
-	debug  'au.org.intersect.bdcp',
+	error  'au.org.intersect.bdcp',
 		   'org.codehaus.groovy.grails.plugins.springsecurity'
 	
 	warn  'org.codehaus.groovy.grails.web.servlet',  //  controllers
@@ -141,8 +142,6 @@ log4j = {
 			'net.sf.ehcache.hibernate'
 
 	warn   'org.mortbay.log'
-
-    error 'com.gargoylesoftware.htmlunit'
 }
 
 bdcp.files.root=""

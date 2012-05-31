@@ -38,15 +38,15 @@ class BootStrap
 		println "*** STARTING ENVIRONMENT : ${Environment.current} ***"
 		securityContextPersistenceFilter.forceEagerSessionCreation = true
 		SpringSecurityUtils.clientRegisterFilter('concurrentSessionFilter',
-		SecurityFilterPosition.CONCURRENT_SESSION_FILTER)
+		    SecurityFilterPosition.CONCURRENT_SESSION_FILTER)
 
-                UserRole.values().each { authority ->
-                        if (SecRole.findByAuthority(authority.toString()) == null)
-                        {
-                                def role = new SecRole(authority: authority.toString())
-                                role.save(flush:true, failOnError:true)
-                        }
-                }
+        UserRole.values().each { authority ->
+            if (SecRole.findByAuthority(authority.toString()) == null)
+            {
+                    def role = new SecRole(authority: authority.toString())
+                    role.save(flush:true, failOnError:true)
+            }
+        }
 		
 		environments
 		{
