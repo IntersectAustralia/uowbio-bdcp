@@ -68,34 +68,94 @@ environments {
 	production
 	{ grails.serverURL = "https://biomech.uow.edu.au/biomech" }
 	development
-	{ grails.serverURL = "http://localhost:8080/${appName}" 
-    }
+	{ grails.serverURL = "http://localhost:8080/${appName}" }
 	test
 	{ grails.serverURL = "https://biomechtst.uow.edu.au/biomech" }
 	intersect_test
-	{ grails.serverURL = "http://www.changeme.com" }
+	{ grails.serverURL = "http://gsw1-uow-biotest01-vm.intersect.org.au:8081/BDCP" }
 	intersect_demo
-	{ grails.serverURL = "http://www.changeme.com" }
+	{ grails.serverURL = "http://gsw1-uow-biotest02-vm.intersect.org.au:8081/BDCP" }
 	cucumber
 	{ grails.serverURL = "http://localhost:8080/${appName}" }
 }
 
 bdcp.log.dir=""
 
-switch(Environment.current) {
-	case Environment.DEVELOPMENT:
-		bdcp.log.dir="logs/biomech.log"
-		break
-	case Environment.CUSTOM:
-		bdcp.log.dir="logs/biomech.log"
-		break
-	case Environment.TEST:
-		bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
-		break
-	case Environment.PRODUCTION:
-		bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
-		break
+environments {
+    development {
+	bdcp.log.dir="logs/biomech.log"
+	images.location = "web-app/images/"
+	bdcp.dev.root = "web-app/uowbio/"
+	bdcp.files.root = bdcp.dev.root
+	forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
+	forms.location = bdcp.dev.root + "files/forms/"
+	files.session.location = bdcp.dev.root + "files/sessions/"
+	files.rifcs.location = bdcp.dev.root + "files/rifcs/"
+	files.analysed.location = bdcp.dev.root + "files/analysed/"
+	tmp.location = System.getProperty("java.io.tmpdir")
+    }
+    test {
+        bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
+        images.location = "web-app/images/"
+        bdcp.test.root = "/adminpkgs/tomcat/tomcat/biomech_files/"
+        bdcp.files.root = bdcp.test.root
+        forms.deviceManuals.location = bdcp.test.root + "files/forms/deviceManuals/"
+        forms.location = bdcp.test.root + "files/forms/"
+        files.session.location = bdcp.test.root + "files/sessions/"
+        files.rifcs.location = bdcp.test.root + "files/rifcs/"
+        files.analysed.location = bdcp.test.root + "files/analysed/"
+        tmp.location = System.getProperty("java.io.tmpdir")
+    }
+    cucumber {
+	bdcp.log.dir="logs/biomech.log"
+        images.location = "web-app/images/"
+        bdcp.dev.root = "web-app/uowbio/"
+        bdcp.files.root = bdcp.dev.root
+        forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
+        forms.location = bdcp.dev.root + "files/forms/"
+        files.session.location = bdcp.dev.root + "files/sessions/"
+        files.rifcs.location = bdcp.dev.root + "files/rifcs/"
+        files.analysed.location = bdcp.dev.root + "files/analysed/"
+        tmp.location = System.getProperty("java.io.tmpdir")
+    }
+    production {
+        bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
+        images.location = "web-app/images/"
+        bdcp.prod.root = "/adminpkgs/biomech_data/"
+        bdcp.files.root = bdcp.prod.root
+        forms.deviceManuals.location = bdcp.prod.root + "files/forms/deviceManuals/"
+        forms.location = bdcp.prod.root + "files/forms/"
+        files.session.location = bdcp.prod.root + "files/sessions/"
+        files.rifcs.location = bdcp.prod.root + "files/rifcs/"
+        files.analysed.location = bdcp.prod.root + "files/analysed/"
+        tmp.location = System.getProperty("java.io.tmpdir")
+    }
+    intersect_test {
+        bdcp.dev.root = "/var/lib/tomcat6/uowbio_data"
+        bdcp.log.dir= bdcp.dev.root + "/biomech.log"
+        images.location = bdcp.dev.root + "/images/"
+        bdcp.files.root = bdcp.dev.root
+        forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
+        forms.location = bdcp.dev.root + "files/forms/"
+        files.session.location = bdcp.dev.root + "files/sessions/"
+        files.rifcs.location = bdcp.dev.root + "files/rifcs/"
+        files.analysed.location = bdcp.dev.root + "files/analysed/"
+        tmp.location = System.getProperty("java.io.tmpdir")
+    }
+    intersect_demo {
+        bdcp.dev.root = "/var/lib/tomcat6/uowbio_data"
+        bdcp.log.dir= bdcp.dev.root + "/biomech.log"
+        images.location = bdcp.dev.root + "/images/"
+        bdcp.files.root = bdcp.dev.root
+        forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
+        forms.location = bdcp.dev.root + "files/forms/"
+        files.session.location = bdcp.dev.root + "files/sessions/"
+        files.rifcs.location = bdcp.dev.root + "files/rifcs/"
+        files.analysed.location = bdcp.dev.root + "files/analysed/"
+        tmp.location = System.getProperty("java.io.tmpdir")
+    }
 }
+
 println "Environemnt is: ******************** " + Environment.current
 
 // log4j configuration
@@ -145,53 +205,6 @@ log4j = {
 }
 
 bdcp.files.root=""
-
-switch(Environment.current) {
-	case Environment.DEVELOPMENT:
-		images.location = "web-app/images/"
-		bdcp.dev.root = "web-app/uowbio/"
-		bdcp.files.root = bdcp.dev.root
-		forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
-		forms.location = bdcp.dev.root + "files/forms/"
-		files.session.location = bdcp.dev.root + "files/sessions/"
-		files.rifcs.location = bdcp.dev.root + "files/rifcs/"
-		files.analysed.location = bdcp.dev.root + "files/analysed/"
-		tmp.location = System.getProperty("java.io.tmpdir")
-		break
-	case Environment.CUSTOM:
-		images.location = "web-app/images/"
-		bdcp.dev.root = "web-app/uowbio/"
-		bdcp.files.root = bdcp.dev.root
-		forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
-		forms.location = bdcp.dev.root + "files/forms/"
-		files.session.location = bdcp.dev.root + "files/sessions/"
-		files.rifcs.location = bdcp.dev.root + "files/rifcs/"
-		files.analysed.location = bdcp.dev.root + "files/analysed/"
-		tmp.location = System.getProperty("java.io.tmpdir")
-		break
-	case Environment.TEST:
-		images.location = "web-app/images/"
-		bdcp.test.root = "/adminpkgs/tomcat/tomcat/biomech_files/"
-		bdcp.files.root = bdcp.test.root
-		forms.deviceManuals.location = bdcp.test.root + "files/forms/deviceManuals/"
-		forms.location = bdcp.test.root + "files/forms/"
-		files.session.location = bdcp.test.root + "files/sessions/"
-		files.rifcs.location = bdcp.test.root + "files/rifcs/"
-		files.analysed.location = bdcp.test.root + "files/analysed/"
-		tmp.location = System.getProperty("java.io.tmpdir")
-		break
-	case Environment.PRODUCTION:
-		images.location = "web-app/images/"
-		bdcp.prod.root = "/adminpkgs/biomech_data/"
-		bdcp.files.root = bdcp.prod.root
-		forms.deviceManuals.location = bdcp.prod.root + "files/forms/deviceManuals/"
-		forms.location = bdcp.prod.root + "files/forms/"
-		files.session.location = bdcp.prod.root + "files/sessions/"
-		files.rifcs.location = bdcp.prod.root + "files/rifcs/"
-		files.analysed.location = bdcp.prod.root + "files/analysed/"
-		tmp.location = System.getProperty("java.io.tmpdir")
-		break
-}
 
 ldapServers {
 	d1 {
