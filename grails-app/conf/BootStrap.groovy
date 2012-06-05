@@ -35,7 +35,6 @@ class BootStrap
 	def init =
 	{ servletContext ->
 
-		println "*** STARTING ENVIRONMENT : ${Environment.current} ***"
 		securityContextPersistenceFilter.forceEagerSessionCreation = true
 		SpringSecurityUtils.clientRegisterFilter('concurrentSessionFilter',
 		    SecurityFilterPosition.CONCURRENT_SESSION_FILTER)

@@ -135,7 +135,7 @@ class SessionFileController
 	private void addFileToZip(Study study, Object context, ZipOutputStream zipOs, String file, Set added)
 	{
 		def thePath = file
-		File theFileOrDir = fileService.getFileReference( grailsApplication.config['files.session.location'], thePath)
+		File theFileOrDir = fileService.getFileReference( grailsApplication.config.files.session.location, thePath)
 		def lastMod = theFileOrDir.lastModified()
 		if (!theFileOrDir.isDirectory() && !added.contains(theFileOrDir) )
 		{
@@ -194,7 +194,7 @@ class SessionFileController
 
 			// other directories and files under the component/session directory trunk
             def sessionId = params.sessionId
-			def file = fileService.getFileReference( grailsApplication.config['files.session.location'], name)
+			def file = fileService.getFileReference( grailsApplication.config.files.session.location, name)
 			if (file.isDirectory()) {
 			   def folders = file.listFiles().collect { f ->
 				   if (f.isDirectory())
@@ -244,9 +244,9 @@ class SessionFileController
 		def dirstruct = params.dirStruct
 		def upload_component_session_root = componentStudySessionPath(studyInstance, sessionInstance) + "/" + params.destDir
 		dirstruct = JSON.parse(dirstruct)
-        def success = (fileService.createAllFolders( grailsApplication.config['files.session.location'], dirstruct, upload_component_session_root) == true) ? true : false
+        def success = (fileService.createAllFolders( grailsApplication.config.files.session.location, dirstruct, upload_component_session_root) == true) ? true : false
         success = success && (fileService.createAllFiles( dirstruct, upload_component_session_root, params) == true)
-		success = success && (fileService.moveDirectoryFromTmp( grailsApplication.config['files.session.location'], upload_component_session_root, upload_component_session_root) == true)
+		success = success && (fileService.moveDirectoryFromTmp( grailsApplication.config.files.session.location, upload_component_session_root, upload_component_session_root) == true)
 		if (success)
 		{
 			render "Successfully Uploaded Files!"
@@ -259,7 +259,7 @@ class SessionFileController
 
    private void ensureFilesRoot(context, studyInstance)
    {
-	   def dir = fileService.getFileReference( grailsApplication.config['files.session.location'], componentStudyPath(studyInstance))
+	   def dir = fileService.getFileReference( grailsApplication.config.files.session.location, componentStudyPath(studyInstance))
 	   if (!dir.exists())
 	   {
 		   dir.mkdirs()
@@ -268,7 +268,7 @@ class SessionFileController
    
    private void ensureFilesRootSession(context, studyInstance, sessionInstance)
    {
-	   def dir = fileService.getFileReference( grailsApplication.config['files.session.location'], componentStudySessionPath(studyInstance, sessionInstance))
+	   def dir = fileService.getFileReference( grailsApplication.config.files.session.location, componentStudySessionPath(studyInstance, sessionInstance))
 	   if (!dir.exists())
 	   {
 		   dir.mkdirs()

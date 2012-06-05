@@ -8,6 +8,8 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy
 import org.springframework.security.web.session.ConcurrentSessionFilter
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
+
 beans = {
     def conf = SpringSecurityUtils.securityConfig
     
@@ -42,5 +44,7 @@ beans = {
             ref("myLdapAuthenticator"), ref("ldapAuthoritiesPopulator"))
     
     ldapAuthoritiesPopulator(au.org.intersect.bdcp.ldap.MyLdapAuthoritiesPopulator) 
+
+    userDetailsService(au.org.intersect.bdcp.ldap.MyUserDetailsService)
 
 }
