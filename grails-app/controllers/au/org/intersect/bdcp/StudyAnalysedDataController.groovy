@@ -100,7 +100,8 @@ class StudyAnalysedDataController
         def study = Study.findById(params.studyId)
         def files = params.list('files')
         def zipName = study.studyTitle + ".zip"
-        
+        def rootPath = rootPath(study)
+ 
         response.setContentType "application/zip"
         response.setHeader "Content-Disposition", "attachment; filename=\"" + zipName + "\""
         response.setHeader "Content-Description", "File download for BDCP"
@@ -110,7 +111,8 @@ class StudyAnalysedDataController
         def added = new HashSet()
         zipOs.setComment "Created with BDCP web application"
         files.each { String file ->
-                addFileToZip(study, context, zipOs, file, added)
+                if (file.startsWith('./')) { file = file.substring(2) }
+                addFileToZip(study, context, zipOs, rootPath + file, added)
             }
         zipOs.close()
         response.flushBuffer()
