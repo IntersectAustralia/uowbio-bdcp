@@ -137,9 +137,9 @@ switch(environment) {
         break
 
     case 'intersect_test':
-        bdcp.dev.root = "/var/lib/tomcat6/uowbio_data"
-        bdcp.log.dir= bdcp.dev.root + "/biomech.log"
-        images.location = bdcp.dev.root + "/images/"
+        bdcp.dev.root = "/var/lib/tomcat6/uowbio_data/"
+        bdcp.log.dir= bdcp.dev.root + "biomech.log"
+        images.location = bdcp.dev.root + "images/"
         bdcp.files.root = bdcp.dev.root
         forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
         forms.location = bdcp.dev.root + "files/forms/"
@@ -150,9 +150,9 @@ switch(environment) {
         break
 
     case 'intersect_demo':
-        bdcp.dev.root = "/var/lib/tomcat6/uowbio_data"
-        bdcp.log.dir= bdcp.dev.root + "/biomech.log"
-        images.location = bdcp.dev.root + "/images/"
+        bdcp.dev.root = "/var/lib/tomcat6/uowbio_data/"
+        bdcp.log.dir= bdcp.dev.root + "biomech.log"
+        images.location = bdcp.dev.root + "images/"
         bdcp.files.root = bdcp.dev.root
         forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
         forms.location = bdcp.dev.root + "files/forms/"
