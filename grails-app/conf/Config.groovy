@@ -160,6 +160,8 @@ switch(environment) {
         files.rifcs.location = bdcp.dev.root + "files/rifcs/"
         files.analysed.location = bdcp.dev.root + "files/analysed/"
         tmp.location = System.getProperty("java.io.tmpdir")
+        break
+
    default:
         throw new RuntimeException("UNKNOWN ENVIRONMENT") 
 }
