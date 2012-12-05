@@ -177,7 +177,9 @@ Wollongong N.S.W. 2522"""
 		// this closure bridges XmlSlurper to StreamMarkupBilder used for domain objects
 		return { binder ->
 			mkp.xmlDeclaration()
-			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects')
+			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects',
+				'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+				)
 			mkp.yield root
 		}
 	}
@@ -193,8 +195,10 @@ Wollongong N.S.W. 2522"""
 		Study study, related ->
 		def root = { builder ->
 			mkp.xmlDeclaration()
-			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects')
-			registryObjects {
+			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects',
+				'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+				)
+			registryObjects('xsi:schemaLocation': 'http://ands.org.au/standards/rif-cs/registryObjects http://services.ands.org.au/documentation/rifcs/schema/registryObjects.xsd') {
 				registryObject(group:common['@group']) {
 					key(makeKey(study))
 					originatingSource(type:"authoritative") { mkp.yield(common['originatingSource'])}
@@ -244,8 +248,11 @@ Wollongong N.S.W. 2522"""
 		def ldapUser = LdapUser.find(filter: "(uid=${user.username})")
 		def root = {
 			mkp.xmlDeclaration()
-			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects')
-			registryObjects {
+			mkp.declareNamespace(
+				'':'http://ands.org.au/standards/rif-cs/registryObjects', 
+				'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+				)
+			registryObjects('xsi:schemaLocation': 'http://ands.org.au/standards/rif-cs/registryObjects http://services.ands.org.au/documentation/rifcs/schema/registryObjects.xsd') {
 				registryObject(group:common['@group']) {
 					key(makeKey(user))
 					originatingSource(type:"authoritative") { mkp.yield(common['originatingSource'])}
