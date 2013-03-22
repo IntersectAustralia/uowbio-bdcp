@@ -4,16 +4,26 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Set
 import java.util.regex.Pattern
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
+
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.multipart.MultipartHttpServletRequest
+
+import uk.co.desirableobjects.ajaxuploader.AjaxUploaderService;
+import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
+
 import au.org.intersect.bdcp.constraints.ValidFilenameConstraint
 
 
 class StudyAnalysedDataController
 {
-    
+	AjaxUploaderService ajaxUploaderService
+	
     def fileService
     
     def roleCheckService
@@ -258,7 +268,7 @@ class StudyAnalysedDataController
         }
     }
     
-    def uploadFiles =
+    def uploadFiles_previous =
     {   
         cache false
         def studyInstance = Study.get(Long.parseLong(params.studyId))
@@ -284,7 +294,59 @@ class StudyAnalysedDataController
             response.sendError 500
         }
     }
+	def uploadFiles =
+	{
+		try{
+			cache false
+			
+			def studyInstance = Study.get(Long.parseLong(params.studyId))
+			//def studyInstance = Study.get(Long.parseLong("1"))
+			if (studyInstance == null) {
+	            flash.message = message(code:'study.analysed.invalidId')
+	            redirect controller:'login', action: 'invalid'
+	            return
+	        }
+			
+			def upload_root = rootPath(studyInstance)  + params.folderPath
+		
+			File uploaded = createTemporaryFile(upload_root,params.fileName)
+		   
+			InputStream inputStream = selectInputStream(request)
 
+			ajaxUploaderService.upload(inputStream, uploaded)
+
+			return render(text: [success:true] as JSON, contentType:'text/json')
+
+		} catch (FileUploadException e) {
+
+			log.error("Failed to upload file.", e)
+			return render(text: [success:false] as JSON, contentType:'text/json')
+ 
+		}
+
+   }
+
+   private InputStream selectInputStream(HttpServletRequest request) {
+		if (request instanceof MultipartHttpServletRequest) {
+			MultipartFile uploadedFile = ((MultipartHttpServletRequest) request).getFile('qqfile')
+			return uploadedFile.inputStream
+		}
+		return request.inputStream
+	}
+
+	private File createTemporaryFile(String upload_component_session_root, String fileName) {
+		
+		File uploaded
+		
+		if (grailsApplication.config.files.session.location !=null) {
+			//uploaded = fileService.getFileReference( grailsApplication.config.files.session.location, upload_component_session_root)
+			uploaded = new File(grailsApplication.config.files.analysed.location  + upload_component_session_root +"/"+fileName)//+fileName
+		} else {
+			uploaded = File.createTempFile('grails', 'ajaxupload')
+		}
+		return uploaded
+	}
+	
    private void ensureFilesRoot(context, studyInstance)
    {
        def dir = fileService.getFileReference( grailsApplication.config.files.analysed.location, rootPath(studyInstance))

@@ -91,5 +91,14 @@ var createFileTree = function(baseDir, nodeId, id_param, createMenu)
           }, 
           'plugins' : [ "themes", "json_data", "types", "checkbox", "ui", "contextmenu" ]
         });
-
+	    $node.bind("loaded.jstree", function (e, data) {
+	
+	    	$node.jstree('open_all');
+			
+		});
+		$node.bind("refresh.jstree", function (e, data) {
+	
+			$node.jstree('open_all');
+			
+		});
 };

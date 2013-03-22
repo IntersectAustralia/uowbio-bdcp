@@ -18,16 +18,16 @@
                         </tr>
                     </thead>
                         <tbody>
-                           <g:render template="form" model = "['i':0, 'body':body()]"/>
-                            <g:render template="form" model = "['i':1, 'body':body()]"/>
-                            <g:render template="form" model = "['i':2, 'body':body()]"/>
-                            <g:render template="form" model = "['i':3, 'body':body()]"/>
-                            <g:render template="form" model = "['i':4, 'body':body()]"/>
-                            <g:render template="form" model = "['i':5, 'body':body()]"/>
-                            <g:render template="form" model = "['i':6, 'body':body()]"/>
-                            <g:render template="form" model = "['i':7, 'body':body()]"/>
-                            <g:render template="form" model = "['i':8, 'body':body()]"/>
-                            <g:render template="form" model = "['i':9, 'body':body()]"/>
+                           <g:render template="form" model = "['i':0, 'body':body]"/>
+                            <g:render template="form" model = "['i':1, 'body':body]"/>
+                            <g:render template="form" model = "['i':2, 'body':body]"/>
+                            <g:render template="form" model = "['i':3, 'body':body]"/>
+                            <g:render template="form" model = "['i':4, 'body':body]"/>
+                            <g:render template="form" model = "['i':5, 'body':body]"/>
+                            <g:render template="form" model = "['i':6, 'body':body]"/>
+                            <g:render template="form" model = "['i':7, 'body':body]"/>
+                            <g:render template="form" model = "['i':8, 'body':body]"/>
+                            <g:render template="form" model = "['i':9, 'body':body]"/>
                             
                         </tbody>
                     </table>

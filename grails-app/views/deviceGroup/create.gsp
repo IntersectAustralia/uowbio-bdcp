@@ -20,7 +20,7 @@
             </div>
             </g:hasErrors>
             <g:form action="save" >
-                <g:render template="modifyDialog" model= ['body': body()]] />
+                <g:render template="modifyDialog" model= "['body': body]" />
                 <div class="buttons">
                   <g:submitButton name="create" class="save right list" value="${message(code: 'default.button.create.label', default: 'Create')}" />
                   <span class="button"><g:link elementId="cancel" class="list" action="list">Cancel</g:link></span>

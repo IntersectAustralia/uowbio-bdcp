@@ -15,8 +15,6 @@
 
 package au.org.intersect.bdcp.ldap;
 
-import au.org.intersect.bdcp.UserStore;
-
 import javax.naming.directory.Attributes
 import javax.naming.directory.DirContext
 
@@ -71,27 +69,27 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
     //~ Methods ========================================================================================================
 
     public DirContextOperations authenticate(Authentication authentication) {
-        DirContextOperations ldapCtx = null;
+        DirContextOperations user = null;
         Assert.isInstanceOf(UsernamePasswordAuthenticationToken.class, authentication,
                 "Can only process UsernamePasswordAuthenticationToken objects");
 
         String username = authentication.getName();
-        
-        def userStore = UserStore.findByUsername(username)
-        if (userStore == null)
-        {
-            logger.debug("Rejecting username as it is not in user store for user " +authentication.getName());
-            throw new BadCredentialsException(
-                messages.getMessage("BindAuthenticator.badCredentials", "Bad credentials"));
-        }
-        else if (userStore?.deactivated)
-        {
-            logger.debug("Rejecting username as it is has been disabled for the user " +authentication.getName());
-            throw new BadCredentialsException(
-                messages.getMessage("BindAuthenticator.badCredentials", "Bad credentials"));
-        }
-        
-        
+		
+		def userStore = ApplicationHolder.application.getClassForName("au.org.intersect.bdcp.UserStore").findByUsername(username)
+		if (userStore == null)
+		{
+			logger.debug("Rejecting username as it is not in user store for user " +authentication.getName());
+			throw new BadCredentialsException(
+				messages.getMessage("BindAuthenticator.badCredentials", "Bad credentials"));
+		}
+		else if (userStore?.deactivated)
+		{
+			logger.debug("Rejecting username as it is has been disabled for the user " +authentication.getName());
+			throw new BadCredentialsException(
+				messages.getMessage("BindAuthenticator.badCredentials", "Bad credentials"));
+		}
+		
+		
         String password = (String)authentication.getCredentials();
 
         if (!StringUtils.hasLength(password)) {
@@ -102,25 +100,25 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
 
         // If DN patterns are configured, try authenticating with them directly
         for (String dn : getUserDns(username)) {
-            ldapCtx = bindWithDn(dn, username, password);
-            
-            if (ldapCtx != null) {
+            user = bindWithDn(dn, username, password);
+			
+            if (user != null) {
                 break;
             }
         }
 
         // Otherwise use the configured search object to find the user and authenticate with the returned DN.
-        if (ldapCtx == null && getUserSearch() != null) {
+        if (user == null && getUserSearch() != null) {
             DirContextOperations userFromSearch = getUserSearch().searchForUser(username);
-            ldapCtx = bindWithDn(userFromSearch.getDn().toString(), username, password);
+            user = bindWithDn(userFromSearch.getDn().toString(), username, password);
         }
 
-        if (ldapCtx == null) {
+        if (user == null) {
             throw new BadCredentialsException(
                     messages.getMessage("BindAuthenticator.badCredentials", "Bad credentials"));
         }
 
-        return ldapCtx;
+        return user;
     }
 
     private DirContextOperations bindWithDn(String userDnStr, String username, String password) {
@@ -129,6 +127,8 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
         DistinguishedName fullDn = new DistinguishedName(userDn);
         fullDn.prepend(ctxSource.getBaseLdapPath());
 
+        logger.debug("Attempting to bind as " + fullDn);
+
         DirContext ctx = null;
         try {
             ctx = getContextSource().getContext(fullDn.toString(), password);
@@ -136,7 +136,7 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
             PasswordPolicyControl ppolicy = PasswordPolicyControlExtractor.extractControl(ctx);
 
             Attributes attrs = ctx.getAttributes(userDn, getUserAttributes());
-            
+			
             DirContextAdapter result = new DirContextAdapter(attrs, userDn, ctxSource.getBaseLdapPath());
 
             if (ppolicy != null) {
@@ -155,7 +155,7 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
                 throw e;
             }
         } catch (javax.naming.NamingException e) {
-           throw LdapUtils.convertLdapException(e);
+		   throw LdapUtils.convertLdapException(e);
         } finally {
             LdapUtils.closeContext(ctx);
         }
@@ -168,6 +168,9 @@ public class MyLdapAuthenticator extends AbstractLdapAuthenticator {
      * The default implementation just reports the failure to the debug logger.
      */
     protected void handleBindException(String userDn, String username, Throwable cause) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("Failed to bind as " + userDn + ": " + cause.getMessage());
+        }
     }
 }
 

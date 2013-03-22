@@ -65,35 +65,6 @@ Given(~"I have logged in as \"(.*)\"") { String username ->
 	browser.findElementById("Login").click()
 }
 
-Then(~"I log in as \"(.*)\" with \"(.*)\"") { String username, String password ->
-	browser.get("http://localhost:8080/BDCP/login/auth")
-	fieldElement = browser.findElement(By.name("j_username"))
-	fieldElement.sendKeys(username)
-	fieldElement = browser.findElement(By.name("j_password"))
-	fieldElement.sendKeys(password)
-	browser.findElementById("Login").click()
-        assertThat(browser.findElementByTagName('body').text, containsString("Logout"))
-}
-
-Then(~"I logout") {
-    browser.get("http://localhost:8080/BDCP")
-    browser.findElementById('Logout').click()
-}
-
-Given(~"the confirmation will be (.+)") { String option ->
-    confirmation.answer = option.toLowerCase().equals('true')
-}
-
-Then(~"I confirm") {
-    assertTrue(confirmation.called && confirmation.answer)
-    confirmation.called = false
-}
-
-Then(~"I cancel") {
-    assertTrue(confirmation.called && !confirmation.answer)
-    confirmation.called = false
-}
-
 Given(~"I am on the email page") { ->
 	browser.get("http://localhost:8080/BDCP/greenmail/list")
 }
@@ -125,16 +96,14 @@ Given(~"I have created a collaborator study with \"(.*)\", \"(.*)\", \"(.*)\", \
 	sql.execute("INSERT INTO study_collaborator (id, version, collaborator_id, study_id) VALUES ('${study_collaborator_id}', '0', ${collaboratorId}, '${study_id}')")
 }
 
-Given(~"I have created a component (\\d+) for study (\\d+) with \"(.*)\", \"(.*)\"") { int id, int studyId, String name, String description ->
+Given(~"I have created a component with \"(.*)\", \"(.*)\"") { String name, String description ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO component (id,version, study_id, name, description) VALUES ('${id}','0','${studyId}', ${name}, ${description});")
+	sql.execute("INSERT INTO component (id,version, study_id, name, description) VALUES ('-3000','0','-2000', ${name}, ${description});")
 }
 
-Given(~"I have created a session (\\d+) for component (\\d+) with \"(.*)\", \"(.*)\"") { int id, int componentId, String name, String description ->
+Given(~"I have created a session with \"(.*)\", \"(.*)\"") { String name, String description ->
 	def sql = Sql.newInstance("jdbc:postgresql://localhost:5432/bdcp-test", "grails", "grails", "org.postgresql.Driver")
-	sql.execute("INSERT INTO study_session (id,version, component_id, name, description) VALUES ('${id}','0', '${componentId}', ${name}, ${description});")
-        def path = '-2000/'+componentId+'/'+id
-        new File('web-app/uowbio/files/sessions',path).mkdirs()
+	sql.execute("INSERT INTO study_session (id,version, component_id, name, description) VALUES ('-4000','0', '-3000', ${name}, ${description});")
 }
 
 Given(~"I have created a device grouping with \"(.*)\"") { String groupingName ->
@@ -205,46 +174,28 @@ Given(~"I have created result fields") {
 	}
 }
 
-def deleteChildren(File f) {
+def deleteAll(File f) {
 	if (!f.exists()) { return; }
 	if (!f.isDirectory()) {
-            assertTrue(f.delete())
+		if (!f.delete()) { throw new RuntimeException("Cannot delete " + f.getAbsolutePath()); }
 	    return;
 	}
 	f.listFiles().each { File child ->
-		if (!".".equals(child.getName()) && !"..".equals(child.getName())) {
-                    deleteChildren(child)
-                    assertTrue(!child.exists() || child.delete())
-                }
+		if (!".".equals(child.getName()) && !"..".equals(child.getName())) deleteAll(child)
 	}
+	if (!f.delete()) { throw new RuntimeException("Cannot delete directory " + f.getAbsolutePath()); }
 }
 
 Given(~"the file service folder \"(.*)\" is empty") { String path ->
 	def rootPath = new File("web-app/" + path)
-	deleteChildren(rootPath)
+	deleteAll(rootPath)
 }
 
 Given(~"the file service folder \"(.*)\" exists") { String path ->
 	def rootPath = new File("web-app/" + path)
 	if (!rootPath.exists()) {
 	   assertTrue(rootPath.mkdirs())
-	   assertTrue(rootPath.exists() && rootPath.isDirectory())
 	}
-}
-
-Given(~"the file service file \"(.*)\" exists") { String path ->
-	def file = new File("web-app/" + path)
-        new FileOutputStream(file) << "text"
-}
-
-Then(~"the file service (folder|file) \"(.*)\" should not exist") { String type, String path ->
-	def rootPath = new File("web-app/" + path)
-        assertFalse(rootPath.exists())
-}
-
-Then(~"the file service (folder|file) \"(.*)\" should exist") { String type, String path ->
-	def rootPath = new File("web-app/" + path)
-        assertTrue(rootPath.exists())
 }
 
 Then(~"I should have file service (.*) \"(.*)\"") { String type, String path ->
@@ -253,41 +204,17 @@ Then(~"I should have file service (.*) \"(.*)\"") { String type, String path ->
 	assertTrue("folder".equals(type) == file.isDirectory())
 }
 
-def callUploader(url, destFolder, table) {
-	def mph = new MultipartPostHelper(url)
-        def destDir = destFolder
-        def dirStruct = '[{' + table.rows().collect({row -> '"' + row.get(0) + '":"' + row.get(1) + '"'}).join(',') + '}]';
+Then(~"I use uploader to upload files to study (\\d+) in folder \"(.*)\"") { String studyId, String destFolder ->
+	def mph = new MultipartPostHelper("http://localhost:8080/BDCP/studyAnalysedData/${studyId}/uploadFiles")
+    def destDir = destFolder
+	def dirStruct = """[{"folder_root":"test-files","file_1":"test-files/form-upload1.txt",
+		              "file_2":"test-files/form-upload2.txt","file_3":"test-files/form-upload3.txt"}]"""
 	mph.addStringPart('dirStruct', dirStruct, 'application/json', 'utf-8')
 	mph.addStringPart('destDir', destDir, 'text/plain', 'utf-8')
-        table.rows().each {row ->
-            if (row.get(0).startsWith('file_')) {
-	        mph.addFilePart(row.get(0),
-                      new File('features', (row.size() == 3 ? row.get(2) : row.get(1))))
-            }
-        }
+	mph.addFilePart('file_1', new File('features/test-files/form-upload1.txt'))
+	mph.addFilePart('file_2', new File('features/test-files/form-upload2.txt'))
+	mph.addFilePart('file_3', new File('features/test-files/form-upload3.txt'))
 	mph.execute()
-}
-
-// table of form expected by uploader
-// | token       | path          |  content (optional) |
-// | folder_root | a_parent_path |                     |
-// | file_1      | file_name_1   |  file_to_copy_1     |
-// | file_2      | file_name_2   |  file_to_copy_2     |
-// ... etc
-Then(~"I use uploader to upload files to study (\\d+) into session (\\d+) and path \"(.*)\"") { String studyId, String sessionId, String destFolder, table ->
-	def url = "http://localhost:8080/BDCP/study/${studyId}/sessionFile/uploadFiles?sessionId=${sessionId}"
-        callUploader(url, destFolder, table)
-}
-
-Then(~"I use uploader to upload files to study (\\d+) into analysed data path \"(.*)\"") { String studyId, String destFolder, table ->
-	def url = "http://localhost:8080/BDCP/studyAnalysedData/${studyId}/uploadFiles"
-        callUploader(url, destFolder, table)
-}
-
-Then(~"assert files \"(.*)\" and \"(.*)\" are identical") { String fname1, String fname2 ->
-    def file1 = new File(fname1)
-    def file2 = new File(fname2)
-    assertEquals(file1.text, file2.text)
 }
 
 def getDevice(String name) {
@@ -468,28 +395,6 @@ Then(~"I select file \"(.*)\" from \"(.*)\"") { String filePath, String field ->
 	fieldElement.sendKeys(new File(filePath).getAbsolutePath())
 }
 
-Then(~"I open folder \"(.*)\"") { String folderName ->
-        js = """
-           var obj = \$('div.list a:contains("' + arguments[0] +'")').parent();
-           var tree = obj.parents('div.jstree-0');
-           tree.jstree('open_node',obj);
-           return obj.size();
-        """
-        assertEquals(1,browser.executeScript(js,folderName))
-        Thread.sleep(5000);
-}
-
-Then(~"I open context menu for \"(.*)\"") { String folderName ->
-        js = """
-           var obj = \$('div.list a:contains("' + arguments[0] +'")').parent();
-           var tree = obj.parents('div.jstree-0');
-           tree.jstree('show_contextmenu',obj);
-           return obj.size();
-        """
-        assertEquals(1,browser.executeScript(js,folderName))
-        Thread.sleep(5000);
-}
-
 Then(~"I should see table \"(.*)\" with contents") { String tableId, cuke4duke.Table table ->
 	webTable = browser.findElementsByCssSelector("table#${tableId} tbody tr").collect {
         def cols = it.findElementsByTagName('td')
@@ -542,9 +447,6 @@ Then(~"I wait for ajax") {
 }
 
 Then(~"I wait 10mins") {
-        println "**********************************************************"
-        println "*               WAITING 10 MINUTES                        "
-        println "**********************************************************"
 	Thread.sleep(600000)
 }
 

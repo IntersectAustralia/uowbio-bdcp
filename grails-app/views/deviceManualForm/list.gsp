@@ -58,7 +58,7 @@
             	<div class="errors"><ul><li>${flash.error}</li></ul></div>
             </g:if>
            
-            <g:render template="create" model= ['body': body()]] />
+            <g:render template="create" model= "['body': body]" />
             
         </div>
     </body>

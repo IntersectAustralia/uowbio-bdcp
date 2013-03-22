@@ -4,18 +4,34 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 import java.awt.event.ItemEvent;
+import java.io.File;
+import java.io.InputStream;
 import java.util.Set
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
+
+import org.springframework.http.HttpStatus
+
+import uk.co.desirableobjects.ajaxuploader.AjaxUploaderService
+import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
+import org.springframework.web.multipart.MultipartHttpServletRequest
+import org.springframework.web.multipart.commons.CommonsMultipartFile
+import org.springframework.web.multipart.MultipartFile
+import javax.servlet.http.HttpServletRequest
+
+
 class SessionFileController
 {
-
+	AjaxUploaderService ajaxUploaderService
+	
 	def fileService
 	
 	def roleCheckService
 	
 	def grailsApplication
+	
+	
 	
 //	def pattern = Pattern.compile("^(*)/(.*)\$")
 	
@@ -69,6 +85,7 @@ class SessionFileController
 	def secured = { block ->
 		securedBasic { studyInstance, context ->
 			def component = Component.findByStudy(studyInstance)
+			def resultFields = ResultsDetailsField.findAll()
 			if (component == null) {
 				component = new Component(study:studyInstance)
 			} 
@@ -88,7 +105,8 @@ class SessionFileController
 	{
 		securedBasic { study, context ->
 			def componentFolders = Component.findAllByStudy(study)
-			render(view:'list', model:[studyInstance: study, folders:componentFolders])
+			
+			render(view:'list', model:[studyInstance: study, folders:componentFolders] )
 		}
 	}
 	
@@ -96,8 +114,7 @@ class SessionFileController
 	def browseFiles =
 	{
 		cache false
-        def sessionId = params.sessionId
-		def sessionObj = Session.findById(sessionId)
+		def sessionObj = Session.findById(params.sessionId)
 		def path = sessionObj?.component.name + "/" + sessionObj?.name +"/" + params.directory
 		
 		['path': path,'sessionId':sessionId]
@@ -176,7 +193,7 @@ class SessionFileController
 
 			// case of base directory display component name for folder
 			if (''.equals(name)) {
-				def resp = ['data':component.name,state: 'closed', 'attr':['rel':'root'],'metadata':['folderPath':folderPath]]
+				def resp = ['data':component.name,'state':'closed','attr':['rel':'root'],'metadata':['folderPath':folderPath]]
 				render resp as JSON
 				return
 			}
@@ -184,34 +201,28 @@ class SessionFileController
 			// case for directory that is a session that hangs off component directory
 			if (name ==~ /[0-9]+[\/][0-9]+/) {
 				def resp = component.sessions.collect { session ->
-					 def map = ['data':session.name,'state':'closed','attr':['rel':'session'],
-                         'metadata':['folderPath':studyInstance.id + '/' + component.id + '/' + session.id,'sessionId':session.id]]
-                     map
+					 ['data':session.name,'icon':'folder','state':'closed','attr':['rel':'folder'],'metadata':['folderPath':studyInstance.id + '/' + component.id + '/' + session.id]]
 				}
 				render resp as JSON
 				return
 			 }
 
 			// other directories and files under the component/session directory trunk
-            def sessionId = params.sessionId
 			def file = fileService.getFileReference( grailsApplication.config.files.session.location, name)
 			if (file.isDirectory()) {
 			   def folders = file.listFiles().collect { f ->
-				   if (f.isDirectory())
-                   {
-                       ['data':f.getName(),'icon':'folder','state':'closed','attr':['rel':'folder'], 
-                            'metadata':['folderPath':('/'.equals(name) ? '' : name)+'/' +f.getName(),'sessionId':sessionId]] 
+                   if (f.isDirectory()) {
+                       ['data':f.getName(),'icon':'folder','state':'closed','attr':['rel':'folder'],
+                           'metadata':['folderPath':params.folderPath + '/' +f.getName()]] 
+                   } else {
+                       ['data':f.getName(),'attr':['rel':'file'],'metadata':['folderPath':params.folderPath +"/"+f.getName()]]
                    }
-                   else
-                   {
-                       ['data':f.getName(),'attr':['rel':'file', 'folderPath':('/'.equals(name) ? '' : name)+"/"+f.getName()]]
-                   }
-			   }
+               }
 			   render folders as JSON
 			}
             else
             {
-               def folders = []
+			   def folders = []
                render folders as JSON
             }
 		}
@@ -220,7 +231,7 @@ class SessionFileController
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
 	def upload =
 	{
-		securedBasic { study, context ->
+		securedBasic { study, context ->fileService
 			if (params.done != null || params.cancel != null) {
 				flash.message = params.done != null ? message(code:'study.analysed.upload.done') : message(code:'study.analysed.upload.cancel') 
 				redirect url:createLink(mapping: "sessionFileList", action:"list", params:["studyId":study.id] )
@@ -229,12 +240,50 @@ class SessionFileController
 		}
 	}
 	
-	def uploadFiles =
+	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_RESEARCHER', 'ROLE_SYS_ADMIN'])
+	def doDeleteFolder =
+	{
+		securedBasic { study, context ->
+			def baseDir = fileService.getFileReference( grailsApplication.config.files.session.location, rootPath(study) )
+			def folderPath = new File(baseDir, params.folderPath)
+			if (folderPath.exists()) {
+				if (deleteRecursive(folderPath)) {
+					flash.message = params.folderPath + " deleted"
+				} else {
+					flash.message = "Delete: error deleting " + params.folderPath
+				}
+			} else {
+				flash.message = "Delete: resource not found"
+			}
+			redirect(params:[studyId:study.id, action:'list'])
+		}
+	}
+	
+	private String rootPath(studyInstance)
+	{
+		return "${studyInstance.id}/";
+	}
+	
+	def deleteRecursive(File f) {
+		if (!f.exists()) { return true; }
+		if (!f.isDirectory()) {
+			return f.delete();
+		}
+		return !f.listFiles().find({ File child ->
+			if (!".".equals(child.getName()) && !"..".equals(child.getName())) {
+				return !deleteRecursive(child);
+			} else {
+				return false;
+			}
+		}) && f.delete()
+	}
+	
+	def uploadFiles_previous =
 	{	
 		cache false
 		def studyInstance = Study.get(Long.parseLong(params.studyId))
 		def sessionInstance = Session.get(Long.parseLong(params.sessionId))
-		if (studyInstance == null) {
+		if (studyInstance == null) {fileService
 			flash.message = message(code:'study.analysed.invalidId')
 			redirect controller:'login', action: 'invalid'
 			return
@@ -244,7 +293,7 @@ class SessionFileController
 		def dirstruct = params.dirStruct
 		def upload_component_session_root = componentStudySessionPath(studyInstance, sessionInstance) + "/" + params.destDir
 		dirstruct = JSON.parse(dirstruct)
-        def success = (fileService.createAllFolders( grailsApplication.config.files.session.location, dirstruct, upload_component_session_root) == true) ? true : false
+        def success = (fileService.createAllFolders( c, dirstruct, upload_component_session_root) == true) ? true : false
         success = success && (fileService.createAllFiles( dirstruct, upload_component_session_root, params) == true)
 		success = success && (fileService.moveDirectoryFromTmp( grailsApplication.config.files.session.location, upload_component_session_root, upload_component_session_root) == true)
 		if (success)
@@ -285,5 +334,60 @@ class SessionFileController
 	   return "${studyInstance.id}/${sessionInstance.component.id}/${sessionInstance.id}/";
    }
    
-   
+	def uploadFiles =
+	{
+		try{
+			cache false
+			
+			def studyInstance = Study.get(Long.parseLong(params.studyId))
+			def sessionInstance = Session.get(Long.parseLong(params.sessionId))
+			if (studyInstance == null) {fileService
+				return render(text: [success:study.analysed.invalidId] as JSON, contentType:'text/json')
+			}
+			
+			def context = createContext()
+			ensureFilesRootSession(context, studyInstance, sessionInstance)
+			
+			def upload_component_session_root = componentStudySessionPath(studyInstance, sessionInstance) + "/" + params.directory
+			
+			
+			
+		    File uploaded = createTemporaryFile(upload_component_session_root,params.fileName)
+		   
+		    InputStream inputStream = selectInputStream(request)
+
+		    ajaxUploaderService.upload(inputStream, uploaded)
+
+		    return render(text: [success:true] as JSON, contentType:'text/json')
+
+	    } catch (FileUploadException e) {
+
+		    log.error("Failed to upload file.", e)
+		    return render(text: [success:false] as JSON, contentType:'text/json')
+ 
+	    }
+
+   }
+
+   private InputStream selectInputStream(HttpServletRequest request) {
+        if (request instanceof MultipartHttpServletRequest) {
+            MultipartFile uploadedFile = ((MultipartHttpServletRequest) request).getFile('qqfile')
+            return uploadedFile.inputStream
+        }
+        return request.inputStream
+    }
+
+    private File createTemporaryFile(String upload_component_session_root, String fileName) {
+		
+        File uploaded
+		
+        if (grailsApplication.config.files.session.location !=null) {
+			//uploaded = fileService.getFileReference( grailsApplication.config.files.session.location, upload_component_session_root)
+            uploaded = new File(grailsApplication.config.files.session.location + "/" + upload_component_session_root +"/"+fileName)//+fileName
+        } else {
+            uploaded = File.createTempFile('grails', 'ajaxupload')
+        }
+        return uploaded
+    }
+	
 }
