@@ -13,6 +13,8 @@ import org.apache.log4j.net.SMTPAppender
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
+
+
 grails.views.javascript.library="jquery"
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
@@ -63,109 +65,39 @@ grails.logging.jul.usebridge = true
 // packages to include in Spring bean scanning
 grails.spring.bean.packages = []
 
-println "STARTING ENVIRONMENT *** " + environment + " ***"
 // set per-environment serverURL stem for creating absolute links
 environments {
 	production
-	{ grails.serverURL = "https://biomech.uow.edu.au/biomech" }
+	{ 	grails.config.locations = [ "file:/adminpkgs/tomcat/settings/${appName}/config.properties",
+									"file:/adminpkgs/tomcat/settings/${appName}/${appVersion}/config.properties" ]
+
+		grails.serverURL = grailsApplication.config.server.url 
+	}
 	development
 	{ grails.serverURL = "http://localhost:8080/${appName}" }
 	test
-	{ grails.serverURL = "https://biomechtst.uow.edu.au/biomech" }
+	{ grails.serverURL = "http://localhost:8080/${appName}" }
 	intersect_test
-	{ grails.serverURL = "http://gsw1-uow-biotest01-vm.intersect.org.au:8081/BDCP" }
+	{ grails.serverURL = "http://www.changeme.com" }
 	intersect_demo
-	{ grails.serverURL = "http://gsw1-uow-biotest02-vm.intersect.org.au:8081/BDCP" }
+	{ grails.serverURL = "http://www.changeme.com" }
 	cucumber
 	{ grails.serverURL = "http://localhost:8080/${appName}" }
 }
 
 bdcp.log.dir=""
 
-switch(environment) {
-
-    case 'development':
-	bdcp.log.dir = "logs/biomech.log"
-	images.location = "web-app/images/"
-	bdcp.dev.root = "web-app/uowbio/"
-	bdcp.files.root = bdcp.dev.root
-	forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
-	forms.location = bdcp.dev.root + "files/forms/"
-	files.session.location = bdcp.dev.root + "files/sessions/"
-	files.rifcs.location = bdcp.dev.root + "files/rifcs/"
-	files.analysed.location = bdcp.dev.root + "files/analysed/"
-	tmp.location = System.getProperty("java.io.tmpdir")
-        break
-
-    case 'test':
-        bdcp.log.dir = "/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
-        images.location = "web-app/images/"
-        bdcp.test.root = "/adminpkgs/tomcat/tomcat/biomech_files/"
-        bdcp.files.root = bdcp.test.root
-        forms.deviceManuals.location = bdcp.test.root + "files/forms/deviceManuals/"
-        forms.location = bdcp.test.root + "files/forms/"
-        files.session.location = bdcp.test.root + "files/sessions/"
-        files.rifcs.location = bdcp.test.root + "files/rifcs/"
-        files.analysed.location = bdcp.test.root + "files/analysed/"
-        tmp.location = System.getProperty("java.io.tmpdir")
-        break
-
-    case 'cucumber':
-	bdcp.log.dir = "logs/biomech.log"
-        images.location = "web-app/images/"
-        bdcp.dev.root = "web-app/uowbio/"
-        bdcp.files.root = bdcp.dev.root
-        forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
-        forms.location = bdcp.dev.root + "files/forms/"
-        files.session.location = bdcp.dev.root + "files/sessions/"
-        files.rifcs.location = bdcp.dev.root + "files/rifcs/"
-        files.analysed.location = bdcp.dev.root + "files/analysed/"
-        tmp.location = System.getProperty("java.io.tmpdir")
-        break
-
-    case 'production':
-        bdcp.log.dir = "/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
-        images.location = "web-app/images/"
-        bdcp.prod.root = "/adminpkgs/biomech_data/"
-        bdcp.files.root = bdcp.prod.root
-        forms.deviceManuals.location = bdcp.prod.root + "files/forms/deviceManuals/"
-        forms.location = bdcp.prod.root + "files/forms/"
-        files.session.location = bdcp.prod.root + "files/sessions/"
-        files.rifcs.location = bdcp.prod.root + "files/rifcs/"
-        files.analysed.location = bdcp.prod.root + "files/analysed/"
-        tmp.location = System.getProperty("java.io.tmpdir")
-        break
-
-    case 'intersect_test':
-        bdcp.dev.root = "/var/lib/tomcat6/uowbio_data/"
-        bdcp.log.dir= bdcp.dev.root + "biomech.log"
-        images.location = bdcp.dev.root + "images/"
-        bdcp.files.root = bdcp.dev.root
-        forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
-        forms.location = bdcp.dev.root + "files/forms/"
-        files.session.location = bdcp.dev.root + "files/sessions/"
-        files.rifcs.location = bdcp.dev.root + "files/rifcs/"
-        files.analysed.location = bdcp.dev.root + "files/analysed/"
-        tmp.location = System.getProperty("java.io.tmpdir")
-        break
-
-    case 'intersect_demo':
-        bdcp.dev.root = "/var/lib/tomcat6/uowbio_data/"
-        bdcp.log.dir= bdcp.dev.root + "biomech.log"
-        images.location = bdcp.dev.root + "images/"
-        bdcp.files.root = bdcp.dev.root
-        forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
-        forms.location = bdcp.dev.root + "files/forms/"
-        files.session.location = bdcp.dev.root + "files/sessions/"
-        files.rifcs.location = bdcp.dev.root + "files/rifcs/"
-        files.analysed.location = bdcp.dev.root + "files/analysed/"
-        tmp.location = System.getProperty("java.io.tmpdir")
-        break
-
-   default:
-        throw new RuntimeException("UNKNOWN ENVIRONMENT") 
+switch(Environment.current) {
+	case Environment.DEVELOPMENT:
+		bdcp.log.dir="/tmp/biomech.log"
+		break
+	case Environment.TEST:
+		bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
+		break
+	case Environment.PRODUCTION:
+		bdcp.log.dir="/adminpkgs/tomcat/tomcat/logs/biomechanics/biomech.log"
+		break
 }
-
 
 // log4j configuration
 log4j = {
@@ -175,25 +107,16 @@ log4j = {
 	// Example of changing the log pattern for the default console
 	// appender:
 	//
-	appenders {
-		console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-		appender new org.apache.log4j.DailyRollingFileAppender(name: 'rollingFileAppender', datePattern: "'.'yyyy-MM-dd'.log'", layout: pattern(conversionPattern: '%-5p %d{dd/MMM/yyyy:HH:mm:ss,SSS} [%t] %c - %m%n'), file: bdcp.log.dir)
-	}
-				
-	root {
-		info 'stdout', 'rollingFileAppender'
-		additivity = true
-	}
 				
 	info        'org.hibernate',
 				'net.sf.ehcache.hibernate'
 				'org.codehaus.groovy.grails.orm.hibernate' // hibernate integration
 
 
-	error  'au.org.intersect.bdcp',
-		   'org.codehaus.groovy.grails.plugins.springsecurity'
+	//debug  'org.codehaus.groovy.grails.plugins.springsecurity'
+	debug  'au.org.intersect.bdcp'
 	
-	error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
+	warn  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 			'org.codehaus.groovy.grails.web.pages', //  GSP
 			'org.codehaus.groovy.grails.web.sitemesh', //  layouts
 			'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
@@ -205,28 +128,72 @@ log4j = {
 			'org.hibernate',
 			'net.sf.ehcache.hibernate'
 
-	error   'org.mortbay.log'
-	// debug  'org.codehaus.groovy.grails.plugins.springsecurity', 'org.springframework.security'
+	warn   'org.mortbay.log'
 }
 
 bdcp.files.root=""
 
-ldapServers {
-	d1 {
-		base = "dc=biomechanics, dc=local"
-		port = 10400
-		indexed = ["objectClass", "uid", "mail"]
-	}
+switch(Environment.current) {
+	case Environment.DEVELOPMENT:
+		images.location = "web-app/images/"
+		bdcp.dev.root = "/tmp/"
+		bdcp.files.root = bdcp.dev.root
+		forms.deviceManuals.location = bdcp.dev.root + "files/forms/deviceManuals/"
+		forms.location = bdcp.dev.root + "files/forms/"
+		files.session.location = bdcp.dev.root + "files/sessions/"
+		files.rifcs.location = bdcp.dev.root + "files/rifcs/"
+		files.analysed.location = bdcp.dev.root + "files/analysed/"
+		tmp.location = System.getProperty("java.io.tmpdir")
+		break
+	case Environment.TEST:
+		images.location = "web-app/images/"
+		bdcp.test.root = "/adminpkgs/tomcat/tomcat/biomech_files/"
+		bdcp.files.root = bdcp.test.root
+		forms.deviceManuals.location = bdcp.test.root + "files/forms/deviceManuals/"
+		forms.location = bdcp.test.root + "files/forms/"
+		files.session.location = bdcp.test.root + "files/sessions/"
+		files.rifcs.location = bdcp.test.root + "files/rifcs/"
+		files.analysed.location = bdcp.test.root + "files/analysed/"
+		tmp.location = System.getProperty("java.io.tmpdir")
+		break
+	case Environment.PRODUCTION:
+		images.location = "web-app/images/"
+		bdcp.prod.root = "/adminpkgs/biomech_data/"
+		bdcp.files.root = bdcp.prod.root
+		forms.deviceManuals.location = bdcp.prod.root + "files/forms/deviceManuals/"
+		forms.location = bdcp.prod.root + "files/forms/"
+		files.session.location = bdcp.prod.root + "files/sessions/"
+		files.rifcs.location = bdcp.prod.root + "files/rifcs/"
+		files.analysed.location = bdcp.prod.root + "files/analysed/"
+		tmp.location = System.getProperty("java.io.tmpdir")
+		break
 }
+
 
 environments {
 	development {
 		grails.mail.port = com.icegreen.greenmail.util.ServerSetupTest.SMTP.port
 		grails.mail.host = "localhost"
+		ldapServers {
+			d1 {
+				base = "dc=biomechanics, dc=local"
+				port = 10400
+				indexed = ["objectClass", "uid", "mail"]
+			}
+		}
+		
 	}
 	
 	test {
 		grails.mail.host = "smtp.uow.edu.au"
+		ldapServers {
+			d1 {
+				base = "dc=biomechanics, dc=local"
+				port = 10400
+				indexed = ["objectClass", "uid", "mail"]
+			}
+		}
+		
 	}
 	
 	cucumber {
@@ -241,34 +208,30 @@ environments {
 	
 	intersect_test {
 		grails.mail.host = "localhost"
-                greenmail.disabled=true
 	}
 
 	intersect_demo {
 		grails.mail.host = "localhost"
-                greenmail.disabled=true
 	}
 
 }
 
 // Spring security LDAP settings
 environments {
-
 	production {
-		// Spring security LDAP settings
-		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap-ids.uow.edu.au:389'
-		grails.plugins.springsecurity.ldap.context.managerDn = 'uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au'
-		grails.plugins.springsecurity.ldap.context.managerPassword = 'Abx\\xn$4'
-		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,dc=uow,dc=edu,dc=au'
+		// Spring security LDAP settings grails.plugins.springsecurity.ldap.context.managerPassword = 'Abx\\xn$4'
+		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
+		grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.context.managerPassword = '***********'
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
-		grails.plugins.springsecurity.ldap.search.base = 'ou=People,dc=uow,dc=edu,dc=au'
+		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.ldap.search.subtree = true
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
-	development {		
+	development {
+		
 		// Spring security LDAP settings
 		grails.plugins.springsecurity.ldap.context.server = 'ldap://localhost:10400'
 		grails.plugins.springsecurity.ldap.context.managerDn = "uid=admin,ou=system"
@@ -278,22 +241,19 @@ environments {
 		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics,dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.ldap.search.subtree = true
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
 	test {
 		// Spring security LDAP settings
-		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap-ids.uow.edu.au:389'
-		grails.plugins.springsecurity.ldap.context.managerDn = 'uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au'
-		grails.plugins.springsecurity.ldap.context.managerPassword = 'Abx\\xn$4'
-		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,dc=uow,dc=edu,dc=au'
+		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
+		grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.context.managerPassword = ''
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
-		grails.plugins.springsecurity.ldap.search.base = 'ou=People,dc=uow,dc=edu,dc=au'
+		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.ldap.search.subtree = true
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
 	cucumber {
@@ -306,9 +266,8 @@ environments {
 		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.ldap.search.subtree = true
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
 		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 	
 	intersect_test {
@@ -316,13 +275,14 @@ environments {
 		// Spring security LDAP settings
 		grails.plugins.springsecurity.ldap.context.server = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
 		grails.plugins.springsecurity.ldap.context.managerDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
-		grails.plugins.springsecurity.ldap.context.managerPassword = "password"
+		grails.plugins.springsecurity.ldap.context.managerPassword = "********"
 		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ="ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
 		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
+		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 
 	intersect_demo {
@@ -330,13 +290,14 @@ environments {
 		// Spring security LDAP settings
 		grails.plugins.springsecurity.ldap.context.server = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
 		grails.plugins.springsecurity.ldap.context.managerDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
-		grails.plugins.springsecurity.ldap.context.managerPassword = "password"
-		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ="ou=people,dc=biomechanics, dc=local"
+		grails.plugins.springsecurity.ldap.context.managerPassword = "********"
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ="ou=people,dc=bfiles/sessions/iomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
 		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
+		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
 	}
 
 }
@@ -353,11 +314,9 @@ environments
 				user
 				{
 					defaultDirectory = true
-					url = "ldap://ldap-ids.uow.edu.au"
+					url = "ldap://ldap.uow.edu.au"
 					port = 389
-					base = "ou=people,dc=uow,dc=edu,dc=au"
-					userDn = "uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au"
-					password = 'Abx\\xn$4'
+					base = "ou=People,o=University of Wollongong,c=au"
 					searchControls
 					{
 						searchScope = "subtree"
@@ -385,7 +344,7 @@ environments
 					url = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
 					base = "ou=people,dc=biomechanics, dc=local"
 					userDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
-					password = "password"
+					password = "********"
 					searchControls
 					{
 						searchScope = "subtree"
@@ -412,7 +371,7 @@ environments
 					url = "ldap://gsw1-int-ldaptest-vm.intersect.org.au:389"
 					base = "ou=people,dc=biomechanics, dc=local"
 					userDn = "uid=chrisk,ou=people,dc=biomechanics, dc=local"
-					password = "password"
+					password = "********"
 					searchControls
 					{
 						searchScope = "subtree"
@@ -458,11 +417,9 @@ environments
 				user
 				{
 					defaultDirectory = true
-					url = "ldap://ldap-ids.uow.edu.au"
+					url = "ldap://ldap.uow.edu.au"
 					port = 389
-					base = "ou=people,dc=uow,dc=edu,dc=au"
-					userDn = "uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au"
-					password = 'Abx\\xn$4'
+					base = "ou=People,o=University of Wollongong,c=au"
 					searchControls
 					{
 						searchScope = "subtree"
@@ -503,6 +460,8 @@ environments
 
 
 // Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'au.org.intersect.bdcp.SecUser'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'au.org.intersect.bdcp.SecUserSecRole'
 grails.plugins.springsecurity.authority.className = 'au.org.intersect.bdcp.SecRole'
 //grails.plugins.springsecurity.controllerAnnotations.staticRules = [
 //	'/js/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
@@ -517,7 +476,7 @@ grails.plugins.springsecurity.errors.login.disabled = "Sorry, your account is di
 grails.plugins.springsecurity.errors.login.expired = "Sorry, your account has expired."
 grails.plugins.springsecurity.errors.login.passwordExpired = "Sorry, your password has expired."
 grails.plugins.springsecurity.errors.login.locked = "Sorry, your account is locked."
-grails.plugins.springsecurity.errors.login.fail = "Incorrect password or userid. Please enter your userid and password again or call ITS for assistance."
+grails.plugins.springsecurity.errors.login.fail = "Incorrect password or userid. Please enter your UOW userid and password again or call ITS for assistance."
 
 
 
@@ -532,3 +491,5 @@ grails.gorm.default.mapping = {
 	"user-type" type: org.joda.time.contrib.hibernate.PersistentLocalDateTime, class: org.joda.time.LocalDateTime
 	"user-type" type: org.joda.time.contrib.hibernate.PersistentPeriod, class: org.joda.time.Period
 }
+
+
