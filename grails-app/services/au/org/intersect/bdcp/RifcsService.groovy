@@ -56,7 +56,15 @@ Wollongong N.S.W. 2522"""
 	private def makeKey =
 	{
 		obj ->
-		return "oai:au.edu.uow.biomechanics:" + makeName(obj)
+		def String key
+		def idList = [44L,45L,46L,47L]
+		if (obj.getClass().getSimpleName()=='UserStore' && idList.contains(obj.id)) {
+			//this is a hack to tie in the existing user keys already in ANDS for these users
+			key = "oai:uow.edu.au/PTY/" + obj.id
+		} else {
+			key = "oai:au.edu.uow.biomechanics:" + makeName(obj)
+		}
+		return key
 	}
 	
 	private def makeName =
@@ -177,9 +185,7 @@ Wollongong N.S.W. 2522"""
 		// this closure bridges XmlSlurper to StreamMarkupBilder used for domain objects
 		return { binder ->
 			mkp.xmlDeclaration()
-			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects',
-				'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-				)
+			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects')
 			mkp.yield root
 		}
 	}
@@ -195,10 +201,8 @@ Wollongong N.S.W. 2522"""
 		Study study, related ->
 		def root = { builder ->
 			mkp.xmlDeclaration()
-			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects',
-				'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-				)
-			registryObjects('xsi:schemaLocation': 'http://ands.org.au/standards/rif-cs/registryObjects http://services.ands.org.au/documentation/rifcs/schema/registryObjects.xsd') {
+			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects')
+			registryObjects {
 				registryObject(group:common['@group']) {
 					key(makeKey(study))
 					originatingSource(type:"authoritative") { mkp.yield(common['originatingSource'])}
@@ -248,11 +252,8 @@ Wollongong N.S.W. 2522"""
 		def ldapUser = LdapUser.find(filter: "(uid=${user.username})")
 		def root = {
 			mkp.xmlDeclaration()
-			mkp.declareNamespace(
-				'':'http://ands.org.au/standards/rif-cs/registryObjects', 
-				'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-				)
-			registryObjects('xsi:schemaLocation': 'http://ands.org.au/standards/rif-cs/registryObjects http://services.ands.org.au/documentation/rifcs/schema/registryObjects.xsd') {
+			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects')
+			registryObjects {
 				registryObject(group:common['@group']) {
 					key(makeKey(user))
 					originatingSource(type:"authoritative") { mkp.yield(common['originatingSource'])}

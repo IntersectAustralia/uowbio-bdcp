@@ -13,8 +13,6 @@ import org.apache.log4j.net.SMTPAppender
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
-
-
 grails.views.javascript.library="jquery"
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
@@ -107,7 +105,19 @@ log4j = {
 	// Example of changing the log pattern for the default console
 	// appender:
 	//
-				
+	
+		
+	appenders {
+		console name:'stdout',
+		layout:pattern(conversionPattern: '%c{2} %m%n')
+		appender new org.apache.log4j.DailyRollingFileAppender(name: 'rollingFileAppender', datePattern: "'.'yyyy-MM-dd'.log'", layout: pattern(conversionPattern: '%-5p %d{dd/MMM/yyyy:HH:mm:ss,SSS} [%t] %c - %m%n'), file: bdcp.log.dir)
+	}
+	
+	root {
+		info 'stdout', 'rollingFileAppender'
+		additivity = true
+	}
+		
 	info        'org.hibernate',
 				'net.sf.ehcache.hibernate'
 				'org.codehaus.groovy.grails.orm.hibernate' // hibernate integration
@@ -219,19 +229,49 @@ environments {
 // Spring security LDAP settings
 environments {
 	production {
-		// Spring security LDAP settings grails.plugins.springsecurity.ldap.context.managerPassword = 'Abx\\xn$4'
-		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
-		grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
-		grails.plugins.springsecurity.ldap.context.managerPassword = '***********'
-		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
+		// Spring security LDAP settings
+		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap-ids.uow.edu.au:389'
+		grails.plugins.springsecurity.ldap.context.managerDn = 'uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au'
+		grails.plugins.springsecurity.ldap.context.managerPassword = '*********'
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,dc=uow,dc=edu,dc=au'
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
+		grails.plugins.springsecurity.ldap.search.base = 'ou=People,dc=uow,dc=edu,dc=au'
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+		grails.plugins.springsecurity.ldap.search.subtree = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
+		ldap
+		{
+			directories
+			{
+				user
+				{
+					defaultDirectory = true
+					url = "ldap://ldap-ids.uow.edu.au"
+					port = 389
+					base = "ou=people,dc=uow,dc=edu,dc=au"
+					userDn = "uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au"
+					password = '*********'
+					searchControls
+					{
+						searchScope = "subtree"
+					}
+				}
+			}
+			schemas = [
+				au.org.intersect.bdcp.ldap.LdapUser
+			]	
+		}
 	}
 	
 	development {
-		
+		ldapServers {
+			d1 {
+				base = "dc=biomechanics, dc=local"
+				port = 10400
+				indexed = ["objectClass", "uid", "mail"]
+			}
+		}
 		// Spring security LDAP settings
 		grails.plugins.springsecurity.ldap.context.server = 'ldap://localhost:10400'
 		grails.plugins.springsecurity.ldap.context.managerDn = "uid=admin,ou=system"
@@ -241,22 +281,72 @@ environments {
 		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics,dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+		grails.plugins.springsecurity.ldap.search.subtree = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
+		ldap
+		{
+
+			directories
+			{
+				d1
+				{
+					defaultDirectory = true
+					url = "ldap://localhost:10400"
+					base = "ou=people,dc=biomechanics, dc=local"
+					userDn = "uid=admin,ou=system"
+					password = "secret"
+				}
+			}
+			schemas = [
+				au.org.intersect.bdcp.ldap.LdapUser
+			]
+		}
 	}
 	
 	test {
 		// Spring security LDAP settings
-		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap.uow.edu.au:389'
-		grails.plugins.springsecurity.ldap.context.managerDn = 'ou=People,o=University of Wollongong,c=au'
-		grails.plugins.springsecurity.ldap.context.managerPassword = ''
-		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.context.server = 'ldap://ldap-ids.uow.edu.au:389'
+		grails.plugins.springsecurity.ldap.context.managerDn = 'uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au'
+		grails.plugins.springsecurity.ldap.context.managerPassword = '*********'
+		grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=People,dc=uow,dc=edu,dc=au'
 		grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-		grails.plugins.springsecurity.ldap.search.base = 'ou=People,o=University of Wollongong,c=au'
+		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
+		grails.plugins.springsecurity.ldap.search.base = 'ou=People,dc=uow,dc=edu,dc=au'
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+		grails.plugins.springsecurity.ldap.search.subtree = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
+		ldap
+		{
+			directories
+			{
+				user
+				{
+					defaultDirectory = true
+					url = "ldap://ldap-ids.uow.edu.au"
+					port = 389
+					base = "ou=people,dc=uow,dc=edu,dc=au"
+					userDn = "uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au"
+					password = '*********'
+					searchControls
+					{
+						searchScope = "subtree"
+					}
+				}
+			}
+			schemas = [
+				au.org.intersect.bdcp.ldap.LdapUser
+			]	
+		}
 	}
 	
 	cucumber {
+		ldapServers {
+			d1 {
+				base = "dc=biomechanics, dc=local"
+				port = 10400
+				indexed = ["objectClass", "uid", "mail"]
+			}
+		}
 		// Spring security LDAP settings
 		grails.plugins.springsecurity.ldap.context.server = 'ldap://localhost:10400'
 		grails.plugins.springsecurity.ldap.context.managerDn = "uid=admin,ou=system"
@@ -266,8 +356,27 @@ environments {
 		grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException= true
 		grails.plugins.springsecurity.ldap.search.base = "ou=people,dc=biomechanics, dc=local"
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
+		grails.plugins.springsecurity.ldap.search.subtree = true
+		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
 		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
-		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider']
+		ldap
+		{
+			directories
+			{
+				d1
+				{
+					defaultDirectory = true
+					url = "ldap://localhost:10400"
+					base = "ou=people,dc=biomechanics, dc=local"
+					userDn = "uid=admin,ou=system"
+					password = "secret"
+				}
+			}
+
+			schemas = [
+				au.org.intersect.bdcp.ldap.LdapUser
+			]
+		}
 	}
 	
 	intersect_test {
@@ -305,32 +414,6 @@ environments {
 
 environments
 {
-	production
-	{
-		ldap
-		{
-			directories
-			{
-				user
-				{
-					defaultDirectory = true
-					url = "ldap://ldap.uow.edu.au"
-					port = 389
-					base = "ou=People,o=University of Wollongong,c=au"
-					searchControls
-					{
-						searchScope = "subtree"
-					}
-				}
-			}
-
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]
-			
-		}
-	}
-
 	intersect_test
 	{
 		ldap
@@ -384,84 +467,12 @@ environments
 			]
 		}
 	}
-	
-	development
-	{
-		ldap
-		{
-
-			directories
-			{
-				d1
-				{
-					defaultDirectory = true
-					url = "ldap://localhost:10400"
-					base = "ou=people,dc=biomechanics, dc=local"
-					userDn = "uid=admin,ou=system"
-					password = "secret"
-				}
-			}
-
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]
-		}
-	}
-	
-	test
-	{
-		ldap
-		{
-			directories
-			{
-				user
-				{
-					defaultDirectory = true
-					url = "ldap://ldap.uow.edu.au"
-					port = 389
-					base = "ou=People,o=University of Wollongong,c=au"
-					searchControls
-					{
-						searchScope = "subtree"
-					}
-				}
-			}
-
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]
-			
-		}
-	}
-	
-	cucumber
-	{
-		ldap
-		{
-
-			directories
-			{
-				d1
-				{
-					defaultDirectory = true
-					url = "ldap://localhost:10400"
-					base = "ou=people,dc=biomechanics, dc=local"
-					userDn = "uid=admin,ou=system"
-					password = "secret"
-				}
-			}
-
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]
-		}
-	}
 }
 
 
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'au.org.intersect.bdcp.SecUser'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'au.org.intersect.bdcp.SecUserSecRole'
+//grails.plugins.springsecurity.userLookup.userDomainClassName = 'au.org.intersect.bdcp.SecUser'
+//grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'au.org.intersect.bdcp.SecUserSecRole'
 grails.plugins.springsecurity.authority.className = 'au.org.intersect.bdcp.SecRole'
 //grails.plugins.springsecurity.controllerAnnotations.staticRules = [
 //	'/js/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],

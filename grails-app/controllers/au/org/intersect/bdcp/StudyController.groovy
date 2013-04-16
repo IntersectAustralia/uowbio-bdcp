@@ -426,13 +426,13 @@ class StudyController
 		}
 		else
 		{
-			if (studyInstance.project.owner.nlaIdentifier == null
-				|| studyInstance.project.owner.nlaIdentifier.length() == 0)
-			{
-				response.contentType = "text/plain"
-				render "OWNER ERROR"
-				return null
-			}
+			//if (studyInstance.project.owner.nlaIdentifier == null
+			//	|| studyInstance.project.owner.nlaIdentifier.length() == 0)
+			//{
+			//	response.contentType = "text/plain"
+			//	render "OWNER ERROR"
+			//	return null
+			//}
 			def rifcsXslt = this.getClass().getResourceAsStream('rifcs2preview.xslt')
 			if (rifcsXslt == null)
 			{
