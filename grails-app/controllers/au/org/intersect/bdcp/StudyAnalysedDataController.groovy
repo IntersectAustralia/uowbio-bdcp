@@ -109,36 +109,41 @@ class StudyAnalysedDataController
         def context = createContext()
         def study = Study.findById(params.studyId)
         def files = params.list('files')
-        def zipName = study.studyTitle + ".zip"
+        def zipName = System.getProperty("java.io.tmpdir") + File.separator + study.studyTitle + "_analysed.zip"
         def rootPath = rootPath(study)
- 
-        response.setContentType "application/zip"
-        response.setHeader "Content-Disposition", "attachment; filename=\"" + zipName + "\""
-        response.setHeader "Content-Description", "File download for BDCP"
-        response.setHeader "Content-Transfer-Encoding", "binary"
-
-        def zipOs = new ZipOutputStream(response.outputStream)
-        def added = new HashSet()
-        zipOs.setComment "Created with BDCP web application"
+		
+		def zipOs = new ZipOutputStream(new FileOutputStream(zipName))
+		def added = new HashSet()
+		zipOs.setComment "Created with BDCP web application"
         files.each { String file ->
-                if (file.startsWith('./')) { file = file.substring(2) }
                 addFileToZip(study, context, zipOs, rootPath + file, added)
             }
-        zipOs.close()
-        response.flushBuffer()
-        
-        return true
+		zipOs.close()
+
+		def file = new File(zipName)
+		
+		response.setContentType "application/zip"
+		response.setHeader "Content-Disposition", "attachment; filename=\"" + study.studyTitle + "_analysed.zip\""
+		response.setHeader "Content-Description", "File download for BDCP"
+		response.setHeader "Content-Transfer-Encoding", "binary"
+		response.outputStream << file.newInputStream()
+		file.delete()
+
+		response.flushBuffer()
+		response.close()
+		
         
     }
     
     private void addFileToZip(Study study, Object context, ZipOutputStream zipOs, String file, Set added)
     {
         def thePath = file
+		def zipName = getZipName(thePath)
         File theFileOrDir = fileService.getFileReference( grailsApplication.config.files.analysed.location, thePath)
         def lastMod = theFileOrDir.lastModified()
         if (!theFileOrDir.isDirectory() && !added.contains(theFileOrDir) )
         {
-            def zipEntry = new ZipEntry(thePath)
+            def zipEntry = new ZipEntry(zipName)
             long fileSize = theFileOrDir.length()
             zipEntry.setTime(lastMod)
             zipEntry.setSize(fileSize)
@@ -152,6 +157,24 @@ class StudyAnalysedDataController
             addDirectoryToZip (theFileOrDir, study, context, zipOs, file, added)
         }
     }
+	
+	private String getZipName(String thePath){// e.g.     1/tools
+		
+		def dirs = thePath.split("/")
+		if(dirs.length >= 1){
+			dirs[0] = Study.findById(dirs[0]).studyTitle
+		}
+		if(dirs.length >= 2){
+			dirs[1] = "Analysed Data"
+		}
+		
+		def zipName = ""
+		for(int i = 0; i < dirs.length; i++){
+			//if(!dirs[i].equals("."))
+				zipName = zipName + "/" + dirs[i]
+		}
+		return zipName
+	}
     
     private void addDirectoryToZip(File directory, Study study, Object context, ZipOutputStream zipOs, String file, Set added)
     {
@@ -300,17 +323,23 @@ class StudyAnalysedDataController
 			cache false
 			
 			def studyInstance = Study.get(Long.parseLong(params.studyId))
-			//def studyInstance = Study.get(Long.parseLong("1"))
 			if (studyInstance == null) {
-	            flash.message = message(code:'study.analysed.invalidId')
-	            redirect controller:'login', action: 'invalid'
-	            return
-	        }
+				flash.message = message(code:'study.analysed.invalidId')
+				redirect controller:'login', action: 'invalid'
+				return
+			}
 			
 			def upload_root = rootPath(studyInstance)  + params.folderPath
 		
-			File uploaded = createTemporaryFile(upload_root,params.fileName)
-		   
+			File uploaded = null
+			//firefox uploading
+			if(params.filePath.equals("") || params.filePath == null){
+				uploaded = createTemporaryFile(upload_root,params.qqfile.getOriginalFilename())
+			}
+			else{//Chrome uploading
+				createDirectories(params.filePath, upload_root)
+				uploaded = createTemporaryFile(upload_root,params.filePath)
+			}
 			InputStream inputStream = selectInputStream(request)
 
 			ajaxUploaderService.upload(inputStream, uploaded)
@@ -324,7 +353,7 @@ class StudyAnalysedDataController
  
 		}
 
-   }
+	}
 
    private InputStream selectInputStream(HttpServletRequest request) {
 		if (request instanceof MultipartHttpServletRequest) {
@@ -386,9 +415,60 @@ class StudyAnalysedDataController
        return objErrors
    }
 
- 
+   /*
+	* iteratively find out root path, super folder and current folder so that it could be created by  doCreateMutipleFolder()
+	* example : fileFullpath = "/tools/jquery/abc.js" & upload_root = "1/1/1/"
+	*/
+   private void createDirectories(String fileFullpath, String upload_root){
+	   fileFullpath = fileFullpath.substring(1)
+	   String [] dirctories = fileFullpath.trim().split("/")
+	   if(dirctories.length > 0){
+		   String folderName = dirctories[0]  // "tools"
+		   String superFoldersdir = ""
+		   
+		   for(int i = 0; i < dirctories.length - 1 ; i++){
+			   folderName = dirctories[i].trim()
+			   doCreateMutipleFolder(upload_root, superFoldersdir, folderName)
+			   superFoldersdir = superFoldersdir + "/" + folderName
+		   }
+	   }
+	   
+   }
+   
+   
+   /*
+	* create fold before file is uploaded
+	* example: tmp/analysedData 	+ /1/1/1 		+ /tools 			+ /jquery.1001
+	* 								upload_root		+ superFoldersdir 	+ folderName
+	*/
+   private void doCreateMutipleFolder(String upload_root, String superFoldersdir, String folderName)
+   {
+	   def validator = new ValidFilenameConstraint()
+	   def msg = null
+	   if (folderName.length() == 0) {
+		   msg = 'study.files.analysed.folder.create.folderName.blank';
+	   } else if (!validator.validate(folderName)) {
+		   msg = 'study.files.analysed.folder.create.folderName.invalid';
+	   } else {
+		   def baseDir = fileService.getFileReference( grailsApplication.config.files.analysed.location, upload_root + superFoldersdir )
+		   def dir = new File(baseDir, folderName)
+		   if (dir.exists() && dir.isDirectory()) {
+			  msg = "Folder already exists"
+		   } else {
+			  def ok = dir.mkdir();
+			  if (!ok) {
+				  msg = 'study.files.analysed.folder.create.folderName.systemerror';
+			  } else {
+				  msg = "Folder created"
+			  }
+		   }
+	   }
+	   
+   }
    
 }
+
+
 
 class FolderCommand {
     String folder
