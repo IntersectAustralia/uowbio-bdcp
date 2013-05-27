@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest
 import uk.co.desirableobjects.ajaxuploader.AjaxUploaderService;
 import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 
+import au.org.intersect.bdcp.constraints.FilterSpecialCharsOfFilename
 import au.org.intersect.bdcp.constraints.ValidFilenameConstraint
 
 
@@ -105,11 +106,12 @@ class StudyAnalysedDataController
     {
         
         cache false
-        
+		def filterSpecialChars = new FilterSpecialCharsOfFilename()
+		
         def context = createContext()
         def study = Study.findById(params.studyId)
         def files = params.list('files')
-        def zipName = System.getProperty("java.io.tmpdir") + File.separator + study.studyTitle + "_analysed.zip"
+        def zipName = System.getProperty("java.io.tmpdir") + File.separator + filterSpecialChars.filterSpecialChars(study.studyTitle) + "_analysed.zip"
         def rootPath = rootPath(study)
 		
 		def zipOs = new ZipOutputStream(new FileOutputStream(zipName))
@@ -123,7 +125,7 @@ class StudyAnalysedDataController
 		def file = new File(zipName)
 		
 		response.setContentType "application/zip"
-		response.setHeader "Content-Disposition", "attachment; filename=\"" + study.studyTitle + "_analysed.zip\""
+		response.setHeader "Content-Disposition", "attachment; filename=\"" + filterSpecialChars.filterSpecialChars(study.studyTitle) + "_analysed.zip\""
 		response.setHeader "Content-Description", "File download for BDCP"
 		response.setHeader "Content-Transfer-Encoding", "binary"
 		response.outputStream << file.newInputStream()
@@ -140,6 +142,7 @@ class StudyAnalysedDataController
         def thePath = file
 		def zipName = getZipName(thePath)
         File theFileOrDir = fileService.getFileReference( grailsApplication.config.files.analysed.location, thePath)
+		
         def lastMod = theFileOrDir.lastModified()
         if (!theFileOrDir.isDirectory() && !added.contains(theFileOrDir) )
         {
@@ -169,9 +172,10 @@ class StudyAnalysedDataController
 		}
 		
 		def zipName = ""
+		def filterSpecialChars = new FilterSpecialCharsOfFilename()
 		for(int i = 0; i < dirs.length; i++){
-			//if(!dirs[i].equals("."))
-				zipName = zipName + "/" + dirs[i]
+			def dir = filterSpecialChars.filterSpecialChars(dirs[i])
+			zipName = (i == 0) ? dir : zipName + "/" + dir
 		}
 		return zipName
 	}

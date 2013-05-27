@@ -1,5 +1,6 @@
 package au.org.intersect.bdcp
 
+import au.org.intersect.bdcp.constraints.FilterSpecialCharsOfFilename
 import au.org.intersect.bdcp.constraints.ValidFilenameConstraint
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
@@ -126,11 +127,12 @@ class SessionFileController
 	{
 		
 		cache false
+		def filterSpecialChars = new FilterSpecialCharsOfFilename()
 		
 		def context = createContext()
 		def study = Study.findById(params.studyId)
 		def files = params.list('files')
-		def zipName = System.getProperty("java.io.tmpdir") + File.separator + study.studyTitle + "_session.zip"
+		def zipName = System.getProperty("java.io.tmpdir") + File.separator + filterSpecialChars.filterSpecialChars(study.studyTitle) + "_session.zip"
 		
 		def zipOs = new ZipOutputStream(new FileOutputStream(zipName))
 		def added = new HashSet()
@@ -143,7 +145,7 @@ class SessionFileController
 		def file = new File(zipName)
 		
 		response.setContentType "application/zip"
-		response.setHeader "Content-Disposition", "attachment; filename=\"" + study.studyTitle + "_session.zip\""
+		response.setHeader "Content-Disposition", "attachment; filename=\"" + filterSpecialChars.filterSpecialChars(study.studyTitle) + "_session.zip\""
 		response.setHeader "Content-Description", "File download for BDCP"
 		response.setHeader "Content-Transfer-Encoding", "binary"
 		response.outputStream << file.newInputStream()
@@ -200,8 +202,10 @@ class SessionFileController
 		}
 		
 		def zipName = ""
+		def filterSpecialChars = new FilterSpecialCharsOfFilename()
 		for(int i = 0; i < dirs.length; i++){
-			zipName = zipName + "/" + dirs[i]
+			def dir = filterSpecialChars.filterSpecialChars(dirs[i])
+			zipName = (i == 0) ? dir : zipName + "/" + dir
 		}
 		return zipName
 	}
