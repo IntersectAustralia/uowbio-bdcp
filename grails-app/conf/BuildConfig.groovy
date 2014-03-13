@@ -33,8 +33,8 @@ grails.project.dependency.resolution = {
 		compile("joda-time:joda-time-hibernate:1.3") {
 			excludes "joda-time", "hibernate"
 		}
-		compile 'org.springframework.ldap:spring-ldap:1.3.0.RELEASE'
-		compile 'org.codehaus:gldapo:0.8.5'
+		//compile 'org.springframework.ldap:spring-ldap:1.3.0.RELEASE'
+		//compile 'org.codehaus:gldapo:0.8.5'
 	}
     
     plugins{
@@ -43,21 +43,6 @@ grails.project.dependency.resolution = {
     }
 	
 	
-	grails.war.resources = { stagingDir ->
-		// we need to do this to fix the ldap / gldap issue with the plugin
-		delete(file:"${stagingDir}/WEB-INF/lib/spring-ldap-1.2.1.jar")
-		delete(file:"${stagingDir}/WEB-INF/lib/gldapo-0.8.2.jar")
-		// and remove the tomcat 7 libs because we are using tomcat 6
-		delete(file:"${stagingDir}/WEB-INF/lib/tomcat-catalina-7.0.30.jar")
-		delete(file:"${stagingDir}/WEB-INF/lib/tomcat-catalina-ant-7.0.30.jar")
-		delete(file:"${stagingDir}/WEB-INF/lib/tomcat-coyote-7.0.30.jar")
-		delete(file:"${stagingDir}/WEB-INF/lib/tomcat-embed-core-7.0.30.jar")
-		delete(file:"${stagingDir}/WEB-INF/lib/tomcat-embed-jasper-7.0.30.jar")
-		delete(file:"${stagingDir}/WEB-INF/lib/tomcat-embed-logging-juli-7.0.30.jar")
-		delete(file:"${stagingDir}/WEB-INF/lib/tomcat-embed-logging-log4j-7.0.30.jar")
-		
-		
-	  }
 	
 
 }

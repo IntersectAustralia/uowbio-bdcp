@@ -9,6 +9,8 @@ class ProjectController
 	
 	def roleCheckService
 	
+	def ldapSearchService
+	
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN', 'ROLE_RESEARCHER'])
@@ -59,12 +61,13 @@ class ProjectController
 		def allProjectInstanceList = Project.list(params);
 		
 		// assign firstname and surname to an owner, so I can sort projects by first name
-		def ldapUserDetail
+		def match
 		allProjectInstanceList.each
 		{
-			ldapUserDetail = LdapUser.find(filter: "(uid=${it?.owner?.username})")
-			it?.owner?.firstName = ldapUserDetail?.givenName
-			it?.owner?.surname = ldapUserDetail?.sn
+			println it?.owner?.username
+			match = ldapSearchService.searchLdapIdsUOW(it?.owner?.username)
+			it?.owner?.firstName = match[0]?.givenName
+			it?.owner?.surname = match[0]?.sn
 		}
 		
 		allProjectInstanceList.sort{it.owner.firstName}

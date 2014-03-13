@@ -20,6 +20,8 @@ class StudyController
 	
 	def roleCheckService
 	
+	def ldapSearchService
+	
 	def factory = TransformerFactory.newInstance()
 	
 	def getContextRootPath(def servletRequest)
@@ -85,10 +87,10 @@ class StudyController
 		def match
 		collaborators.each
 		{
-			match = LdapUser.find(filter: "(uid=${it?.username})")
+			match = ldapSearchService.searchLdapIdsUOW(it?.username)
 			if(match)
 			{
-				matches << new UserStore(username: match.username, firstName: match.givenName, surname: match.sn)
+				matches << new UserStore(username: match[0]?.username, firstName: match[0]?.givenName, surname: match[0]?.sn)
 			}
 			else // external user
 			{

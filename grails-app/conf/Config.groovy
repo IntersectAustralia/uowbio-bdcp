@@ -184,6 +184,7 @@ environments {
 	development {
 		grails.mail.port = com.icegreen.greenmail.util.ServerSetupTest.SMTP.port
 		grails.mail.host = "localhost"
+		
 		ldapServers {
 			d1 {
 				base = "dc=biomechanics, dc=local"
@@ -196,6 +197,7 @@ environments {
 	
 	test {
 		grails.mail.host = "smtp.uow.edu.au"
+		
 		ldapServers {
 			d1 {
 				base = "dc=biomechanics, dc=local"
@@ -240,28 +242,12 @@ environments {
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
 		grails.plugins.springsecurity.ldap.search.subtree = true
 		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
-		ldap
-		{
-			directories
-			{
-				user
-				{
-					defaultDirectory = true
-					url = "ldap://ldap-ids.uow.edu.au"
-					port = 389
-					base = "ou=people,dc=uow,dc=edu,dc=au"
-					userDn = "uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au"
-					password = '*********'
-					searchControls
-					{
-						searchScope = "subtree"
-					}
-				}
-			}
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]	
-		}
+		
+		uow.ldapids.server = 'ldap://ldap-ids.uow.edu.au:389'
+		uow.ldapids.groupSearchBase = "ou=People,dc=uow,dc=edu,dc=au"
+		uow.ldapids.managerDn = "uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au"
+		uow.ldapids.managerPassword = "*********"
+		
 	}
 	
 	development {
@@ -283,24 +269,12 @@ environments {
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
 		grails.plugins.springsecurity.ldap.search.subtree = true
 		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
-		ldap
-		{
-
-			directories
-			{
-				d1
-				{
-					defaultDirectory = true
-					url = "ldap://localhost:10400"
-					base = "ou=people,dc=biomechanics, dc=local"
-					userDn = "uid=admin,ou=system"
-					password = "secret"
-				}
-			}
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]
-		}
+		
+		uow.ldapids.server = 'ldap://localhost:10400'
+		uow.ldapids.groupSearchBase = "ou=people,dc=biomechanics, dc=local"
+		uow.ldapids.managerDn = "uid=admin,ou=system"
+		uow.ldapids.managerPassword = "*********"
+		
 	}
 	
 	test {
@@ -315,29 +289,12 @@ environments {
 		grails.plugins.springsecurity.ldap.search.filter = '(uid={0})'
 		grails.plugins.springsecurity.ldap.search.subtree = true
 		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
-		ldap
-		{
-			directories
-			{
-				user
-				{
-					defaultDirectory = true
-					url = "ldap://ldap-ids.uow.edu.au"
-					port = 389
-					base = "ou=people,dc=uow,dc=edu,dc=au"
-					userDn = "uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au"
-					password = '*********'
-					searchControls
-					{
-						searchScope = "subtree"
-					}
-				}
-			}
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]	
-		}
-	}
+		
+		uow.ldapids.server = 'ldap://ldap-ids.uow.edu.au:389'
+		uow.ldapids.groupSearchBase = "ou=People,dc=uow,dc=edu,dc=au"
+		uow.ldapids.managerDn = "uid=biomechuserldap,ou=Special Users,dc=uow,dc=edu,dc=au"
+		uow.ldapids.managerPassword = "*********"
+	
 	
 	cucumber {
 		ldapServers {
@@ -359,24 +316,12 @@ environments {
 		grails.plugins.springsecurity.ldap.search.subtree = true
 		grails.plugins.springsecurity.providerNames = ['myLdapAuthenticationProvider', 'daoAuthenticationProvider']
 		grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
-		ldap
-		{
-			directories
-			{
-				d1
-				{
-					defaultDirectory = true
-					url = "ldap://localhost:10400"
-					base = "ou=people,dc=biomechanics, dc=local"
-					userDn = "uid=admin,ou=system"
-					password = "secret"
-				}
-			}
-
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]
-		}
+		
+		uow.ldapids.server = 'ldap://localhost:10400'
+		uow.ldapids.groupSearchBase = "ou=people,dc=biomechanics, dc=local"
+		uow.ldapids.managerDn = "uid=admin,ou=system"
+		uow.ldapids.managerPassword = "*********"
+		
 	}
 	
 	intersect_test {
@@ -504,3 +449,27 @@ grails.gorm.default.mapping = {
 }
 
 
+
+// Uncomment and edit the following lines to start using Grails encoding & escaping improvements
+
+/* remove this line 
+// GSP settings
+grails {
+    views {
+        gsp {
+            encoding = 'UTF-8'
+            htmlcodec = 'xml' // use xml escaping instead of HTML4 escaping
+            codecs {
+                expression = 'html' // escapes values inside null
+                scriptlet = 'none' // escapes output from scriptlets in GSPs
+                taglib = 'none' // escapes output from taglibs
+                staticparts = 'none' // escapes output from static template parts
+            }
+        }
+        // escapes all not-encoded output at final stage of outputting
+        filteringCodecForContentType {
+            //'text/html' = 'html'
+        }
+    }
+}
+remove this line */

@@ -32,7 +32,7 @@ class BootStrap
 	def securityContextPersistenceFilter
 	def grailsApplication
 	def fileService
-        def d1LdapServer
+    def d1LdapServer
 	
 	def init =
 	{ servletContext ->

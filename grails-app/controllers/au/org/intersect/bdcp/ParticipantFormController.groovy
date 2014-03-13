@@ -265,7 +265,7 @@ class ParticipantFormController
 		if (!validateParticipantForms(participantForms, usedFormRowNumbers))
 		{
 			populateSessionValues()
-			renderUploadErrorMsg(participantForms);
+			renderUploadErrorMsg(participantForms)
 		}
 		else // if the form entries are valid then save entries to the database and the file system
 		{
@@ -289,7 +289,7 @@ class ParticipantFormController
 				}
                 else
                 {
-                    allValid = false    
+                    allValid = false
                 }
                 participantFormIndex++
 			}
@@ -303,7 +303,7 @@ class ParticipantFormController
                     participantForms[participantFormIndex].delete(flush:true)
                 }
                 
-                renderUploadErrorMsg(participantForms);
+                renderUploadErrorMsg(participantForms)
                 return
             }
             else // remove state as save was successful
@@ -312,9 +312,8 @@ class ParticipantFormController
             }
             
 			reportSuccessfulUpdate(usedFormRowNumbers)
-
-			redirect url: createLink(controller: 'participantForm', action:'list',
-			mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+			
+			redirect(mapping:"participantDetails", controller: "participantForm", action: "list", params:[studyId: params.studyId, participantId: params.participantId])
 		}
 	}
 	
@@ -545,21 +544,18 @@ class ParticipantFormController
 					file.delete()
 				}
 				flash.message = "Participant Form ${participantFormInstance.formName} deleted"
-				redirect url: createLink(controller: 'participantForm', action:'list',
-					mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+				redirect(mapping:"participantDetails", controller: "participantForm", action: "list", params:[studyId: params.studyId, participantId: params.participantId])
 			}
 			catch (org.springframework.dao.DataIntegrityViolationException e)
 			{
 				flash.message = "Participant Form ${participantFormInstance.formName} could not be deleted"
-				redirect url: createLink(controller: 'participantForm', action:'list',
-					mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+				redirect(mapping:"participantDetails", controller: "participantForm", action: "list", params:[studyId: params.studyId, participantId: params.participantId])
 			}
 		}
 		else
 		{
 			flash.message = "ParticipantForm ${participantFormInstance.formName} could not be found"
-			redirect url: createLink(controller: 'participantForm', action:'list',
-				mapping:'participantFormDetails', params:[studyId: params.studyId, participantId: params.participantId])
+			redirect(mapping:"participantDetails", controller: "participantForm", action: "list", params:[studyId: params.studyId, participantId: params.participantId])
 		}
 	}
 }
