@@ -190,6 +190,7 @@ environments {
 				base = "dc=biomechanics, dc=local"
 				port = 10400
 				indexed = ["objectClass", "uid", "mail"]
+                password = "secret"
 			}
 		}
 		
@@ -273,7 +274,7 @@ environments {
 		uow.ldapids.server = 'ldap://localhost:10400'
 		uow.ldapids.groupSearchBase = "ou=people,dc=biomechanics, dc=local"
 		uow.ldapids.managerDn = "uid=admin,ou=system"
-		uow.ldapids.managerPassword = "*********"
+		uow.ldapids.managerPassword = "secret"
 		
 	}
 	
@@ -380,9 +381,6 @@ environments
 				}
 			}
 
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]
 		}
 	}
 	
@@ -407,9 +405,6 @@ environments
 				}
 			}
 
-			schemas = [
-				au.org.intersect.bdcp.ldap.LdapUser
-			]
 		}
 	}
 }
@@ -473,3 +468,4 @@ grails {
     }
 }
 remove this line */
+}

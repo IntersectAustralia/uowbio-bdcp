@@ -1,7 +1,6 @@
 package au.org.intersect.bdcp
 
 import grails.plugins.springsecurity.Secured
-import au.org.intersect.bdcp.ldap.LdapUser
 
 class ProjectController
 {
@@ -65,9 +64,9 @@ class ProjectController
 		allProjectInstanceList.each
 		{
 			println it?.owner?.username
-			match = ldapSearchService.searchLdapIdsUOW(it?.owner?.username)
-			it?.owner?.firstName = match[0]?.givenName
-			it?.owner?.surname = match[0]?.sn
+			match = ldapSearchService.findFirst(it?.owner?.username)
+			it?.owner?.firstName = match?.givenName
+			it?.owner?.surname = match?.sn
 		}
 		
 		allProjectInstanceList.sort{it.owner.firstName}
@@ -135,50 +134,14 @@ class ProjectController
 		}
 		
 		def ldapUsers = []
-		ldapUsers = LdapUser.findAll()
-		{
-			and
-			{
-				if (!session.userid?.isEmpty())
-				{
-					like "uid", "*" + normalizeValue(session.userid) + "*"
-				}
-				else
-				{
-					like "uid", "*"
-				}
-			}
-			and
-			{
-				if (!session.surname?.isEmpty())
-				{
-					like "sn", "*" + normalizeValue(session.surname) + "*"
-				}
-				else
-				{
-					like "sn", "*"
-				}
-			}
-			and
-			{
-				if (!session.firstName?.isEmpty())
-				{
-					like "givenName", "*" + normalizeValue(session.firstName) +"*"
-				}
-				else
-				{
-					like "givenName", "*"
-				}
-			}
-		}
-		
+        ldapSearchService.searchLdap(normalizeValue(session.userid),normalizeValue(session.surname),normalizeValue(session.firstName))
 		def activatedMatches = []
 		UserStore.list().each
 		{
 			// if not deactivated user and user not the owner of the study
 			if (!it?.deactivated)
 			{
-				activatedMatches << LdapUser.find(filter: "(uid=${it?.username})")
+				activatedMatches << ldapSearchService.findFirst(it?.username)
 			}
 		}
 		

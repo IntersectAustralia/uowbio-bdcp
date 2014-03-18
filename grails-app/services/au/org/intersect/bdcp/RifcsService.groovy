@@ -3,14 +3,15 @@ package au.org.intersect.bdcp
 import java.io.File
 import java.util.concurrent.Executors
 
-import au.org.intersect.bdcp.ldap.LdapUser
 import groovy.xml.StreamingMarkupBuilder
 import org.hibernate.FetchMode as FM
 
 class RifcsService
 {
 	def grailsApplication
-	
+
+    def ldapSearchService
+
 	private static final int THREADS = 3
 	private static final String FILEPREFIX_STUDY = "study"
 	private def executor = Executors.newFixedThreadPool(THREADS)
@@ -249,7 +250,7 @@ Wollongong N.S.W. 2522"""
 		UserStore user, related ->
 		def builder = new StreamingMarkupBuilder()
 		builder.encoding = "UTF-8"
-		def ldapUser = LdapUser.find(filter: "(uid=${user.username})")
+		def ldapUser = ldapSearchService.findFirst(user.username)
 		def root = {
 			mkp.xmlDeclaration()
 			mkp.declareNamespace('':'http://ands.org.au/standards/rif-cs/registryObjects')

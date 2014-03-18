@@ -9,7 +9,6 @@ import javax.xml.transform.stream.StreamSource
 import grails.plugins.springsecurity.Secured
 
 import au.org.intersect.bdcp.rifcs.Rifcs
-import au.org.intersect.bdcp.ldap.LdapUser
 
 class StudyController
 {
@@ -87,10 +86,10 @@ class StudyController
 		def match
 		collaborators.each
 		{
-			match = ldapSearchService.searchLdapIdsUOW(it?.username)
+			match = ldapSearchService.findFirst(it?.username)
 			if(match)
 			{
-				matches << new UserStore(username: match[0]?.username, firstName: match[0]?.givenName, surname: match[0]?.sn)
+				matches << new UserStore(username: match?.username, firstName: match?.givenName, surname: match?.sn)
 			}
 			else // external user
 			{
@@ -138,7 +137,7 @@ class StudyController
 		def match
 		collaborators.each
 		{
-			match = LdapUser.find(filter: "(uid=${it?.username})")
+			match = ldapSearchService.findFirst(it?.username)
 			if(match)
 			{
 				matches << new UserStore(username: match.username, firstName: match.givenName, surname: match.sn)
@@ -173,7 +172,7 @@ class StudyController
 		def match
 		collaborators.each
 		{
-			match = LdapUser.find(filter: "(uid=${it?.username})")
+			match = ldapSearchService.findFirst(it?.username)
 			if(match)
 			{
 				matches << new UserStore(username: match.username, firstName: match.givenName, surname: match.sn)
@@ -227,50 +226,15 @@ class StudyController
 		}
 		
 		def ldapUsers = []
-		ldapUsers = LdapUser.findAll()
-		{
-			and
-			{
-				if (!session.userid?.isEmpty())
-				{
-					like "uid", "*" + normalizeValue(session.userid) + "*"
-				}
-				else
-				{
-					like "uid", "*"
-				}
-			}
-			and
-			{
-				if (!session.surname?.isEmpty())
-				{
-					like "sn", "*" + normalizeValue(session.surname) + "*"
-				}
-				else
-				{
-					like "sn", "*"
-				}
-			}
-			and
-			{
-				if (!session.firstName?.isEmpty())
-				{
-					like "givenName", "*" + normalizeValue(session.firstName) +"*"
-				}
-				else
-				{
-					like "givenName", "*"
-				}
-			}
-		}
-		
+        ldapUsers = ldapSearchService.searchLdap(normalizeValue(session.userid),normalizeValue(session.surname),normalizeValue(session.firstName))
+
 		def activatedMatches = []
 		UserStore.list().each
 		{
 			// if not deactivated user and user not the owner of the study
-			if ((!it?.deactivated) && (it?.username != studyInstance.project.owner.username))
+			if ((!it?.deactivated) && (it?.username != studyInstance?.project?.owner?.username))
 			{
-				activatedMatches << LdapUser.find(filter: "(uid=${it?.username})")
+				activatedMatches << ldapSearchService.findFirst(it?.username)
 			}
 		}
 		

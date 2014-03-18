@@ -2,7 +2,6 @@ package au.org.intersect.bdcp
 
 import grails.plugins.springsecurity.Secured
 import au.org.intersect.bdcp.enums.UserRole
-import au.org.intersect.bdcp.ldap.LdapUser
 import au.org.intersect.bdcp.SecRole
 import au.org.intersect.bdcp.SecUserSecRole
 
@@ -13,6 +12,7 @@ class AdminController
 	def emailNotifierService
 	def sessionRegistry
 	def springSecurityService
+    def ldapSearchService
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])
 	def index =
@@ -61,8 +61,7 @@ class AdminController
 		
 		if (!params.isExternal)
 		{
-			LdapUser match = LdapUser.find(
-					filter: "(uid=${params.userid})")
+			def match = ldapSearchService.searchLdapIdsUOW(params.userid)[0]
 			if (match !=  null)
 			{
 				email = match.mail
@@ -156,7 +155,7 @@ class AdminController
 		def match
 		UserStore.list().each
 		{
-			match = LdapUser.find(filter: "(uid=${it?.username})")
+			match = ldapSearchService.searchLdapIdsUOW(it?.username)[0]
 			if(match)
 			{
 				matches << new UserStore(username: match.username, firstName: match.givenName, surname: match.sn)
@@ -194,7 +193,7 @@ class AdminController
 	def edit =
 	{
 		cache false
-		def match = LdapUser.find(filter: "(uid=${params.username})")
+		def match = ldapSearchService.searchLdapIdsUOW(params.username)[0]
 		def userStore = UserStore.findByUsername(params.username)
 		if(match)
 		{
@@ -212,7 +211,7 @@ class AdminController
 	def update =
 	{
 		cache false
-		def match = LdapUser.find(filter: "(uid=${params.username})")
+		def match = ldapSearchService.searchLdapIdsUOW(params.username)[0]
 		def userInstance = UserStore.get(params.id)
 		params.title = params.title == null ? null : params.title
 		if (userInstance)
@@ -307,49 +306,14 @@ class AdminController
 			session.userid = ""
 		}
 
-		matches = LdapUser.findAll()
-		{
-			and
-			{
-				if (!session.userid?.isEmpty())
-				{
-					like "uid", "*" + normalizeValue(session.userid) + "*"
-				}
-				else
-				{
-					like "uid", "*"
-				}
-			}
-			and
-			{
-				if (!session.surname?.isEmpty())
-				{
-					like "sn", "*" + normalizeValue(session.surname) + "*"
-				}
-				else
-				{
-					like "sn", "*"
-				}
-			}
-			and
-			{
-				if (!session.firstName?.isEmpty())
-				{
-					like "givenName", "*" + normalizeValue(session.firstName) +"*"
-				}
-				else
-				{
-					like "givenName", "*"
-				}
-			}
-		}
+        matches = ldapSearchService.searchLdap(normalizeValue(session.userid),normalizeValue(session.surname),normalizeValue(session.firstName))
 
-		def sortedMatches = matches.sort
-		{x,y -> x.getUserId() <=> y.getUserId()?: x.sn <=> y.sn ?: x.givenName <=> y.givenName}
+		//def sortedMatches = matches.sort
+		//{x,y -> x.getUserId() <=> y.getUserId()?: x.sn <=> y.sn ?: x.givenName <=> y.givenName}
 		
 		def flagDisplayCreateExternalUser = false
 
-		render (view: "search", model: [searching:true,firstName: params.firstName, surname:params.surname, userid:params.userid, matches: sortedMatches, flagDisplayCreateExternalUser: flagDisplayCreateExternalUser])
+		render (view: "search", model: [searching:true,firstName: params.firstName, surname:params.surname, userid:params.userid, matches: matches, flagDisplayCreateExternalUser: flagDisplayCreateExternalUser])
 	}
 	
 	@Secured(['IS_AUTHENTICATED_FULLY', 'ROLE_LAB_MANAGER', 'ROLE_SYS_ADMIN'])

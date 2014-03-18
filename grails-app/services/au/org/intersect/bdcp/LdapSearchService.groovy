@@ -54,5 +54,31 @@ class LdapSearchService {
 
 		def results = ldapTemplate.search("", filter.toString(),SearchControls.SUBTREE_SCOPE,attrMapper);
 	}
+
+    def findFirst(username) {
+        def match = searchLdapIdsUOW(username)
+        if (match.size() > 0)
+            return match[0]
+        else
+            return null
+    }
+
+    def searchLdap(username,surname,firstname) {
+        initial()
+        def ldapTemplate = new org.springframework.ldap.core.LdapTemplate(ldapIdsUOW)
+        def attrMapper = new org.springframework.ldap.core.AttributesMapper() {
+            public Object mapFromAttributes(javax.naming.directory.Attributes attrs) throws javax.naming.NamingException {
+                return LdapUOWUserDetails.build(attrs)
+            }
+        }
+        AndFilter filter=new AndFilter()
+        filter.and(new EqualsFilter("objectclass","person"))
+        if (username) filter.and(new EqualsFilter("uid", username));
+        if (surname) filter.and(new EqualsFilter("sn", surname));
+        if (firstname) filter.and(new EqualsFilter("givenName", firstname));
+
+        def results = ldapTemplate.search("", filter.toString(),SearchControls.SUBTREE_SCOPE,attrMapper);
+
+    }
 }
 

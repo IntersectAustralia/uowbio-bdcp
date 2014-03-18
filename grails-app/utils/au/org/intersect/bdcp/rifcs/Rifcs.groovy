@@ -3,6 +3,8 @@ package au.org.intersect.bdcp.rifcs
 import au.org.intersect.bdcp.Study
 
 class Rifcs {
+
+    def ldapSearchService
 	
 	def fromStudy = 
 	{ Study study, Map others ->
@@ -18,9 +20,7 @@ class Rifcs {
 	
 	private String findEmail(String username)
 	{
-		def ldapUsers = LdapUser.find {
-			like "uid", "*" + normalizeValue(username) + "*"
-		}
+		def ldapUsers = ldapSearchService.findFirst(username)
 		return (ldapUsers != null && ldapUsers.size() > 0) ? ldapUsers.get(0).email : username + "?@uow.edu.au"; 
 	}
 
