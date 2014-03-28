@@ -10,10 +10,13 @@ grails.project.dependency.resolution = {
 	}
 	log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 	repositories {
-		grailsPlugins()
-		grailsHome()
-		grailsCentral()
-		ebr()
+        grailsPlugins()
+        grailsHome()
+        grailsCentral()
+
+        mavenLocal()
+        mavenCentral()
+		
 		// uncomment the below to enable remote dependency resolution
 		// from public Maven repositories
 		//mavenLocal()
@@ -39,7 +42,26 @@ grails.project.dependency.resolution = {
     
     plugins{
         //runtime ":greenmail:1.3.4"
-		compile ":ajax-uploader:1.1"
+        compile ":ajax-uploader:1.1"
+        compile ":bubbling:2.1.4"
+        compile ":cache-headers:1.1.5"
+        compile ":ckeditor:3.5.4.1"
+        //compile ":code-coverage:1.2.4"
+        compile ":console:1.2"
+        compile ":constraints:0.8.0"
+        //compile ":eclipse-scripts:1.0.5"
+        compile ":hibernate:2.1.1"
+        compile ":joda-time:1.4"
+        compile ":jquery:1.6.1.1"
+        compile ":jquery-ui:1.8.11"
+        compile ":js-tree:0.2"
+        compile ":ldap-server:0.1.8"
+        compile ":mail:1.0.1"
+        compile ":richui:0.8"
+        compile ":spring-security-core:1.2.7.3"
+        compile ":spring-security-ldap:1.0.6"
+        build ":tomcat:2.1.1"
+        compile ":yui:2.8.2.1"
     }
 	
 	

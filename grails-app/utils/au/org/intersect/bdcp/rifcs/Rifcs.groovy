@@ -21,7 +21,7 @@ class Rifcs {
 	private String findEmail(String username)
 	{
 		def ldapUsers = ldapSearchService.findFirst(username)
-		return (ldapUsers != null && ldapUsers.size() > 0) ? ldapUsers.get(0).email : username + "?@uow.edu.au"; 
+		return (ldapUsers != null) ? ldapUsers?.mail : username + "?@uow.edu.au";
 	}
 
 }
